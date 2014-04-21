@@ -1,0 +1,38 @@
+{
+  "documents": {
+    "format": "2"
+  },
+  "highlight": {
+    "format": "1"
+  },
+  "lexicon": {
+    "counts": {
+      "expression": "2183",
+      "gene": "34727",
+      "stage": "3",
+      "tissue": "5"
+    },
+    "format": "3",
+    "index_counts": {
+      "expression": "18",
+      "gene": "272",
+      "stage": "1",
+      "tissue": "1"
+    }
+  },
+  "postings": {
+    "format": "1"
+  },
+  "segmeta": {
+    "count": "520905",
+    "field_names": [
+      "",
+      "stage",
+      "expression",
+      "gene",
+      "tissue"
+    ],
+    "format": "1",
+    "name": "seg_1"
+  }
+}

@@ -1,0 +1,42 @@
+<center>
+<h1 id="tea_title"><span id="green">T</span>omato <span id="orange">E</span>xpression <span id="red">A</span>tlas</h1>
+<h2 id="subtitle">A high resolution map and search tool for tomato genes and their products</h2>
+<br/>
+<br/>
+<br/>
+<div>
+	<a href="overview"><img src="/static/images/overview_logo.png" height="150" title="Overview"/></a>
+	&nbsp;&nbsp;&nbsp;
+	<a href="Expression_viewer/input"><img src="/static/images/expr_logo.png" height="150" title="Expression Viewer"/></a>
+	&nbsp;&nbsp;&nbsp;
+	<a href="anatomy_viewer"><img src="/static/images/anatomy_logo.png" height="150" title="Anatomy Viewer"/></a>
+</div>
+</center>
+
+<style>
+	
+	#tea_title {
+		font-size:38px;
+		color:rgb(0,0,0);
+		font-family:"Verdana", arial, Sans-serif;
+	}
+	
+	#subtitle {
+		max-width:550px;
+		color:rgb(150,150,150);
+		font-family:"Verdana", arial, Sans-serif;
+	}
+	
+	#red {
+		color:rgb(200,0,0);
+	}
+
+	#green {
+		color:rgb(0,200,0);
+	}
+
+	#orange {
+		color:rgb(250,100,0);
+	}
+</style>
+

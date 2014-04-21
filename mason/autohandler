@@ -1,0 +1,5 @@
+<& /tea_web/header.mas &>
+
+% $m->call_next;
+
+<& /tea_web/footer.mas &>

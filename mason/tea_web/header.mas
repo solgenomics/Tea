@@ -1,0 +1,77 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>SGN-TEA</title>
+		<!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css"> -->
+		
+		<link rel="stylesheet" href="/static/js/jqueryui/themes/base/jquery-ui.css">
+        <link rel="stylesheet" href="/static/css/tea.css" type="text/css" />
+
+
+		<!-- // <script src="http://code.jquery.com/jquery-1.9.1.js"></script> -->
+		<!-- // <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script> -->
+		
+		
+	    <!-- // <script src="//code.jquery.com/jquery-1.10.2.js"></script> -->
+	    <!-- // <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script> -->
+		
+		<script type="text/javascript" src="/static/js/jquery.js"></script>
+		<script type="text/javascript" src="/static/js/jqueryui/jquery-ui.js"></script>
+		
+		<script type="text/javascript" src="/static/js/jqplot/jquery.jqplot.js"></script>
+		<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+		<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
+		<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
+		<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js"></script>
+		<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.barRenderer.js"></script>
+		<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.pointLabels.min.js"></script>
+		<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.highlighter.min.js"></script>
+		
+		<script>
+			//use JQueryIu to define tooltip style
+			$(function() {
+			   $( document ).tooltip({
+				   position: {
+					   my: "center bottom-20",
+					   at: "center top",
+					   using: function( position, feedback ) {
+						   $( this ).css( position );
+						   $( "<div>" )
+						   // .addClass( "arrow" )
+						   // .addClass( feedback.vertical )
+						   // .addClass( feedback.horizontal )
+						   .appendTo( this );
+					   }
+				   }
+			   });
+		   });
+			$('.ui-dialog-titlebar-close *[title]').tooltip('disable');
+		</script>
+		
+    </head>
+    <body>
+		<div id="centeredmenu">
+		<table class="center" cellspacing="0" cellpadding="10">
+			<tr>
+				<td id="menu_logo">
+					<a href="http://solgenomics.net/" target="_blank"><img src="/static/images/sgn_logo.png" height="50"/></a>
+				</td>
+				<td>
+					<ul>
+						<li><a href="/index">Home</a></li>
+						<li><a href="#">About</a></li>
+						<li><a href="#">Links</a></li>
+						<li><a href="#">Contact</a></li>
+					</ul>
+				</td>
+				<td>
+					<img src="/static/images/tea_logo.png" height="50"/>
+					<!-- <a id="menu_logo" href="/index"><img src="/static/images/tea_logo.png" height="50"/></a> -->
+				</td>
+			</tr>
+		</table>
+		</div>
+		<br/>
+		<br/>
+    </body>
+</html>

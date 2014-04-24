@@ -69,20 +69,20 @@
       "offset": "40547672"
     },
     "postings-2.dat": {
-      "length": "2636842",
+      "length": "2636988",
       "offset": "42110392"
     },
     "postings-3.dat": {
       "length": "1631617",
-      "offset": "44747240"
+      "offset": "44747384"
     },
     "postings-4.dat": {
       "length": "1562715",
-      "offset": "46378864"
+      "offset": "46379008"
     },
     "postings.skip": {
-      "length": "259064",
-      "offset": "47941584"
+      "length": "259061",
+      "offset": "47941728"
     }
   },
   "format": "2"

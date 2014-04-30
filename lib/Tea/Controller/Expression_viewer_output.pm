@@ -55,7 +55,7 @@ sub get_expression :Path('/Expression_viewer/result/') :Args(0) {
 	}
 	
 	#------------------------------------- Temporal Data
-	my @genes = ("Solyc01g016470", "Solyc01g020240", "Solyc01g049650", "Solyc01g049680", "Solyc01g049890");
+	my @genes = ("Solyc04g074910", "Solyc05g052140", "Solyc04g076060", "Solyc04g076210", "Solyc04g076010");
 	unshift(@genes, $query_gene);
 	my @stages = ("dpa", "mg", "pink");
 	my @tissues = ("ie", "parenchyma", "vascular", "collenchyma", "oe");

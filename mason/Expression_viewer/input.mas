@@ -1,0 +1,65 @@
+
+
+<center>
+	<div id="pagetitle"><h1>Expression Viewer</h1></div>
+
+<!-- <form id="search_gene"> -->
+<form id="search_gene" method="post" action="/Expression_viewer/input2" name="tea_form" enctype="multipart/form-data">
+	<table id="tea_form">
+			<tr>
+				<td class="td_form">
+					<b>Option1:</b> Known Tomato Gene ID
+					<button class="info_icon">i</button>
+				</td>
+				<td class="td_form">
+					<b>Option2:</b> Find Tomato Gene IDs
+					<button class="info_icon">i</button>
+				</td>
+				<td class="td_form">
+					<b>Option3:</b> 
+					Find Gene/protein by common name
+					<button class="info_icon">i</button>
+				</td>
+			</tr>
+			<tr>
+				<td class="td_form">
+					<input class="input" id="gene" type="input" value="Solyc12g100160" name="input_gene" size="15" /><br/><br/>
+					<input class="blue_button" type="submit" value="Search"/>
+					<!-- <button class="blue_button" type="submit" form="search_gene" formaction="/Expression_viewer/input2" formmethod="post" formenctype="multipart/form-data">Search</button> -->
+				</td>
+				<td class="td_form">
+					<textarea class="input" id="blast_sequence" name="blast_sequence" cols="20" rows="3"></textarea><br/><br/>
+					<button class="blue_button">BLAST Search</button>
+				</td>
+				<td class="td_form">
+					<input class="input" id="gene_prot" type="input" value="SUN" name="gene_prot" size="30" /><br/>
+					<br/><br/>
+					<button class="blue_button">Search</button>
+				</td>
+			</tr>
+	</table>
+</form>
+<hr/>
+<h2>Define Expression Parameters <button class="info_icon">i</button></h2>
+
+
+</center>
+
+<ul id="expr_params">
+	<li>
+		Genotype
+	</li>
+	<li>
+		Organ
+	</li>
+	<li>
+		Tissue/Cell type
+	</li>
+	<li>
+		Developmental stage
+	</li>
+	<li>
+		Treatment
+	</li>
+</ul>
+

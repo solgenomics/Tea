@@ -5,7 +5,7 @@ body {
 
 #container {
 	border-style:dashed;
-	border-width:1px;
+	border-width:0px;
 	height:600px;
 	width:900px;
 }
@@ -81,14 +81,131 @@ a:hover {
    text-decoration:none;
 }
 
-.center
-{
-margin-left:auto;
-margin-right:auto;
-width:95%;
+#tea_title {
+	font-size:38px;
+	color:rgb(0,0,0);
+	font-family:"Verdana", arial, Sans-serif;
+}
+
+#subtitle {
+	max-width:550px;
+	color:rgb(150,150,150);
+	font-family:"Verdana", arial, Sans-serif;
+}
+
+#red {
+	color:rgb(200,0,0);
+}
+
+#green {
+	color:rgb(0,200,0);
+}
+
+#orange {
+	color:rgb(250,100,0);
 }
 
 
+
+#tea_form {
+   display:block;
+   margin:10px;
+   text-decoration:none;
+   font-family:"Verdana", arial, Sans-serif;
+   width:90%;
+}
+
+.td_form {
+   text-decoration:none;
+   font-family:"Verdana", arial, Sans-serif;
+   margin-left:auto;
+   margin-right:auto;
+   width:30%;
+   text-align:center;
+}
+
+#expr_params {
+   text-decoration:none;
+   font-family:"Verdana", arial, Sans-serif;
+   margin:10px;
+   line-height:60px;
+   font-size:24px;
+}
+
+.blue_button {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #4387FD), color-stop(1, #4683EA) );
+	background:-moz-linear-gradient( center top, #4387FD 5%, #4683EA 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4387FD', endColorstr='#4683EA');
+	background-color:#4387FD;
+	border:0px;
+	display:inline-block;
+	color:#FFFFFF;
+	font-family:Arial;
+	font-size:18px;
+	font-weight:bold;
+	font-style:normal;
+	height:40px;
+	line-height:40px;
+	text-decoration:none;
+	text-align:center;
+}
+.blue_button:hover {
+	box-shadow: 0px 1px 0px 0px #C6C6C6;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #4d90fe), color-stop(1, #4787ed) );
+	background:-moz-linear-gradient( center top, #4d90fe 5%, #4787ed 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4d90fe', endColorstr='#4787ed');
+	background-color:#4d90fe;
+/*	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #4d90fe), color-stop(1, #4787ed) );
+	background:-moz-linear-gradient( center top, #4d90fe 5%, #4787ed 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4d90fe', endColorstr='#4787ed');
+	background-color:#63b8ee;
+*/}
+.blue_button:active {
+	position:relative;
+	top:1px;
+}
+
+.info_icon {
+	
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #4387FD), color-stop(1, #4683EA) );
+	background:-moz-linear-gradient( center top, #4387FD 5%, #4683EA 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4387FD', endColorstr='#4683EA');
+	background-color:#4387FD;
+	-webkit-border-top-left-radius:20px;
+	-moz-border-radius-topleft:20px;
+	border-top-left-radius:20px;
+	-webkit-border-top-right-radius:20px;
+	-moz-border-radius-topright:20px;
+	border-top-right-radius:20px;
+	-webkit-border-bottom-right-radius:20px;
+	-moz-border-radius-bottomright:20px;
+	border-bottom-right-radius:20px;
+	-webkit-border-bottom-left-radius:20px;
+	-moz-border-radius-bottomleft:20px;
+	border-bottom-left-radius:20px;
+	text-indent:1px;
+	border:0px;
+	display:inline-block;
+	color:#ffffff;
+	font-family:"Georgia",Georgia,Serif;
+	font-size:16px;
+	font-weight:bold;
+	font-style:normal;
+	height:20px;
+	line-height:20px;
+	width:20px;
+	text-decoration:none;
+	text-align:center;
+}
+.info_icon:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #4d90fe), color-stop(1, #4787ed) );
+	background:-moz-linear-gradient( center top, #4d90fe 5%, #4787ed 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#1e62d0', endColorstr='#3d94f6');
+	background-color:#1e62d0;
+}.info_icon:active {
+	position:relative;
+	top:1px;
+}
 /*	  jquery.jqplot.css*/
 	      /*rules for the plot target div.  These will be cascaded down to all plot elements         according to css rules*/
 	       .jqplot-target {

@@ -1,15 +1,37 @@
+<%args>
+@genes => ()
+@stages => ()
+@tissues => ()
+@aoaoa => ()
+</%args>
 
+<%perl>
+use strict;
+
+use JSON::Any;
+my $json = JSON::Any->new;
+
+</%perl>
+
+
+<script type="text/javascript" src="/static/js/tea.js"></script>
+
+<script>
+	var tissues = <% $json->encode(\@tissues) %>;
+	var stages = <% $json->encode(\@stages) %>;
+	var genes = <% $json->encode(\@genes) %>;
+	var aoaoa = <% $json->encode(\@aoaoa) %>;
+</script>
 
 <center>
 	<div id="pagetitle"><h1>Expression Viewer</h1></div>
 	
 	<span title="query gene">Select a gene:</span> 
-	<input class="input" id="gene" type="input" value="Solyc04g014530" name="input_gene" size="15" />&nbsp; &nbsp; &nbsp;
+	<input class="input" id="gene" type="input" value="Solyc04g074910" name="input_gene" size="15" />&nbsp; &nbsp; &nbsp;
 
-	<button class="input" id="run_tool" value="Run Expression Tool">Get Expression</button>
+	<button class="blue_button" id="run_tool" value="Run Expression Tool">Get Expression</button>
 	<br/>
 	<br/>
-	
 	<div id="dialog" title="Expression data" width="800" style="display:none;">
 		<div id="bar_graph">
 			<p>Bar Graph Plot</p>
@@ -24,209 +46,5 @@
 		</button>
 	</div> -->
 </center>
-
-<script src="http://d3lp1msu2r81bx.cloudfront.net/kjs/js/lib/kinetic-v5.0.2.min.js"></script>
-
-
-<script defer="defer">
-	$(document).ready(function () {
-		
-		
-		function dump(arr,level) {
-			var dumped_text = "";
-			if(!level) level = 0;
-
-			//The padding given at the beginning of the line.
-			var level_padding = "";
-			for(var j=0;j<level+1;j++) level_padding += "    ";
-
-			if(typeof(arr) == 'object') { //Array/Hashes/Objects 
-				for(var item in arr) {
-					var value = arr[item];
-		
-					if(typeof(value) == 'object') { //If it is an array,
-						dumped_text += level_padding + "'" + item + "' ...\n";
-						dumped_text += dump(value,level+1);
-					} else {
-						dumped_text += level_padding + "'" + item + "' => \"" + value + "\"\n";
-					}
-				}
-			} else { //Stings/Chars/Numbers etc.
-				dumped_text = "===>"+arr+"<===("+typeof(arr)+")";
-			}
-			return dumped_text;
-		}
-	
-	
-		function print_bar_chart(t_names,s_names,sxt_values) {
-			jQuery("#bar_graph").empty();
-		
-			// alert("data: "+sxt_values);
-		
-			var plot1 = $.jqplot('bar_graph', sxt_values, {
-				title: 'Expression Data',
-				animate: true,
-				seriesDefaults:{
-					shadow: false,
-					renderer:$.jqplot.BarRenderer,
-					rendererOptions: {
-						fillToZero: true,
-						barDirection: 'vertical',
-						animation: {
-							speed: 1000
-						},
-					},
-				},
-				series: [
-					{label: '10DPA'},
-					{label: 'Mature green'},
-					{label: 'Pink'},
-				],
-				highlighter: {
-					show: true,
-					showMarker:false,
-					tooltipAxes: 'y',
-					tooltipLocation: 'n',
-					formatString:'<div id="bar_tooltip" class="jqplot-highlighter"><p>%s</p></tr></div>'
-				},
-				axesDefaults: {
-					tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
-				},
-				axes: {
-					xaxis: {
-						renderer: $.jqplot.CategoryAxisRenderer,
-						ticks: t_names,
-						tickOptions: {
-							angle: -45,
-							showGridline: false,
-							fontSize: '12pt',
-							textColor: 'black',
-							fontFamily: 'Arial'
-						}
-					},
-					yaxis: {
-						pad: 1.5,
-						min: 0,
-						tickOptions: {
-							angle: 0,
-							formatString: "%#.2f  ",
-							fontSize: '10pt',
-							textColor: 'black',
-							fontFamily: 'Arial'
-						            },
-						labelRenderer: $.jqplot.CanvasAxisLabelRenderer
-					}
-					        },
-				grid: {
-					background: "white",
-					borderColor: "black",
-				},
-				seriesColors: ['#20608E','#C80000', '#008800', '#60208E', '#008888'],
-				legend: {
-					labels: s_names,
-					show: true,
-					showSwatches: true,
-					location: 'ne',
-					placement: 'outsideGrid'
-				}
-			});
-	
-		}
-	
-	
-		function open_bar_graph_dialog(stage_tissue_values) {
-	
-			var tissue_names = ["Inner epidermis","Parenchyma","Vascular tissue","Collenchyma","Outer epidermis"];
-			var stage_names = ["10DPA", "Mature green", "Pink"];
-			// var stage_tissue_values = [[146.25, 180.23, 20.12, 221.16, 60.12],[133.53, 284.63, 38.37, 169.95, 264.21],[12.35, 31.26, 3.18, 10.38, 37.21]];
-		
-			$(function() {
-				$( "#dialog" ).dialog({
-					minWidth: 600,
-					draggable: true,
-					resizable: false,
-				});
-				$('.ui-dialog :button').blur();
-				print_bar_chart(tissue_names,stage_names,stage_tissue_values);
-			});
-	
-		}
-
-		// -------------------------------------------------------------------------------------
-		// -------------------------------------------------------------------------------------
-		// -------------------------------------------------------------------------------------
-	
-	
-		var canvas = new Kinetic.Stage({
-			container: "container",
-			width: 900,
-			height: 600
-		});
-		var tissue_layer = new Kinetic.Layer();
-	
-		var tBg_imgObj = new Image();
-		tBg_imgObj.onload = function() {
-			var tissue_bg = new Kinetic.Image({
-				x: 0,
-				y: 220,
-				image: tBg_imgObj,
-				width: 190,
-				height: 300
-			});
-
-			// add the shape to the layer
-			tissue_layer.add(tissue_bg);
-
-			// add the layer to the stage
-			canvas.add(tissue_layer);
-		};
-	
-	
-		tBg_imgObj.src = '/static/images/expr_viewer/bg_075.png';
-	
-		// -------------------------------------------------------------------------------------
-		jQuery('#run_tool').click(function () {
-			//alert("clicking");
-			// disable_ui();
-			error_var = 1;
-			query_gene = jQuery('#gene').val();
-
-			jQuery.ajax({
-				url: '/Expression_viewer/result/',
-				async: false,
-				method: 'POST',
-				data: { 'gene': query_gene },
-				success: function(response) {
-					// enable_ui();
-					
-					// alert("AoAoA:\n"+dump(response.aoaoa));
-					// alert("expr:\n"+dump(response.expr)+"\ngenes:\n"+dump(response.genes)+"\nstages:\n"+dump(response.stages)+"\ntissues:\n"+dump(response.tissues));
-					
-					
-					open_bar_graph_dialog(response.aoaoa[0]);
-
-					if (response.error) { 
-						alert("ERROR: "+response.error);
-						error_var = 1;
-					} else {
-						error_var = 0;
-						data_array_obj = response.all_exp_design;
-					}
-				},
-				error: function(response) {
-					alert("An error occurred. The service may not be available right now.");
-					error_var = 1;
-					// enable_ui();
-				}
-			});
-		});
-		// -------------------------------------------------------------------------------------
-	
-	});
-</script>
-
-
-
-
 
 

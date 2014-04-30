@@ -2,21 +2,15 @@
 <html>
     <head>
         <title>SGN-TEA</title>
-		<!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css"> -->
 		
-		<link rel="stylesheet" href="/static/js/jqueryui/themes/base/jquery-ui.css">
-        <link rel="stylesheet" href="/static/css/tea.css" type="text/css" />
-
-
-		<!-- // <script src="http://code.jquery.com/jquery-1.9.1.js"></script> -->
-		<!-- // <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script> -->
+					<link rel="stylesheet" href="/static/js/jqueryui/themes/base/jquery-ui.css">
+        	<link rel="stylesheet" href="/static/css/tea.css" type="text/css" />
 		
 		
-	    <!-- // <script src="//code.jquery.com/jquery-1.10.2.js"></script> -->
-	    <!-- // <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script> -->
 		
 		<script type="text/javascript" src="/static/js/jquery.js"></script>
 		<script type="text/javascript" src="/static/js/jqueryui/jquery-ui.js"></script>
+		<script type="text/javascript" src="/static/js/kinetic-v5.1.0.min.js"></script>
 		
 		<script type="text/javascript" src="/static/js/jqplot/jquery.jqplot.js"></script>
 		<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
@@ -27,6 +21,7 @@
 		<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.pointLabels.min.js"></script>
 		<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.highlighter.min.js"></script>
 		
+		<!-- // <script type="text/javascript" src="/static/js/tea.js"></script> -->
 		<script>
 			//use JQueryIu to define tooltip style
 			$(function() {

@@ -5,7 +5,35 @@
 
 <!-- <form id="search_gene"> -->
 <form id="search_gene" method="post" action="/Expression_viewer/input2" name="tea_form" enctype="multipart/form-data">
-	<table id="tea_form">
+	<table id="tea_form" cellspacing="" cellpadding="10">
+			<tr>
+				<td class="td_form">
+					<button class="info_icon">i</button> By Tomato Gene ID
+				</td>
+				<td class="td_form">
+					<button class="info_icon">i</button> By similar genes (BLAST)
+				</td>
+				<td class="td_form">
+					<button class="info_icon">i</button> By Gene Product Name
+				</td>
+			</tr>
+			<tr>
+				<td class="td_form">
+					<input class="input" id="gene" type="input" value="Solyc12g100160" name="input_gene" size="20" />
+					<!-- <button class="blue_button" type="submit" form="search_gene" formaction="/Expression_viewer/input2" formmethod="post" formenctype="multipart/form-data">Search</button> -->
+					<button class="blue_button">GO!</button>
+				</td>
+				<td class="td_form">
+					<textarea class="input" id="blast_sequence" name="blast_sequence" cols="25" rows="3" disabled>ACGTATACGTACGTGTACTG</textarea>
+					<button class="blue_button">GO!</button>
+				</td>
+				<td class="td_form">
+					<input class="input" id="gene_prot" type="input" value="SUN" name="gene_prot" size="20" disabled />
+					<button class="blue_button">GO!</button>
+				</td>
+			</tr>
+	</table>
+	<!-- <table id="tea_form" cellspacing="0" cellpadding="0">
 			<tr>
 				<td class="td_form">
 					<b>Option1:</b> Known Tomato Gene ID
@@ -23,21 +51,21 @@
 			</tr>
 			<tr>
 				<td class="td_form">
-					<input class="input" id="gene" type="input" value="Solyc12g100160" name="input_gene" size="15" /><br/><br/>
-					<input class="blue_button" type="submit" value="Search"/>
-					<!-- <button class="blue_button" type="submit" form="search_gene" formaction="/Expression_viewer/input2" formmethod="post" formenctype="multipart/form-data">Search</button> -->
+					<input class="input" id="gene" type="input" value="Solyc12g100160" name="input_gene" size="20" />
 				</td>
 				<td class="td_form">
-					<textarea class="input" id="blast_sequence" name="blast_sequence" cols="20" rows="3"></textarea><br/><br/>
-					<button class="blue_button">BLAST Search</button>
+					<textarea class="input" id="blast_sequence" name="blast_sequence" cols="30" rows="3" disabled>ACGTATACGTACGTGTACTG</textarea>
 				</td>
 				<td class="td_form">
-					<input class="input" id="gene_prot" type="input" value="SUN" name="gene_prot" size="30" /><br/>
-					<br/><br/>
-					<button class="blue_button">Search</button>
+					<input class="input" id="gene_prot" type="input" value="SUN" name="gene_prot" size="20" disabled />
 				</td>
 			</tr>
-	</table>
+			<tr>
+				<td class="td_form"><input class="blue_button" type="submit" value="Search"/></td>
+				<td class="td_form"><button class="blue_button">BLAST Search</button></td>
+				<td class="td_form"><button class="blue_button">Search</button></td>
+			</tr>
+	</table> -->
 </form>
 <hr/>
 <h2>Define Expression Parameters <button class="info_icon">i</button></h2>

@@ -26,18 +26,11 @@ my $json = JSON::Any->new;
 <center>
 	<div id="pagetitle"><h1>Expression Viewer</h1></div>
 	
-	<span title="query gene">Select a gene:</span> 
+	<span>Select a gene:</span> 
 	<input class="input" id="gene" type="input" value="Solyc04g074910" name="input_gene" size="15" />&nbsp; &nbsp; &nbsp;
 
 	<button class="blue_button" id="run_tool" value="Run Expression Tool">Get Expression</button>
-	<br/>
-	<br/>
-	<div id="dialog" title="Expression data" width="800" style="display:none;">
-		<div id="bar_graph">
-			<p>Bar Graph Plot</p>
-		</div>
-	</div>
-
+	
 	<div id="container"></div>
 	<br/>
 	<!-- <div id="buttons">
@@ -45,6 +38,12 @@ my $json = JSON::Any->new;
 			Save as image
 		</button>
 	</div> -->
+
+	<div id="dialog" title="Expression data" width="800" style="display:none;">
+		<div id="bar_graph">
+			<p>Bar Graph Plot</p>
+		</div>
+	</div>
 </center>
 
 

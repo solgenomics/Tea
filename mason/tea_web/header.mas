@@ -27,12 +27,12 @@
 			$(function() {
 			   $( document ).tooltip({
 				   position: {
-					   my: "center bottom-20",
+					   my: "center+50 bottom+15",
 					   at: "center top",
 					   using: function( position, feedback ) {
 						   $( this ).css( position );
 						   $( "<div>" )
-						   // .addClass( "arrow" )
+						   .addClass( "arrow" )
 						   // .addClass( feedback.vertical )
 						   // .addClass( feedback.horizontal )
 						   .appendTo( this );
@@ -45,28 +45,16 @@
 		
     </head>
     <body>
-		<div id="centeredmenu">
-		<table class="center" cellspacing="0" cellpadding="10">
-			<tr>
-				<td id="menu_logo">
-					<a href="http://solgenomics.net/" target="_blank"><img src="/static/images/sgn_logo.png" height="50"/></a>
-				</td>
-				<td>
-					<ul>
-						<li><a href="/index">Home</a></li>
-						<li><a href="#">About</a></li>
-						<li><a href="#">Links</a></li>
-						<li><a href="#">Contact</a></li>
-					</ul>
-				</td>
-				<td>
-					<img src="/static/images/tea_logo.png" height="50"/>
-					<!-- <a id="menu_logo" href="/index"><img src="/static/images/tea_logo.png" height="50"/></a> -->
-				</td>
-			</tr>
-		</table>
-		</div>
-		<br/>
+		<center>
+			<table id="tea_menu" cellspacing="0" cellpadding="0">
+				<tr>
+					<td id="left_menu"><a href="/index">Home</a></td>
+					<td id="other_menu_td"><a href="#">About</a></td>
+					<td id="other_menu_td"><a href="#">Links</a></td>
+					<td id="right_menu"><a href="#">Contact</a></td>
+				</tr>
+			</table>
+		</center>
 		<br/>
     </body>
 </html>

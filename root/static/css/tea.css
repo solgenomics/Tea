@@ -1,6 +1,9 @@
 body {
-	margin: 0px;
+	margin: 10px;
+	margin-left:30px;
+	margin-right:30px;
 	padding: 0px;
+	font-family: "Lucida Grande","Lucida Sans Unicode",Arial,Verdana, "Helvetica Neue", Helvetica, sans-serif;
 }
 
 #container {
@@ -10,11 +13,10 @@ body {
 	width:900px;
 }
 
-.center
-{
-margin-left:auto;
-margin-right:auto;
-width:95%;
+.center {
+	margin-left:auto;
+	margin-right:auto;
+	width:95%;
 }
 
 a:link {
@@ -32,8 +34,81 @@ a:hover {
 	text-decoration:none;
 }
 
+#tea_menu {
+	font-size:16px;
+    background:#888888;
+	font-family:"Verdana", arial, Sans-serif;
+	background:-moz-linear-gradient( center top, #888888 5%, #666666 100% );
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #888888), color-stop(1, #666666) );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#888888', endColorstr='#666666');
+	border-radius:20px;
+	text-align:center;
+	height:50px;
+	line-height:50px;
+	margin-top:20px;
+	box-shadow: 1px 2px 0px 0px #333333;
+}
+
+
+#other_menu_td {
+	width:130px;
+}
+
+#other_menu_td:hover {
+	background:-moz-linear-gradient( center top, #555555 5%, #666666 100% );
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #555555), color-stop(1, #666666) );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#555555', endColorstr='#666666');
+	width:130px;
+}
+
+#tea_menu a {
+	font-size:20px;
+	font-weight:bold;
+	font-style:normal;
+	color:#FFFFFF;
+	font-family:"Verdana", arial, Sans-serif;
+	
+	display:block;
+	width:130px;
+	text-align:center;
+	text-decoration:none;
+}
+
+#right_menu {
+	width:130px;
+}
+
+#right_menu:hover {
+	background:-moz-linear-gradient( center top, #555555 5%, #666666 100% );
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #555555), color-stop(1, #666666) );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#555555', endColorstr='#666666');
+	-webkit-border-top-right-radius:20px;
+	-moz-border-radius-topright:20px;
+	border-top-right-radius:20px;
+	-webkit-border-bottom-right-radius:20px;
+	-moz-border-radius-bottomright:20px;
+	border-bottom-right-radius:20px;
+}
+
+#left_menu {
+	width:130px;
+}
+
+#left_menu:hover {
+	background:-moz-linear-gradient( center top, #555555 5%, #666666 100% );
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #555555), color-stop(1, #666666) );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#555555', endColorstr='#666666');
+	-webkit-border-top-left-radius:20px;
+	-moz-border-radius-topleft:20px;
+	border-top-left-radius:20px;
+	-webkit-border-bottom-left-radius:20px;
+	-moz-border-radius-bottomleft:20px;
+	border-bottom-left-radius:20px;
+}
+
+
 /*			menu*/
-#centeredmenu {
+/*#centeredmenu {
    float:left;
    width:100%;
    overflow:hidden;
@@ -80,6 +155,7 @@ a:hover {
    color:rgb(150,50,50);
    text-decoration:none;
 }
+*/
 
 #tea_title {
 	font-size:38px;
@@ -106,22 +182,32 @@ a:hover {
 }
 
 
+.td_index {
+   text-decoration:none;
+   text-align:center;
+   margin-left:auto;
+   margin-right:auto;
+   width:220px;
+}
+
 
 #tea_form {
-   display:block;
-   margin:10px;
+   display:inline;
+/*   margin:10px;*/
    text-decoration:none;
-   font-family:"Verdana", arial, Sans-serif;
    width:90%;
+   margin-left:auto;
+   margin-right:auto;
+   
 }
 
 .td_form {
    text-decoration:none;
-   font-family:"Verdana", arial, Sans-serif;
-   margin-left:auto;
-   margin-right:auto;
-   width:30%;
-   text-align:center;
+   text-align:left;
+/*   width:30%;*/
+   max-width:270px;
+   padding-left:50px;
+   
 }
 
 #expr_params {
@@ -138,23 +224,31 @@ a:hover {
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4387FD', endColorstr='#4683EA');
 	background-color:#4387FD;
 	border:0px;
-	display:inline-block;
+	border-radius:50px;
+/*	border-radius:5px;*/
 	color:#FFFFFF;
 	font-family:Arial;
-	font-size:18px;
+	font-size:14px;
+/*	font-size:18px;*/
 	font-weight:bold;
 	font-style:normal;
-	height:40px;
-	line-height:40px;
+/*	height:40px;*/
+	height:38px;
+	line-height:38px;
+/*	line-height:40px;*/
 	text-decoration:none;
-	text-align:center;
+	margin-top:5px;
+    vertical-align: top;
 }
+
 .blue_button:hover {
 	box-shadow: 0px 1px 0px 0px #C6C6C6;
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #4d90fe), color-stop(1, #4787ed) );
-	background:-moz-linear-gradient( center top, #4d90fe 5%, #4787ed 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4d90fe', endColorstr='#4787ed');
-	background-color:#4d90fe;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #5EA1FF), color-stop(1, #5898FE) );
+	background:-moz-linear-gradient( center top, #5EA1FF 5%, #5898FE 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#5EA1FF', endColorstr='#5898FE');
+	background-color:#5EA1FF;
+	color:#0000CC;
+	
 /*	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #4d90fe), color-stop(1, #4787ed) );
 	background:-moz-linear-gradient( center top, #4d90fe 5%, #4787ed 100% );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4d90fe', endColorstr='#4787ed');
@@ -171,7 +265,7 @@ a:hover {
 	background:-moz-linear-gradient( center top, #4387FD 5%, #4683EA 100% );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4387FD', endColorstr='#4683EA');
 	background-color:#4387FD;
-	-webkit-border-top-left-radius:20px;
+/*	-webkit-border-top-left-radius:20px;
 	-moz-border-radius-topleft:20px;
 	border-top-left-radius:20px;
 	-webkit-border-top-right-radius:20px;
@@ -183,56 +277,67 @@ a:hover {
 	-webkit-border-bottom-left-radius:20px;
 	-moz-border-radius-bottomleft:20px;
 	border-bottom-left-radius:20px;
-	text-indent:1px;
+*/
+	border-radius:20px;
+	text-indent:-1px;
 	border:0px;
 	display:inline-block;
 	color:#ffffff;
 	font-family:"Georgia",Georgia,Serif;
-	font-size:16px;
+	font-size:12px;
+/*	font-size:16px;*/
 	font-weight:bold;
 	font-style:normal;
-	height:20px;
+	height:15px;
+	line-height:15px;
+	width:15px;
+/*	height:20px;
 	line-height:20px;
 	width:20px;
-	text-decoration:none;
+*/	text-decoration:none;
 	text-align:center;
+/*	margin-bottom:10px;*/
+	margin-bottom:-2px;
 }
 .info_icon:hover {
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #4d90fe), color-stop(1, #4787ed) );
-	background:-moz-linear-gradient( center top, #4d90fe 5%, #4787ed 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#1e62d0', endColorstr='#3d94f6');
-	background-color:#1e62d0;
-}.info_icon:active {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #5EA1FF), color-stop(1, #5898FE) );
+	background:-moz-linear-gradient( center top, #5EA1FF 5%, #5898FE 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#5EA1FF', endColorstr='#5898FE');
+	background-color:#5EA1FF;
+	color:#0000CC;
+}
+
+.info_icon:active {
 	position:relative;
 	top:1px;
 }
 /*	  jquery.jqplot.css*/
 	      /*rules for the plot target div.  These will be cascaded down to all plot elements         according to css rules*/
-	       .jqplot-target {
-	      position: relative;
-	      color: #666666;
-	      font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
-	      font-size: 1em;
-	      /*    height: 300px;
-	      width: 400px;*/
-	      }
-	      /*rules applied to all axes*/
-	       .jqplot-axis {
-	      font-size: 0.75em;
-	      }
-	      .jqplot-xaxis {
-	      margin-top: 10px;
-	      }
-	      .jqplot-x2axis {
-	      margin-bottom: 10px;
-	      }
-	      .jqplot-yaxis {
-	      margin-right: 10px;
-	      }
-	      .jqplot-y2axis, .jqplot-y3axis, .jqplot-y4axis, .jqplot-y5axis, .jqplot-y6axis, .jqplot-y7axis, .jqplot-y8axis, .jqplot-y9axis, .jqplot-yMidAxis {
-	      margin-left: 10px;
-	      margin-right: 10px;
-	  }
+.jqplot-target {
+	position: relative;
+	color: #666666;
+	font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size: 1em;
+	/*    height: 300px;
+	width: 400px;*/
+}
+/*rules applied to all axes*/
+.jqplot-axis {
+	font-size: 0.75em;
+}
+.jqplot-xaxis {
+	margin-top: 10px;
+}
+.jqplot-x2axis {
+	margin-bottom: 10px;
+}
+.jqplot-yaxis {
+	margin-right: 10px;
+}
+.jqplot-y2axis, .jqplot-y3axis, .jqplot-y4axis, .jqplot-y5axis, .jqplot-y6axis, .jqplot-y7axis, .jqplot-y8axis, .jqplot-y9axis, .jqplot-yMidAxis {
+	margin-left: 10px;
+	margin-right: 10px;
+}
 	  /*rules applied to all axis tick divs*/
 	   .jqplot-axis-tick, .jqplot-xaxis-tick, .jqplot-yaxis-tick, .jqplot-x2axis-tick, .jqplot-y2axis-tick, .jqplot-y3axis-tick, .jqplot-y4axis-tick, .jqplot-y5axis-tick, .jqplot-y6axis-tick, .jqplot-y7axis-tick, .jqplot-y8axis-tick, .jqplot-y9axis-tick, .jqplot-yMidAxis-tick {
 	      position: absolute;
@@ -426,4 +531,21 @@ a:hover {
 	      background-color: rgba(96%, 96%, 96%, 0.3);
 	  }
 
+.ui-tooltip {
+	padding: 10px;
+	position: absolute;
+	z-index: 9999;
+	max-width: 200px;
+	-webkit-box-shadow: 0 0 5px 0 #aaa;
+	box-shadow: 0 0 5px 0 #aaa;
+}
+body .ui-tooltip {
+	font-size:12px;
+	border-width: 2px;
+	background: #ffffff;
+	background: rgba(55, 55, 55, 0.7);
+	color: #ffffff;
+	border-radius:20px;
+	border-color:#ffffff;
+}
 

@@ -27,7 +27,7 @@
 			$(function() {
 			   $( document ).tooltip({
 				   position: {
-					   my: "center+50 bottom+15",
+					   my: "left bottom",
 					   at: "center top",
 					   using: function( position, feedback ) {
 						   $( this ).css( position );

@@ -16,23 +16,27 @@ my $json = JSON::Any->new;
 
 <script type="text/javascript" src="/static/js/tea.js"></script>
 
-<script>
-	var tissues = <% $json->encode(\@tissues) %>;
-	var stages = <% $json->encode(\@stages) %>;
-	var genes = <% $json->encode(\@genes) %>;
-	var aoaoa = <% $json->encode(\@aoaoa) %>;
-</script>
+
 
 <center>
 	<div id="pagetitle"><h1>Expression Viewer</h1></div>
 	
 	<span>Select a gene:</span> 
-	<input class="input" id="gene" type="input" value="Solyc04g074910" name="input_gene" size="15" />&nbsp; &nbsp; &nbsp;
+	<input class="input" id="gene" type="input" name="input_gene" size="15" />&nbsp; &nbsp;
 
-	<button class="blue_button" id="run_tool" value="Run Expression Tool">Get Expression</button>
+	<button class="blue_button" id="run_tool" value="Run Expression Tool" style="margin: -8px 0px 0px 0px;">Get Expression</button>
+	<!-- <button class="blue_button" id="gene_test">gene</button> -->
+	
+	<div>
+		<p id="gene_info">
+			<span id="gene_name" class="gene_name"></span>
+			<br/>
+			<span id="gene_desc" class="gene_desc"> </span>
+		</p>
+	</div>
 	
 	<div id="container"></div>
-	<br/>
+	<!-- <br/> -->
 	<!-- <div id="buttons">
 		<button id="save">
 			Save as image
@@ -40,10 +44,62 @@ my $json = JSON::Any->new;
 	</div> -->
 
 	<div id="dialog" title="Expression data" width="800" style="display:none;">
-		<div id="bar_graph">
-			<p>Bar Graph Plot</p>
-		</div>
+		<center>
+			<span id="gene_dialog" class="gene_name"></span>
+			<br/>
+			<span id="desc_dialog" class="gene_desc"></span>
+		</center>
+		<div id="bar_graph"></div>
 	</div>
 </center>
 
 
+<script>
+	var tissues = <% $json->encode(\@tissues) %>;
+	var stages = <% $json->encode(\@stages) %>;
+	var genes = <% $json->encode(\@genes) %>;
+	var aoaoa = <% $json->encode(\@aoaoa) %>;
+	
+	
+	
+	$(document).ready(function () {
+		
+		// $('#gene_test').click(function () {
+		// 	input_gene = $('#gene').val();
+		// 	getGeneInfo(input_gene);
+			$('#gene').val(genes[0]);
+			getGeneInfo(genes[0]);
+		// });
+		
+		function getGeneInfo(gene) {
+			$.ajax({
+				url: 'http://192.168.1.166:3000/api/tea',
+				dataType: 'jsonp', // Notice! JSONP <-- P (lowercase)
+				// async: false,
+				timeout: 600000,
+				data: { 'gene_name': gene},
+				beforeSend: function(){
+					// disable_ui();
+				},
+				success: function(response) {
+					if (response.error) {
+						alert("ERROR: "+response.error);
+						// enable_ui();
+					} else {
+						// alert("gene: "+response.gene_id+" desc: "+response.description);
+						
+						document.getElementById("gene_name").innerHTML = "<a href='http://solgenomics.net/feature/"+response.gene_id+"/details' target='_blank'><img src='/static/images/sgn_logo.png' height='25' title='Connect to SGN for metadata associated with this gene'/> "+response.gene_name+"</a>";
+						document.getElementById("gene_desc").innerHTML = response.description;
+					}
+				},
+				error: function(response) {
+					alert("An error occurred. The service may not be available right now.");
+					//safari_alert();
+					// enable_ui();
+				}
+			});
+		}
+	});
+
+	
+</script>

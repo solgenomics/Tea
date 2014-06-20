@@ -1,4 +1,3 @@
-
 $(document).ready(function () {
 	// $('#color_code').val("rg");
 	
@@ -47,11 +46,10 @@ $(document).ready(function () {
 
 
 	function print_bar_chart(t_names,s_names,sxt_values, gene_name) {
-		jQuery("#bar_graph").empty();
-	
 		// alert("data: "+sxt_values);
 		
-		var plot1 = $.jqplot('bar_graph', sxt_values, {
+		// var plot1 = $.jqplot('bar_graph', sxt_values, {
+		var plot1 = $.jqplot(gene_name+'_bar_graph', sxt_values, {
 			title: '',
 			animate: true,
 			seriesDefaults:{
@@ -126,8 +124,8 @@ $(document).ready(function () {
 			timeout: 600000,
 			data: { 'gene_name': gene_name},
 			success: function(response) {
-				document.getElementById("gene_dialog").innerHTML = "<a href='http://solgenomics.net/feature/"+response.gene_id+"/details' target='_blank'><img src='/static/images/sgn_logo.png' height='25' title='Connect to SGN for metadata associated with this gene'/> "+response.gene_name+"</a>";
-				document.getElementById("desc_dialog").innerHTML = response.description;
+				document.getElementById(gene_name+"_gene_dialog").innerHTML = "<a href='http://solgenomics.net/feature/"+response.gene_id+"/details' target='_blank'><img src='/static/images/sgn_logo.png' height='25' title='Connect to SGN for metadata associated with this gene'/> "+response.gene_name+"</a>";
+				document.getElementById(gene_name+"_desc_dialog").innerHTML = response.description;
 			},
 			error: function(response) {
 				alert("An error occurred. The service may not be available right now.");
@@ -142,17 +140,59 @@ $(document).ready(function () {
 		var tissue_names = ["Inner epidermis","Parenchyma","Vascular tissue","Collenchyma","Outer epidermis"];
 		var stage_names = ["10DPA", "Mature green", "Pink"];
 		// var stage_tissue_values = [[146.25, 180.23, 20.12, 221.16, 60.12],[133.53, 284.63, 38.37, 169.95, 264.21],[12.35, 31.26, 3.18, 10.38, 37.21]];
+		
+		var dialog_null = document.getElementById(gene_name+"_dialog");
+		// var dialog_open = false;
+		//
+		if (dialog_null != null) {
+			
+			var openDialog = $("#"+gene_name+"_dialog").dialog( "isOpen" );
+			
+			if (openDialog) {
+				// alert("already open "+openDialog);
+				$("#"+gene_name+"_dialog").dialog({ position: { my: "center", at: "center", of: window } });
+				$("#"+gene_name+"_bar_graph").empty();
+				print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name);
+			} else {
+				$("#"+gene_name+"_dialog").dialog( "open" );
+				print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name);
+			}
+			
+			
+			// dialog_null.remove();
+			
+			// print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name);
+			// $("#"+gene_name+"_bar_graph").empty();
+			// print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name);
+			
+			
+			
+			
+		} else {
+		
+			var dynamicDialog = $('<div id="'+gene_name+'_dialog">\
+			<center>\
+				<span id="'+gene_name+'_gene_dialog" class="gene_name"></span>\
+				<br/>\
+				<span id="'+gene_name+'_desc_dialog" class="gene_desc"></span>\
+			</center>\
+			<div id="'+gene_name+'_bar_graph"></div>\
+			</div>');
 	
-		$(function() {
-			$( "#dialog" ).dialog({
-				minWidth: 600,
-				draggable: true,
-				resizable: false,
+			$(function() {
+				// $( "#dialog" ).dialog({
+		
+				dynamicDialog.dialog({
+					title: gene_name,
+					minWidth: 600,
+					draggable: true,
+					resizable: false,
+				});
+				$('.ui-dialog :button').blur();
+				dynamicDialog.css('background-color','transparent');
+				print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name);
 			});
-			$('.ui-dialog :button').blur();
-			print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name);
-		});
-
+		}
 	}
 
 
@@ -588,7 +628,7 @@ $(document).ready(function () {
 	var canvas = new Kinetic.Stage({
 		container: "container",
 		width: 1100,
-		height: 700
+		height: 1700
 	});
 	var tissue_layer = new Kinetic.Layer();
 

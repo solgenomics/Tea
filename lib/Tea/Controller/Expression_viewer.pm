@@ -43,7 +43,8 @@ sub get_expression :Path('/Expression_viewer/input2/') :Args(0) {
     # get variables from catalyst object
     my $params = $c->req->body_params();
 	my $query_gene = $c->req->param("input_gene");
-	my $lucy_path = $c->config->{lucy_indexes_path};
+	my $expr_path = $c->config->{expression_indexes_path};
+	my $corr_path = $c->config->{correlation_indexes_path};
 	
     # Send error message to the web if something is wrong
 	if (scalar (@errors) > 0){
@@ -52,8 +53,40 @@ sub get_expression :Path('/Expression_viewer/input2/') :Args(0) {
 		return;
 	}
 	
+	#------------------------------------- Get Correlation Data
+	my @genes;
+	my @corr_values;
+	my $lucy = Lucy::Simple->new(
+	    path     => $corr_path,
+	    language => 'en',
+	);
+
+	my $sort_spec = Lucy::Search::SortSpec->new(
+	     rules => [
+		 	Lucy::Search::SortRule->new( field => 'correlation', reverse => 1,),
+		 	Lucy::Search::SortRule->new( field => 'gene2', reverse => 0,),
+		 	Lucy::Search::SortRule->new( field => 'gene1',),
+	     ],
+	 );
+	
+	 my $hits = $lucy->search(
+	 	query     => $query_gene,
+	 	sort_spec => $sort_spec,
+	 	num_wanted => 20,
+	 );
+	
+	while ( my $hit = $lucy->next ) {
+		if ($query_gene eq $hit->{gene1}) {
+			push(@genes, $hit->{gene2});
+		} elsif ($query_gene eq $hit->{gene2}) {
+			push(@genes, $hit->{gene1});
+		}
+		push(@corr_values, $hit->{correlation})
+		# print "$hit->{gene1}\t$hit->{gene2}\t$hit->{correlation}\n";
+	}
+	
 	#------------------------------------- Temporal Data
-	my @genes = ("Solyc04g074910", "Solyc05g052140", "Solyc04g076060", "Solyc04g076210", "Solyc04g076010");
+	# my @genes = ("Solyc04g074910", "Solyc05g052140", "Solyc04g076060", "Solyc04g076210", "Solyc04g076010");
 	unshift(@genes, $query_gene);
 	my @stages = ("dpa", "mg", "pink");
 	my @tissues = ("ie", "parenchyma", "vascular", "collenchyma", "oe");
@@ -74,7 +107,7 @@ sub get_expression :Path('/Expression_viewer/input2/') :Args(0) {
 	}
 	
 	my $lucy = Lucy::Simple->new(
-	    path     => $lucy_path,
+	    path     => $expr_path,
 	    language => 'en',
 	);
 	

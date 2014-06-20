@@ -43,14 +43,14 @@ my $json = JSON::Any->new;
 		</button>
 	</div> -->
 
-	<div id="dialog" title="Expression data" width="800" style="display:none;">
+	<!-- <div id="dialog" title="Expression data" width="800" style="display:none;">
 		<center>
 			<span id="gene_dialog" class="gene_name"></span>
 			<br/>
 			<span id="desc_dialog" class="gene_desc"></span>
 		</center>
 		<div id="bar_graph"></div>
-	</div>
+	</div> -->
 </center>
 
 

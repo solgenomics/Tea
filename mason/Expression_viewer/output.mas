@@ -21,11 +21,12 @@ my $json = JSON::Any->new;
 <center>
 	<div id="pagetitle"><h1>Expression Viewer</h1></div>
 	
-	<span>Select a gene:</span> 
-	<input class="input" id="gene" type="input" name="input_gene" size="15" />&nbsp; &nbsp;
-
-	<button class="blue_button" id="run_tool" value="Run Expression Tool" style="margin: -8px 0px 0px 0px;">Get Expression</button>
-	<!-- <button class="blue_button" id="gene_test">gene</button> -->
+	<form id="search_gene" method="post" action="/Expression_viewer/input2" name="tea_form" enctype="multipart/form-data">
+		<span>Select a gene:</span>
+		<input class="input" id="gene" type="input" name="input_gene" size="15" />&nbsp; &nbsp;
+		<button class="blue_button" id="run_tool" value="Run Expression Tool" style="margin: -8px 0px 0px 0px;">Get Expression</button>
+	</form>
+	
 	
 	<div>
 		<p id="gene_info">
@@ -42,15 +43,7 @@ my $json = JSON::Any->new;
 			Save as image
 		</button>
 	</div> -->
-
-	<!-- <div id="dialog" title="Expression data" width="800" style="display:none;">
-		<center>
-			<span id="gene_dialog" class="gene_name"></span>
-			<br/>
-			<span id="desc_dialog" class="gene_desc"></span>
-		</center>
-		<div id="bar_graph"></div>
-	</div> -->
+		
 </center>
 
 

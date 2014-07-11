@@ -200,7 +200,6 @@ a:hover {
    width:90%;
    margin-left:auto;
    margin-right:auto;
-   
 }
 
 .td_form {
@@ -267,19 +266,6 @@ a:hover {
 	background:-moz-linear-gradient( center top, #4387FD 5%, #4683EA 100% );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4387FD', endColorstr='#4683EA');
 	background-color:#4387FD;
-/*	-webkit-border-top-left-radius:20px;
-	-moz-border-radius-topleft:20px;
-	border-top-left-radius:20px;
-	-webkit-border-top-right-radius:20px;
-	-moz-border-radius-topright:20px;
-	border-top-right-radius:20px;
-	-webkit-border-bottom-right-radius:20px;
-	-moz-border-radius-bottomright:20px;
-	border-bottom-right-radius:20px;
-	-webkit-border-bottom-left-radius:20px;
-	-moz-border-radius-bottomleft:20px;
-	border-bottom-left-radius:20px;
-*/
 	border-radius:20px;
 	text-indent:-1px;
 	border:0px;
@@ -315,58 +301,70 @@ a:hover {
 }
 
 #gene_info {
-	background-color:#D6EBFF;
-/*	background-color:#65A9FD;*/
-/*	background-color:#CCCCFF;*/
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #444444), color-stop(1, #000000) );
+	background:-moz-linear-gradient( center top, #444444 5%, #000000 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4387FD', endColorstr='#4683EA');
+	
+	background-color:#BBBBBB;
 	border-style:solid;
-	border-width:3px;
-	border-color:#626265;
-/*	border-color:#999999;*/
-	border-radius:10px;
-/*	color:#FFFFFF;*/
-	color:#111111;
-	font-family:Arial;
-	font-size:18px;
-/*	font-weight:bold;*/
-	font-style:normal;
-	width:900px;
-/*	width:85%;*/
-/*	height:40px;*/
-/*	line-height:38px;*/
-	text-decoration:none;
-/*	margin-top:5px;*/
-/*    vertical-align: top;*/
-}
-
-.gene_name {
-	color:#000000;
+	border-width:2px;
+	border-color:#DDDDDD;
+	border-radius:20px;
+	color:#7FC3FF;
 	font-family:Arial;
 	font-size:16px;
-	font-weight:bold;
-	line-height:16px;
+	line-height:30px;
+	font-style:normal;
+	max-width:1100px;
+	width:90%;
+/*	height:45px;*/
+/*	line-height:38px;*/
 	text-decoration:none;
-	margin:1px;
+	padding:5px;
+	vertical-align: top;
+}
+
+.gene_name a {
+	display:inline;
+	color:#FFFFFF;
+	font-family:Arial;
+	font-size:16px;
+/*	font-weight:bold;*/
+	line-height:30px;
+	text-decoration:none;
+	vertical-align: top;
 }
 
 .gene_desc {
-	color:#000000;
+	color:#FFFFFF;
 	font-family:Arial;
-	font-size:12px;
+	font-size:16px;
 	font-weight:normal;
-	line-height:15px;
+/*	line-height:16px;*/
 	text-decoration:none;
-	margin:1px;
-	
+	vertical-align: top;
 }
 
 .gene_name a:hover {
-	color:#BB0000;
+	color:#FF0000;
 	text-decoration:none;
 }
 
+.gene_name_dialog a{
+	color:#000000;
+	font-family:Arial;
+	font-size:16px;
+	line-height:16px;
+	text-decoration:none;
+}
 
-
-
+.gene_desc_dialog {
+	color:#000000;
+	font-family:Arial;
+	font-size:16px;
+	line-height:16px;
+	text-decoration:none;
+}
 
 
 
@@ -608,5 +606,10 @@ body .ui-tooltip {
 	color: #ffffff;
 	border-radius:20px;
 	border-color:#ffffff;
+}
+
+.index_logo:hover {
+    -webkit-filter: drop-shadow(1px 1px 1px #0066cc);
+    filter:         drop-shadow(1px 1px 1px #0066cc);
 }
 

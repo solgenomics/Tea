@@ -4,16 +4,16 @@
 	<br/>
 	<br/>
 	<br/>
-	<table id="tea_form">
+	<table align="center">
 		<tr>
 			<td class="td_index">
-				<a href="overview"><img src="/static/images/overview_logo.png" height="150" title="Overview of the Tomato Expression Atlas, the tools and query options, and the datasets that are available"/></a>
+				<a href="overview"><img src="/static/images/overview_logo.png" height="150" class="index_logo" title="Overview of the Tomato Expression Atlas, the tools and query options, and the datasets that are available"/></a>
 			</td>
 			<td class="td_index">
-				<a href="Expression_viewer/input"><img src="/static/images/expr_logo.png" height="150" title="Observe the expression of your genes of interest"/></a>
+				<a href="Expression_viewer/input"><img src="/static/images/expr_logo.png" height="150" class="index_logo" title="Observe the expression of your genes of interest"/></a>
 			</td>
 			<td class="td_index">
-				<a href="anatomy_viewer"><img src="/static/images/anatomy_logo.png" height="150" title="Visual material from the organs, tissues and cell types corresponding to the expression data"/></a>
+				<a href="anatomy_viewer"><img src="/static/images/anatomy_logo.png" height="150" class="index_logo" title="Visual material from the organs, tissues and cell types corresponding to the expression data"/></a>
 			</td>
 		</tr>
 		<tr>

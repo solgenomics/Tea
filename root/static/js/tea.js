@@ -27,25 +27,25 @@ $(document).ready(function () {
 	}
 
 
-	function getGeneInfo(gene) {
-		
-		$.ajax({
-			url: 'http://192.168.1.166:3000/api/tea',
-			dataType: 'jsonp', // Notice! JSONP <-- P (lowercase)
-			timeout: 600000,
-			data: { 'gene_name': gene},
-			success: function(response) {
-				document.getElementById("gene_name").innerHTML = "<a href='http://solgenomics.net/feature/"+response.gene_id+"/details' target='_blank'><img src='/static/images/sgn_logo.png' height='25' title='Connect to SGN for metadata associated with this gene'/> "+response.gene_name+"</a>";
-				document.getElementById("gene_desc").innerHTML = response.description;
-			},
-			error: function(response) {
-				alert("An error occurred. The service may not be available right now.");
-			}
-		});
-	}
+	// function getGeneInfo(gene) {
+	//
+	// 	$.ajax({
+	// 		url: 'http://192.168.1.166:3000/api/tea',
+	// 		dataType: 'jsonp', // Notice! JSONP <-- P (lowercase)
+	// 		timeout: 600000,
+	// 		data: { 'gene_name': gene},
+	// 		success: function(response) {
+	// 			document.getElementById("gene_name").innerHTML = "<a href='http://solgenomics.net/feature/"+response.gene_id+"/details' target='_blank'>"+response.gene_name+" <img src='/static/images/sgn_logo.png' height='16' title='Connect to SGN for metadata associated with this gene'/></a>";
+	// 			document.getElementById("gene_desc").innerHTML = response.description;
+	// 		},
+	// 		error: function(response) {
+	// 			alert("An error occurred. The service may not be available right now.");
+	// 		}
+	// 	});
+	// }
 
 
-	function print_bar_chart(t_names,s_names,sxt_values, gene_name) {
+	function print_bar_chart(t_names,s_names,sxt_values,gene_name,corr_val) {
 		// alert("data: "+sxt_values);
 		
 		// var plot1 = $.jqplot('bar_graph', sxt_values, {
@@ -125,7 +125,11 @@ $(document).ready(function () {
 			data: { 'gene_name': gene_name},
 			success: function(response) {
 				document.getElementById(gene_name+"_gene_dialog").innerHTML = "<a href='http://solgenomics.net/feature/"+response.gene_id+"/details' target='_blank'><img src='/static/images/sgn_logo.png' height='25' title='Connect to SGN for metadata associated with this gene'/> "+response.gene_name+"</a>";
-				document.getElementById(gene_name+"_desc_dialog").innerHTML = response.description;
+				if (corr_val != null) {
+					document.getElementById(gene_name+"_desc_dialog").innerHTML = response.description+"<br/>Correlation Value: "+corr_val;
+				} else {
+					document.getElementById(gene_name+"_desc_dialog").innerHTML = response.description;
+				}
 			},
 			error: function(response) {
 				alert("An error occurred. The service may not be available right now.");
@@ -135,7 +139,7 @@ $(document).ready(function () {
 	}
 
 
-	function open_bar_graph_dialog(stage_tissue_values, gene_name) {
+	function open_bar_graph_dialog(stage_tissue_values, gene_name, corr_val) {
 
 		var tissue_names = ["Inner epidermis","Parenchyma","Vascular tissue","Collenchyma","Outer epidermis"];
 		var stage_names = ["10DPA", "Mature green", "Pink"];
@@ -150,19 +154,19 @@ $(document).ready(function () {
 			if (openDialog) {
 				$("#"+gene_name+"_dialog").dialog({ position: { my: "center", at: "center", of: window } });
 				$("#"+gene_name+"_bar_graph").empty();
-				print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name);
+				print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name,corr_val);
 			} else {
 				$("#"+gene_name+"_dialog").dialog( "open" );
-				print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name);
+				print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name,corr_val);
 			}
 			
 		} else {
 		
 			var dynamicDialog = $('<div id="'+gene_name+'_dialog">\
 			<center>\
-				<span id="'+gene_name+'_gene_dialog" class="gene_name"></span>\
+				<span id="'+gene_name+'_gene_dialog" class="gene_name_dialog"></span>\
 				<br/>\
-				<span id="'+gene_name+'_desc_dialog" class="gene_desc"></span>\
+				<span id="'+gene_name+'_desc_dialog" class="gene_desc_dialog"></span>\
 			</center>\
 			<div id="'+gene_name+'_bar_graph"></div>\
 			</div>');
@@ -175,14 +179,15 @@ $(document).ready(function () {
 					resizable: false,
 				});
 				$('.ui-dialog :button').blur();
-				dynamicDialog.css('background-color','transparent');
-				print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name);
+				// dynamicDialog.css('background-color','transparent');
+				print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name,corr_val);
 			});
 		}
 	}
 
 
-	function add_slice(n,gene_names_array,aoa,stage_names,tissue_names,tmp_layer,stage,x_margin,y_margin,color_code) {
+	// function add_slice(n,gene_names_array,aoa,tissue_names,stage_names,tmp_layer,stage,x_margin,y_margin,color_code) {
+	function add_slice(n,gene_names_array,aoa,stage_names,tissue_names,tmp_layer,stage,x_margin,y_margin,color_code,correlation) {
 		var sq_size = 20;
 		y_margin = y_margin +n*sq_size;
 		x_margin = x_margin + 20;
@@ -192,8 +197,10 @@ $(document).ready(function () {
 		});
 		
 		var gene_text = new Kinetic.Text({
-			x: x_margin -155,
-			y: y_margin +63,
+			// x: x_margin -175,
+			// y: y_margin +93,
+			x: x_margin -155,  //change cube stages by tissues
+			y: y_margin +63,  //change cube stages by tissues
 			id: "slice_name_"+n,
 			// text: "Solyc00g0000009",
 			text: gene_names_array[n-1],
@@ -202,9 +209,74 @@ $(document).ready(function () {
 			fill: "black"
 		});
 		
+		var gene_popup_layer = new Kinetic.Layer();
+		stage.add(gene_popup_layer);
+		
+		gene_text.on('mouseover', function() {
+			var x_pos = this.getAbsolutePosition().x-510;
+			var y_pos = this.getAbsolutePosition().y-10;
+			
+			var gene_desc = "gene description from SGN";
+			
+			var gene_popup = new Kinetic.Rect({
+		        x: x_pos-50,
+		        y: y_pos,
+		        fill: '#000000',
+				opacity: 0.5,
+		        width: 500,
+		        height: 30,
+		        cornerRadius: 10
+			});
+			
+			var desc_txt = new Kinetic.Text({
+				x: x_pos+5,
+				y: y_pos+8,
+				text: gene_desc,
+				fontSize: 16,
+				fontFamily: 'Helvetica',
+				fill: "white"
+			});
+			if (n>1) {
+				var corr_popup = new Kinetic.Rect({
+			        x: x_pos+455,
+			        y: y_pos,
+			        fill: '#000000',
+					opacity: 0.8,
+			        width: 40,
+			        height: 30,
+			        cornerRadius: 10
+				});
+			
+				var corr_txt = new Kinetic.Text({
+					x: x_pos+460,
+					y: y_pos+8,
+					text: correlation[n-2],
+					fontSize: 16,
+					fontFamily: 'Helvetica',
+					fill: "white"
+				});
+			
+				gene_popup_layer.add(corr_popup);
+				gene_popup_layer.moveToTop();
+				gene_popup_layer.add(corr_txt);
+			}
+			gene_popup_layer.add(gene_popup);
+			gene_popup_layer.moveToTop();
+			gene_popup_layer.add(desc_txt);
+			gene_popup_layer.draw();
+		});
+		
+		gene_text.on('mouseout', function() {
+			gene_popup_layer.removeChildren();
+			gene_popup_layer.draw();
+		});
+		
+		
 		var circle = new Kinetic.Circle({
-		        x: x_margin -160,
-		        y: y_margin +70,
+		        // x: x_margin -180,
+		        // y: y_margin +100,
+		        x: x_margin -160, //change cube stages by tissues
+		        y: y_margin +70, //change cube stages by tissues
 		        radius: 3,
 		        fill: 'white',
 		        stroke: 'black',
@@ -218,12 +290,12 @@ $(document).ready(function () {
 				id: "full_slice_"+n,
 				name: 'slice_up',
 				// draggable: true,
-		        dragBoundFunc: function(pos) {
-		          return {
-		            x: this.getAbsolutePosition().x,
-		            y: pos.y
-		          }
-		        }
+		        // dragBoundFunc: function(pos) {
+		        //   return {
+		        //     x: this.getAbsolutePosition().x,
+		        //     y: pos.y
+		        //   }
+		        // }
 			});
 		} else {
 			gene_text.fill("blue");
@@ -239,12 +311,14 @@ $(document).ready(function () {
 
 
 		
-		for (var j=1; j<=stage_names.length; j++) {
+		// for (var j=stage_names.length; j>=1; j--) {
+		for (var j=1; j<=stage_names.length; j++) {  //change cube stages by tissues
 			for (var i=tissue_names.length; i>=1; i--) {
 				var x_start = x_margin - j*15;
 				var nx = i*sq_size + x_start;
 				var ny = y_margin + j*15;
 			
+				// var sqr_color = get_expr_color(color_code, aoa[n-1][i-1][j-1]); //change cube stages by tissues
 				var sqr_color = get_expr_color(color_code, aoa[n-1][j-1][i-1]);
 				
 				nx = nx-15 + (j-1)*5; //change cube orientation
@@ -264,6 +338,7 @@ $(document).ready(function () {
 				if (j == stage_names.length) {
 				
 					var front_tile = new Kinetic.Rect({
+						// x: nx+10, //change cube stages by tissues
 						x: nx,
 						y: ny+15,
 						width: sq_size,
@@ -311,7 +386,7 @@ $(document).ready(function () {
 		}
 	
 	
-	
+		
 		gene_text.on('mousedown', function() {
 			// var all_circles = stage.find(".gene_circle");
 			// all_circles.fill("white");
@@ -355,7 +430,7 @@ $(document).ready(function () {
 		slice_group.on('mousedown', function() {
 			// var all_circles = stage.find(".gene_circle");
 			// all_circles.fill("white");
-			open_bar_graph_dialog(aoa[n-1],gene_names_array[n-1]);
+			open_bar_graph_dialog(aoa[n-1],gene_names_array[n-1],correlation[n-2]);
 			circle.fill("red");
 			tmp_layer.draw();
 		});
@@ -390,7 +465,7 @@ $(document).ready(function () {
 			// rotation: 45 //change cube orientation
 		});
 	
-		//stages for tissue images
+		// stages for tissue images
 		var stage_text_pict = new Kinetic.Text({
 			x: x_margin2 -30,
 			y: 70,
@@ -401,7 +476,7 @@ $(document).ready(function () {
 			fontFamily: 'Helvetica',
 			fill: 'black',
 		});
-	
+
 		stages_layer.add(stage_text_pict);
 		stages_layer.add(stage_text);
 		canvas_tmp.add(stages_layer);
@@ -409,51 +484,83 @@ $(document).ready(function () {
 
 
 	function get_expr_color(color_code,expr_val) {
-	
+		
+		// var color = ['rgb(100,0,0)','rgb(255,0,0)','rgb(255,130,0)','rgb(255,205,155)','rgb(255,255,0)','rgb(255,255,205)'];
+		
 		//get a color from expression value
 		var tmp_color;
 		// alert(expr_val);
-		var color = Math.round(200 + expr_val/155);
+		// var color = Math.round(200 + expr_val/155);
 		
-		if (expr_val <= 1) {
-			color = Math.round(50 + expr_val*50);
-			tmp_color = 'rgb('+color+','+0+','+0+')';
+		if (expr_val == 0) {
+			tmp_color = 'rgb('+255+','+255+','+255+')';
+		} else if (expr_val <= 1) {
+			// b_color = Math.round(205*expr_val);
+			b_color = Math.round(205*(1-expr_val));
+			tmp_color = 'rgb('+255+','+255+','+b_color+')';
+			
 		} else if (expr_val > 1 && expr_val <= 10) {
-			color = Math.round(100 + expr_val*155/10);
-			tmp_color = 'rgb('+color+','+0+','+0+')';
+			g_color = Math.round(255 - 125*expr_val/10);
+			b_color = Math.round(205 - 205*expr_val/10);
+			tmp_color = 'rgb('+255+','+g_color+','+b_color+')';
+			
 		} else if (expr_val > 10 && expr_val <= 100) {
-			color = Math.round(155 + expr_val*100/100);
-			tmp_color = 'rgb('+color+','+Math.round(color/2)+','+0+')';
+			g_color = Math.round(205 - 75*(1 - expr_val/100));
+			b_color = Math.round(155 - 155*(1 - expr_val/100));
+			
+			tmp_color = 'rgb('+255+','+g_color+','+b_color+')';
 		} else if (expr_val > 100 && expr_val <= 300) {
-			color = Math.round(100 + expr_val*100/300);
-			tmp_color = 'rgb('+255+','+color+','+0+')';
-		} else if (expr_val > 300 && expr_val <= 1000) {
-			color = Math.round(200 + expr_val*55/1000);
-			tmp_color = 'rgb('+color+','+color+','+0+')';
-		} else if (expr_val > 1000) {
-			color = Math.round(200 + expr_val*55/1000);
-			tmp_color = 'rgb('+color+','+color+','+color+')';
+			r_color = Math.round(255 - 105*(expr_val-100)/200);
+			g_color = Math.round(130 - 130*(expr_val-100)/200);
+			tmp_color = 'rgb('+r_color+','+g_color+','+0+')';
+		} else if (expr_val > 300) {
+			color = Math.round(150 + 105*expr_val/300);
+			tmp_color = 'rgb('+color+','+0+','+0+')';
 		}
 	
+		// if (expr_val <= 1) {
+		// 	color = Math.round(50 + expr_val*50);
+		// 	tmp_color = 'rgb('+color+','+0+','+0+')';
+		// } else if (expr_val > 1 && expr_val <= 10) {
+		// 	color = Math.round(100 + expr_val*155/10);
+		// 	tmp_color = 'rgb('+color+','+0+','+0+')';
+		// } else if (expr_val > 10 && expr_val <= 100) {
+		// 	color = Math.round(155 + expr_val*100/100);
+		// 	tmp_color = 'rgb('+color+','+Math.round(color/2)+','+0+')';
+		// } else if (expr_val > 100 && expr_val <= 300) {
+		// 	color = Math.round(100 + expr_val*100/300);
+		// 	tmp_color = 'rgb('+255+','+color+','+0+')';
+		// } else if (expr_val > 300 && expr_val <= 1000) {
+		// 	color = Math.round(200 + expr_val*55/1000);
+		// 	tmp_color = 'rgb('+color+','+color+','+0+')';
+		// } else if (expr_val > 1000) {
+		// 	color = Math.round(200 + expr_val*55/1000);
+		// 	tmp_color = 'rgb('+color+','+color+','+color+')';
+		// }
+		//
 		return tmp_color;
 	}
 
 
 	function add_color_grad_legend(x_pos,y_pos,color_string,tmp_layer,stage) {
 	
-		var color = ['rgb(255,255,255)','rgb(255,255,0)','rgb(255,200,0)','rgb(200,100,50)','rgb(255,0,0)','rgb(50,50,50)'];
+		var color = ['rgb(100,0,0)','rgb(255,0,0)','rgb(255,130,0)','rgb(255,205,155)','rgb(255,255,0)','rgb(255,255,205)'];
+		// var color = ['rgb(255,0,0)','rgb(150,0,0)','rgb(255,130,0)','rgb(255,205,155)','rgb(255,255,205)','rgb(255,255,0)'];
+		// var color = ['rgb(255,0,0)','rgb(150,0,0)','rgb(255,205,155)','rgb(255,130,0)','rgb(255,255,205)','rgb(255,255,0)'];
+		// var color = ['rgb(255,255,255)','rgb(255,255,0)','rgb(255,200,0)','rgb(200,100,50)','rgb(255,0,0)','rgb(50,50,50)'];
 		// if (color_string == 'by') {
 		// 	color = ['rgb(0,0,255)','rgb(0,0,55)','rgb(255,255,0)','rgb(55,55,0)'];
 		// }
 	
 		var grad_legend = new Kinetic.Rect({
 			x: x_pos,
-			y: y_pos+30,
+			y: y_pos+105,
 			width: 15,
-			height: 200,
+			height: 400,
 			fillLinearGradientStartPoint: {x:0, y:0},
-			fillLinearGradientEndPoint: {x:0,y:200},
-			fillLinearGradientColorStops: [0.2, color[0], 0.2, color[1], 0.4, color[2], 0.6, color[3], 0.8, color[4], 1, color[5]],
+			fillLinearGradientEndPoint: {x:0,y:400},
+			fillLinearGradientColorStops: [0, color[0], 0.2, color[1], 0.4, color[2], 0.6, color[3], 0.9, color[4], 0.99, color[5], 1, 'rgb(255,255,255)'],
+			// fillLinearGradientColorStops: [0.2, color[0], 0.2, color[1], 0.4, color[2], 0.6, color[3], 0.8, color[4], 1, color[5]],
 			// fillLinearGradientColorStops: [0, color[0], 0.5, color[1], 0.5, color[2], 1, color[3]],
 			stroke: 'black',
 			strokeWidth: 1,
@@ -462,7 +569,7 @@ $(document).ready(function () {
 	
 		var top_text = new Kinetic.Text({
 			x: x_pos-12,
-			y: y_pos+10,
+			y: y_pos+85,
 			text: "RPKMs",
 			fontSize: 12,
 			fontFamily: 'Helvetica',
@@ -479,35 +586,36 @@ $(document).ready(function () {
 	
 		var mid1_text = new Kinetic.Text({
 			x: x_pos+20,
-			y: y_pos+65,
-			text: "1000",
+			y: y_pos+180,
+			text: "300",
+			// text: "1000",
 			fill: "black"
 		});
 	
 		var mid2_text = new Kinetic.Text({
 			x: x_pos+20,
-			y: y_pos+125,
+			y: y_pos+260,
 			text: "100",
 			fill: "black"
 		});
 	
 		var mid3_text = new Kinetic.Text({
 			x: x_pos+20,
-			y: y_pos+160,
+			y: y_pos+340,
 			text: "10",
 			fill: "black"
 		});
 	
 		var min2_text = new Kinetic.Text({
 			x: x_pos+20,
-			y: y_pos+195,
+			y: y_pos+420,
 			text: "1",
 			fill: "black"
 		});
 	
 		var min_text = new Kinetic.Text({
 			x: x_pos+20,
-			y: y_pos+225,
+			y: y_pos+500,
 			text: "0",
 			fill: "black"
 		});
@@ -589,10 +697,13 @@ $(document).ready(function () {
 		var color_code = $('#color_code').val();
 	
 		for (var i=genes.length; i>=1; i--) {
-			add_slice(i,genes,expr_val,stages,tissues,tmp_layer,tmp_canvas,top_x_start,y_margin,color_code);
+			add_slice(i,genes,expr_val,stages,tissues,tmp_layer,tmp_canvas,top_x_start,y_margin,color_code,corr_values);
 		}
 	
 		//draw stage names
+		// for (var i=0; i<tissues.length; i++) { //change cube stages by tissues
+		// for (var i=tissues.length-1; i>=0; i--) { //change cube stages by tissues
+			// alert("i: "+i+" tissues[i]: "+tissues[i])
 		for (var i=0; i<stages.length; i++) {
 			var x = top_x_start -75 - i*10;
 			// var x = top_x_start -60 - i*15;  //change cube orientation
@@ -601,9 +712,11 @@ $(document).ready(function () {
 			var x2 = top_x_start -650 + i*180;
 			// var x = top_x_start -30 - i*15;
 			// var y = y_margin - 20 + i*15;
+			// add_stage_names(x,y,tissues[i],x2,tmp_layer,tmp_canvas); //change cube stages by tissues
 			add_stage_names(x,y,stages[i],x2,tmp_layer,tmp_canvas);
 		}
 				
+		// var sw_x = right_x_start + (stages.length*15) + 10; //change cube stages by tissues
 		var sw_x = right_x_start + (tissues.length*15) + 10;
 		add_color_grad_legend(sw_x,y_margin-50,color_code,tmp_layer,tmp_canvas)
 	}
@@ -717,37 +830,77 @@ $(document).ready(function () {
 			var g = 255;
 			var b = 255;
 			
-			if (expr_val <= 1) {
-				color = Math.round(50 + expr_val*50);
-				r = color;
-				g = 0;
-				b = 0;
-			} else if (expr_val > 1 && expr_val <= 10) {
-				color = Math.round(100 + expr_val*155/10);
-				r = color;
-				g = 0;
-				b = 0;
-			} else if (expr_val > 10 && expr_val <= 100) {
-				color = Math.round(155 + expr_val*100/100);
-				r = color;
-				g = Math.round(color/2);
-				b = 0;
-			} else if (expr_val > 100 && expr_val <= 300) {
-				color = Math.round(100 + expr_val*100/300);
+			// var color = ['rgb(255,0,0)','rgb(150,0,0)','rgb(255,128,0)','rgb(255,205,155)','rgb(255,255,0)','rgb(255,255,205)'];
+			
+			if (expr_val == 0) {
 				r = 255;
-				g = color;
-				b = 0;
-			} else if (expr_val > 300 && expr_val <= 1000) {
-				color = Math.round(200 + expr_val*55/1000);
-				r = color;
-				g = color;
-				b = 0;
-			} else if (expr_val > 1000) {
-				color = Math.round(200 + expr_val*55/1000);
-				r = color;
-				g = color;
+				g = 255;
+				b = 255;
+			} else if (expr_val <= 1) {
+				color = Math.round(205*(1-expr_val));
+				r = 255;
+				g = 255;
 				b = color;
+			} else if (expr_val > 1 && expr_val <= 10) {
+				g_color = Math.round(255 - 125*expr_val/10);
+				b_color = Math.round(205 - 205*expr_val/10);
+				r = 255;
+				g = g_color;
+				b = b_color;
+			} else if (expr_val > 10 && expr_val <= 100) {
+				g_color = Math.round(205 - 75*(1 - expr_val/100));
+				b_color = Math.round(155 - 155*(1 - expr_val/100));
+				r = 255;
+				g = g_color;
+				b = b_color;
+				
+				// alert("r: "+r+" g: "+g+" b: "+b);
+				
+			} else if (expr_val > 100 && expr_val <= 300) {
+				r_color = Math.round(255 - 105*(expr_val-100)/200);
+				g_color = Math.round(130 - 130*(expr_val-100)/200);
+				r = r_color;
+				g = g_color;
+				b = 0;
+			} else if (expr_val > 300 ) {
+				color = Math.round(150 + 105*expr_val/300);
+				r = color;
+				g = 0;
+				b = 0;
 			}
+			
+			
+			// if (expr_val <= 1) {
+			// 	color = Math.round(50 + expr_val*50);
+			// 	r = color;
+			// 	g = 0;
+			// 	b = 0;
+			// } else if (expr_val > 1 && expr_val <= 10) {
+			// 	color = Math.round(100 + expr_val*155/10);
+			// 	r = color;
+			// 	g = 0;
+			// 	b = 0;
+			// } else if (expr_val > 10 && expr_val <= 100) {
+			// 	color = Math.round(155 + expr_val*100/100);
+			// 	r = color;
+			// 	g = Math.round(color/2);
+			// 	b = 0;
+			// } else if (expr_val > 100 && expr_val <= 300) {
+			// 	color = Math.round(100 + expr_val*100/300);
+			// 	r = 255;
+			// 	g = color;
+			// 	b = 0;
+			// } else if (expr_val > 300 && expr_val <= 1000) {
+			// 	color = Math.round(200 + expr_val*55/1000);
+			// 	r = color;
+			// 	g = color;
+			// 	b = 0;
+			// } else if (expr_val > 1000) {
+			// 	color = Math.round(200 + expr_val*55/1000);
+			// 	r = color;
+			// 	g = color;
+			// 	b = color;
+			// }
 			
 			// alert("tissue: "+tissues[i]);
 	        loadImage(x_offset,r,g,b,tissue_layer,canvas);
@@ -761,7 +914,8 @@ $(document).ready(function () {
 	var page_width = 1100;
 
 	var x_margin = page_width -100 - tissues.length*20 - stages.length*15;
-	var y_margin = 160;
+	var y_margin = 100;
+	// var y_margin = 160;
 
 	var last_x_margin = 125 + stages.length*20;
 	var last_y_margin = 155 + stages.length*15;
@@ -770,61 +924,6 @@ $(document).ready(function () {
 	var top_x_start = x_margin + (stages.length*15);
 
 	draw_cube(genes,stages,tissues,aoaoa,cube_layer,canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start);
-	// -------------------------------------------------------------------------------------
-	
-	// jQuery('#run_tool').click(function () {
-	// 	//alert("clicking");
-	// 	// disable_ui();
-	// 	error_var = 1;
-	// 	query_gene = jQuery('#gene').val();
-	//
-	// 	getGeneInfo(query_gene);
-	//
-	// 	jQuery.ajax({
-	// 		// url: '/Expression_viewer/result/',
-	// 		url: '/Expression_viewer/input2/',
-	// 		async: false,
-	// 		method: 'POST',
-	// 		data: { 'gene': query_gene },
-	// 		success: function(response) {
-	// 			// enable_ui();
-	//
-	// 			// alert("AoAoA:\n"+dump(response.aoaoa));
-	// 			// alert("expr:\n"+dump(response.expr)+"\ngenes:\n"+dump(response.genes)+"\nstages:\n"+dump(response.stages)+"\ntissues:\n"+dump(response.tissues));
-	//
-	// 			//set starting margins
-	// 			var x_margin = page_width -100 -response.tissues.length*20 -response.stages.length*15;
-	// 			var y_margin = 160;
-	//
-	// 			var last_x_margin = 125 + response.stages.length*20;
-	// 			var last_y_margin = 155 + response.stages.length*15;
-	//
-	// 			var right_x_start = x_margin + 5 + response.tissues.length*20;
-	// 			var top_x_start = x_margin + (response.stages.length*15);
-	//
-	//
-	// 			draw_cube(response.genes,response.stages,response.tissues,response.aoaoa,cube_layer,canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start);
-	//
-	// 			// open_bar_graph_dialog(response.aoaoa[0]);
-	//
-	// 			if (response.error) {
-	// 				alert("ERROR: "+response.error);
-	// 				error_var = 1;
-	// 			} else {
-	// 				error_var = 0;
-	// 				data_array_obj = response.all_exp_design;
-	// 			}
-	// 		},
-	// 		error: function(response) {
-	// 			alert("An error occurred. The service may not be available right now.");
-	// 			error_var = 1;
-	// 			// enable_ui();
-	// 		}
-	// 	});
-	// });
-	// -------------------------------------------------------------------------------------
-	
-	
 	
 });
 

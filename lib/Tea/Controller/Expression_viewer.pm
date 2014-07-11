@@ -72,7 +72,7 @@ sub get_expression :Path('/Expression_viewer/input2/') :Args(0) {
 	 my $hits = $lucy->search(
 	 	query     => $query_gene,
 	 	sort_spec => $sort_spec,
-	 	num_wanted => 20,
+	 	num_wanted => 19,
 	 );
 	
 	while ( my $hit = $lucy->next ) {
@@ -137,6 +137,7 @@ sub get_expression :Path('/Expression_viewer/input2/') :Args(0) {
 	$c->stash->{stages} = \@stages;
 	$c->stash->{tissues} = \@tissues;
 	$c->stash->{aoaoa} = \@AoAoA;
+	$c->stash->{correlation} = \@corr_values;
 	
 	# $c->stash->{rest} = {expr=> \%gene_stage_tissue_expr,
 	# 					genes => \@genes,

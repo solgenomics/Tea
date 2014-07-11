@@ -27,15 +27,16 @@
 			$(function() {
 			   $( document ).tooltip({
 				   position: {
-					   my: "left bottom",
-					   at: "center top",
+					   my: "center bottom",
+					   // my: "left bottom",
+					   at: "center+15 top+5",
 					   using: function( position, feedback ) {
 						   $( this ).css( position );
 						   $( "<div>" )
-						   .addClass( "arrow" )
+						   // .addClass( "arrow" )
 						   // .addClass( feedback.vertical )
 						   // .addClass( feedback.horizontal )
-						   .appendTo( this );
+						   // .appendTo( this );
 					   }
 				   }
 			   });

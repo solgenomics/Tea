@@ -3,6 +3,7 @@
 @stages => ()
 @tissues => ()
 @aoaoa => ()
+@correlation => ()
 </%args>
 
 <%perl>
@@ -12,6 +13,82 @@ use JSON::Any;
 my $json = JSON::Any->new;
 
 </%perl>
+
+<div id="working" style="text-align: center; display:none;">
+  <img src="/static/images/wheel.gif" height="30"/>
+</div>
+
+<script>
+	var tissues = <% $json->encode(\@tissues) %>;
+	var stages = <% $json->encode(\@stages) %>;
+	var genes = <% $json->encode(\@genes) %>;
+	var aoaoa = <% $json->encode(\@aoaoa) %>;
+	var corr_values = <% $json->encode(\@correlation) %>;
+	
+	
+	
+	$(document).ready(function () {
+		
+		// $('#gene_test').click(function () {
+		// 	input_gene = $('#gene').val();
+		// 	getGeneInfo(input_gene);
+			$('#gene').val(genes[0]);
+			// disable_ui();
+			getGeneInfo(genes[0]);
+			// getGeneInfo(genes);
+		// });
+		
+
+		function disable_ui() {
+			$('#working').dialog( {
+				height: 100,
+				width: 50,
+				modal: true,
+				autoOpen: false,
+				closeOnEscape: false,
+				open: function(event, ui) { $(".ui-dialog-titlebar-close", ui.dialog).hide(); $('.ui-dialog-titlebar-close').blur();},
+				title: 'Loading...'
+			});
+			$('#working').dialog("open");
+		}
+		
+		function getGeneInfo(gene) {
+			$.ajax({
+				url: 'http://192.168.1.166:3000/api/tea',
+				dataType: 'jsonp', // Notice! JSONP <-- P (lowercase)
+				// async: false,
+				timeout: 600000,
+				// data: { 'genes_array': genes_array, 'gene_name': genes_array[0]},
+				data: { 'gene_name': gene},
+				beforeSend: function(){
+					disable_ui();
+					// alert("array: "+genes_array);
+				},
+				success: function(response) {
+					if (response.error) {
+						alert("ERROR: "+response.error);
+						$('#working').dialog("close");
+						// enable_ui();
+					} else {
+						// alert("gene: "+response.gene_id+" desc: "+response.description);
+						
+						document.getElementById("gene_name").innerHTML = "<a href='http://solgenomics.net/feature/"+response.gene_id+"/details' target='_blank'><img src='/static/images/sgn_logo.png' height='30' title='Connect to SGN for metadata associated with this gene'/> "+response.gene_name+"</a>";
+						document.getElementById("gene_desc").innerHTML = response.description;
+						$('#working').dialog("close");
+					}
+				},
+				error: function(response) {
+					alert("An error occurred. The service may not be available right now.");
+					$('#working').dialog("close");
+					//safari_alert();
+					// enable_ui();
+				}
+			});
+		}
+	});
+
+	
+</script>
 
 
 <script type="text/javascript" src="/static/js/tea.js"></script>
@@ -30,9 +107,9 @@ my $json = JSON::Any->new;
 	
 	<div>
 		<p id="gene_info">
-			<span id="gene_name" class="gene_name"></span>
+			Query Gene: <span id="gene_name" class="gene_name"></span>
 			<br/>
-			<span id="gene_desc" class="gene_desc"> </span>
+			Annotation: <span id="gene_desc" class="gene_desc"> </span>
 		</p>
 	</div>
 	
@@ -47,52 +124,3 @@ my $json = JSON::Any->new;
 </center>
 
 
-<script>
-	var tissues = <% $json->encode(\@tissues) %>;
-	var stages = <% $json->encode(\@stages) %>;
-	var genes = <% $json->encode(\@genes) %>;
-	var aoaoa = <% $json->encode(\@aoaoa) %>;
-	
-	
-	
-	$(document).ready(function () {
-		
-		// $('#gene_test').click(function () {
-		// 	input_gene = $('#gene').val();
-		// 	getGeneInfo(input_gene);
-			$('#gene').val(genes[0]);
-			getGeneInfo(genes[0]);
-		// });
-		
-		function getGeneInfo(gene) {
-			$.ajax({
-				url: 'http://192.168.1.166:3000/api/tea',
-				dataType: 'jsonp', // Notice! JSONP <-- P (lowercase)
-				// async: false,
-				timeout: 600000,
-				data: { 'gene_name': gene},
-				beforeSend: function(){
-					// disable_ui();
-				},
-				success: function(response) {
-					if (response.error) {
-						alert("ERROR: "+response.error);
-						// enable_ui();
-					} else {
-						// alert("gene: "+response.gene_id+" desc: "+response.description);
-						
-						document.getElementById("gene_name").innerHTML = "<a href='http://solgenomics.net/feature/"+response.gene_id+"/details' target='_blank'><img src='/static/images/sgn_logo.png' height='25' title='Connect to SGN for metadata associated with this gene'/> "+response.gene_name+"</a>";
-						document.getElementById("gene_desc").innerHTML = response.description;
-					}
-				},
-				error: function(response) {
-					alert("An error occurred. The service may not be available right now.");
-					//safari_alert();
-					// enable_ui();
-				}
-			});
-		}
-	});
-
-	
-</script>

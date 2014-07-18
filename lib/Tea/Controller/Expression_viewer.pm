@@ -56,7 +56,7 @@ sub get_expression :Path('/Expression_viewer/input2/') :Args(0) {
 	#------------------------------------- Get Correlation Data
 	my @genes;
 	my @corr_values;
-	my $lucy = Lucy::Simple->new(
+	my $lucy_corr = Lucy::Simple->new(
 	    path     => $corr_path,
 	    language => 'en',
 	);
@@ -69,13 +69,13 @@ sub get_expression :Path('/Expression_viewer/input2/') :Args(0) {
 	     ],
 	 );
 	
-	 my $hits = $lucy->search(
+	 my $hits = $lucy_corr->search(
 	 	query     => $query_gene,
 	 	sort_spec => $sort_spec,
 	 	num_wanted => 19,
 	 );
 	
-	while ( my $hit = $lucy->next ) {
+	while ( my $hit = $lucy_corr->next ) {
 		if ($query_gene eq $hit->{gene1}) {
 			push(@genes, $hit->{gene2});
 		} elsif ($query_gene eq $hit->{gene2}) {

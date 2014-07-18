@@ -27,6 +27,7 @@ $(document).ready(function () {
 	}
 
 
+
 	// function getGeneInfo(gene) {
 	//
 	// 	$.ajax({
@@ -117,29 +118,10 @@ $(document).ready(function () {
 			}
 		});
 		
-		
-		$.ajax({
-			url: 'http://192.168.1.166:3000/api/tea',
-			dataType: 'jsonp', // Notice! JSONP <-- P (lowercase)
-			timeout: 600000,
-			data: { 'gene_name': gene_name},
-			success: function(response) {
-				document.getElementById(gene_name+"_gene_dialog").innerHTML = "<a href='http://solgenomics.net/feature/"+response.gene_id+"/details' target='_blank'><img src='/static/images/sgn_logo.png' height='25' title='Connect to SGN for metadata associated with this gene'/> "+response.gene_name+"</a>";
-				if (corr_val != null) {
-					document.getElementById(gene_name+"_desc_dialog").innerHTML = response.description+"<br/>Correlation Value: "+corr_val;
-				} else {
-					document.getElementById(gene_name+"_desc_dialog").innerHTML = response.description;
-				}
-			},
-			error: function(response) {
-				alert("An error occurred. The service may not be available right now.");
-			}
-		});
-		
 	}
 
 
-	function open_bar_graph_dialog(stage_tissue_values, gene_name, corr_val) {
+	function open_bar_graph_dialog(stage_tissue_values, gene_name, corr_val, description, gene_id) {
 
 		var tissue_names = ["Inner epidermis","Parenchyma","Vascular tissue","Collenchyma","Outer epidermis"];
 		var stage_names = ["10DPA", "Mature green", "Pink"];
@@ -164,13 +146,26 @@ $(document).ready(function () {
 		
 			var dynamicDialog = $('<div id="'+gene_name+'_dialog">\
 			<center>\
-				<span id="'+gene_name+'_gene_dialog" class="gene_name_dialog"></span>\
+				<a href="http://solgenomics.net/feature/'+gene_id+'/details" target="_blank"><img src="/static/images/sgn_logo.png" height="25" title="Connect to SGN for metadata associated with this gene"/>\
+				<b>'+gene_name+'</b></a> \
+				<b> Correlation val: </b>'+corr_val+' \
 				<br/>\
-				<span id="'+gene_name+'_desc_dialog" class="gene_desc_dialog"></span>\
+				<span>'+description+'</span>\
 			</center>\
 			<div id="'+gene_name+'_bar_graph"></div>\
 			</div>');
 	
+			// var dynamicDialog = $('<div id="'+gene_name+'_dialog">\
+			// <center>\
+			// 	<a href="http://solgenomics.net/feature/'+gene_id+'/details" target="_blank"><img src="/static/images/sgn_logo.png" height="25" title="Connect to SGN for metadata associated with this gene"/>\
+			// 	<span id="'+gene_name+'_gene_dialog" class="gene_name_dialog">'+gene_name+'</span></a> \
+			// 	<b>Correlation val: </b>'+corr_val+' \
+			// 	<br/>\
+			// 	<span id="'+gene_name+'_desc_dialog" class="gene_desc_dialog">'+description+'</span>\
+			// </center>\
+			// <div id="'+gene_name+'_bar_graph"></div>\
+			// </div>');
+			//
 			$(function() {
 				dynamicDialog.dialog({
 					title: gene_name,
@@ -187,7 +182,7 @@ $(document).ready(function () {
 
 
 	// function add_slice(n,gene_names_array,aoa,tissue_names,stage_names,tmp_layer,stage,x_margin,y_margin,color_code) {
-	function add_slice(n,gene_names_array,aoa,stage_names,tissue_names,tmp_layer,stage,x_margin,y_margin,color_code,correlation) {
+	function add_slice(n,gene_names_array,aoa,stage_names,tissue_names,tmp_layer,stage,x_margin,y_margin,color_code,correlation, gene_descriptions, gene_ids) {
 		var sq_size = 20;
 		y_margin = y_margin +n*sq_size;
 		x_margin = x_margin + 20;
@@ -216,20 +211,29 @@ $(document).ready(function () {
 			var x_pos = this.getAbsolutePosition().x-510;
 			var y_pos = this.getAbsolutePosition().y-10;
 			
-			var gene_desc = "gene description from SGN";
+			var gene_description = gene_descriptions[gene_names_array[n-1]];
+			var gene_desc = '';
+			
+			if (gene_description.length > 60) {
+				gene_desc = gene_description.slice(0, 60)+" ...";
+			} else {
+				gene_desc = gene_description;
+			}
+			
+			// var gene_desc = "gene description from SGN";
 			
 			var gene_popup = new Kinetic.Rect({
-		        x: x_pos-50,
+		        x: x_pos-80,
 		        y: y_pos,
 		        fill: '#000000',
 				opacity: 0.5,
-		        width: 500,
+		        width: 530,
 		        height: 30,
 		        cornerRadius: 10
 			});
 			
 			var desc_txt = new Kinetic.Text({
-				x: x_pos+5,
+				x: x_pos-75,
 				y: y_pos+8,
 				text: gene_desc,
 				fontSize: 16,
@@ -430,7 +434,7 @@ $(document).ready(function () {
 		slice_group.on('mousedown', function() {
 			// var all_circles = stage.find(".gene_circle");
 			// all_circles.fill("white");
-			open_bar_graph_dialog(aoa[n-1],gene_names_array[n-1],correlation[n-2]);
+			open_bar_graph_dialog(aoa[n-1],gene_names_array[n-1],correlation[n-2], gene_descriptions[gene_names_array[n-1]], gene_ids[gene_names_array[n-1]]);
 			circle.fill("red");
 			tmp_layer.draw();
 		});
@@ -691,13 +695,13 @@ $(document).ready(function () {
 	}
 
 
-	function draw_cube(genes,stages,tissues,expr_val,tmp_layer,tmp_canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start) {
+	function draw_cube(genes,stages,tissues,expr_val,tmp_layer,tmp_canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start, gene_ids, gene_descriptions) {
 		tmp_layer.removeChildren();
 	
 		var color_code = $('#color_code').val();
 	
 		for (var i=genes.length; i>=1; i--) {
-			add_slice(i,genes,expr_val,stages,tissues,tmp_layer,tmp_canvas,top_x_start,y_margin,color_code,corr_values);
+			add_slice(i,genes,expr_val,stages,tissues,tmp_layer,tmp_canvas,top_x_start,y_margin,color_code,corr_values, gene_descriptions, gene_ids);
 		}
 	
 		//draw stage names
@@ -740,10 +744,10 @@ $(document).ready(function () {
 
 		var tp = new Kinetic.Image({
 			x: 0,
-			y: 160,
+			y: 80,
 			image: tpericarp_imgObj,
 			width: 180,
-			height: 180
+			height: 300
 		});
 		tissue_layer.add(tp);
 		canvas.add(tissue_layer);
@@ -923,7 +927,88 @@ $(document).ready(function () {
 	var right_x_start = x_margin + 5 + tissues.length*20;
 	var top_x_start = x_margin + (stages.length*15);
 
-	draw_cube(genes,stages,tissues,aoaoa,cube_layer,canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start);
+
+	// draw_cube(genes,stages,tissues,aoaoa,cube_layer,canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start, gene_ids, gene_descriptions);
+
+
+
+
+	// $(document).ready(function () {
+		
+		// $('#gene_test').click(function () {
+		// 	input_gene = $('#gene').val();
+		// 	getGeneInfo(input_gene);
+			$('#gene').val(genes[0]);
+			// disable_ui();
+			// getGeneInfo(genes[0]);
+			
+			// var gene_ids;
+			// var gene_descriptions;
+			
+			// getGeneInfo(genes);
+			getGeneInfo(genes,stages,tissues,aoaoa,cube_layer,canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start)
+		// });
+		
+
+		function disable_ui() {
+			$('#working').dialog( {
+				height: 100,
+				width: 50,
+				modal: true,
+				autoOpen: false,
+				closeOnEscape: false,
+				open: function(event, ui) { $(".ui-dialog-titlebar-close", ui.dialog).hide(); $('.ui-dialog-titlebar-close').blur();},
+				title: 'Loading...'
+			});
+			$('#working').dialog("open");
+		}
+		
+		function getGeneInfo(gene_array,stages,tissues,aoaoa,cube_layer,canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start) {
+			
+			var genes_string = gene_array.join();
+
+			$.ajax({
+				url: 'http://192.168.1.166:3000/api/tea',
+				dataType: 'jsonp', // Notice! JSONP <-- P (lowercase)
+				// async: false,
+				timeout: 600000,
+				// data: { 'genes_array': genes_array, 'gene_name': genes_array[0]},
+				data: { 'gene_name': genes_string},
+				beforeSend: function(){
+					disable_ui();
+					// alert("array: "+genes_array);
+				},
+				success: function(response) {
+					if (response.error) {
+						alert("ERROR: "+response.error);
+						$('#working').dialog("close");
+						// enable_ui();
+					} else {
+						// alert("gene: "+response.gene_id[gene_array[0]]+" desc: "+response.description[gene_array[0]]);
+						var gene_ids = response.gene_id;
+						var gene_descriptions = response.description;
+						
+						document.getElementById("gene_name").innerHTML = "<a href='http://solgenomics.net/feature/"+response.gene_id[gene_array[0]]+"/details' target='_blank'><img src='/static/images/sgn_logo.png' height='30' title='Connect to SGN for metadata associated with this gene'/> "+gene_array[0]+"</a>";
+						document.getElementById("gene_desc").innerHTML = response.description[gene_array[0]];
+						
+						draw_cube(genes,stages,tissues,aoaoa,cube_layer,canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start, gene_ids, gene_descriptions);
+						
+						$('#working').dialog("close");
+					}
+				},
+				error: function(response) {
+					alert("An error occurred. The service may not be available right now.");
+					$('#working').dialog("close");
+					//safari_alert();
+					// enable_ui();
+				}
+			});
+		}
+	// });
+
+
+
+
 	
 });
 

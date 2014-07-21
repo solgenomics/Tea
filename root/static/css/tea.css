@@ -43,12 +43,12 @@ a:hover {
 	background:-moz-linear-gradient( center top, #888888 5%, #666666 100% );
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #888888), color-stop(1, #666666) );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#888888', endColorstr='#666666');
-	border-radius:20px;
+	border-radius:15px;
 	text-align:center;
 	height:50px;
 	line-height:50px;
 	margin-top:20px;
-	box-shadow: 1px 2px 0px 0px #333333;
+/*	box-shadow: 1px 2px 0px 0px #333333;*/
 }
 
 
@@ -204,10 +204,11 @@ a:hover {
 
 .td_form {
    text-decoration:none;
-   text-align:left;
-/*   width:30%;*/
-   max-width:270px;
-   padding-left:50px;
+/*   text-align:left;*/
+/*   width:100%;*/
+/*   min-width:210px;*/
+/*   padding-left:50px;*/
+   vertical-align:top;
    
 }
 
@@ -225,7 +226,7 @@ a:hover {
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4387FD', endColorstr='#4683EA');
 	background-color:#4387FD;
 	border:0px;
-	border-radius:50px;
+	border-radius:10px;
 /*	border-radius:5px;*/
 	color:#FFFFFF;
 	font-family:Arial;
@@ -317,22 +318,18 @@ a:hover {
 	font-style:normal;
 	max-width:1100px;
 	width:90%;
-/*	height:45px;*/
-/*	line-height:38px;*/
 	text-decoration:none;
 	padding:5px;
-	vertical-align: top;
 }
 
 .gene_name a {
 	display:inline;
 	color:#FFFFFF;
 	font-family:Arial;
-	font-size:16px;
+/*	font-size:16px;*/
 /*	font-weight:bold;*/
-	line-height:30px;
+/*	line-height:30px;*/
 	text-decoration:none;
-	vertical-align: top;
 }
 
 .gene_desc {

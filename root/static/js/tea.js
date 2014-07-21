@@ -27,25 +27,6 @@ $(document).ready(function () {
 	}
 
 
-
-	// function getGeneInfo(gene) {
-	//
-	// 	$.ajax({
-	// 		url: 'http://192.168.1.166:3000/api/tea',
-	// 		dataType: 'jsonp', // Notice! JSONP <-- P (lowercase)
-	// 		timeout: 600000,
-	// 		data: { 'gene_name': gene},
-	// 		success: function(response) {
-	// 			document.getElementById("gene_name").innerHTML = "<a href='http://solgenomics.net/feature/"+response.gene_id+"/details' target='_blank'>"+response.gene_name+" <img src='/static/images/sgn_logo.png' height='16' title='Connect to SGN for metadata associated with this gene'/></a>";
-	// 			document.getElementById("gene_desc").innerHTML = response.description;
-	// 		},
-	// 		error: function(response) {
-	// 			alert("An error occurred. The service may not be available right now.");
-	// 		}
-	// 	});
-	// }
-
-
 	function print_bar_chart(t_names,s_names,sxt_values,gene_name,corr_val) {
 		// alert("data: "+sxt_values);
 		
@@ -147,8 +128,8 @@ $(document).ready(function () {
 			var dynamicDialog = $('<div id="'+gene_name+'_dialog">\
 			<center>\
 				<a href="http://solgenomics.net/feature/'+gene_id+'/details" target="_blank"><img src="/static/images/sgn_logo.png" height="25" title="Connect to SGN for metadata associated with this gene"/>\
-				<b>'+gene_name+'</b></a> \
-				<b> Correlation val: </b>'+corr_val+' \
+				<b>'+gene_name+' </b></a> \
+				&nbsp; &nbsp; &nbsp; <b> Correlation val: </b>'+corr_val+' \
 				<br/>\
 				<span>'+description+'</span>\
 			</center>\
@@ -470,18 +451,18 @@ $(document).ready(function () {
 		});
 	
 		// stages for tissue images
-		var stage_text_pict = new Kinetic.Text({
-			x: x_margin2 -30,
-			y: 70,
-			text: stage_name,
-			fontSize: 20,
-			width: 100,
-			align: 'center',
-			fontFamily: 'Helvetica',
-			fill: 'black',
-		});
+		// var stage_text_pict = new Kinetic.Text({
+		// 	x: x_margin2 -30,
+		// 	y: 70,
+		// 	text: stage_name,
+		// 	fontSize: 20,
+		// 	width: 100,
+		// 	align: 'center',
+		// 	fontFamily: 'Helvetica',
+		// 	fill: 'black',
+		// });
 
-		stages_layer.add(stage_text_pict);
+		// stages_layer.add(stage_text_pict);
 		stages_layer.add(stage_text);
 		canvas_tmp.add(stages_layer);
 	}
@@ -744,10 +725,10 @@ $(document).ready(function () {
 
 		var tp = new Kinetic.Image({
 			x: 0,
-			y: 80,
+			y: 60,
 			image: tpericarp_imgObj,
-			width: 180,
-			height: 300
+			width: 200,
+			height: 360
 		});
 		tissue_layer.add(tp);
 		canvas.add(tissue_layer);
@@ -756,44 +737,51 @@ $(document).ready(function () {
 	tpericarp_imgObj.src = '/static/images/expr_viewer/RR_pericarp.png';
 
 
-	var tBg_imgObj = new Image();
-	tBg_imgObj.onload = function() {
+	var dpa_bg_imgObj = new Image();
+	dpa_bg_imgObj.onload = function() {
 
 		var tissue_bg = new Kinetic.Image({
-			x: 170,
-			y: 100,
-			image: tBg_imgObj,
-			width: 190,
-			height: 300
+			x: 200,
+			y: 60,
+			image: dpa_bg_imgObj,
+			width: 200,
+			height: 360
 		});
+		tissue_layer.add(tissue_bg);
+		canvas.add(tissue_layer);
+	};
+	
+	var mg_bg_imgObj = new Image();
+	mg_bg_imgObj.onload = function() {
 
 		var tissue_bg2 = new Kinetic.Image({
-			x: 350,
-			y: 100,
-			image: tBg_imgObj,
-			width: 190,
-			height: 300
+			x: 390,
+			y: 60,
+			image: mg_bg_imgObj,
+			width: 200,
+			height: 360
 		});
+		tissue_layer.add(tissue_bg2);
+		canvas.add(tissue_layer);
+	};
+	
+	var pink_bg_imgObj = new Image();
+	pink_bg_imgObj.onload = function() {
 
 		var tissue_bg3 = new Kinetic.Image({
-			x: 530,
-			y: 100,
-			image: tBg_imgObj,
-			width: 190,
-			height: 300
+			x: 580,
+			y: 60,
+			image: pink_bg_imgObj,
+			width: 200,
+			height: 360
 		});
-
-		// add the shape to the layer
-		tissue_layer.add(tissue_bg);
-		tissue_layer.add(tissue_bg2);
 		tissue_layer.add(tissue_bg3);
-
-		// add the layer to the stage
 		canvas.add(tissue_layer);
 	};
 
-
-	tBg_imgObj.src = '/static/images/expr_viewer/bg_075.png';
+	dpa_bg_imgObj.src = '/static/images/expr_viewer/dpa_bg.png';
+	mg_bg_imgObj.src = '/static/images/expr_viewer/mg_bg.png';
+	pink_bg_imgObj.src = '/static/images/expr_viewer/pink_bg.png';
 
 	// -------------------------------------------------------------------------------------
 	
@@ -804,10 +792,10 @@ $(document).ready(function () {
 			var tmp_tissue = new Kinetic.Image({
 				id: "t_layer"+i+"_s"+j,
 				x: x_offset,
-				y: 100,
+				y: 60,
 				image: tmp_imgObj,
-				width: 190,
-				height: 300
+				width: 200,
+				height: 360
 			});
 			tissue_layer.add(tmp_tissue);
 			canvas.add(tissue_layer);
@@ -818,14 +806,14 @@ $(document).ready(function () {
 			tmp_tissue.draw();
 			
 		};
-		tmp_imgObj.src = '/static/images/expr_viewer/'+tissues[i]+'.png';
+		tmp_imgObj.src = '/static/images/expr_viewer/'+stages[j]+'_'+tissues[i]+'.png';
 	}
 		
 		// http://www.html5canvastutorials.com/tutorials/html5-canvas-image-loader/
 		
 	
 	for (var j = 0; j < stages.length; j++) {
-		var x_offset = 170 + 180*j;
+		var x_offset = 200 + 190*j;
 
 		for (var i = 0; i<tissues.length; i++) {
 			
@@ -988,7 +976,7 @@ $(document).ready(function () {
 						var gene_ids = response.gene_id;
 						var gene_descriptions = response.description;
 						
-						document.getElementById("gene_name").innerHTML = "<a href='http://solgenomics.net/feature/"+response.gene_id[gene_array[0]]+"/details' target='_blank'><img src='/static/images/sgn_logo.png' height='30' title='Connect to SGN for metadata associated with this gene'/> "+gene_array[0]+"</a>";
+						document.getElementById("gene_name").innerHTML = "<a href='http://solgenomics.net/feature/"+response.gene_id[gene_array[0]]+"/details' target='_blank'><img src='/static/images/sgn_logo.png' height='30' style='margin-bottom: -10px;' title='Connect to SGN for metadata associated with this gene'/> "+gene_array[0]+"</a>";
 						document.getElementById("gene_desc").innerHTML = response.description[gene_array[0]];
 						
 						draw_cube(genes,stages,tissues,aoaoa,cube_layer,canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start, gene_ids, gene_descriptions);

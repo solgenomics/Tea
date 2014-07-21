@@ -5,7 +5,7 @@
 
 <!-- <form id="search_gene"> -->
 <form id="search_gene" method="post" action="/Expression_viewer/input2" name="tea_form" enctype="multipart/form-data">
-	<table id="tea_form" cellspacing="" cellpadding="10">
+	<table id="tea_form" cellspacing="" cellpadding="10" width"100%">
 			<tr>
 				<td class="td_form">
 					<button class="info_icon">i</button> By Tomato Gene ID
@@ -21,15 +21,18 @@
 				<td class="td_form">
 					<input class="input" id="gene" type="input" value="Solyc04g008460" name="input_gene" size="20" />
 					<!-- <button class="blue_button" type="submit" form="search_gene" formaction="/Expression_viewer/input2" formmethod="post" formenctype="multipart/form-data">Search</button> -->
-					<button class="blue_button">GO!</button>
+					<br/><br/>
+					<button class="blue_button">Get Expression</button>
 				</td>
 				<td class="td_form">
-					<textarea class="input" id="blast_sequence" name="blast_sequence" cols="25" rows="3" disabled>ACGTATACGTACGTGTACTG</textarea>
-					<button class="blue_button">GO!</button>
+					<textarea class="input" id="blast_sequence" name="blast_sequence" cols="25" rows="1" style="background-color:#666; color:#fff;">ACGTATACGTACGTGTACTG</textarea>
+					<br/><br/>
+					<button class="blue_button">BLAST</button>
 				</td>
 				<td class="td_form">
-					<input class="input" id="gene_prot" type="input" value="SUN" name="gene_prot" size="20" disabled />
-					<button class="blue_button">GO!</button>
+					<input class="input" id="gene_prot" type="input" value="SUN" name="gene_prot" size="20"/>
+					<br/><br/>
+					<button class="blue_button">Search</button>
 				</td>
 			</tr>
 	</table>

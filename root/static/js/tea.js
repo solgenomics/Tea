@@ -956,7 +956,8 @@ $(document).ready(function () {
 			var genes_string = gene_array.join();
 
 			$.ajax({
-				url: 'http://192.168.1.166:3000/api/tea',
+				url: 'http://solgenomics.net/api/tea',
+				// url: 'http://192.168.1.166:3000/api/tea',
 				dataType: 'jsonp', // Notice! JSONP <-- P (lowercase)
 				// async: false,
 				timeout: 600000,

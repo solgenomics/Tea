@@ -1,5 +1,5 @@
 <center>
-<h2 id="subtitle">Anatomy Viewer <img class="centered_img" src="/static/images/anatomy_logo.png"/></h2>
+<h2 id="subtitle"><img class="centered_img" src="/static/images/anatomy_logo2.png"/> Anatomy Viewer</h2>
 <br/>
 </center>
 
@@ -19,8 +19,8 @@
 	}
 	
 	.centered_img {
-		height:50px;
-		margin-bottom:-15px;
+		height:40px;
+		margin-bottom:-10px;
 	}
 	
 </style>

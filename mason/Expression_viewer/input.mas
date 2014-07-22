@@ -1,10 +1,10 @@
 
 
 <center>
-	<div id="pagetitle"><h1>Expression Viewer</h1></div>
+	<div id="pagetitle"><h1><img src="/static/images/expr_logo2.png" height="40" style="margin-bottom:-10px;"/> Expression Viewer</h1></div>
 
 <!-- <form id="search_gene"> -->
-<form id="search_gene" method="post" action="/Expression_viewer/input2" name="tea_form" enctype="multipart/form-data">
+<form id="search_gene" method="post" action="/Expression_viewer/output" name="tea_form" enctype="multipart/form-data">
 	<table id="tea_form" cellspacing="" cellpadding="10" width"100%">
 			<tr>
 				<td class="td_form">
@@ -69,7 +69,7 @@
 				<td class="td_form"><button class="blue_button">Search</button></td>
 			</tr>
 	</table> -->
-</form>
+
 <hr/>
 <h2>Define Expression Parameters <button class="info_icon">i</button></h2>
 
@@ -92,5 +92,26 @@
 	<li>
 		Treatment
 	</li>
+	<li>
+		Correlation filter: 0.<input type="text" id="amount" name="correlation_filter" readonly style="border:0;font-size:24px;"> <div id="correlation_slider"></div>
+		<br/>
+	</li>
 </ul>
+</form>
 
+<script>
+
+  $(function() {
+    $( "#correlation_slider" ).slider({
+      range: "max",
+      min: 65,
+      max: 99,
+      value: 80,
+      slide: function( event, ui ) {
+        $( "#amount" ).val( ui.value );
+      }
+    });
+    $( "#amount" ).val( $( "#correlation_slider" ).slider( "value" ) );
+  });
+	
+</script>

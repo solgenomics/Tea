@@ -1,9 +1,9 @@
 <!-- <br/> -->
 <!-- <br/> -->
 <hr/>
-<a href="/overview"><img src="/static/images/overview_logo.png" height="50" style="float:left;margin-left:25px;"/></a>
-<a href="/Expression_viewer/input"><img src="/static/images/expr_logo.png" height="50" style="float:left;margin-left:5px;"/></a>
-<a href="/anatomy_viewer"><img src="/static/images/anatomy_logo.png" height="50" style="float:left;margin-left:5px;"/></a>
+<a href="/overview"><img src="/static/images/overview_logo2.png" height="50" style="float:left;margin-left:25px;"/></a>
+<a href="/Expression_viewer/input"><img src="/static/images/expr_logo2.png" height="50" style="float:left;margin-left:5px;"/></a>
+<a href="/anatomy_viewer"><img src="/static/images/anatomy_logo2.png" height="50" style="float:left;margin-left:5px;"/></a>
 
 <a href="http://www.nsf.gov" target="_blank"><img src="/static/images/nsf.jpg" height="50" style="float:right;margin-right:25px;"/></a>
 <a href="http://solgenomics.net/" target="_blank"><img src="/static/images/sgn_logo.png" height="50" style="float:right;margin-right:25px;"/></a>

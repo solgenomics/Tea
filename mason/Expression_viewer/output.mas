@@ -32,9 +32,9 @@ my $json = JSON::Any->new;
 
 
 <center>
-	<div id="pagetitle"><h1>Expression Viewer</h1></div>
+	<div id="pagetitle"><h1><img src="/static/images/expr_logo2.png" height="40" style="margin-bottom:-10px;"/> Expression Viewer</h1></div>
 	
-	<form id="search_gene" method="post" action="/Expression_viewer/input2" name="tea_form" enctype="multipart/form-data">
+	<form id="search_gene" method="post" action="/Expression_viewer/output" name="tea_form" enctype="multipart/form-data">
 		<span>Select a gene:</span>
 		<input class="input" id="gene" type="input" name="input_gene" size="15" />&nbsp; &nbsp;
 		<button class="blue_button" id="run_tool" value="Run Expression Tool" style="margin: -8px 0px 0px 0px;">Get Expression</button>

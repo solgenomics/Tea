@@ -610,3 +610,10 @@ body .ui-tooltip {
     filter:         drop-shadow(1px 1px 1px #0066cc);
 }
 */
+
+#correlation_slider {
+	width: 300px;
+	height: 8px;
+	font-size:14px;
+}
+

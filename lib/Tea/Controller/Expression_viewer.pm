@@ -34,7 +34,7 @@ sub index :Path('/Expression_viewer/input/') :Args(0) {
 	
 }
 
-sub get_expression :Path('/Expression_viewer/input2/') :Args(0) {
+sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
     my ($self, $c) = @_;
     
     # to store erros as they happen
@@ -43,6 +43,7 @@ sub get_expression :Path('/Expression_viewer/input2/') :Args(0) {
     # get variables from catalyst object
     my $params = $c->req->body_params();
 	my $query_gene = $c->req->param("input_gene");
+	my $corr_filter = $c->req->param("correlation_filter");
 	my $expr_path = $c->config->{expression_indexes_path};
 	my $corr_path = $c->config->{correlation_indexes_path};
 	
@@ -114,7 +115,7 @@ sub get_expression :Path('/Expression_viewer/input2/') :Args(0) {
 	foreach my $g (@genes) {
 		$lucy->search(
 		    query      => $g,
-			num_wanted => 100000
+			num_wanted => 50000
 		);
 		
 		while ( my $hit = $lucy->next ) {

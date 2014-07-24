@@ -1,0 +1,34 @@
+<script src="/static/js/video.js"></script>
+<script> videojs.options.flash.swf = "/static/css/video-js.swf"; </script>
+
+<center>
+<h2 id="subtitle">Anatomy Viewer<img class="centered_img" src="/static/images/anatomy_logo.png"/></h2>
+<br/>
+
+<video id="example_video_1" class="video-js vjs-default-skin" controls preload="none" width="1024" height="400"
+  data-setup="{ "controls": true, "autoplay": false, "preload": "auto"  }">
+  <source src="static/video/media21.ogv" type='video/ogg' />
+</video>
+
+</center>
+
+<ul>
+	<li>High Resolution Photos</li>
+	<li>Stained Annotated Sections</li>
+	<li>3D CT Viewer</li>
+</ul>
+
+
+<style>
+	#subtitle {
+		width:550px;
+		color:rgb(0,0,0);
+		font-family:"Verdana", arial, Sans-serif;
+	}
+	
+	.centered_img {
+		height:50px;
+		margin-bottom:-15px;
+	}
+</style>
+

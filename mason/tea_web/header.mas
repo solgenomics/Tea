@@ -5,7 +5,7 @@
 		
 					<link rel="stylesheet" href="/static/js/jqueryui/themes/base/jquery-ui.css">
         	<link rel="stylesheet" href="/static/css/tea.css" type="text/css" />
-		
+		<link rel="stylesheet" type="text/css" href="/static/js/codebase/dhtmlxslider.css"/>		
 		
 		
 		<script type="text/javascript" src="/static/js/jquery.js"></script>

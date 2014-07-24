@@ -1,6 +1,94 @@
+<script  src="/static/js/codebase/dhtmlxslider.js"></script>
+<script type="text/javascript" src="/static/js/tea_anatomy.js"></script>
+
 <center>
-<h2 id="subtitle"><img class="centered_img" src="/static/images/anatomy_logo2.png"/> Anatomy Viewer</h2>
+<h2 id="subtitle">Anatomy Viewer<img class="centered_img" src="/static/images/anatomy_logo.png"/></h2>
 <br/>
+
+
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td id="borderA"></td>
+<td id="borderTop"></td>
+<td id="borderB"></td>
+</tr>
+
+<tr>
+<td id="borderLeft"></td>
+<td>
+    <!-- html code for anatomy viewer began -->
+    <table width="1100" bgcolor="#000000" border=0 cellpadding=0 cellspacing=0>
+
+    <!-- left -->
+    <tr><td width="400">
+
+	<div id="imageCT" class="imageArea" align=center>
+	    <div id="allStage">
+		<h3>M82 fruit ripening stages</h3>
+		<img src="/static/images/anatomy_viewer/all_stage.jpg" width=480>
+	    </div>
+	    <div id="stageSelectBar" style="width: 500px;">
+		<!--<input type="radio" name="planing" value="x" checked = "checked" onchange="switchPlaningImages()" /> x planing-->
+		<table ><tr align=center>
+			<td width=40><input type="radio" name="radioStage" value="10DPA" onchange="switchPlaningImages()"></td> 
+			<td width=25><input type="radio" name="radioStage" value="15DPA" onchange="switchPlaningImages()"></td>
+			<td width=40><input type="radio" name="radioStage" value="20DPA" onchange="switchPlaningImages()"></td>
+			<td width=50><input type="radio" name="radioStage" value="30DPA" onchange="switchPlaningImages()"></td>
+			<td width=80><input type="radio" name="radioStage" value="MG"   onchange="switchPlaningImages()" checked = "checked"></td>
+			<td width=80><input type="radio" name="radioStage" value="Pink" onchange="switchPlaningImages()"></td>
+			<td width=70><input type="radio" name="radioStage" value="B2" onchange="switchPlaningImages()"></td>
+			<td width=80><input type="radio" name="radioStage" value="B3" onchange="switchPlaningImages()"></td>
+		</tr></table>
+	    </div>
+
+	    <br />
+		<table>
+		<tr>
+		    <td width=150> </td>
+		    <td colspan=2 height=12><div id="sliderX" style="margin-left: 15px;"></div></td>
+		</tr>
+		<tr>
+		    <td> 
+			<div id="xyplaning">Please select Stage of development and direction cross-section: <br />
+			<input type="radio" name="planing" value="x" checked = "checked" onchange="switchPlaningImages()" /> X-Plane <br />
+			<input type="radio" name="planing" value="y" onchange="switchPlaningImages()"  /> Y-Plane <br />
+			</div>
+
+		    </td>
+		    <td width=12><div id="sliderY"></div></td>
+		    <td width=240>
+			<div id="tIMG" class="fruitImage">
+				<canvas id="xyline" width="240" height="240">
+				Your browser does not support the canvas element.
+				</canvas>
+			</div>
+		    </td>
+		</tr>
+		</table>
+	</div>
+    </td>
+
+    <!-- right side -->
+    <td width="800"> <br />
+	<a href="/anatomy_movie"><div id="xyIMG" class="xyImage">>
+		<!--<div id="scaleBar">Scale Bar</div>-->
+	</div></a>
+        <br />
+    </td></tr>
+    </table>
+
+    <!-- html code for anatomy viewer end -->
+</td>
+<td id="borderRight"></td>
+</tr>
+
+<tr>
+<td id="borderC"></td>
+<td id="borderBottom"></td>
+<td id="borderD"></td>
+</tr>
+</table>
+
 </center>
 
 <ul>
@@ -11,7 +99,7 @@
 
 
 <style>
-	
+
 	#subtitle {
 		width:550px;
 		color:rgb(0,0,0);
@@ -19,9 +107,104 @@
 	}
 	
 	.centered_img {
-		height:40px;
-		margin-bottom:-10px;
+		height:50px;
+		margin-bottom:-15px;
 	}
-	
+
+.imageArea{
+	text-align: center;
+	float: left;
+	margin-top: 8px;
+}
+
+#imageCT{
+	background-color: #000;
+	color: #FFF;
+}
+
+#tIMG {
+	background-repeat:no-repeat;
+	width:240px;
+	cursor:pointer;
+}
+
+#xyIMG {
+	background-repeat:no-repeat;
+	width: 640px;
+	background-position: 0px -100px;
+	background-color: #000000;
+}
+
+.fruitImage { 
+    width: 240px;
+    height: 240px;
+}
+
+.xyImage {
+    width: 640px;
+    height: 640px;
+}
+
+#img{ }
+
+#sliderX {
+    width: 240px;
+    height: 10px;
+}
+
+#sliderY {
+    width: 10px;
+    height: 240px;
+}
+
+#borderTop {
+	height: 60px;
+	background-image:url('/static/images/anatomy_viewer/top.gif');
+	background-repeat: repeat-x;
+}
+
+#borderBottom {
+	height: 60px;
+	background-image:url('/static/images/anatomy_viewer/bottom.gif');
+	background-repeat: repeat-x;
+}
+
+#borderLeft {
+	width: 60px;
+	background-image:url('/static/images/anatomy_viewer/left.gif');
+	background-repeat: repeat-y;
+}
+
+#borderRight {
+	width: 60px;
+	background-image:url('/static/images/anatomy_viewer/right.gif');
+	background-repeat: repeat-y;
+}
+
+#borderA {
+	width: 60px;
+	height: 60px;
+	background-image:url('/static/images/anatomy_viewer/posAs.gif');
+}
+
+#borderB {
+        width: 60px;
+        height: 60px;
+        background-image:url('/static/images/anatomy_viewer/posBs.gif');
+}
+
+#borderC {
+        width: 60px;
+        height: 60px;
+        background-image:url('/static/images/anatomy_viewer/posCs.gif');
+}
+
+#borderD {
+        width: 60px;
+        height: 60px;
+        background-image:url('/static/images/anatomy_viewer/posDs.gif');
+}
+
+
 </style>
 

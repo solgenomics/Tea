@@ -1,0 +1,31 @@
+<center>
+<h2 id="subtitle">About</h2>
+<br/>
+<p>
+	About page
+</p>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+</center>
+
+
+
+<style>
+	
+	#subtitle {
+		color:rgb(0,0,0);
+		font-family:"Verdana", arial, Sans-serif;
+	}
+	
+</style>
+

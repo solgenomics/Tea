@@ -1,6 +1,8 @@
 package Tea::Controller::Expression_viewer;
 
 use Moose;
+use Lucy::Simple;
+use JSON;
 
 # use namespace::autoclean;
 
@@ -44,8 +46,17 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
     my $params = $c->req->body_params();
 	my $query_gene = $c->req->param("input_gene");
 	my $corr_filter = $c->req->param("correlation_filter");
+	my $current_page = $c->req->param("current_page") || 1;
+	my $pages_num = $c->req->param("all_pages") || 1;
 	my $expr_path = $c->config->{expression_indexes_path};
 	my $corr_path = $c->config->{correlation_indexes_path};
+	
+	# get correlation filter value (it is 100 higer when it comes from the input slider)
+	if ($corr_filter > 1) {
+		$corr_filter = $corr_filter/100;
+	}
+	my $total_corr_genes = 0;
+	$current_page = $current_page - 1;
 	
     # Send error message to the web if something is wrong
 	if (scalar (@errors) > 0){
@@ -68,18 +79,36 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 		 	Lucy::Search::SortRule->new( field => 'gene2', reverse => 0,),
 		 	Lucy::Search::SortRule->new( field => 'gene1',),
 	     ],
-	 );
+	);
 	
-	 my $hits = $lucy_corr->search(
-	 	query     => $query_gene,
-	 	sort_spec => $sort_spec,
-	 	num_wanted => 19,
-	 );
+	my $hits = $lucy_corr->search(
+		query      => $query_gene,
+		sort_spec  => $sort_spec,
+		num_wanted => 19,
+		offset     => $current_page*19,
+	);
+	
+	# my $range_query = Lucy::Search::RangeQuery->new(
+	# 	field => 'correlation',
+	# 	lower_term => $corr_filter,
+	# );
+	#
+	# my $hits2 = $lucy_corr->search(
+	# 	query      => $range_query,
+	# );
+	# http://search.cpan.org/~creamyg/Lucy-0.3.3/lib/Lucy/Search/RangeQuery.pod
+	
+	
+	
+	
+	$total_corr_genes = $hits;
+	print STDERR "\n\ntotal number of correlated genes: $hits\n\n";
+	# print STDERR "\n\ntotal number of filtered genes: $hits2\n\n";
 	
 	while ( my $hit = $lucy_corr->next ) {
-		if ($query_gene eq $hit->{gene1}) {
+		if ($query_gene eq $hit->{gene1} && $hit->{correlation} >= $corr_filter) {
 			push(@genes, $hit->{gene2});
-		} elsif ($query_gene eq $hit->{gene2}) {
+		} elsif ($query_gene eq $hit->{gene2} && $hit->{correlation} >= $corr_filter) {
 			push(@genes, $hit->{gene1});
 		}
 		push(@corr_values, $hit->{correlation})
@@ -115,7 +144,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	foreach my $g (@genes) {
 		$lucy->search(
 		    query      => $g,
-			num_wanted => 50000
+			num_wanted => 20
 		);
 		
 		while ( my $hit = $lucy->next ) {
@@ -139,6 +168,9 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	$c->stash->{tissues} = \@tissues;
 	$c->stash->{aoaoa} = \@AoAoA;
 	$c->stash->{correlation} = \@corr_values;
+	$c->stash->{pages_num} = (int($total_corr_genes/19)+1);
+	$c->stash->{current_page} = ($current_page + 1);
+	$c->stash->{correlation_filter} = ($corr_filter);
 	
 	# $c->stash->{rest} = {expr=> \%gene_stage_tissue_expr,
 	# 					genes => \@genes,

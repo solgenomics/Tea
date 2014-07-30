@@ -1,7 +1,7 @@
 
 
 <center>
-	<div id="pagetitle"><h1><img src="/static/images/expr_logo2.png" height="40" style="margin-bottom:-10px;"/> Expression Viewer</h1></div>
+	<div id="pagetitle"><h1><img src="/static/images/expr_logo.png" height="40" style="margin-bottom:-10px;"/> Expression Viewer</h1></div>
 
 <!-- <form id="search_gene"> -->
 <form id="search_gene" method="post" action="/Expression_viewer/output" name="tea_form" enctype="multipart/form-data">
@@ -11,10 +11,10 @@
 					<button class="info_icon">i</button> By Tomato Gene ID
 				</td>
 				<td class="td_form">
-					<button class="info_icon">i</button> By similar genes (BLAST)
+					<button class="info_icon">i</button> By BLAST Search
 				</td>
 				<td class="td_form">
-					<button class="info_icon">i</button> By Gene Product Name
+					<button class="info_icon">i</button> By Custom List
 				</td>
 			</tr>
 			<tr>
@@ -30,7 +30,7 @@
 					<button class="blue_button">BLAST</button>
 				</td>
 				<td class="td_form">
-					<input class="input" id="gene_prot" type="input" value="SUN" name="gene_prot" size="20"/>
+					<textarea class="input" id="gene_prot" type="input" name="gene_prot" size="20"  cols="25" rows="1" style="background-color:#666; color:#fff;"/><% "Solyc04g008460\nSolyc04g008460" %></textarea>
 					<br/><br/>
 					<button class="blue_button">Search</button>
 				</td>
@@ -106,7 +106,7 @@
       range: "max",
       min: 65,
       max: 99,
-      value: 80,
+      value: 65,
       slide: function( event, ui ) {
         $( "#amount" ).val( ui.value );
       }

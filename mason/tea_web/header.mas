@@ -1,61 +1,51 @@
 <!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
-    <head>
-        <title>SGN-TEA</title>
-		
-					<link rel="stylesheet" href="/static/js/jqueryui/themes/base/jquery-ui.css">
-        	<link rel="stylesheet" href="/static/css/tea.css" type="text/css" />
-		<link rel="stylesheet" type="text/css" href="/static/js/codebase/dhtmlxslider.css"/>		
-		
-		
-		<script type="text/javascript" src="/static/js/jquery.js"></script>
-		<script type="text/javascript" src="/static/js/jqueryui/jquery-ui.js"></script>
-		<script type="text/javascript" src="/static/js/kinetic-v5.1.0.min.js"></script>
-		
-		<script type="text/javascript" src="/static/js/jqplot/jquery.jqplot.js"></script>
-		<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
-		<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
-		<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
-		<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js"></script>
-		<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.barRenderer.js"></script>
-		<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.pointLabels.min.js"></script>
-		<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.highlighter.min.js"></script>
-		
-		<!-- // <script type="text/javascript" src="/static/js/tea.js"></script> -->
-		<script>
-			//use JQueryIu to define tooltip style
-			$(function() {
-			   $( document ).tooltip({
-				   position: {
-					   my: "center bottom",
-					   // my: "left bottom",
-					   at: "center+15 top+5",
-					   using: function( position, feedback ) {
-						   $( this ).css( position );
-						   $( "<div>" )
-						   // .addClass( "arrow" )
-						   // .addClass( feedback.vertical )
-						   // .addClass( feedback.horizontal )
-						   // .appendTo( this );
-					   }
-				   }
-			   });
-		   });
-			$('.ui-dialog-titlebar-close *[title]').tooltip('disable');
-		</script>
-		
-    </head>
-    <body>
+	<head>
+		<title>SGN-TEA</title>
+			<link rel="stylesheet" href="/static/js/jqueryui/themes/base/jquery-ui.css">
+			<link rel="stylesheet" href="/static/css/tea.css" type="text/css" />
+			<link rel="stylesheet" type="text/css" href="/static/js/codebase/dhtmlxslider.css"/>
+
+			<script type="text/javascript" src="/static/js/jquery.js"></script>
+			<script type="text/javascript" src="/static/js/jqueryui/jquery-ui.js"></script>
+			<script type="text/javascript" src="/static/js/kinetic-v5.1.0.min.js"></script>
+			<script type="text/javascript" src="/static/js/jqplot/jquery.jqplot.js"></script>
+			<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+			<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
+			<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
+			<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js"></script>
+			<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.barRenderer.js"></script>
+			<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.pointLabels.min.js"></script>
+			<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.highlighter.min.js"></script>
+
+			<script>
+				//JQueryIu to define tooltip style
+				$(function() {
+					$( document ).tooltip({
+						position: {
+							my: "center bottom",
+							at: "center+15 top+5",
+							using: function( position, feedback ) {
+								$( this ).css( position );
+								$( "<div>" )
+							}
+						}
+					});
+				});
+				$('.ui-dialog-titlebar-close *[title]').tooltip('disable');
+			</script>
+	</head>
+	<body>
 		<center>
 			<table id="tea_menu" cellspacing="0" cellpadding="0">
 				<tr>
 					<td id="left_menu"><a href="/index">Home</a></td>
-					<td id="other_menu_td"><a href="#">About</a></td>
-					<td id="other_menu_td"><a href="#">Links</a></td>
-					<td id="right_menu"><a href="#">Contact</a></td>
+					<td id="other_menu_td"><a href="about">About</a></td>
+					<td id="other_menu_td"><a href="links">Links</a></td>
+					<td id="right_menu"><a href="contact">Contact</a></td>
 				</tr>
 			</table>
 		</center>
 		<br/>
-    </body>
+	</body>
 </html>

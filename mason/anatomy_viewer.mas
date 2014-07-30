@@ -2,7 +2,7 @@
 <script type="text/javascript" src="/static/js/tea_anatomy.js"></script>
 
 <center>
-<h2 id="subtitle">Anatomy Viewer<img class="centered_img" src="/static/images/anatomy_logo.png"/></h2>
+<h2 id="subtitle"><img class="centered_img" src="/static/images/anatomy_logo.png"/> Anatomy Viewer</h2>
 <br/>
 
 
@@ -100,16 +100,16 @@
 
 <style>
 
-	#subtitle {
-		width:550px;
-		color:rgb(0,0,0);
-		font-family:"Verdana", arial, Sans-serif;
-	}
-	
-	.centered_img {
-		height:50px;
-		margin-bottom:-15px;
-	}
+#subtitle {
+	width:550px;
+	color:rgb(0,0,0);
+	font-family:"Verdana", arial, Sans-serif;
+}
+
+.centered_img {
+	height:40px;
+	margin-bottom:-10px;
+}
 
 .imageArea{
 	text-align: center;

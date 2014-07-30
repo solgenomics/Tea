@@ -4,6 +4,9 @@
 @tissues => ()
 @aoaoa => ()
 @correlation => ()
+$pages_num => 1
+$current_page => 1
+$correlation_filter => 0.8
 </%args>
 
 <%perl>
@@ -24,6 +27,10 @@ my $json = JSON::Any->new;
 	var genes = <% $json->encode(\@genes) %>;
 	var aoaoa = <% $json->encode(\@aoaoa) %>;
 	var corr_values = <% $json->encode(\@correlation) %>;
+	var pages_num = <% $pages_num %>;
+	var current_page = <% $current_page %>;
+	var correlation_filter = <% $correlation_filter %>;
+	// alert("corr: "+correlation_filter);
 </script>
 
 
@@ -32,11 +39,14 @@ my $json = JSON::Any->new;
 
 
 <center>
-	<div id="pagetitle"><h1><img src="/static/images/expr_logo2.png" height="40" style="margin-bottom:-10px;"/> Expression Viewer</h1></div>
+	<div id="pagetitle"><h1><img src="/static/images/expr_logo.png" height="40" style="margin-bottom:-10px;"/> Expression Viewer</h1></div>
 	
 	<form id="search_gene" method="post" action="/Expression_viewer/output" name="tea_form" enctype="multipart/form-data">
 		<span>Select a gene:</span>
 		<input class="input" id="gene" type="input" name="input_gene" size="15" />&nbsp; &nbsp;
+		<input id="page_num" name="current_page" value="1" style="display:none;">
+		<input id="total_pages" name="all_pages" value="1" style="display:none;">
+		<input id="correlation_filter" name="correlation_filter" value="0.8" style="display:none;">
 		<button class="blue_button" id="run_tool" value="Run Expression Tool" style="margin: -8px 0px 0px 0px;">Get Expression</button>
 	</form>
 	

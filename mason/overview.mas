@@ -1,12 +1,12 @@
 <center>
-<h2 id="subtitle"><img class="centered_img" src="/static/images/overview_logo2.png"/> Overview</h2>
+<h2 id="subtitle"><img class="centered_img" src="/static/images/overview_logo.png"/> Overview</h2>
 <br/>
 <p>
 	Summary text explaining the purpose of the website, listing the options and giving background info
 </p>
 </center>
 
-<a href="Expression_viewer/input"><img class="centered_img" src="/static/images/expr_logo2.png"/> Expression Viewer</a><br/>
+<a href="Expression_viewer/input"><img class="centered_img" src="/static/images/expr_logo.png"/> Expression Viewer</a><br/>
 <ul>
 	<li>View the expression of a specific tomato gene or genes of interest</li>
 	<li>Identify tomato genes by BLAST search using a gene or genes of interest from another species</li>
@@ -14,7 +14,7 @@
 	<li>Download expression data  based on parameters that you define</li>
 	<li>Link to associated metadata in the Sol Genomics Network database</li>
 </ul>
-<a href="anatomy_viewer"><img class="centered_img" src="/static/images/anatomy_logo2.png"/> Anatomy Viewer</a></br>
+<a href="anatomy_viewer"><img class="centered_img" src="/static/images/anatomy_logo.png"/> Anatomy Viewer</a></br>
 <ul>
 	<li>Visualize target tissues and cell types in 2D</li>
 	<li>Visualize organ anatomy in 3D/4D</li>

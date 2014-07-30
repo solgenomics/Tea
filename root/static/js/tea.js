@@ -161,10 +161,29 @@ $(document).ready(function () {
 		}
 	}
 
+	//function to draw the central page numbers for the cube pagination
+	function draw_central_pages(page_index, page_x_index, y_margin, pages_group, color) {
+		var central_page = new Kinetic.Text({
+			x: page_x_index,
+			y: y_margin + 5,
+			text: page_index,
+			fontSize: '20',
+			fill: color,
+		});
+		
+		central_page.on('mousedown', function() {
+			// alert("page: "+central_page.text());
+			document.getElementById("page_num").value = page_index;
+			document.getElementById("search_gene").submit();
+		});
+		pages_group.add(central_page);
+	}
 
 	// function add_slice(n,gene_names_array,aoa,tissue_names,stage_names,tmp_layer,stage,x_margin,y_margin,color_code) {
-	function add_slice(n,gene_names_array,aoa,stage_names,tissue_names,tmp_layer,stage,x_margin,y_margin,color_code,correlation, gene_descriptions, gene_ids) {
+	function add_slice(n,gene_names_array,aoa,stage_names,tissue_names,tmp_layer,canvas,x_margin,y_margin,color_code,correlation,gene_descriptions,gene_ids,current_page,pages_num,genes_num) {
+		
 		var sq_size = 20;
+		page_y = y_margin +20*sq_size +100;
 		y_margin = y_margin +n*sq_size;
 		x_margin = x_margin + 20;
 		
@@ -186,7 +205,7 @@ $(document).ready(function () {
 		});
 		
 		var gene_popup_layer = new Kinetic.Layer();
-		stage.add(gene_popup_layer);
+		canvas.add(gene_popup_layer);
 		
 		gene_text.on('mouseover', function() {
 			var x_pos = this.getAbsolutePosition().x-510;
@@ -270,32 +289,28 @@ $(document).ready(function () {
 				name: "gene_circle"
 		});
 
-		if (n>1) {
-			var moving_slice_group = new Kinetic.Group({
+		var moving_slice_group = new Kinetic.Group({
+			id: "full_slice_"+n,
+		});
+
+
+		if (n == 1) {
+			gene_text.fill("#4387FD");
+			gene_text.fontStyle("bold");
+			// var moving_slice_group = new Kinetic.Group({
+			// 	id: "full_slice_"+n,
+			// });
+		} else {
+			moving_slice_group = new Kinetic.Group({
 				id: "full_slice_"+n,
 				name: 'slice_up',
-				// draggable: true,
-		        // dragBoundFunc: function(pos) {
-		        //   return {
-		        //     x: this.getAbsolutePosition().x,
-		        //     y: pos.y
-		        //   }
-		        // }
-			});
-		} else {
-			gene_text.fill("blue");
-			var moving_slice_group = new Kinetic.Group({
-				id: "full_slice_"+n,
 			});
 		}
 	
 		moving_slice_group.add(circle);
-		// if (n<=1) {
-		// 	circle.fill("red");
-		// }
 
 
-		
+		// add stage and tissue names to the first gene
 		// for (var j=stage_names.length; j>=1; j--) {
 		for (var j=1; j<=stage_names.length; j++) {  //change cube stages by tissues
 			for (var i=tissue_names.length; i>=1; i--) {
@@ -370,10 +385,226 @@ $(document).ready(function () {
 			}
 		}
 	
-	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		// add pagination
+		if (n == genes_num) {
+			
+			var fix_pages_group = new Kinetic.Group();
+			
+			var frame_imgObj = new Image();
+			frame_imgObj.onload = function() {
+
+				var frame_img = new Kinetic.Image({
+					x: x_margin - 100,
+					y: page_y,
+					image: frame_imgObj,
+					width: 185,
+					height: 30
+				});
+				// tmp_layer.add(frame_img);
+			    // moving_slice_group.add(frame_img);
+				fix_pages_group.add(frame_img);
+//				fix_pages_group.draw();
+			    // moving_slice_group.draw();
+
+				
+			};
+			frame_imgObj.src = '/static/images/expr_viewer/page_frame.png';
+			
+			
+			var page_index = current_page - 2;
+			var pn_color = "#4387FD";
+			var red_sqr_xpos = x_margin - 25;
+			
+			if (page_index <= 1) {
+				page_index = 2;
+				
+				if (current_page == 1) {
+					red_sqr_xpos = x_margin - 129;
+				} else if (current_page == 2) {
+					red_sqr_xpos = x_margin - 87;
+				} else if (current_page == 3) {
+					red_sqr_xpos = x_margin - 57;
+				}
+			} else if (current_page >= pages_num-3) {
+				page_index = pages_num - 5;
+				
+				if (current_page == pages_num-2) {
+					red_sqr_xpos = x_margin + 8;
+				} else if (current_page == pages_num-1) {
+					red_sqr_xpos = x_margin + 38;
+				} else if (current_page == pages_num) {
+					red_sqr_xpos = x_margin + 88;
+				}
+			}
+
+			var red_frame = new Kinetic.Rect({
+				x: red_sqr_xpos,
+				y: page_y +2,
+				width: 28,
+				height: 26,
+				fill: '#eee',
+				stroke: 'red',
+				strokeWidth: 2,
+			});
+		    // moving_slice_group.add(red_frame);
+			fix_pages_group.add(red_frame);
+
+
+			//-----------------------------------------------------------------------------------
+			//-----------------------------------------------------------------------------------
+			//-----------------------------------------------------------------------------------
+			
+			
+			var prev_imgObj = new Image();
+			prev_imgObj.onload = function() {
+
+				var prev_img = new Kinetic.Image({
+					x: x_margin - 160,
+					y: page_y,
+					image: prev_imgObj,
+					width: 30,
+					height: 30
+				});
+				// tmp_layer.add(prev_img);
+				// tmp_layer.draw();
+				fix_pages_group.add(prev_img);
+			    // moving_slice_group.add(prev_img);
+				// fix_pages_group.draw();
+				
+				prev_img.on('mousedown', function() {
+					if (current_page > 1) {
+						document.getElementById("page_num").value = +current_page - 1;
+						document.getElementById("search_gene").submit();
+					}
+				});
+				
+			};
+
+			prev_imgObj.src = '/static/images/expr_viewer/prev_page.png';
+			
+			var next_imgObj = new Image();
+			next_imgObj.onload = function() {
+
+				var next_img = new Kinetic.Image({
+					x: x_margin + 118,
+					y: page_y,
+					image: next_imgObj,
+					width: 30,
+					height: 30
+				});
+				// tmp_layer.add(next_img);
+				fix_pages_group.add(next_img);
+			    // moving_slice_group.add(next_img);
+			    // moving_slice_group.draw();
+				fix_pages_group.draw();
+				
+				next_img.on('mousedown', function() {
+					if (current_page < pages_num) {
+						document.getElementById("page_num").value = +current_page + 1;
+						document.getElementById("search_gene").submit();
+					}
+				});
+				
+			};
+		
+			next_imgObj.src = '/static/images/expr_viewer/next_page.png';
+		
+		    moving_slice_group.add(fix_pages_group);
+		
+		
+			var tmp_text = new Kinetic.Text({
+				x: x_margin - 40,
+				y: page_y + 40,
+				text: current_page+"/"+pages_num,
+				fontSize: '20',
+				fill: "black"
+			});
+		//	fix_pages_group.add(tmp_text);
+		    moving_slice_group.add(tmp_text);
+		
+		
+		
+		
+		
+			var page_first_text = new Kinetic.Text({
+				x: x_margin - 122,
+				y: page_y + 5,
+				text: "1",
+				fontSize: '20',
+				fill: "#4387FD"
+			});
+			page_first_text.on('mousedown', function() {
+				document.getElementById("page_num").value = 1;
+				document.getElementById("search_gene").submit();
+			});
+		//	fix_pages_group.add(page_first_text);
+		    moving_slice_group.add(page_first_text);
+
+			var page_last_text = new Kinetic.Text({
+				x: x_margin + 90,
+				y: page_y + 5,
+				text: pages_num,
+				fontSize: '20',
+				fill: "#4387FD"
+			});
+			page_last_text.on('mousedown', function() {
+				document.getElementById("page_num").value = pages_num;
+				document.getElementById("search_gene").submit();
+			});
+			
+			
+//			fix_pages_group.add(page_last_text);
+//			moving_slice_group.add(fix_pages_group);
+			    moving_slice_group.add(page_last_text);
+
+			// tmp_layer.add(moving_slice_group);
+			// tmp_layer.draw();
+
+
+			var pages_group = new Kinetic.Group();
+
+			var page_x_index = x_margin - 80;
+			
+			for (var i=0; i<5; i++) {
+				draw_central_pages(page_index, page_x_index, page_y, pages_group, pn_color);
+				
+				page_index++;
+				page_x_index = page_x_index + 30;
+			}
+			
+		        moving_slice_group.add(pages_group);
+				pages_group.moveToTop();
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		gene_text.on('mousedown', function() {
-			// var all_circles = stage.find(".gene_circle");
+			// var all_circles = canvas.find(".gene_circle");
 			// all_circles.fill("white");
 			// circle.fill("red");
 			
@@ -389,7 +620,7 @@ $(document).ready(function () {
 				
 				
 				if (i>=n) {
-					var other_layer = stage.find("#full_slice_"+i);
+					var other_layer = canvas.find("#full_slice_"+i);
 					
 					if (moving_slice_group.name() == "slice_down") {
 						other_layer.move({
@@ -413,7 +644,7 @@ $(document).ready(function () {
 		});
 	
 		slice_group.on('mousedown', function() {
-			// var all_circles = stage.find(".gene_circle");
+			// var all_circles = canvas.find(".gene_circle");
 			// all_circles.fill("white");
 			open_bar_graph_dialog(aoa[n-1],gene_names_array[n-1],correlation[n-2], gene_descriptions[gene_names_array[n-1]], gene_ids[gene_names_array[n-1]]);
 			circle.fill("red");
@@ -429,8 +660,7 @@ $(document).ready(function () {
 		moving_slice_group.add(slice_group);
 		moving_slice_group.add(gene_text);
 		tmp_layer.add(moving_slice_group);
-		stage.add(tmp_layer);
-
+		canvas.add(tmp_layer);
 	}
 
 
@@ -613,8 +843,8 @@ $(document).ready(function () {
 		tmp_layer.add(mid3_text);
 		tmp_layer.add(top_text);
 		// tmp_layer.add(max_text);
+		
 		stage.add(tmp_layer);
-	
 	}
 
 
@@ -676,13 +906,14 @@ $(document).ready(function () {
 	}
 
 
-	function draw_cube(genes,stages,tissues,expr_val,tmp_layer,tmp_canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start, gene_ids, gene_descriptions) {
+	function draw_cube(genes,stages,tissues,expr_val,tmp_layer,tmp_canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start, gene_ids, gene_descriptions,current_page, pages_num) {
 		tmp_layer.removeChildren();
-	
+		// alert("in draw_cube: "+current_page);
 		var color_code = $('#color_code').val();
-	
-		for (var i=genes.length; i>=1; i--) {
-			add_slice(i,genes,expr_val,stages,tissues,tmp_layer,tmp_canvas,top_x_start,y_margin,color_code,corr_values, gene_descriptions, gene_ids);
+		var genes_num = genes.length;
+		
+		for (var i=genes_num; i>=1; i--) {
+			add_slice(i,genes,expr_val,stages,tissues,tmp_layer,tmp_canvas,top_x_start,y_margin,color_code,corr_values, gene_descriptions, gene_ids, current_page, pages_num, genes_num);
 		}
 	
 		//draw stage names
@@ -927,6 +1158,7 @@ $(document).ready(function () {
 		// 	input_gene = $('#gene').val();
 		// 	getGeneInfo(input_gene);
 			$('#gene').val(genes[0]);
+			$('#correlation_filter').val(correlation_filter);
 			// disable_ui();
 			// getGeneInfo(genes[0]);
 			
@@ -934,7 +1166,8 @@ $(document).ready(function () {
 			// var gene_descriptions;
 			
 			// getGeneInfo(genes);
-			getGeneInfo(genes,stages,tissues,aoaoa,cube_layer,canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start)
+			// alert("before getGeneInfo: "+current_page);
+			getGeneInfo(genes,stages,tissues,aoaoa,cube_layer,canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start, current_page, pages_num)
 		// });
 		
 
@@ -951,7 +1184,7 @@ $(document).ready(function () {
 			$('#working').dialog("open");
 		}
 		
-		function getGeneInfo(gene_array,stages,tissues,aoaoa,cube_layer,canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start) {
+		function getGeneInfo(gene_array,stages,tissues,aoaoa,cube_layer,canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start, page, pages_num) {
 			
 			var genes_string = gene_array.join();
 
@@ -964,6 +1197,7 @@ $(document).ready(function () {
 				// data: { 'genes_array': genes_array, 'gene_name': genes_array[0]},
 				data: { 'gene_name': genes_string},
 				beforeSend: function(){
+					// alert("in getGeneInfo: "+page);
 					disable_ui();
 					// alert("array: "+genes_array);
 				},
@@ -980,8 +1214,8 @@ $(document).ready(function () {
 						document.getElementById("gene_name").innerHTML = "<a href='http://solgenomics.net/feature/"+response.gene_id[gene_array[0]]+"/details' target='_blank'><img src='/static/images/sgn_logo.png' height='30' style='margin-bottom: -10px;' title='Connect to SGN for metadata associated with this gene'/> "+gene_array[0]+"</a>";
 						document.getElementById("gene_desc").innerHTML = response.description[gene_array[0]];
 						
-						draw_cube(genes,stages,tissues,aoaoa,cube_layer,canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start, gene_ids, gene_descriptions);
-						
+						// alert("before draw_cube: "+page);
+						draw_cube(genes,stages,tissues,aoaoa,cube_layer,canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start, gene_ids, gene_descriptions, page, pages_num);
 						$('#working').dialog("close");
 					}
 				},

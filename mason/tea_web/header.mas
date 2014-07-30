@@ -40,9 +40,9 @@
 			<table id="tea_menu" cellspacing="0" cellpadding="0">
 				<tr>
 					<td id="left_menu"><a href="/index">Home</a></td>
-					<td id="other_menu_td"><a href="about">About</a></td>
-					<td id="other_menu_td"><a href="links">Links</a></td>
-					<td id="right_menu"><a href="contact">Contact</a></td>
+					<td id="other_menu_td"><a href="/about">About</a></td>
+					<td id="other_menu_td"><a href="/links">Links</a></td>
+					<td id="right_menu"><a href="/contact">Contact</a></td>
 				</tr>
 			</table>
 		</center>

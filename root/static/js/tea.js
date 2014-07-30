@@ -162,13 +162,13 @@ $(document).ready(function () {
 	}
 
 	//function to draw the central page numbers for the cube pagination
-	function draw_central_pages(page_index, page_x_index, y_margin, pages_group, color) {
+	function draw_central_pages(page_index, page_x_index, y_margin, pages_group) {
 		var central_page = new Kinetic.Text({
 			x: page_x_index,
 			y: y_margin + 5,
 			text: page_index,
 			fontSize: '20',
-			fill: color,
+			fill: "#4387FD",
 		});
 		
 		central_page.on('mousedown', function() {
@@ -384,54 +384,23 @@ $(document).ready(function () {
 				}
 			}
 		}
-	
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		// add pagination
+		//------------------------------------------------------------
+		// pagination code
+		//------------------------------------------------------------
 		if (n == genes_num) {
 			
-			var fix_pages_group = new Kinetic.Group();
+			var pages_group = new Kinetic.Group();
 			
-			var frame_imgObj = new Image();
-			frame_imgObj.onload = function() {
-
-				var frame_img = new Kinetic.Image({
-					x: x_margin - 100,
-					y: page_y,
-					image: frame_imgObj,
-					width: 185,
-					height: 30
-				});
-				// tmp_layer.add(frame_img);
-			    // moving_slice_group.add(frame_img);
-				fix_pages_group.add(frame_img);
-//				fix_pages_group.draw();
-			    // moving_slice_group.draw();
-
-				
-			};
-			frame_imgObj.src = '/static/images/expr_viewer/page_frame.png';
-			
-			
+			//position of the red square
 			var page_index = current_page - 2;
-			var pn_color = "#4387FD";
 			var red_sqr_xpos = x_margin - 25;
 			
 			if (page_index <= 1) {
 				page_index = 2;
 				
 				if (current_page == 1) {
-					red_sqr_xpos = x_margin - 129;
+					red_sqr_xpos = x_margin - 130;
 				} else if (current_page == 2) {
 					red_sqr_xpos = x_margin - 87;
 				} else if (current_page == 3) {
@@ -445,43 +414,96 @@ $(document).ready(function () {
 				} else if (current_page == pages_num-1) {
 					red_sqr_xpos = x_margin + 38;
 				} else if (current_page == pages_num) {
-					red_sqr_xpos = x_margin + 88;
+					red_sqr_xpos = x_margin + 82;
 				}
 			}
-
-			var red_frame = new Kinetic.Rect({
-				x: red_sqr_xpos,
-				y: page_y +2,
-				width: 28,
-				height: 26,
-				fill: '#eee',
-				stroke: 'red',
-				strokeWidth: 2,
+			
+			//red square
+			var red_frame = new Kinetic.Line({
+				points: [red_sqr_xpos, page_y+2, red_sqr_xpos+28, page_y+2, red_sqr_xpos+28, page_y+28, red_sqr_xpos, page_y+28,red_sqr_xpos, page_y+1],
+		        stroke: 'red',
+		        strokeWidth: 2,
+		        closed: false
 			});
-		    // moving_slice_group.add(red_frame);
-			fix_pages_group.add(red_frame);
-
-
-			//-----------------------------------------------------------------------------------
-			//-----------------------------------------------------------------------------------
-			//-----------------------------------------------------------------------------------
 			
+			pages_group.add(red_frame);
 			
+			// frame for central pages
+			var frame_top = new Kinetic.Line({
+				points: [x_margin-90, page_y, x_margin+70, page_y],
+				stroke: "#666",
+				strokeWidth: 2,
+				closed: false,
+				lineCap: 'round',
+			});
+
+			var frame_bottom = new Kinetic.Line({
+				points: [x_margin+70, page_y+30, x_margin-90, page_y+30],
+				stroke: "#000",
+				strokeWidth: 2,
+				closed: false,
+				lineCap: 'round',
+			});
+
+			var frame_right = new Kinetic.Line({
+				points: [x_margin+70, page_y, x_margin+80, page_y+15,x_margin+70, page_y+30, x_margin+75, page_y+15],
+				stroke: "#111",
+				strokeWidth: 1,
+				fillLinearGradientStartPoint: {x:x_margin+70, y:page_y+30},
+				fillLinearGradientEndPoint: {x:x_margin+70,y:page_y},
+				fillLinearGradientColorStops: [0, "#000", 1, "#666"],
+				closed: true,
+				lineCap: 'round',
+				tension: 1
+			});
+
+			var frame_left = new Kinetic.Line({
+				points: [x_margin-90, page_y+30,x_margin-100, page_y+15,x_margin-90, page_y,x_margin-95, page_y+15],
+				stroke: "#111",
+				strokeWidth: 1,
+				closed: true,
+				fillLinearGradientStartPoint: {x:x_margin-90, y:page_y+30},
+				fillLinearGradientEndPoint: {x:x_margin-90,y:page_y},
+				fillLinearGradientColorStops: [0, "#000", 1, "#666"],
+				lineCap: 'round',
+				tension: 1
+			});
+
+			pages_group.add(frame_top);
+			pages_group.add(frame_bottom);
+			pages_group.add(frame_right);
+			pages_group.add(frame_left);
+			
+			//print central page links
+			var page_x_index = x_margin - 80;
+			
+			for (var i=0; i<5; i++) {
+				draw_central_pages(page_index, page_x_index, page_y, pages_group);
+				
+				page_index++;
+				page_x_index = page_x_index + 30;
+			}
+			
+			moving_slice_group.add(pages_group);
+			
+
+			// fix_pages_group.on('mousedown', function() {
+			// 	tmp_layer.draw();
+			// });
+			
+			//draw arrow butttons
 			var prev_imgObj = new Image();
 			prev_imgObj.onload = function() {
 
 				var prev_img = new Kinetic.Image({
-					x: x_margin - 160,
+					x: x_margin - 161,
 					y: page_y,
 					image: prev_imgObj,
 					width: 30,
 					height: 30
 				});
-				// tmp_layer.add(prev_img);
-				// tmp_layer.draw();
-				fix_pages_group.add(prev_img);
-			    // moving_slice_group.add(prev_img);
-				// fix_pages_group.draw();
+				pages_group.add(prev_img);
+				pages_group.draw();
 				
 				prev_img.on('mousedown', function() {
 					if (current_page > 1) {
@@ -498,17 +520,14 @@ $(document).ready(function () {
 			next_imgObj.onload = function() {
 
 				var next_img = new Kinetic.Image({
-					x: x_margin + 118,
+					x: x_margin + 112,
 					y: page_y,
 					image: next_imgObj,
 					width: 30,
 					height: 30
 				});
-				// tmp_layer.add(next_img);
-				fix_pages_group.add(next_img);
-			    // moving_slice_group.add(next_img);
-			    // moving_slice_group.draw();
-				fix_pages_group.draw();
+				pages_group.add(next_img);
+				pages_group.draw();
 				
 				next_img.on('mousedown', function() {
 					if (current_page < pages_num) {
@@ -520,24 +539,19 @@ $(document).ready(function () {
 			};
 		
 			next_imgObj.src = '/static/images/expr_viewer/next_page.png';
-		
-		    moving_slice_group.add(fix_pages_group);
-		
-		
-			var tmp_text = new Kinetic.Text({
-				x: x_margin - 40,
-				y: page_y + 40,
-				text: current_page+"/"+pages_num,
-				fontSize: '20',
-				fill: "black"
-			});
-		//	fix_pages_group.add(tmp_text);
-		    moving_slice_group.add(tmp_text);
+		    moving_slice_group.add(pages_group);
 		
 		
-		
-		
-		
+			// var tmp_text = new Kinetic.Text({
+			// 	x: x_margin - 40,
+			// 	y: page_y + 40,
+			// 	text: current_page+"/"+pages_num,
+			// 	fontSize: '20',
+			// 	fill: "black"
+			// });
+		    // moving_slice_group.add(tmp_text);
+			
+			//first and last pages links
 			var page_first_text = new Kinetic.Text({
 				x: x_margin - 122,
 				y: page_y + 5,
@@ -549,11 +563,11 @@ $(document).ready(function () {
 				document.getElementById("page_num").value = 1;
 				document.getElementById("search_gene").submit();
 			});
-		//	fix_pages_group.add(page_first_text);
+
 		    moving_slice_group.add(page_first_text);
 
 			var page_last_text = new Kinetic.Text({
-				x: x_margin + 90,
+				x: x_margin + 85,
 				y: page_y + 5,
 				text: pages_num,
 				fontSize: '20',
@@ -564,42 +578,8 @@ $(document).ready(function () {
 				document.getElementById("search_gene").submit();
 			});
 			
-			
-//			fix_pages_group.add(page_last_text);
-//			moving_slice_group.add(fix_pages_group);
-			    moving_slice_group.add(page_last_text);
-
-			// tmp_layer.add(moving_slice_group);
-			// tmp_layer.draw();
-
-
-			var pages_group = new Kinetic.Group();
-
-			var page_x_index = x_margin - 80;
-			
-			for (var i=0; i<5; i++) {
-				draw_central_pages(page_index, page_x_index, page_y, pages_group, pn_color);
-				
-				page_index++;
-				page_x_index = page_x_index + 30;
-			}
-			
-		        moving_slice_group.add(pages_group);
-				pages_group.moveToTop();
+			moving_slice_group.add(page_last_text);
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		
 		
@@ -661,6 +641,11 @@ $(document).ready(function () {
 		moving_slice_group.add(gene_text);
 		tmp_layer.add(moving_slice_group);
 		canvas.add(tmp_layer);
+		
+		// tmp_layer.moving_slice_group.fix_pages_group.moveToTop();
+		// pages_group.setZindex(1);
+		// fix_pages_group.setZindex(2);
+		
 	}
 
 

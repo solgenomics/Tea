@@ -172,12 +172,6 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	$c->stash->{current_page} = ($current_page + 1);
 	$c->stash->{correlation_filter} = ($corr_filter);
 	
-	# $c->stash->{rest} = {expr=> \%gene_stage_tissue_expr,
-	# 					genes => \@genes,
-	# 					stages => \@stages,
-	# 					tissues => \@tissues,
-	# 					aoaoa => \@AoAoA,
-	# };
 	$c->stash->{template} = '/Expression_viewer/output.mas';
 }
 

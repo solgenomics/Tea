@@ -2,6 +2,12 @@ package Tea::Controller::Expression_viewer;
 
 use Moose;
 use Lucy::Simple;
+use Lucy::Search::RangeQuery;
+use Lucy::Search::IndexSearcher;
+use Lucy::Search::TermQuery;
+use Lucy::Search::ANDQuery;
+use Lucy::Search::QueryParser;
+
 use JSON;
 
 # use namespace::autoclean;
@@ -88,23 +94,37 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 		offset     => $current_page*19,
 	);
 	
-	# my $range_query = Lucy::Search::RangeQuery->new(
-	# 	field => 'correlation',
-	# 	lower_term => $corr_filter,
-	# );
-	#
-	# my $hits2 = $lucy_corr->search(
-	# 	query      => $range_query,
-	# );
-	# http://search.cpan.org/~creamyg/Lucy-0.3.3/lib/Lucy/Search/RangeQuery.pod
-	
-	
-	
-	
 	$total_corr_genes = $hits;
-	print STDERR "\n\ntotal number of correlated genes: $hits\n\n";
-	# print STDERR "\n\ntotal number of filtered genes: $hits2\n\n";
 	
+	#------------------------------------- Get page number after correlation filtering
+	if ($corr_filter > 0.65) {
+		my $range_query = Lucy::Search::RangeQuery->new(
+		    field         => 'correlation',
+		    lower_term    => $corr_filter,
+		);	
+		my $searcher = Lucy::Search::IndexSearcher->new( 
+		    index => $corr_path,
+		);
+		my $qparser  = Lucy::Search::QueryParser->new( 
+		    schema => $searcher->get_schema,
+		);
+		my $term_query = $qparser->parse($query_gene);
+	
+	    my $and_query = Lucy::Search::ANDQuery->new(
+	        children => [ $range_query, $term_query],
+	    );
+	
+	    my $hits1 = $searcher->hits( query => $term_query );
+	    my $hit_intersect = $searcher->hits( query => $and_query );
+		
+		# print STDERR "\n\ntotal number of correlated genes: $hits\n\n";
+		# print STDERR "\n\ntotal number of TERM: ".$hits1->total_hits()."\n\n";
+		# print STDERR "\n\ntotal number of hit_intersect: ".$hit_intersect->total_hits()."\n\n";
+	
+		$total_corr_genes = $hit_intersect->total_hits();
+	}
+	
+	#------------------------------------- save data for filtered genes
 	while ( my $hit = $lucy_corr->next ) {
 		if ($query_gene eq $hit->{gene1} && $hit->{correlation} >= $corr_filter) {
 			push(@genes, $hit->{gene2});

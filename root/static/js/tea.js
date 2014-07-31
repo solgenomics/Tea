@@ -392,7 +392,7 @@ $(document).ready(function () {
 			
 			var pages_group = new Kinetic.Group();
 			
-			//position of the red square
+			// position of the red square
 			var page_index = current_page - 2;
 			var red_sqr_xpos = x_margin - 25;
 			
@@ -418,7 +418,7 @@ $(document).ready(function () {
 				}
 			}
 			
-			//red square
+			// red square
 			var red_frame = new Kinetic.Line({
 				points: [red_sqr_xpos, page_y+2, red_sqr_xpos+28, page_y+2, red_sqr_xpos+28, page_y+28, red_sqr_xpos, page_y+28,red_sqr_xpos, page_y+1],
 		        stroke: 'red',
@@ -478,18 +478,14 @@ $(document).ready(function () {
 			var page_x_index = x_margin - 80;
 			
 			for (var i=0; i<5; i++) {
-				draw_central_pages(page_index, page_x_index, page_y, pages_group);
-				
+				if (page_index <= pages_num && page_index > 0) {
+					draw_central_pages(page_index, page_x_index, page_y, pages_group);
+				}
 				page_index++;
 				page_x_index = page_x_index + 30;
 			}
 			
 			moving_slice_group.add(pages_group);
-			
-
-			// fix_pages_group.on('mousedown', function() {
-			// 	tmp_layer.draw();
-			// });
 			
 			//draw arrow butttons
 			var prev_imgObj = new Image();
@@ -584,21 +580,7 @@ $(document).ready(function () {
 		
 		
 		gene_text.on('mousedown', function() {
-			// var all_circles = canvas.find(".gene_circle");
-			// all_circles.fill("white");
-			// circle.fill("red");
-			
 			for (var i=0;i<=gene_names_array.length;i++) {
-				// alert("i: "+i);
-				
-				// if (i<n) {
-				// 	// disappear_animation(other_layer);
-				// 	other_layer.opacity(0);
-				// } else {
-				// 	other_layer.opacity(1);
-				// }
-				
-				
 				if (i>=n) {
 					var other_layer = canvas.find("#full_slice_"+i);
 					
@@ -619,33 +601,19 @@ $(document).ready(function () {
 				moving_slice_group.name("slice_up");
 			}
 			tmp_layer.draw();
-		
-			// writeMessage("one layer");
 		});
 	
 		slice_group.on('mousedown', function() {
-			// var all_circles = canvas.find(".gene_circle");
-			// all_circles.fill("white");
 			open_bar_graph_dialog(aoa[n-1],gene_names_array[n-1],correlation[n-2], gene_descriptions[gene_names_array[n-1]], gene_ids[gene_names_array[n-1]]);
 			circle.fill("red");
 			tmp_layer.draw();
 		});
-		
-		// gene_text.on('mousedown', function() {
-		// 	getGeneInfo(gene_names_array[n-1]);
-		// });
-		
 		
 		moving_slice_group.add(circle);
 		moving_slice_group.add(slice_group);
 		moving_slice_group.add(gene_text);
 		tmp_layer.add(moving_slice_group);
 		canvas.add(tmp_layer);
-		
-		// tmp_layer.moving_slice_group.fix_pages_group.moveToTop();
-		// pages_group.setZindex(1);
-		// fix_pages_group.setZindex(2);
-		
 	}
 
 

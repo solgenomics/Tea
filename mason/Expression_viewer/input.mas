@@ -8,21 +8,21 @@
 	<table id="tea_form" cellspacing="" cellpadding="10" width"100%">
 			<tr>
 				<td class="td_form">
-					<button class="info_icon">i</button> By Tomato Gene ID
+					<span class="info_icon">i</span> By Tomato Gene ID
 				</td>
 				<td class="td_form">
-					<button class="info_icon">i</button> By BLAST Search
+					<span class="info_icon">i</span> By BLAST Search
 				</td>
 				<td class="td_form">
-					<button class="info_icon">i</button> By Custom List
+					<span class="info_icon">i</span> By Custom List
 				</td>
 			</tr>
 			<tr>
 				<td class="td_form">
 					<input class="input" id="gene" type="input" value="Solyc04g008460" name="input_gene" size="20" />
-					<!-- <button class="blue_button" type="submit" form="search_gene" formaction="/Expression_viewer/input2" formmethod="post" formenctype="multipart/form-data">Search</button> -->
 					<br/><br/>
 					<button class="blue_button">Get Expression</button>
+					<!-- <button class="blue_button" type="submit" form="search_gene" formaction="/Expression_viewer/output" formmethod="post" formenctype="multipart/form-data">Search</button> -->
 				</td>
 				<td class="td_form">
 					<textarea class="input" id="blast_sequence" name="blast_sequence" cols="25" rows="1" style="background-color:#666; color:#fff;">ACGTATACGTACGTGTACTG</textarea>
@@ -71,7 +71,7 @@
 	</table> -->
 
 <hr/>
-<h2>Define Expression Parameters <button class="info_icon">i</button></h2>
+<h2>Define Expression Parameters <span class="info_icon">i</span></h2>
 
 
 </center>
@@ -93,7 +93,7 @@
 		Treatment
 	</li>
 	<li>
-		Correlation filter: 0.<input type="text" id="amount" name="correlation_filter" readonly style="border:0;font-size:24px;"> <div id="correlation_slider"></div>
+		Correlation filter: 0.<input type="text" id="amount" name="correlation_filter" readonly style="border:0;font-size:24px;"><div id="correlation_slider"></div>
 		<br/>
 	</li>
 </ul>

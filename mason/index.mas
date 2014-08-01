@@ -17,9 +17,9 @@
 			</td>
 		</tr>
 		<tr>
-			<td class="td_index"><a href="overview"><b>Overview</b></a></td>
-			<td class="td_index"><a href="Expression_viewer/input"><b>Expression Viewer</b></a></td>
-			<td class="td_index"><a href="anatomy_viewer"><b>Anatomy Viewer</b></a></td>
+			<td class="td_index"><a href="overview">Overview</a></td>
+			<td class="td_index"><a href="Expression_viewer/input">Expression Viewer</a></td>
+			<td class="td_index"><a href="anatomy_viewer">Anatomy Viewer</a></td>
 		</tr>
 	</table>
 </center>

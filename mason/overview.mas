@@ -1,6 +1,6 @@
 <center>
-<h2 id="subtitle"><img class="centered_img" src="/static/images/overview_logo.png"/> Overview</h2>
-<br/>
+	<div id="pagetitle"><h1><img src="/static/images/overview_logo.png" height="40" style="margin-bottom:-5px;"/> Overview</h1></div>
+	<br/>
 <p>
 	Summary text explaining the purpose of the website, listing the options and giving background info
 </p>

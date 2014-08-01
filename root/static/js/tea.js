@@ -162,7 +162,7 @@ $(document).ready(function () {
 	}
 
 	//function to draw the central page numbers for the cube pagination
-	function draw_central_pages(page_index, page_x_index, y_margin, pages_group) {
+	function draw_central_pages(page_index, page_x_index, y_margin, pages_group, pages_num) {
 		var central_page = new Kinetic.Text({
 			x: page_x_index,
 			y: y_margin + 5,
@@ -176,7 +176,6 @@ $(document).ready(function () {
 		}
 		
 		central_page.on('mousedown', function() {
-			// alert("page: "+central_page.text());
 			document.getElementById("page_num").value = page_index;
 			document.getElementById("search_gene").submit();
 		});
@@ -198,13 +197,13 @@ $(document).ready(function () {
 		var gene_text = new Kinetic.Text({
 			// x: x_margin -175,
 			// y: y_margin +93,
-			x: x_margin -155,  //change cube stages by tissues
-			y: y_margin +63,  //change cube stages by tissues
+			x: x_margin -140,  //change cube stages by tissues
+			y: y_margin +60,  //change cube stages by tissues
 			id: "slice_name_"+n,
-			// text: "Solyc00g0000009",
 			text: gene_names_array[n-1],
-			fontSize: 16,
-			fontFamily: 'Helvetica',
+			fontSize: 20,
+			// fontFamily: 'Helvetica',
+			fontFamily: 'CondensedLight',
 			fill: "black"
 		});
 		
@@ -218,8 +217,8 @@ $(document).ready(function () {
 			var gene_description = gene_descriptions[gene_names_array[n-1]];
 			var gene_desc = '';
 			
-			if (gene_description.length > 60) {
-				gene_desc = gene_description.slice(0, 60)+" ...";
+			if (gene_description.length > 70) {
+				gene_desc = gene_description.slice(0, 70)+" ...";
 			} else {
 				gene_desc = gene_description;
 			}
@@ -240,8 +239,9 @@ $(document).ready(function () {
 				x: x_pos-75,
 				y: y_pos+8,
 				text: gene_desc,
-				fontSize: 16,
-				fontFamily: 'Helvetica',
+				fontSize: 20,
+				fontFamily: 'CondensedLight',
+				// fontFamily: 'Helvetica',
 				fill: "white"
 			});
 			if (n>1) {
@@ -283,7 +283,7 @@ $(document).ready(function () {
 		var circle = new Kinetic.Circle({
 		        // x: x_margin -180,
 		        // y: y_margin +100,
-		        x: x_margin -160, //change cube stages by tissues
+		        x: x_margin -145, //change cube stages by tissues
 		        y: y_margin +70, //change cube stages by tissues
 		        radius: 3,
 		        fill: 'white',
@@ -299,11 +299,8 @@ $(document).ready(function () {
 
 
 		if (n == 1) {
-			gene_text.fill("#4387FD");
-			gene_text.fontStyle("bold");
-			// var moving_slice_group = new Kinetic.Group({
-			// 	id: "full_slice_"+n,
-			// });
+			gene_text.fill("#0000EE");
+			// gene_text.fontStyle("bold");
 		} else {
 			moving_slice_group = new Kinetic.Group({
 				id: "full_slice_"+n,
@@ -374,12 +371,13 @@ $(document).ready(function () {
 				if (j == 1 && n == 1) {
 					//add tissue names to top layer
 					var tissue_text = new Kinetic.Text({
-						x: x_margin +i*20 -10,
+						x: x_margin +i*20 -15,
 						// x: x_margin +i*20 +3, //change cube orientation
 						y: y_margin +5,
 						text: tissue_names[i-1],
-						fontSize: 18,
-						fontFamily: 'Helvetica',
+						fontSize: 20,
+						// fontFamily: 'Helvetica',
+						fontFamily: 'CondensedLight',
 						fill: 'black',
 						rotation: 270
 					});
@@ -411,7 +409,7 @@ $(document).ready(function () {
 			
 			for (var i=0; i<7; i++) {
 				if (page_index <= pages_num && page_index > 0) {
-					draw_central_pages(page_index, page_x_index, page_y, pages_group);
+					draw_central_pages(page_index, page_x_index, page_y, pages_group,pages_num);
 				}
 				page_index++;
 				page_x_index = page_x_index + 30;
@@ -441,8 +439,10 @@ $(document).ready(function () {
 			first_triangle_group.add(line_first);
 			
 			first_triangle_group.on('mousedown', function() {
-				document.getElementById("page_num").value = 1;
-				document.getElementById("search_gene").submit();
+				if (current_page > 1) {
+					document.getElementById("page_num").value = 1;
+					document.getElementById("search_gene").submit();
+				}
 			});
 			moving_slice_group.add(first_triangle_group);
 			
@@ -510,8 +510,10 @@ $(document).ready(function () {
 			last_triangle_group.add(line_last);
 			
 			last_triangle_group.on('mousedown', function() {
-				document.getElementById("page_num").value = pages_num;
-				document.getElementById("search_gene").submit();
+				if (current_page < pages_num) {
+					document.getElementById("page_num").value = pages_num;
+					document.getElementById("search_gene").submit();
+				}
 			});
 			
 			moving_slice_group.add(last_triangle_group);
@@ -573,29 +575,18 @@ $(document).ready(function () {
 		//Stages for the cube
 		var stage_text = new Kinetic.Text({
 			x: x_margin,
-			y: y_margin,
+			y: y_margin-5,
 			text: stage_name,
 			width: 100,
 			align: 'right',
-			fontSize: 16,
-			fontFamily: 'Helvetica',
+			fontSize: 20,
+			// fontFamily: 'Helvetica',
+			fontFamily: 'CondensedLight',
 			fill: 'black',
 			rotation: 30
 			// rotation: 45 //change cube orientation
 		});
 	
-		// stages for tissue images
-		// var stage_text_pict = new Kinetic.Text({
-		// 	x: x_margin2 -30,
-		// 	y: 70,
-		// 	text: stage_name,
-		// 	fontSize: 20,
-		// 	width: 100,
-		// 	align: 'center',
-		// 	fontFamily: 'Helvetica',
-		// 	fill: 'black',
-		// });
-
 		// stages_layer.add(stage_text_pict);
 		stages_layer.add(stage_text);
 		canvas_tmp.add(stages_layer);
@@ -1077,7 +1068,7 @@ $(document).ready(function () {
 
 		function disable_ui() {
 			$('#working').dialog( {
-				height: 100,
+				height: 140,
 				width: 50,
 				modal: true,
 				autoOpen: false,

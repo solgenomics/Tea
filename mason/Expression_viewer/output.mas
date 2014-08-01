@@ -18,6 +18,7 @@ my $json = JSON::Any->new;
 </%perl>
 
 <div id="working" style="text-align: center; display:none;">
+	<br/>
   <img src="/static/images/wheel.gif" height="30"/>
 </div>
 

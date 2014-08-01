@@ -93,7 +93,7 @@
 		Treatment
 	</li>
 	<li>
-		Correlation filter: 0.<input type="text" id="amount" name="correlation_filter" readonly style="border:0;font-size:24px;"><div id="correlation_slider"></div>
+		Correlation filter: 0.<input type="text" id="amount" name="correlation_filter" readonly style="border:0;font-family:'CondensedLight';font-size:28px;"><div id="correlation_slider"></div>
 		<br/>
 	</li>
 </ul>

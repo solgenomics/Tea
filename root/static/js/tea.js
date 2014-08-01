@@ -171,6 +171,10 @@ $(document).ready(function () {
 			fill: "#4387FD",
 		});
 		
+		if (page_index >=1 && page_index <=9) {
+			central_page.x(page_x_index+5)
+		}
+		
 		central_page.on('mousedown', function() {
 			// alert("page: "+central_page.text());
 			document.getElementById("page_num").value = page_index;
@@ -392,92 +396,20 @@ $(document).ready(function () {
 			
 			var pages_group = new Kinetic.Group();
 			
-			// position of the red square
-			var page_index = current_page - 2;
-			var red_sqr_xpos = x_margin - 25;
-			
-			if (page_index <= 1) {
-				page_index = 2;
-				
-				if (current_page == 1) {
-					red_sqr_xpos = x_margin - 130;
-				} else if (current_page == 2) {
-					red_sqr_xpos = x_margin - 87;
-				} else if (current_page == 3) {
-					red_sqr_xpos = x_margin - 57;
-				}
-			} else if (current_page >= pages_num-3) {
-				page_index = pages_num - 5;
-				
-				if (current_page == pages_num-2) {
-					red_sqr_xpos = x_margin + 8;
-				} else if (current_page == pages_num-1) {
-					red_sqr_xpos = x_margin + 38;
-				} else if (current_page == pages_num) {
-					red_sqr_xpos = x_margin + 82;
-				}
-			}
-			
-			// red square
-			var red_frame = new Kinetic.Line({
-				points: [red_sqr_xpos, page_y+2, red_sqr_xpos+28, page_y+2, red_sqr_xpos+28, page_y+28, red_sqr_xpos, page_y+28,red_sqr_xpos, page_y+1],
-		        stroke: 'red',
-		        strokeWidth: 2,
-		        closed: false
-			});
-			
-			pages_group.add(red_frame);
-			
-			// frame for central pages
-			var frame_top = new Kinetic.Line({
-				points: [x_margin-90, page_y, x_margin+70, page_y],
-				stroke: "#666",
+			//underline the current page
+			var underline = new Kinetic.Line({
+				points: [x_margin - 12, page_y+28, x_margin + 6, page_y+28],
+				stroke: "#4387FD",
 				strokeWidth: 2,
-				closed: false,
-				lineCap: 'round',
 			});
 
-			var frame_bottom = new Kinetic.Line({
-				points: [x_margin+70, page_y+30, x_margin-90, page_y+30],
-				stroke: "#000",
-				strokeWidth: 2,
-				closed: false,
-				lineCap: 'round',
-			});
-
-			var frame_right = new Kinetic.Line({
-				points: [x_margin+70, page_y, x_margin+80, page_y+15,x_margin+70, page_y+30, x_margin+75, page_y+15],
-				stroke: "#111",
-				strokeWidth: 1,
-				fillLinearGradientStartPoint: {x:x_margin+70, y:page_y+30},
-				fillLinearGradientEndPoint: {x:x_margin+70,y:page_y},
-				fillLinearGradientColorStops: [0, "#000", 1, "#666"],
-				closed: true,
-				lineCap: 'round',
-				tension: 1
-			});
-
-			var frame_left = new Kinetic.Line({
-				points: [x_margin-90, page_y+30,x_margin-100, page_y+15,x_margin-90, page_y,x_margin-95, page_y+15],
-				stroke: "#111",
-				strokeWidth: 1,
-				closed: true,
-				fillLinearGradientStartPoint: {x:x_margin-90, y:page_y+30},
-				fillLinearGradientEndPoint: {x:x_margin-90,y:page_y},
-				fillLinearGradientColorStops: [0, "#000", 1, "#666"],
-				lineCap: 'round',
-				tension: 1
-			});
-
-			pages_group.add(frame_top);
-			pages_group.add(frame_bottom);
-			pages_group.add(frame_right);
-			pages_group.add(frame_left);
+			pages_group.add(underline);
 			
 			//print central page links
-			var page_x_index = x_margin - 80;
+			var page_index = current_page - 3;
+			var page_x_index = x_margin - 105;
 			
-			for (var i=0; i<5; i++) {
+			for (var i=0; i<7; i++) {
 				if (page_index <= pages_num && page_index > 0) {
 					draw_central_pages(page_index, page_x_index, page_y, pages_group);
 				}
@@ -487,94 +419,113 @@ $(document).ready(function () {
 			
 			moving_slice_group.add(pages_group);
 			
-			//draw arrow butttons
-			var prev_imgObj = new Image();
-			prev_imgObj.onload = function() {
-
-				var prev_img = new Kinetic.Image({
-					x: x_margin - 161,
-					y: page_y,
-					image: prev_imgObj,
-					width: 30,
-					height: 30
-				});
-				pages_group.add(prev_img);
-				pages_group.draw();
-				
-				prev_img.on('mousedown', function() {
-					if (current_page > 1) {
-						document.getElementById("page_num").value = +current_page - 1;
-						document.getElementById("search_gene").submit();
-					}
-				});
-				
-			};
-
-			prev_imgObj.src = '/static/images/expr_viewer/prev_page.png';
-			
-			var next_imgObj = new Image();
-			next_imgObj.onload = function() {
-
-				var next_img = new Kinetic.Image({
-					x: x_margin + 112,
-					y: page_y,
-					image: next_imgObj,
-					width: 30,
-					height: 30
-				});
-				pages_group.add(next_img);
-				pages_group.draw();
-				
-				next_img.on('mousedown', function() {
-					if (current_page < pages_num) {
-						document.getElementById("page_num").value = +current_page + 1;
-						document.getElementById("search_gene").submit();
-					}
-				});
-				
-			};
-		
-			next_imgObj.src = '/static/images/expr_viewer/next_page.png';
-		    moving_slice_group.add(pages_group);
-		
-		
-			// var tmp_text = new Kinetic.Text({
-			// 	x: x_margin - 40,
-			// 	y: page_y + 40,
-			// 	text: current_page+"/"+pages_num,
-			// 	fontSize: '20',
-			// 	fill: "black"
-			// });
-		    // moving_slice_group.add(tmp_text);
-			
-			//first and last pages links
-			var page_first_text = new Kinetic.Text({
-				x: x_margin - 122,
-				y: page_y + 5,
-				text: "1",
-				fontSize: '20',
-				fill: "#4387FD"
+			//triangle to first page
+			var first_triangle_group = new Kinetic.Group();
+			var arrow_first = new Kinetic.Line({
+				points: [x_margin-140, page_y+22,x_margin-150, page_y+15,x_margin-140, page_y+8,x_margin-140, page_y+22],
+				stroke: "#111",
+				strokeWidth: 1,
+				closed: true,
+				fillLinearGradientStartPoint: {x:x_margin-140, y:page_y+30},
+				fillLinearGradientEndPoint: {x:x_margin-140,y:page_y},
+				fillLinearGradientColorStops: [0, "#333", 1, "#888"],
+				lineCap: 'round',
+				tension: 0
 			});
-			page_first_text.on('mousedown', function() {
+			var line_first = new Kinetic.Line({
+				points: [x_margin-150, page_y+8,x_margin-150, page_y+22],
+				stroke: "#111",
+				strokeWidth: 1,
+			});
+			first_triangle_group.add(arrow_first);
+			first_triangle_group.add(line_first);
+			
+			first_triangle_group.on('mousedown', function() {
 				document.getElementById("page_num").value = 1;
 				document.getElementById("search_gene").submit();
 			});
-
-		    moving_slice_group.add(page_first_text);
-
-			var page_last_text = new Kinetic.Text({
-				x: x_margin + 85,
-				y: page_y + 5,
-				text: pages_num,
-				fontSize: '20',
-				fill: "#4387FD"
+			moving_slice_group.add(first_triangle_group);
+			
+			//triangle to previous page
+			var arrow_prev = new Kinetic.Line({
+				points: [x_margin-120, page_y+22,x_margin-130, page_y+15,x_margin-120, page_y+8,x_margin-120, page_y+22],
+				stroke: "#111",
+				strokeWidth: 1,
+				closed: true,
+				fillLinearGradientStartPoint: {x:x_margin-120, y:page_y+30},
+				fillLinearGradientEndPoint: {x:x_margin-120,y:page_y},
+				fillLinearGradientColorStops: [0, "#333", 1, "#888"],
+				lineCap: 'round',
+				tension: 0
 			});
-			page_last_text.on('mousedown', function() {
+			pages_group.add(arrow_prev);
+			
+			arrow_prev.on('mousedown', function() {
+				if (current_page > 1) {
+					document.getElementById("page_num").value = +current_page - 1;
+					document.getElementById("search_gene").submit();
+				}
+			});
+			
+			//triangle to next page
+			var arrow_right = new Kinetic.Line({
+				points: [x_margin+110, page_y+22,x_margin+120, page_y+15,x_margin+110, page_y+8,x_margin+110, page_y+22],
+				stroke: "#111",
+				strokeWidth: 1,
+				closed: true,
+				fillLinearGradientStartPoint: {x:x_margin-90, y:page_y+30},
+				fillLinearGradientEndPoint: {x:x_margin-90,y:page_y},
+				fillLinearGradientColorStops: [0, "#333", 1, "#888"],
+				lineCap: 'round',
+				tension: 0
+			});
+			pages_group.add(arrow_right);
+			
+			arrow_right.on('mousedown', function() {
+				if (current_page < pages_num) {
+					document.getElementById("page_num").value = +current_page + 1;
+					document.getElementById("search_gene").submit();
+				}
+			});
+			
+			//triangle to last page
+			var last_triangle_group = new Kinetic.Group();
+			var arrow_last = new Kinetic.Line({
+				points: [x_margin+130, page_y+22,x_margin+140, page_y+15,x_margin+130, page_y+8,x_margin+130, page_y+22],
+				stroke: "#111",
+				strokeWidth: 1,
+				closed: true,
+				fillLinearGradientStartPoint: {x:x_margin-90, y:page_y+30},
+				fillLinearGradientEndPoint: {x:x_margin-90,y:page_y},
+				fillLinearGradientColorStops: [0, "#333", 1, "#888"],
+				lineCap: 'round',
+				tension: 0
+			});
+			var line_last = new Kinetic.Line({
+				points: [x_margin+140, page_y+8,x_margin+140, page_y+22],
+				stroke: "#111",
+				strokeWidth: 1,
+			});
+			last_triangle_group.add(arrow_last);
+			last_triangle_group.add(line_last);
+			
+			last_triangle_group.on('mousedown', function() {
 				document.getElementById("page_num").value = pages_num;
 				document.getElementById("search_gene").submit();
 			});
 			
-			moving_slice_group.add(page_last_text);
+			moving_slice_group.add(last_triangle_group);
+			
+			//text ranking
+			var ranking_text = new Kinetic.Text({
+				x: x_margin - 55,
+				y: page_y + 40,
+				text: "Ranking "+current_page+"/"+pages_num,
+				fontSize: '16',
+				fontVariant: 'small-caps',
+				fill: "black"
+			});
+		    moving_slice_group.add(ranking_text);
 		}
 		
 		

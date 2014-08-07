@@ -8,9 +8,9 @@ body {
 	margin-left:30px;
 	margin-right:30px;
 	padding: 0px;
-	font-family: "CondensedLight";
+/*	font-family: "CondensedLight";*/
 	font-size:20px;
-/*	font-family: "Lucida Grande","Lucida Sans Unicode",Arial,Verdana, "Helvetica Neue", Helvetica, sans-serif;*/
+	font-family: "Lucida Grande","Lucida Sans Unicode",Arial,Verdana, "Helvetica Neue", Helvetica, sans-serif;
 }
 
 #container {
@@ -126,7 +126,7 @@ a:hover {
 }
 
 #subtitle {
-	max-width:500px;
+	max-width:510px;
 	font-size:38px;
 	color:rgb(150,150,150);
 /*	font-family:"Verdana", arial, Sans-serif;*/
@@ -152,6 +152,7 @@ a:hover {
    margin-left:auto;
    margin-right:auto;
    width:220px;
+   font-family: "CondensedLight";
 }
 
 
@@ -171,11 +172,12 @@ a:hover {
 
 #expr_params {
    text-decoration:none;
-/*   font-family:"Verdana", arial, Sans-serif;*/
-   font-family: "CondensedLight";
+   font-family:"Verdana", arial, Sans-serif;
+/*   font-family: "CondensedLight";*/
    margin:10px;
    line-height:60px;
-   font-size:28px;
+/*   font-size:28px;*/
+   font-size:22px;
 }
 
 .blue_button {
@@ -183,9 +185,10 @@ a:hover {
 	border:0px;
 	border-radius:10px;
 	color:#FFFFFF;
-/*	font-family:Arial;*/
-	font-family: "CondensedLight";
-	font-size:20px;
+	font-family:Arial;
+/*	font-family: "CondensedLight";*/
+/*	font-size:20px;*/
+	font-size:16px;
 	height:40px;
 	line-height:38px;
     vertical-align: top;
@@ -233,7 +236,7 @@ a:hover {
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #444444), color-stop(1, #000000) );
 	background:-moz-linear-gradient( center top, #444444 5%, #000000 100% );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4387FD', endColorstr='#4683EA');
-	font-family: "CondensedLight";
+/*	font-family: "CondensedLight";*/
 	background-color:#222222;
 	border-style:solid;
 	border-width:2px;
@@ -251,8 +254,8 @@ a:hover {
 .gene_name a {
 	display:inline;
 	color:#FFFFFF;
-/*	font-family:Arial;*/
-	font-family: "CondensedLight";
+	font-family:Arial;
+/*	font-family: "CondensedLight";*/
 	font-size:18px;
 /*	line-height:30px;*/
 	text-decoration:none;
@@ -260,9 +263,9 @@ a:hover {
 
 .gene_desc {
 	color:#FFFFFF;
-/*	font-family:Arial;*/
-	font-family: "CondensedLight";
-	font-size:18px;
+	font-family:Arial;
+/*	font-family: "CondensedLight";*/
+	font-size:16px;
 	font-weight:normal;
 /*	line-height:16px;*/
 	text-decoration:none;
@@ -276,18 +279,18 @@ a:hover {
 
 .gene_name_dialog a{
 	color:#000000;
-/*	font-family:Arial;*/
-	font-family: "CondensedLight";
-	font-size:18px;
+	font-family:Arial;
+/*	font-family: "CondensedLight";*/
+	font-size:16px;
 	line-height:18px;
 	text-decoration:none;
 }
 
 .gene_desc_dialog {
 	color:#000000;
-/*	font-family:Arial;*/
-	font-family: "CondensedLight";
-	font-size:18px;
+	font-family:Arial;
+/*	font-family: "CondensedLight";*/
+	font-size:16px;
 	line-height:18px;
 	text-decoration:none;
 }
@@ -301,8 +304,8 @@ a:hover {
 	.jqplot-target {
 		position: relative;
 		color: #666666;
-	/*	font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;*/
-		font-family: "CondensedLight";
+		font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+/*		font-family: "CondensedLight";*/
 		font-size: 1em;
 	}
 	/*rules applied to all axes*/
@@ -524,8 +527,8 @@ a:hover {
 	box-shadow: 0 0 5px 0 #aaa;
 }
 body .ui-tooltip {
-	font-family: "CondensedLight";
-	font-size:18px;
+/*	font-family: "CondensedLight";*/
+	font-size:16px;
 	border-width: 2px;
 	background: #ffffff;
 	background: rgba(55, 55, 55, 0.7);
@@ -544,5 +547,6 @@ body .ui-tooltip {
 }
 
 .ui-widget {
-	font-family: "CondensedLight";
+	font-size:14px;
+/*	font-family: "CondensedLight";*/
 }

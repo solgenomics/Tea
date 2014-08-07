@@ -197,13 +197,13 @@ $(document).ready(function () {
 		var gene_text = new Kinetic.Text({
 			// x: x_margin -175,
 			// y: y_margin +93,
-			x: x_margin -140,  //change cube stages by tissues
-			y: y_margin +60,  //change cube stages by tissues
+			x: x_margin -150,  //change cube stages by tissues
+			y: y_margin +62,  //change cube stages by tissues
 			id: "slice_name_"+n,
 			text: gene_names_array[n-1],
-			fontSize: 20,
-			// fontFamily: 'Helvetica',
-			fontFamily: 'CondensedLight',
+			fontSize: 16, //20 for CondensedLight
+			fontFamily: 'Helvetica',
+			// fontFamily: 'CondensedLight',
 			fill: "black"
 		});
 		
@@ -217,8 +217,8 @@ $(document).ready(function () {
 			var gene_description = gene_descriptions[gene_names_array[n-1]];
 			var gene_desc = '';
 			
-			if (gene_description.length > 70) {
-				gene_desc = gene_description.slice(0, 70)+" ...";
+			if (gene_description.length > 60) {
+				gene_desc = gene_description.slice(0, 60)+" ...";
 			} else {
 				gene_desc = gene_description;
 			}
@@ -239,9 +239,9 @@ $(document).ready(function () {
 				x: x_pos-75,
 				y: y_pos+8,
 				text: gene_desc,
-				fontSize: 20,
-				fontFamily: 'CondensedLight',
-				// fontFamily: 'Helvetica',
+				fontSize: 16, //20 for CondensedLight
+				// fontFamily: 'CondensedLight',
+				fontFamily: 'Arial',
 				fill: "white"
 			});
 			if (n>1) {
@@ -283,8 +283,8 @@ $(document).ready(function () {
 		var circle = new Kinetic.Circle({
 		        // x: x_margin -180,
 		        // y: y_margin +100,
-		        x: x_margin -145, //change cube stages by tissues
-		        y: y_margin +70, //change cube stages by tissues
+		        x: x_margin -155, //change cube stages by tissues
+		        y: y_margin +68, //change cube stages by tissues
 		        radius: 3,
 		        fill: 'white',
 		        stroke: 'black',
@@ -371,13 +371,13 @@ $(document).ready(function () {
 				if (j == 1 && n == 1) {
 					//add tissue names to top layer
 					var tissue_text = new Kinetic.Text({
-						x: x_margin +i*20 -15,
+						x: x_margin +i*20 -12,
 						// x: x_margin +i*20 +3, //change cube orientation
-						y: y_margin +5,
+						y: y_margin+8,
 						text: tissue_names[i-1],
-						fontSize: 20,
-						// fontFamily: 'Helvetica',
-						fontFamily: 'CondensedLight',
+						fontSize: 16, //20 for CondensedLight
+						fontFamily: 'Helvetica',
+						// fontFamily: 'CondensedLight',
 						fill: 'black',
 						rotation: 270
 					});
@@ -574,14 +574,14 @@ $(document).ready(function () {
 		
 		//Stages for the cube
 		var stage_text = new Kinetic.Text({
-			x: x_margin,
-			y: y_margin-5,
+			x: x_margin+5,
+			y: y_margin,
 			text: stage_name,
 			width: 100,
 			align: 'right',
-			fontSize: 20,
-			// fontFamily: 'Helvetica',
-			fontFamily: 'CondensedLight',
+			fontSize: 16, //20 for CondensedLight
+			fontFamily: 'Helvetica',
+			// fontFamily: 'CondensedLight',
 			fill: 'black',
 			rotation: 30
 			// rotation: 45 //change cube orientation

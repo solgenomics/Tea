@@ -1,7 +1,7 @@
 
 
 <center>
-	<div id="pagetitle"><h1><img src="/static/images/expr_logo.png" height="40" style="margin-bottom:-10px;"/> Expression Viewer</h1></div>
+	<div id="pagetitle"><h1><img src="/static/images/expr_small.png" height="40" style="margin-bottom:-10px;"/> Expression Viewer</h1></div>
 
 <!-- <form id="search_gene"> -->
 <form id="search_gene" method="post" action="/Expression_viewer/output" name="tea_form" enctype="multipart/form-data">

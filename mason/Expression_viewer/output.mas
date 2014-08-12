@@ -41,7 +41,7 @@ my $json = JSON::Any->new;
 
 <center>
 	<div id="pagetitle">
-		<h1><a href="/Expression_viewer/input"><img src="/static/images/expr_logo.png" height="40" style="margin-bottom:-10px;"/></a> Expression Viewer</h1>
+		<h1><a href="/Expression_viewer/input"><img src="/static/images/expr_small.png" height="40" style="margin-bottom:-10px;"/></a> Expression Viewer</h1>
 	</div>
 	
 	<form id="search_gene" method="post" action="/Expression_viewer/output" name="tea_form" enctype="multipart/form-data">

@@ -1079,6 +1079,10 @@ $(document).ready(function () {
 			$('#working').dialog("open");
 		}
 		
+		function enable_ui() {
+			$('#working').dialog("close");
+		}
+		
 		function getGeneInfo(gene_array,stages,tissues,aoaoa,cube_layer,canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start, page, pages_num) {
 			
 			var genes_string = gene_array.join();
@@ -1099,26 +1103,27 @@ $(document).ready(function () {
 				success: function(response) {
 					if (response.error) {
 						alert("ERROR: "+response.error);
-						$('#working').dialog("close");
-						// enable_ui();
+						enable_ui();
 					} else {
 						// alert("gene: "+response.gene_id[gene_array[0]]+" desc: "+response.description[gene_array[0]]);
 						var gene_ids = response.gene_id;
 						var gene_descriptions = response.description;
+						
+						if (!response.gene_id[gene_array[0]]) {
+							alert("Gene not found");
+						}
 						
 						document.getElementById("gene_name").innerHTML = "<a href='http://solgenomics.net/feature/"+response.gene_id[gene_array[0]]+"/details' target='_blank'><img src='/static/images/sgn_logo.png' height='30' style='margin-bottom: -10px;' title='Connect to SGN for metadata associated with this gene'/> "+gene_array[0]+"</a>";
 						document.getElementById("gene_desc").innerHTML = response.description[gene_array[0]];
 						
 						// alert("before draw_cube: "+page);
 						draw_cube(genes,stages,tissues,aoaoa,cube_layer,canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start, gene_ids, gene_descriptions, page, pages_num);
-						$('#working').dialog("close");
+						enable_ui();
 					}
 				},
 				error: function(response) {
 					alert("An error occurred. The service may not be available right now.");
-					$('#working').dialog("close");
-					//safari_alert();
-					// enable_ui();
+					enable_ui();
 				}
 			});
 		}

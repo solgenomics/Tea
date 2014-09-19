@@ -14,6 +14,12 @@ use JSON;
 
 BEGIN { extends 'Catalyst::Controller'; }
 
+# BEGIN { extends 'Catalyst::Controller::REST' }
+# __PACKAGE__->config(
+# default => 'application/json',
+# stash_key => 'rest',
+# map => { 'application/json' => 'JSON', 'text/html' => 'JSON' },
+# );
 
 =head1 NAME
 
@@ -57,6 +63,12 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	my $expr_path = $c->config->{expression_indexes_path};
 	my $corr_path = $c->config->{correlation_indexes_path};
 	
+	# strip gene name
+	$query_gene =~ s/^\s+//;
+	$query_gene =~ s/\s+$//;
+	$query_gene =~ s/\.\d$//;
+	$query_gene =~ s/\.\d$//;
+	
 	# get correlation filter value (it is 100 higer when it comes from the input slider)
 	if ($corr_filter > 1) {
 		$corr_filter = $corr_filter/100;
@@ -64,12 +76,6 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	my $total_corr_genes = 0;
 	$current_page = $current_page - 1;
 	
-    # Send error message to the web if something is wrong
-	if (scalar (@errors) > 0){
-		my $user_errors = join("<br />", @errors);
-		$c->stash->{rest} = {error => $user_errors};
-		return;
-	}
 	
 	#------------------------------------- Get Correlation Data
 	my @genes;
@@ -78,7 +84,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	    path     => $corr_path,
 	    language => 'en',
 	);
-
+	
 	my $sort_spec = Lucy::Search::SortSpec->new(
 	     rules => [
 		 	Lucy::Search::SortRule->new( field => 'correlation', reverse => 1,),
@@ -95,6 +101,24 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	);
 	
 	$total_corr_genes = $hits;
+	
+	if (!$total_corr_genes) {
+		push ( @errors , "Gene not found.\n");
+		# print STDERR "total_corr_genes: $total_corr_genes\n";
+	}
+	
+    # Send error message to the web if something is wrong
+	if (scalar (@errors) > 0){
+		
+		my $user_errors = join("<br />", @errors);
+		print STDERR "$user_errors\n";
+		# $c->stash->{rest} = {error => $user_errors};
+		$c->stash->{error} = $user_errors;
+		$c->stash->{template} = '/Expression_viewer/output.mas';
+		return;
+	}
+	
+	
 	
 	#------------------------------------- Get page number after correlation filtering
 	if ($corr_filter > 0.65) {

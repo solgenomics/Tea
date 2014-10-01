@@ -370,11 +370,13 @@ $(document).ready(function () {
 			
 				if (j == 1 && n == 1) {
 					//add tissue names to top layer
+					tissue_name = tissue_names[i-1].replace("_", " "); //replace underscores in tissue names by spaces
+					
 					var tissue_text = new Kinetic.Text({
 						x: x_margin +i*20 -12,
 						// x: x_margin +i*20 +3, //change cube orientation
 						y: y_margin+8,
-						text: tissue_names[i-1],
+						text: tissue_name,
 						fontSize: 16, //20 for CondensedLight
 						fontFamily: 'Helvetica',
 						// fontFamily: 'CondensedLight',
@@ -572,12 +574,14 @@ $(document).ready(function () {
 
 	function add_stage_names(x_margin,y_margin,stage_name,x_margin2,stages_layer,canvas_tmp) {
 		
+		stage_name = stage_name.replace("_", " "); //replace underscores in stage names by spaces
+		
 		//Stages for the cube
 		var stage_text = new Kinetic.Text({
-			x: x_margin+5,
+			x: x_margin,
 			y: y_margin,
 			text: stage_name,
-			width: 100,
+			width: 105,
 			align: 'right',
 			fontSize: 16, //20 for CondensedLight
 			fontFamily: 'Helvetica',

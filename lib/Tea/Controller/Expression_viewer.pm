@@ -162,8 +162,8 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	#------------------------------------- Temporal Data
 	# my @genes = ("Solyc04g074910", "Solyc05g052140", "Solyc04g076060", "Solyc04g076210", "Solyc04g076010");
 	unshift(@genes, $query_gene);
-	my @stages = ("dpa", "mg", "pink");
-	my @tissues = ("ie", "parenchyma", "vascular", "collenchyma", "oe");
+	my @stages = ("10DPA", "Mature_Green", "Pink");
+	my @tissues = ("Inner_Epidermis", "Parenchyma", "Vascular", "Collenchyma", "Outer_Epidermis");
 	#----------------------------------------------------------------------
 	
 	
@@ -202,7 +202,10 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	for (my $g=0; $g<scalar(@genes); $g++) {
 		for (my $s=0; $s<scalar(@stages); $s++) {
 			for (my $t=0; $t<scalar(@tissues); $t++) {
+				
 				$AoAoA[$g][$s][$t] = $gene_stage_tissue_expr{$genes[$g]}{$stages[$s]}{$tissues[$t]};
+				
+				# print STDERR "$genes[$g]\t$stages[$s]\t$tissues[$t] = $AoAoA[$g][$s][$t]\n";
 			}
 		}
 	}

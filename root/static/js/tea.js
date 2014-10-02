@@ -319,8 +319,9 @@ $(document).ready(function () {
 				var nx = i*sq_size + x_start;
 				var ny = y_margin + j*15;
 			
-				// var sqr_color = get_expr_color(color_code, aoa[n-1][i-1][j-1]); //change cube stages by tissues
-				var sqr_color = get_expr_color(color_code, aoa[n-1][j-1][i-1]);
+				// var rgb_color_array = get_expr_color(aoa[n-1][i-1][j-1]); //change cube stages by tissues
+				var rgb_color_array = get_expr_color(aoa[n-1][j-1][i-1]);
+				var sqr_color = 'rgb('+rgb_color_array[0]+','+rgb_color_array[1]+','+rgb_color_array[2]+')';
 				
 				nx = nx-15 + (j-1)*5; //change cube orientation
 				var top_tile = new Kinetic.Line({
@@ -597,74 +598,51 @@ $(document).ready(function () {
 	}
 
 
-	function get_expr_color(color_code,expr_val) {
+	function get_expr_color(expr_val) {
 		
-		// var color = ['rgb(100,0,0)','rgb(255,0,0)','rgb(255,130,0)','rgb(255,205,155)','rgb(255,255,0)','rgb(255,255,205)'];
-		
-		//get a color from expression value
-		var tmp_color;
-		// alert(expr_val);
-		// var color = Math.round(200 + expr_val/155);
+		var r_color = 255;
+		var g_color = 255;
+		var b_color = 255;
 		
 		if (expr_val == 0) {
 			tmp_color = 'rgb('+255+','+255+','+255+')';
 		} else if (expr_val <= 1) {
-			// b_color = Math.round(205*expr_val);
-			b_color = Math.round(205*(1-expr_val));
-			tmp_color = 'rgb('+255+','+255+','+b_color+')';
-			
+			r_color = 255;
+			g_color = 255;
+			b_color = Math.round(200*(1-expr_val)+50);
 		} else if (expr_val > 1 && expr_val <= 10) {
-			g_color = Math.round(255 - 125*expr_val/10);
-			b_color = Math.round(205 - 205*expr_val/10);
-			tmp_color = 'rgb('+255+','+g_color+','+b_color+')';
-			
+			r_color = 255;
+			g_color = Math.round(250 - 55*expr_val/10);
+			b_color = Math.round(225 - 100*expr_val/10);
 		} else if (expr_val > 10 && expr_val <= 100) {
-			g_color = Math.round(205 - 75*(1 - expr_val/100));
-			b_color = Math.round(155 - 155*(1 - expr_val/100));
-			
-			tmp_color = 'rgb('+255+','+g_color+','+b_color+')';
+			r_color = 255;
+			g_color = Math.round(197 - 67*(expr_val/100));
+			b_color = Math.round(130 - 130*(expr_val/100));
 		} else if (expr_val > 100 && expr_val <= 300) {
-			r_color = Math.round(255 - 105*(expr_val-100)/200);
+			r_color = 255
 			g_color = Math.round(130 - 130*(expr_val-100)/200);
-			tmp_color = 'rgb('+r_color+','+g_color+','+0+')';
-		} else if (expr_val > 300) {
-			color = Math.round(150 + 105*expr_val/300);
-			tmp_color = 'rgb('+color+','+0+','+0+')';
+			b_color = 0;
+		} else if (expr_val > 300 && expr_val <= 500) {
+
+			r_color = Math.round(255 - 175*(expr_val-300)/200);
+			g_color = 0;
+			b_color = 0;
+
+		} else if (expr_val > 500) {
+			r_color = 80;
+			g_color = 0;
+			b_color = 0;
 		}
-	
-		// if (expr_val <= 1) {
-		// 	color = Math.round(50 + expr_val*50);
-		// 	tmp_color = 'rgb('+color+','+0+','+0+')';
-		// } else if (expr_val > 1 && expr_val <= 10) {
-		// 	color = Math.round(100 + expr_val*155/10);
-		// 	tmp_color = 'rgb('+color+','+0+','+0+')';
-		// } else if (expr_val > 10 && expr_val <= 100) {
-		// 	color = Math.round(155 + expr_val*100/100);
-		// 	tmp_color = 'rgb('+color+','+Math.round(color/2)+','+0+')';
-		// } else if (expr_val > 100 && expr_val <= 300) {
-		// 	color = Math.round(100 + expr_val*100/300);
-		// 	tmp_color = 'rgb('+255+','+color+','+0+')';
-		// } else if (expr_val > 300 && expr_val <= 1000) {
-		// 	color = Math.round(200 + expr_val*55/1000);
-		// 	tmp_color = 'rgb('+color+','+color+','+0+')';
-		// } else if (expr_val > 1000) {
-		// 	color = Math.round(200 + expr_val*55/1000);
-		// 	tmp_color = 'rgb('+color+','+color+','+color+')';
-		// }
-		//
-		return tmp_color;
+		
+		// var tmp_color = 'rgb('+r_color+','+g_color+','+b_color+')';
+		return [r_color,g_color,b_color];
 	}
 
 
 	function add_color_grad_legend(x_pos,y_pos,color_string,tmp_layer,stage) {
 	
-		var color = ['rgb(100,0,0)','rgb(255,0,0)','rgb(255,130,0)','rgb(255,205,155)','rgb(255,255,0)','rgb(255,255,205)'];
-		// var color = ['rgb(255,0,0)','rgb(150,0,0)','rgb(255,130,0)','rgb(255,205,155)','rgb(255,255,205)','rgb(255,255,0)'];
-		// var color = ['rgb(255,0,0)','rgb(150,0,0)','rgb(255,205,155)','rgb(255,130,0)','rgb(255,255,205)','rgb(255,255,0)'];
-		// var color = ['rgb(255,255,255)','rgb(255,255,0)','rgb(255,200,0)','rgb(200,100,50)','rgb(255,0,0)','rgb(50,50,50)'];
-		// if (color_string == 'by') {
-		// 	color = ['rgb(0,0,255)','rgb(0,0,55)','rgb(255,255,0)','rgb(55,55,0)'];
-		// }
+		var color = ['rgb(80,0,0)','rgb(255,0,0)','rgb(255,130,0)','rgb(255,195,125)','rgb(255,244,214)','rgb(255,255,50)','rgb(255,255,230)'];
+		// var color = ['rgb(100,0,0)','rgb(255,0,0)','rgb(255,130,0)','rgb(255,205,155)','rgb(255,255,0)','rgb(255,255,205)'];
 	
 		var grad_legend = new Kinetic.Rect({
 			x: x_pos,
@@ -673,9 +651,7 @@ $(document).ready(function () {
 			height: 400,
 			fillLinearGradientStartPoint: {x:0, y:0},
 			fillLinearGradientEndPoint: {x:0,y:400},
-			fillLinearGradientColorStops: [0, color[0], 0.2, color[1], 0.4, color[2], 0.6, color[3], 0.9, color[4], 0.99, color[5], 1, 'rgb(255,255,255)'],
-			// fillLinearGradientColorStops: [0.2, color[0], 0.2, color[1], 0.4, color[2], 0.6, color[3], 0.8, color[4], 1, color[5]],
-			// fillLinearGradientColorStops: [0, color[0], 0.5, color[1], 0.5, color[2], 1, color[3]],
+			fillLinearGradientColorStops: [0, color[0], 0.2, color[1], 0.4, color[2], 0.6, color[3], 0.75, color[4], 0.9, color[5], 0.99, color[6], 1, 'rgb(255,255,255)'],
 			stroke: 'black',
 			strokeWidth: 1,
 			// id: "hm"+x+y
@@ -948,84 +924,14 @@ $(document).ready(function () {
 		for (var i = 0; i<tissues.length; i++) {
 			
 			var expr_val = aoaoa[0][j][i];
-			var r = 255;
-			var g = 255;
-			var b = 255;
 			
-			// var color = ['rgb(255,0,0)','rgb(150,0,0)','rgb(255,128,0)','rgb(255,205,155)','rgb(255,255,0)','rgb(255,255,205)'];
+			var rgb_color_array = get_expr_color(expr_val);
 			
-			if (expr_val == 0) {
-				r = 255;
-				g = 255;
-				b = 255;
-			} else if (expr_val <= 1) {
-				color = Math.round(205*(1-expr_val));
-				r = 255;
-				g = 255;
-				b = color;
-			} else if (expr_val > 1 && expr_val <= 10) {
-				g_color = Math.round(255 - 125*expr_val/10);
-				b_color = Math.round(205 - 205*expr_val/10);
-				r = 255;
-				g = g_color;
-				b = b_color;
-			} else if (expr_val > 10 && expr_val <= 100) {
-				g_color = Math.round(205 - 75*(1 - expr_val/100));
-				b_color = Math.round(155 - 155*(1 - expr_val/100));
-				r = 255;
-				g = g_color;
-				b = b_color;
-				
-				// alert("r: "+r+" g: "+g+" b: "+b);
-				
-			} else if (expr_val > 100 && expr_val <= 300) {
-				r_color = Math.round(255 - 105*(expr_val-100)/200);
-				g_color = Math.round(130 - 130*(expr_val-100)/200);
-				r = r_color;
-				g = g_color;
-				b = 0;
-			} else if (expr_val > 300 ) {
-				color = Math.round(150 + 105*expr_val/300);
-				r = color;
-				g = 0;
-				b = 0;
-			}
+			var r = rgb_color_array[0];
+			var g = rgb_color_array[1];
+			var b = rgb_color_array[2];
 			
-			
-			// if (expr_val <= 1) {
-			// 	color = Math.round(50 + expr_val*50);
-			// 	r = color;
-			// 	g = 0;
-			// 	b = 0;
-			// } else if (expr_val > 1 && expr_val <= 10) {
-			// 	color = Math.round(100 + expr_val*155/10);
-			// 	r = color;
-			// 	g = 0;
-			// 	b = 0;
-			// } else if (expr_val > 10 && expr_val <= 100) {
-			// 	color = Math.round(155 + expr_val*100/100);
-			// 	r = color;
-			// 	g = Math.round(color/2);
-			// 	b = 0;
-			// } else if (expr_val > 100 && expr_val <= 300) {
-			// 	color = Math.round(100 + expr_val*100/300);
-			// 	r = 255;
-			// 	g = color;
-			// 	b = 0;
-			// } else if (expr_val > 300 && expr_val <= 1000) {
-			// 	color = Math.round(200 + expr_val*55/1000);
-			// 	r = color;
-			// 	g = color;
-			// 	b = 0;
-			// } else if (expr_val > 1000) {
-			// 	color = Math.round(200 + expr_val*55/1000);
-			// 	r = color;
-			// 	g = color;
-			// 	b = color;
-			// }
-			
-			// alert("tissue: "+tissues[i]);
-	        loadImage(x_offset,r,g,b,tissue_layer,canvas);
+			loadImage(x_offset,r,g,b,tissue_layer,canvas);
 		}
 	}
 	// -------------------------------------------------------------------------------------
@@ -1047,8 +953,6 @@ $(document).ready(function () {
 
 
 	// draw_cube(genes,stages,tissues,aoaoa,cube_layer,canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start, gene_ids, gene_descriptions);
-
-
 
 
 	// $(document).ready(function () {

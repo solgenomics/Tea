@@ -229,7 +229,7 @@ $(document).ready(function () {
 		        x: x_pos-80,
 		        y: y_pos,
 		        fill: '#000000',
-				opacity: 0.5,
+				opacity: 0.7,
 		        width: 530,
 		        height: 30,
 		        cornerRadius: 10
@@ -891,7 +891,7 @@ $(document).ready(function () {
 
 	// -------------------------------------------------------------------------------------
 	
-	function loadImage(x_offset,r_color,g_color,b_color,tissue_layer,canvas) {
+	function loadImage(i,j,aoaoa,x_offset,r_color,g_color,b_color,one_tissue_layer,canvas,stage_name,tissue_name) {
 		var tmp_imgObj = new Image();
 		tmp_imgObj.onload = function() {
 
@@ -903,22 +903,81 @@ $(document).ready(function () {
 				width: 200,
 				height: 360
 			});
-			tissue_layer.add(tmp_tissue);
-			canvas.add(tissue_layer);
+			one_tissue_layer.add(tmp_tissue);
+			canvas.add(one_tissue_layer);
 			
 			tmp_tissue.cache();
 			tmp_tissue.filters([Kinetic.Filters.RGB]);
 			tmp_tissue.red(r_color).green(g_color).blue(b_color);
 			tmp_tissue.draw();
 			
+			
+			
+			
+			//add expression values on a tooltip
+			if (i == 4) {
+			
+				var tissue_popup_layer = new Kinetic.Layer();
+				canvas.add(tissue_popup_layer);
+	
+				tmp_tissue.on('mouseover', function() {
+					var x_pos = this.getAbsolutePosition().x-10;
+					var y_pos = this.getAbsolutePosition().y+305;
+					
+					for (var n=0; n<5; n++) {
+						var y_offset = n*65
+						if (n == 3) {
+							y_offset = 240
+						}
+						
+						var tissue_popup = new Kinetic.Rect({
+					        x: x_pos,
+					        y: y_pos - y_offset,
+					        fill: '#000000',
+							opacity: 0.7,
+					        width: 185,
+					        height: 20,
+					        cornerRadius: 7,
+						});
+						
+						var tissue_name = tissues[n].replace("_"," ");
+						
+						var tissue_desc_txt = new Kinetic.Text({
+							x: x_pos+5,
+							y: y_pos+3 - y_offset,
+							text: tissue_name+": "+aoaoa[0][j][n],
+							fontSize: 16,
+							fontFamily: 'Arial',
+							fill: "white"
+						});
+						tissue_popup_layer.add(tissue_popup);
+						tissue_popup_layer.moveToTop();
+						tissue_popup_layer.add(tissue_desc_txt);
+						tissue_popup_layer.draw();
+					}
+				});
+	
+				tissue_layer.on('mouseout', function() {
+					tissue_popup_layer.removeChildren();
+					tissue_popup_layer.draw();
+				});
+			
+			}
+			
+			
+			
+			
+			
+			
 		};
-		tmp_imgObj.src = '/static/images/expr_viewer/'+stages[j]+'_'+tissues[i]+'.png';
+		tmp_imgObj.src = '/static/images/expr_viewer/'+stage_name+'_'+tissue_name+'.png';
 	}
 		
 		// http://www.html5canvastutorials.com/tutorials/html5-canvas-image-loader/
 		
 	
 	for (var j = 0; j < stages.length; j++) {
+		
 		var x_offset = 200 + 190*j;
 
 		for (var i = 0; i<tissues.length; i++) {
@@ -931,7 +990,7 @@ $(document).ready(function () {
 			var g = rgb_color_array[1];
 			var b = rgb_color_array[2];
 			
-			loadImage(x_offset,r,g,b,tissue_layer,canvas);
+			loadImage(i,j,aoaoa,x_offset,r,g,b,tissue_layer,canvas,stages[j],tissues[i]);
 		}
 	}
 	// -------------------------------------------------------------------------------------

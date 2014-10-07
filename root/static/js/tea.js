@@ -1,6 +1,5 @@
 $(document).ready(function () {
 
-
 	function print_bar_chart(t_names,s_names,sxt_values,gene_name,corr_val) {
 		
 		var plot1 = $.jqplot(gene_name+'_bar_graph', sxt_values, {
@@ -99,15 +98,15 @@ $(document).ready(function () {
 			
 			var dynamicDialog = $('<div id="'+gene_name+'_dialog">\
 			<center>\
-				<a href="http://solgenomics.net/locus/'+gene_id+'/view" target="_blank"><img src="/static/images/sgn_logo.png" height="25" title="Connect to SGN for metadata associated with this gene"/>\
-				<b>'+gene_name+' </b></a> \
+				<a href="http://solgenomics.net/locus/'+gene_id+'/view" target="_blank"><img src="/static/images/sgn_logo.png" height="25" title="Connect to SGN for metadata associated with this gene"/></a>\
+				<a id="paste_gene"><b>'+gene_name+'</b></a> \
 				&nbsp; &nbsp; &nbsp; <b> Correlation val: </b>'+corr_val+' \
 				<br/>\
 				<span>'+description+'</span>\
 			</center>\
 			<div id="'+gene_name+'_bar_graph"></div>\
 			</div>');
-	
+			
 			$(function() {
 				dynamicDialog.dialog({
 					title: gene_name,
@@ -120,7 +119,6 @@ $(document).ready(function () {
 			});
 		}
 	}
-
 
 	//function to draw the central page numbers for the cube pagination
 	function draw_central_pages(page_index, page_x_index, y_margin, pages_group, pages_num) {
@@ -769,7 +767,6 @@ $(document).ready(function () {
 	function enable_ui() {
 		$('#working').dialog("close");
 	}
-	
 	
 	// -------------------------------------------------------------------------------------
 	// -------------------------------------------------------------------------------------

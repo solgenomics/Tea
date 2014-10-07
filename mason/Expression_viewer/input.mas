@@ -19,7 +19,7 @@
 			</tr>
 			<tr>
 				<td class="td_form">
-					<input class="input" id="gene" type="input" value="Solyc01g106800" name="input_gene" size="20" />
+					<input class="input" id="gene" type="input" value="Solyc01g102660" name="input_gene" size="20" />
 					<br/><br/>
 					<button class="blue_button">Get Expression</button>
 					<!-- <button class="blue_button" type="submit" form="search_gene" formaction="/Expression_viewer/output" formmethod="post" formenctype="multipart/form-data">Search</button> -->

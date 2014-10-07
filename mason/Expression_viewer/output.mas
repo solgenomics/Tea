@@ -4,6 +4,8 @@
 @tissues => ()
 @aoaoa => ()
 @correlation => ()
+%description => ()
+%locus_ids => ()
 $pages_num => 1
 $current_page => 1
 $correlation_filter => 0.8
@@ -28,6 +30,8 @@ my $json = JSON::Any->new;
 	var genes = <% $json->encode(\@genes) %>;
 	var aoaoa = <% $json->encode(\@aoaoa) %>;
 	var corr_values = <% $json->encode(\@correlation) %>;
+	var gene_descriptions = <% $json->encode(\%description) %>;
+	var gene_locus_id = <% $json->encode(\%locus_ids) %>;
 	var pages_num = <% $pages_num %>;
 	var current_page = <% $current_page %>;
 	var correlation_filter = <% $correlation_filter %>;

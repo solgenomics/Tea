@@ -1,36 +1,8 @@
 $(document).ready(function () {
-	// $('#color_code').val("rg");
-	
-	function dump(arr,level) {
-		var dumped_text = "";
-		if(!level) level = 0;
-
-		//The padding given at the beginning of the line.
-		var level_padding = "";
-		for(var j=0;j<level+1;j++) level_padding += "    ";
-
-		if(typeof(arr) == 'object') { //Array/Hashes/Objects 
-			for(var item in arr) {
-				var value = arr[item];
-	
-				if(typeof(value) == 'object') { //If it is an array,
-					dumped_text += level_padding + "'" + item + "' ...\n";
-					dumped_text += dump(value,level+1);
-				} else {
-					dumped_text += level_padding + "'" + item + "' => \"" + value + "\"\n";
-				}
-			}
-		} else { //Stings/Chars/Numbers etc.
-			dumped_text = "===>"+arr+"<===("+typeof(arr)+")";
-		}
-		return dumped_text;
-	}
 
 
 	function print_bar_chart(t_names,s_names,sxt_values,gene_name,corr_val) {
-		// alert("data: "+sxt_values);
 		
-		// var plot1 = $.jqplot('bar_graph', sxt_values, {
 		var plot1 = $.jqplot(gene_name+'_bar_graph', sxt_values, {
 			title: '',
 			animate: true,
@@ -81,10 +53,10 @@ $(document).ready(function () {
 						fontSize: '10pt',
 						textColor: 'black',
 						fontFamily: 'Arial'
-					            },
+					},
 					labelRenderer: $.jqplot.CanvasAxisLabelRenderer
 				}
-				        },
+			},
 			grid: {
 				background: "white",
 				borderColor: "black",
@@ -106,7 +78,6 @@ $(document).ready(function () {
 
 		var tissue_names = ["Inner epidermis","Parenchyma","Vascular tissue","Collenchyma","Outer epidermis"];
 		var stage_names = ["10DPA", "Mature green", "Pink"];
-		// var stage_tissue_values = [[146.25, 180.23, 20.12, 221.16, 60.12],[133.53, 284.63, 38.37, 169.95, 264.21],[12.35, 31.26, 3.18, 10.38, 37.21]];
 		
 		var dialog_null = document.getElementById(gene_name+"_dialog");
 		
@@ -124,10 +95,11 @@ $(document).ready(function () {
 			}
 			
 		} else {
-		
+			//TO DO: paste gene on input box on click
+			
 			var dynamicDialog = $('<div id="'+gene_name+'_dialog">\
 			<center>\
-				<a href="http://solgenomics.net/feature/'+gene_id+'/details" target="_blank"><img src="/static/images/sgn_logo.png" height="25" title="Connect to SGN for metadata associated with this gene"/>\
+				<a href="http://solgenomics.net/locus/'+gene_id+'/view" target="_blank"><img src="/static/images/sgn_logo.png" height="25" title="Connect to SGN for metadata associated with this gene"/>\
 				<b>'+gene_name+' </b></a> \
 				&nbsp; &nbsp; &nbsp; <b> Correlation val: </b>'+corr_val+' \
 				<br/>\
@@ -136,17 +108,6 @@ $(document).ready(function () {
 			<div id="'+gene_name+'_bar_graph"></div>\
 			</div>');
 	
-			// var dynamicDialog = $('<div id="'+gene_name+'_dialog">\
-			// <center>\
-			// 	<a href="http://solgenomics.net/feature/'+gene_id+'/details" target="_blank"><img src="/static/images/sgn_logo.png" height="25" title="Connect to SGN for metadata associated with this gene"/>\
-			// 	<span id="'+gene_name+'_gene_dialog" class="gene_name_dialog">'+gene_name+'</span></a> \
-			// 	<b>Correlation val: </b>'+corr_val+' \
-			// 	<br/>\
-			// 	<span id="'+gene_name+'_desc_dialog" class="gene_desc_dialog">'+description+'</span>\
-			// </center>\
-			// <div id="'+gene_name+'_bar_graph"></div>\
-			// </div>');
-			//
 			$(function() {
 				dynamicDialog.dialog({
 					title: gene_name,
@@ -155,11 +116,11 @@ $(document).ready(function () {
 					resizable: false,
 				});
 				$('.ui-dialog :button').blur();
-				// dynamicDialog.css('background-color','transparent');
 				print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name,corr_val);
 			});
 		}
 	}
+
 
 	//function to draw the central page numbers for the cube pagination
 	function draw_central_pages(page_index, page_x_index, y_margin, pages_group, pages_num) {
@@ -182,7 +143,7 @@ $(document).ready(function () {
 		pages_group.add(central_page);
 	}
 
-	// function add_slice(n,gene_names_array,aoa,tissue_names,stage_names,tmp_layer,stage,x_margin,y_margin,color_code) {
+
 	function add_slice(n,gene_names_array,aoa,stage_names,tissue_names,tmp_layer,canvas,x_margin,y_margin,color_code,correlation,gene_descriptions,gene_ids,current_page,pages_num,genes_num) {
 		
 		var sq_size = 20;
@@ -195,10 +156,8 @@ $(document).ready(function () {
 		});
 		
 		var gene_text = new Kinetic.Text({
-			// x: x_margin -175,
-			// y: y_margin +93,
-			x: x_margin -150,  //change cube stages by tissues
-			y: y_margin +62,  //change cube stages by tissues
+			x: x_margin -150,
+			y: y_margin +62,
 			id: "slice_name_"+n,
 			text: gene_names_array[n-1],
 			fontSize: 16, //20 for CondensedLight
@@ -222,8 +181,6 @@ $(document).ready(function () {
 			} else {
 				gene_desc = gene_description;
 			}
-			
-			// var gene_desc = "gene description from SGN";
 			
 			var gene_popup = new Kinetic.Rect({
 		        x: x_pos-80,
@@ -281,22 +238,19 @@ $(document).ready(function () {
 		
 		
 		var circle = new Kinetic.Circle({
-		        // x: x_margin -180,
-		        // y: y_margin +100,
-		        x: x_margin -155, //change cube stages by tissues
-		        y: y_margin +68, //change cube stages by tissues
-		        radius: 3,
-		        fill: 'white',
-		        stroke: 'black',
-		        strokeWidth: 1,
-				id: "circle_"+n,
-				name: "gene_circle"
+			x: x_margin -155,
+			y: y_margin +68,
+			radius: 3,
+			fill: 'white',
+			stroke: 'black',
+			strokeWidth: 1,
+			id: "circle_"+n,
+			name: "gene_circle"
 		});
 
 		var moving_slice_group = new Kinetic.Group({
 			id: "full_slice_"+n,
 		});
-
 
 		if (n == 1) {
 			gene_text.fill("#0000EE");
@@ -312,27 +266,24 @@ $(document).ready(function () {
 
 
 		// add stage and tissue names to the first gene
-		// for (var j=stage_names.length; j>=1; j--) {
-		for (var j=1; j<=stage_names.length; j++) {  //change cube stages by tissues
+		for (var j=1; j<=stage_names.length; j++) {
 			for (var i=tissue_names.length; i>=1; i--) {
 				var x_start = x_margin - j*15;
 				var nx = i*sq_size + x_start;
 				var ny = y_margin + j*15;
 			
-				// var rgb_color_array = get_expr_color(aoa[n-1][i-1][j-1]); //change cube stages by tissues
 				var rgb_color_array = get_expr_color(aoa[n-1][j-1][i-1]);
 				var sqr_color = 'rgb('+rgb_color_array[0]+','+rgb_color_array[1]+','+rgb_color_array[2]+')';
 				
-				nx = nx-15 + (j-1)*5; //change cube orientation
+				nx = nx-15 + (j-1)*5;
 				var top_tile = new Kinetic.Line({
-			        points: [(nx+15), ny, (nx+35), ny, (nx+25), ny+15, nx+5, ny+15],
-			        // points: [(nx+15), ny, (nx+35), ny, (nx+20), ny+15, nx, ny+15],
-			        fill: sqr_color,
-			        stroke: 'black',
-			        strokeWidth: 1,
-			        closed: true
+					points: [(nx+15), ny, (nx+35), ny, (nx+25), ny+15, nx+5, ny+15],
+					fill: sqr_color,
+					stroke: 'black',
+					strokeWidth: 1,
+					closed: true
 				});
-				nx = i*sq_size + x_start; //change cube orientation
+				nx = i*sq_size + x_start;
 			
 				slice_group.add(top_tile);
 			
@@ -340,7 +291,6 @@ $(document).ready(function () {
 				if (j == stage_names.length) {
 				
 					var front_tile = new Kinetic.Rect({
-						// x: nx+10, //change cube stages by tissues
 						x: nx,
 						y: ny+15,
 						width: sq_size,
@@ -348,7 +298,6 @@ $(document).ready(function () {
 						fill: sqr_color,
 						stroke: 'black',
 						strokeWidth: 1,
-						// id: "hm"+nx+ny
 					});
 				
 					slice_group.add(front_tile);
@@ -359,11 +308,10 @@ $(document).ready(function () {
 					nx = nx-10 + (j-1)*5;
 					var right_tile = new Kinetic.Line({
 						points: [nx+sq_size, ny+15, nx+30, ny, nx+30, ny+sq_size, nx+sq_size, ny+35],
-				        // points: [nx+sq_size, ny+15, nx+35, ny, nx+35, ny+sq_size, nx+sq_size, ny+35],  //change cube orientation
-				        fill: sqr_color,
-				        stroke: 'black',
-				        strokeWidth: 1,
-				        closed: true
+						fill: sqr_color,
+						stroke: 'black',
+						strokeWidth: 1,
+						closed: true
 					});
 				
 					slice_group.add(right_tile);
@@ -375,7 +323,6 @@ $(document).ready(function () {
 					
 					var tissue_text = new Kinetic.Text({
 						x: x_margin +i*20 -12,
-						// x: x_margin +i*20 +3, //change cube orientation
 						y: y_margin+8,
 						text: tissue_name,
 						fontSize: 16, //20 for CondensedLight
@@ -589,10 +536,8 @@ $(document).ready(function () {
 			// fontFamily: 'CondensedLight',
 			fill: 'black',
 			rotation: 30
-			// rotation: 45 //change cube orientation
 		});
 	
-		// stages_layer.add(stage_text_pict);
 		stages_layer.add(stage_text);
 		canvas_tmp.add(stages_layer);
 	}
@@ -634,7 +579,6 @@ $(document).ready(function () {
 			b_color = 0;
 		}
 		
-		// var tmp_color = 'rgb('+r_color+','+g_color+','+b_color+')';
 		return [r_color,g_color,b_color];
 	}
 
@@ -642,7 +586,6 @@ $(document).ready(function () {
 	function add_color_grad_legend(x_pos,y_pos,color_string,tmp_layer,stage) {
 	
 		var color = ['rgb(80,0,0)','rgb(255,0,0)','rgb(255,130,0)','rgb(255,195,125)','rgb(255,233,199)','rgb(255,255,120)','rgb(255,255,230)'];
-		// var color = ['rgb(100,0,0)','rgb(255,0,0)','rgb(255,130,0)','rgb(255,205,155)','rgb(255,255,0)','rgb(255,255,205)'];
 	
 		var grad_legend = new Kinetic.Rect({
 			x: x_pos,
@@ -654,7 +597,6 @@ $(document).ready(function () {
 			fillLinearGradientColorStops: [0, color[0], 0.2, color[1], 0.4, color[2], 0.6, color[3], 0.75, color[4], 0.9, color[5], 0.99, color[6], 1, 'rgb(255,255,255)'],
 			stroke: 'black',
 			strokeWidth: 1,
-			// id: "hm"+x+y
 		});
 	
 		var top_text = new Kinetic.Text({
@@ -667,18 +609,10 @@ $(document).ready(function () {
 			align: 'center'
 		});
 	
-		// var max_text = new Kinetic.Text({
-		// 	x: x_pos+20,
-		// 	y: y_pos+25,
-		// 	text: "10000",
-		// 	fill: "black"
-		// });
-	
 		var mid1_text = new Kinetic.Text({
 			x: x_pos+20,
 			y: y_pos+180,
 			text: "300",
-			// text: "1000",
 			fill: "black"
 		});
 	
@@ -717,73 +651,13 @@ $(document).ready(function () {
 		tmp_layer.add(mid2_text);
 		tmp_layer.add(mid3_text);
 		tmp_layer.add(top_text);
-		// tmp_layer.add(max_text);
 		
 		stage.add(tmp_layer);
-	}
-
-
-	function add_color_switch(y,x_array,sw_msg,color_array,tmp_layer,stage,params,c_code) {
-	
-		var color_code = c_code;
-		// alert("color code in: "+color_code);
-	
-		//print square
-		var rg_group = new Kinetic.Group({
-			id: "sw_"+color_code
-		});
-	
-		var r_sq = new Kinetic.Rect({
-			x: x_array[0],
-			y: y,
-			width: 10,
-			height: 10,
-			fill: color_array[0],
-			stroke: 'black',
-			strokeWidth: 1,
-			// id: "hm"+x+y
-		});
-	
-		var g_sq = new Kinetic.Rect({
-			x: x_array[1],
-			y: y,
-			width: 10,
-			height: 10,
-			fill: color_array[1],
-			stroke: 'black',
-			strokeWidth: 1,
-			// id: "hm"+x+y
-		});
-	
-		rg_group.add(r_sq);
-		rg_group.add(g_sq);
-	
-	    rg_group.on('mouseover', function() {
-			this.opacity(0.5);
-			tmp_layer.draw();
-			// writeMessage(sw_msg);
-	    });
-
-	    rg_group.on('mouseout', function() {
-			this.opacity(1);
-			tmp_layer.draw();
-	    });
-	
-		tmp_layer.add(rg_group);
-		stage.add(tmp_layer);
-	
-		rg_group.on('mousedown', function() {
-			$("#color_code").val(color_code);
-		
-			draw_cube(params[0],params[1],params[2],params[3],params[4],params[5],params[6],params[7],params[8],params[9],params[10]);
-		});
-
 	}
 
 
 	function draw_cube(genes,stages,tissues,expr_val,tmp_layer,tmp_canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start, gene_ids, gene_descriptions,current_page, pages_num) {
 		tmp_layer.removeChildren();
-		// alert("in draw_cube: "+current_page);
 		var color_code = $('#color_code').val();
 		var genes_num = genes.length;
 		
@@ -792,31 +666,115 @@ $(document).ready(function () {
 		}
 	
 		//draw stage names
-		// for (var i=0; i<tissues.length; i++) { //change cube stages by tissues
-		// for (var i=tissues.length-1; i>=0; i--) { //change cube stages by tissues
-			// alert("i: "+i+" tissues[i]: "+tissues[i])
 		for (var i=0; i<stages.length; i++) {
 			var x = top_x_start -75 - i*10;
-			// var x = top_x_start -60 - i*15;  //change cube orientation
 			var y = y_margin -18 + i*15;
-			// var y = y_margin -40 + i*15;  //change cube orientation
 			var x2 = top_x_start -650 + i*180;
-			// var x = top_x_start -30 - i*15;
-			// var y = y_margin - 20 + i*15;
-			// add_stage_names(x,y,tissues[i],x2,tmp_layer,tmp_canvas); //change cube stages by tissues
 			add_stage_names(x,y,stages[i],x2,tmp_layer,tmp_canvas);
 		}
 				
-		// var sw_x = right_x_start + (stages.length*15) + 10; //change cube stages by tissues
 		var sw_x = right_x_start + (tissues.length*15) + 10;
 		add_color_grad_legend(sw_x,y_margin-50,color_code,tmp_layer,tmp_canvas)
 	}
 
+	function loadImage(i,j,aoaoa,x_offset,r_color,g_color,b_color,one_tissue_layer,canvas,stage_name,tissue_name) {
+		var tmp_imgObj = new Image();
+		tmp_imgObj.onload = function() {
 
+			var tmp_tissue = new Kinetic.Image({
+				id: "t_layer"+i+"_s"+j,
+				x: x_offset,
+				y: 60,
+				image: tmp_imgObj,
+				width: 200,
+				height: 360
+			});
+			one_tissue_layer.add(tmp_tissue);
+			canvas.add(one_tissue_layer);
+			
+			tmp_tissue.cache();
+			tmp_tissue.filters([Kinetic.Filters.RGB]);
+			tmp_tissue.red(r_color).green(g_color).blue(b_color);
+			tmp_tissue.draw();
+			
+			
+			//add expression values on a tooltip
+			if (i == 4) {
+			
+				var tissue_popup_layer = new Kinetic.Layer();
+				canvas.add(tissue_popup_layer);
+	
+				tmp_tissue.on('mouseover', function() {
+					var x_pos = this.getAbsolutePosition().x-10;
+					var y_pos = this.getAbsolutePosition().y+305;
+					
+					for (var n=0; n<5; n++) {
+						var y_offset = n*65
+						if (n == 3) {
+							y_offset = 240
+						}
+						
+						var tissue_popup = new Kinetic.Rect({
+							x: x_pos,
+							y: y_pos - y_offset,
+							fill: '#000000',
+							opacity: 0.7,
+							width: 185,
+							height: 20,
+							cornerRadius: 7,
+						});
+						
+						var tissue_name = tissues[n].replace("_"," ");
+						
+						var tissue_desc_txt = new Kinetic.Text({
+							x: x_pos+5,
+							y: y_pos+3 - y_offset,
+							text: tissue_name+": "+aoaoa[0][j][n],
+							fontSize: 16,
+							fontFamily: 'Arial',
+							fill: "white"
+						});
+						tissue_popup_layer.add(tissue_popup);
+						tissue_popup_layer.moveToTop();
+						tissue_popup_layer.add(tissue_desc_txt);
+						tissue_popup_layer.draw();
+					}
+				});
+	
+				tissue_layer.on('mouseout', function() {
+					tissue_popup_layer.removeChildren();
+					tissue_popup_layer.draw();
+				});
+			
+			}
+			
+		};
+		tmp_imgObj.src = '/static/images/expr_viewer/'+stage_name+'_'+tissue_name+'.png';
+	}
+	
+	
+	function disable_ui() {
+		$('#working').dialog( {
+			height: 140,
+			width: 50,
+			modal: true,
+			autoOpen: false,
+			closeOnEscape: false,
+			open: function(event, ui) { $(".ui-dialog-titlebar-close", ui.dialog).hide(); $('.ui-dialog-titlebar-close').blur();},
+			title: 'Loading...'
+		});
+		$('#working').dialog("open");
+	}
+	
+	function enable_ui() {
+		$('#working').dialog("close");
+	}
+	
+	
 	// -------------------------------------------------------------------------------------
 	// -------------------------------------------------------------------------------------
 	// -------------------------------------------------------------------------------------
-
+	disable_ui();
 
 	var canvas = new Kinetic.Stage({
 		container: "container",
@@ -890,90 +848,7 @@ $(document).ready(function () {
 	pink_bg_imgObj.src = '/static/images/expr_viewer/pink_bg.png';
 
 	// -------------------------------------------------------------------------------------
-	
-	function loadImage(i,j,aoaoa,x_offset,r_color,g_color,b_color,one_tissue_layer,canvas,stage_name,tissue_name) {
-		var tmp_imgObj = new Image();
-		tmp_imgObj.onload = function() {
-
-			var tmp_tissue = new Kinetic.Image({
-				id: "t_layer"+i+"_s"+j,
-				x: x_offset,
-				y: 60,
-				image: tmp_imgObj,
-				width: 200,
-				height: 360
-			});
-			one_tissue_layer.add(tmp_tissue);
-			canvas.add(one_tissue_layer);
-			
-			tmp_tissue.cache();
-			tmp_tissue.filters([Kinetic.Filters.RGB]);
-			tmp_tissue.red(r_color).green(g_color).blue(b_color);
-			tmp_tissue.draw();
-			
-			
-			
-			
-			//add expression values on a tooltip
-			if (i == 4) {
-			
-				var tissue_popup_layer = new Kinetic.Layer();
-				canvas.add(tissue_popup_layer);
-	
-				tmp_tissue.on('mouseover', function() {
-					var x_pos = this.getAbsolutePosition().x-10;
-					var y_pos = this.getAbsolutePosition().y+305;
-					
-					for (var n=0; n<5; n++) {
-						var y_offset = n*65
-						if (n == 3) {
-							y_offset = 240
-						}
-						
-						var tissue_popup = new Kinetic.Rect({
-					        x: x_pos,
-					        y: y_pos - y_offset,
-					        fill: '#000000',
-							opacity: 0.7,
-					        width: 185,
-					        height: 20,
-					        cornerRadius: 7,
-						});
-						
-						var tissue_name = tissues[n].replace("_"," ");
-						
-						var tissue_desc_txt = new Kinetic.Text({
-							x: x_pos+5,
-							y: y_pos+3 - y_offset,
-							text: tissue_name+": "+aoaoa[0][j][n],
-							fontSize: 16,
-							fontFamily: 'Arial',
-							fill: "white"
-						});
-						tissue_popup_layer.add(tissue_popup);
-						tissue_popup_layer.moveToTop();
-						tissue_popup_layer.add(tissue_desc_txt);
-						tissue_popup_layer.draw();
-					}
-				});
-	
-				tissue_layer.on('mouseout', function() {
-					tissue_popup_layer.removeChildren();
-					tissue_popup_layer.draw();
-				});
-			
-			}
-			
-			
-			
-			
-			
-			
-		};
-		tmp_imgObj.src = '/static/images/expr_viewer/'+stage_name+'_'+tissue_name+'.png';
-	}
-		
-		// http://www.html5canvastutorials.com/tutorials/html5-canvas-image-loader/
+	// http://www.html5canvastutorials.com/tutorials/html5-canvas-image-loader/
 		
 	
 	for (var j = 0; j < stages.length; j++) {
@@ -983,7 +858,6 @@ $(document).ready(function () {
 		for (var i = 0; i<tissues.length; i++) {
 			
 			var expr_val = aoaoa[0][j][i];
-			
 			var rgb_color_array = get_expr_color(expr_val);
 			
 			var r = rgb_color_array[0];
@@ -1002,103 +876,33 @@ $(document).ready(function () {
 
 	var x_margin = page_width -100 - tissues.length*20 - stages.length*15;
 	var y_margin = 100;
-	// var y_margin = 160;
 
 	var last_x_margin = 125 + stages.length*20;
 	var last_y_margin = 155 + stages.length*15;
 
 	var right_x_start = x_margin + 5 + tissues.length*20;
 	var top_x_start = x_margin + (stages.length*15);
-
-
-	// draw_cube(genes,stages,tissues,aoaoa,cube_layer,canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start, gene_ids, gene_descriptions);
-
-
-	// $(document).ready(function () {
-		
-		// $('#gene_test').click(function () {
-		// 	input_gene = $('#gene').val();
-		// 	getGeneInfo(input_gene);
-			$('#gene').val(genes[0]);
-			$('#correlation_filter').val(correlation_filter);
-			// disable_ui();
-			// getGeneInfo(genes[0]);
-			
-			// var gene_ids;
-			// var gene_descriptions;
-			
-			// getGeneInfo(genes);
-			// alert("before getGeneInfo: "+current_page);
-			getGeneInfo(genes,stages,tissues,aoaoa,cube_layer,canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start, current_page, pages_num)
-		// });
-		
-
-		function disable_ui() {
-			$('#working').dialog( {
-				height: 140,
-				width: 50,
-				modal: true,
-				autoOpen: false,
-				closeOnEscape: false,
-				open: function(event, ui) { $(".ui-dialog-titlebar-close", ui.dialog).hide(); $('.ui-dialog-titlebar-close').blur();},
-				title: 'Loading...'
-			});
-			$('#working').dialog("open");
-		}
-		
-		function enable_ui() {
-			$('#working').dialog("close");
-		}
-		
-		function getGeneInfo(gene_array,stages,tissues,aoaoa,cube_layer,canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start, page, pages_num) {
-			
-			var genes_string = gene_array.join();
-
-			$.ajax({
-				url: 'http://solgenomics.net/api/tea',
-				// url: 'http://192.168.1.166:3000/api/tea',
-				dataType: 'jsonp', // Notice! JSONP <-- P (lowercase)
-				// async: false,
-				timeout: 600000,
-				// data: { 'genes_array': genes_array, 'gene_name': genes_array[0]},
-				data: { 'gene_name': genes_string},
-				beforeSend: function(){
-					// alert("in getGeneInfo: "+page);
-					disable_ui();
-					// alert("array: "+genes_array);
-				},
-				success: function(response) {
-					if (response.error) {
-						alert("ERROR: "+response.error);
-						enable_ui();
-					} else {
-						// alert("gene: "+response.gene_id[gene_array[0]]+" desc: "+response.description[gene_array[0]]);
-						var gene_ids = response.gene_id;
-						var gene_descriptions = response.description;
-						
-						if (!response.gene_id[gene_array[0]]) {
-							alert("Gene not found");
-						}
-						
-						document.getElementById("gene_name").innerHTML = "<a href='http://solgenomics.net/feature/"+response.gene_id[gene_array[0]]+"/details' target='_blank'><img src='/static/images/sgn_logo.png' height='30' style='margin-bottom: -10px;' title='Connect to SGN for metadata associated with this gene'/> "+gene_array[0]+"</a>";
-						document.getElementById("gene_desc").innerHTML = response.description[gene_array[0]];
-						
-						// alert("before draw_cube: "+page);
-						draw_cube(genes,stages,tissues,aoaoa,cube_layer,canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start, gene_ids, gene_descriptions, page, pages_num);
-						enable_ui();
-					}
-				},
-				error: function(response) {
-					alert("An error occurred. The service may not be available right now.");
-					enable_ui();
-				}
-			});
-		}
-	// });
-
-
-
-
+	
+	//return error if input gene was not found
+	if (!genes[0]) {
+		alert("Gene not found");
+		enable_ui();
+	}
+	
+	//display query gene name
+	$('#gene').val(genes[0]);
+	
+	//set correlation filter value
+	$('#correlation_filter').val(correlation_filter);
+	
+	//display link to SGN and query gene description
+	document.getElementById("gene_name").innerHTML = "<a href='http://solgenomics.net/locus/"+gene_locus_id[genes[0]]+"/view' target='_blank'><img src='/static/images/sgn_logo.png' height='30' style='margin-bottom: -10px;' title='Connect to SGN for metadata associated with this gene'/> "+genes[0]+"</a>";
+	document.getElementById("gene_desc").innerHTML = gene_descriptions[genes[0]];
+	
+	draw_cube(genes,stages,tissues,aoaoa,cube_layer,canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start, gene_locus_id, gene_descriptions, current_page, pages_num);
+	
+	//remove loading wheel
+	enable_ui();
 	
 });
 

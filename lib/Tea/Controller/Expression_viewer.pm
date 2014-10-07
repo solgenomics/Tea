@@ -62,6 +62,8 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	my $pages_num = $c->req->param("all_pages") || 1;
 	my $expr_path = $c->config->{expression_indexes_path};
 	my $corr_path = $c->config->{correlation_indexes_path};
+	my $desc_path = $c->config->{description_index_path};
+	my $locus_path = $c->config->{locus_index_path};
 	
 	# strip gene name
 	$query_gene =~ s/^\s+//;
@@ -171,6 +173,8 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	my %gene_stage_tissue_expr;
 	my %stage;
 	my %tissue;
+	my %descriptions;
+	my %locus_ids;
 	
 	foreach my $g (@genes) {
 		foreach my $s (@stages) {
@@ -185,17 +189,48 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	    language => 'en',
 	);
 	
+	my $lucy_desc = Lucy::Simple->new(
+	    path     => $desc_path,
+	    language => 'en',
+	);
+	
+	my $lucy_locus = Lucy::Simple->new(
+	    path     => $locus_path,
+	    language => 'en',
+	);
+	
+	
 	foreach my $g (@genes) {
 		$lucy->search(
 		    query      => $g,
 			num_wanted => 20
 		);
 		
+		$lucy_desc->search(
+		    query      => $g,
+			num_wanted => 1,
+		);
+		
+		$lucy_locus->search(
+		    query      => $g,
+			num_wanted => 1,
+		);
+		
 		while ( my $hit = $lucy->next ) {
 			# all expression values are multiplied by 1 to transform string into integer or float
 			$gene_stage_tissue_expr{$hit->{gene}}{$hit->{stage}}{$hit->{tissue}} = $hit->{expression} * 1
 		}
+		
+		while ( my $desc_hit = $lucy_desc->next ) {
+			$descriptions{$desc_hit->{gene}} = $desc_hit->{description};
+		}
+		
+		while ( my $locus_hit = $lucy_locus->next ) {
+			$locus_ids{$locus_hit->{gene}} = $locus_hit->{locus_id};
+		}
+		
 	}
+	
 	
 	my @AoAoA;
 	
@@ -209,7 +244,8 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 			}
 		}
 	}
-
+	
+	
 	$c->stash->{genes} = \@genes;
 	$c->stash->{stages} = \@stages;
 	$c->stash->{tissues} = \@tissues;
@@ -218,6 +254,8 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	$c->stash->{pages_num} = (int($total_corr_genes/19)+1);
 	$c->stash->{current_page} = ($current_page + 1);
 	$c->stash->{correlation_filter} = ($corr_filter);
+	$c->stash->{description} = \%descriptions;
+	$c->stash->{locus_ids} = \%locus_ids;
 	
 	$c->stash->{template} = '/Expression_viewer/output.mas';
 }

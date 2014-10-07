@@ -609,11 +609,11 @@ $(document).ready(function () {
 		} else if (expr_val <= 1) {
 			r_color = 255;
 			g_color = 255;
-			b_color = Math.round(200*(1-expr_val)+50);
+			b_color = Math.round(130*(1-expr_val)+120);
 		} else if (expr_val > 1 && expr_val <= 10) {
 			r_color = 255;
-			g_color = Math.round(250 - 55*expr_val/10);
-			b_color = Math.round(225 - 100*expr_val/10);
+			g_color = Math.round(245 - 60*expr_val/10);
+			b_color = Math.round(220 - 105*expr_val/10);
 		} else if (expr_val > 10 && expr_val <= 100) {
 			r_color = 255;
 			g_color = Math.round(197 - 67*(expr_val/100));
@@ -641,7 +641,7 @@ $(document).ready(function () {
 
 	function add_color_grad_legend(x_pos,y_pos,color_string,tmp_layer,stage) {
 	
-		var color = ['rgb(80,0,0)','rgb(255,0,0)','rgb(255,130,0)','rgb(255,195,125)','rgb(255,244,214)','rgb(255,255,50)','rgb(255,255,230)'];
+		var color = ['rgb(80,0,0)','rgb(255,0,0)','rgb(255,130,0)','rgb(255,195,125)','rgb(255,233,199)','rgb(255,255,120)','rgb(255,255,230)'];
 		// var color = ['rgb(100,0,0)','rgb(255,0,0)','rgb(255,130,0)','rgb(255,205,155)','rgb(255,255,0)','rgb(255,255,205)'];
 	
 		var grad_legend = new Kinetic.Rect({

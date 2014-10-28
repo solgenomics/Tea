@@ -600,7 +600,7 @@ $(document).ready(function () {
 		var top_text = new Kinetic.Text({
 			x: x_pos-12,
 			y: y_pos+85,
-			text: "RPKMs",
+			text: "RPKM",
 			fontSize: 12,
 			fontFamily: 'Helvetica',
 			fill: "black",

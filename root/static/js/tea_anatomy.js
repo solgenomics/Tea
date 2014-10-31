@@ -13,6 +13,27 @@
 	    },
 
 	    {
+		name: '15DPA',
+		timg: '/static/images/anatomy_viewer/t15DPA.jpg',
+		ximg: '/static/images/anatomy_viewer/x15DPA.jpg',
+		yimg: '/static/images/anatomy_viewer/y15DPA.jpg'
+	    },
+
+            {
+                name: '20DPA',
+                timg: '/static/images/anatomy_viewer/t20DPA.jpg',
+                ximg: '/static/images/anatomy_viewer/x20DPA.jpg',
+                yimg: '/static/images/anatomy_viewer/y20DAP.jpg'
+            },
+
+            {
+                name: '30DPA',
+                timg: '/static/images/anatomy_viewer/t30DPA.jpg',
+                ximg: '/static/images/anatomy_viewer/x30DPA.jpg',
+                yimg: '/static/images/anatomy_viewer/y30DPA.jpg'
+            },
+
+	    {
 		name: 'MG',
 		timg: '/static/images/anatomy_viewer/tMG.jpg',
 		ximg: '/static/images/anatomy_viewer/xMG.jpg',
@@ -24,9 +45,23 @@
 		timg: '/static/images/anatomy_viewer/tPink.jpg', 
 		ximg: '/static/images/anatomy_viewer/xPink.jpg',
 		yimg: '/static/images/anatomy_viewer/yPink.jpg'
-	    }
-	];
+	    },
 
+            {
+                name: 'B2',
+                timg: '/static/images/anatomy_viewer/tB2.jpg',
+                ximg: '/static/images/anatomy_viewer/xB2.jpg',
+                yimg: '/static/images/anatomy_viewer/yB2.jpg'
+            },
+
+            {
+                name: 'B3',
+                timg: '/static/images/anatomy_viewer/tB3.jpg',
+                ximg: '/static/images/anatomy_viewer/xB3.jpg',
+                yimg: '/static/images/anatomy_viewer/yB3.jpg'
+            }
+
+	];
 
 	// display x and y images
 	var distanceX = 0;
@@ -35,14 +70,16 @@
 	var isMouseDown = false;
 	var counterX = 0;
 	var counterY = 0;
-	var noOfImagesX = 19;
-	var noOfImagesY = 16;
-    	var slideHeight = 940;
+	var noOfImagesX = 22;
+	var noOfImagesY = 20;
+	var slideHeightX = 839;
+    	var slideHeightY = 839;
     	var selectStage = null;
 	var fdiv, fdivLeft, fdivTop = null;
 	var axis;
 
 	/* init stages */
+	/*
 	function slideInit() 
 	{
 		fdiv = document.getElementById('tIMG');
@@ -85,7 +122,7 @@
 		counterY = parseInt((distanceY / fdiv.offsetHeight * noOfImagesY));
 
 		//document.getElementById('xyIMG').style.backgroundPosition = "0px " + ((-counterX * slideHeight)-90) + "px";
-		document.getElementById('xyIMG').style.backgroundPosition = "0px " + ((-counterY * slideHeight)-260) + "px";
+		document.getElementById('xyIMG').style.backgroundPosition = "0px " + ((-counterY * slideHeight)) + "px";
             }
     	}
 	
@@ -107,10 +144,47 @@
         	finalY = event.pageY;
         	//console.log("Mouse Up: " + finalX + "" + finalY);
     	}
+	*/
+
+	var preSection;
+
+	function movetoTop () {
+		var section = 'top';
+		$('html, body').animate({ scrollTop: $("#header").offset().top }, 2000); 
+		$("#anatomy_headerV").fadeIn(2000);
+		//$("#anatomy_footerV").height(250);
+		$("#anatomy_footerV").animate({ height: '250px'}, 500);
+		$("#anatomy_footerV").fadeIn(1500);
+		preSection = section;
+	}
+        function movetoMiddle (data) {
+		var section = 'middle';
+		if (preSection == 'top') {
+			$('html, body').animate({ scrollTop: $("#anatomy_middle").offset().top - 65 }, 2000); 
+		} else {
+			$('html, body').animate({ scrollTop: $("#anatomy_middle").offset().top }, 2000); 
+		}
+		$("#anatomy_headerV").fadeOut(2000);
+		$("#anatomy_footerV").animate({ height: '80px'}, 500);
+		$("#anatomy_footerV").fadeOut(2000);
+
+		preSection = section;
+	}
+        function movetoBottom () { 
+		var section = 'bottom'
+		$('html, body').animate({ scrollTop: $("#anatomy_bottom").offset().top }, 2000); 
+		$("#anatomy_headerV").fadeIn(2000);
+		$("#anatomy_footerV").animate({ height: '80px'}, 500);
+		$("#anatomy_footerV").fadeIn(2000);
+
+		preSection = section;
+	}
 
 	var mySlider, mySlider2;
 
 	/* switch div for x, and y axis */
+
+	var preStage, preXY;
 	function switchPlaningImages()
 	{
 		var d = document.getElementsByName( 'planing' );	
@@ -135,20 +209,31 @@
 			}
 		}
 
-		var xyimg;
+		$('#tIMG').css("background-image", "url("+timg+")");
 		if (axis == 'x') {
 			xyimg = ximg;
+			$('#xyIMG').css("background-image", "url("+ximg+")");
+			document.getElementById('xyIMG').style.backgroundPosition = "0px " + ((0 * slideHeightX)) + "px";
 			$('#sliderX').show();
 			$('#sliderY').hide();
 		} else {
 			xyimg = yimg;
+			$('#xyIMG').css("background-image", "url("+yimg+")");
+			document.getElementById('xyIMG').style.backgroundPosition = "0px " + ((0 * slideHeightY)) + "px";
 			$('#sliderX').hide();
 			$('#sliderY').show();
 		}
+		//console.log(stage," + ",axis," + ",timg," + ",ximg," + ",yimg," + ",xyimg);
 
-		$('#tIMG').css("background-image", "url("+timg+")");  
-		$('#xyIMG').css("background-image", "url("+xyimg+")");
-		console.log(stage," + ",axis," + ",timg," + ",ximg," + ",yimg," + ",xyimg);
+		if (preStage == stage) {
+			movetoMiddle(1);
+		} else {
+			movetoMiddle(2);
+		}
+		switchVideo(1);
+
+		preStage = stage;
+		preXY = axis;
 	}
 
 	/* slider init */
@@ -160,7 +245,7 @@
 			value: 5,
 			step: 1,
 			min: 0,
-			max: 18
+			max: 21
 		});
 			
 		mySlider2 = new dhtmlXSlider({
@@ -169,7 +254,7 @@
 			value: 15,
 			step: 1,
 			min: 0,
-			max: 15,
+			max: 19,
 			vertical: true
 		});
 
@@ -207,12 +292,12 @@
 
 	function setXimg (data) {
 		//console.log(data.arg);
-		document.getElementById('xyIMG').style.backgroundPosition = "0px " + ((-data.arg[0] * 1130)-260) + "px";
+		document.getElementById('xyIMG').style.backgroundPosition = "0px " + ((-data.arg[0] * slideHeightX)) + "px";
 	}
 	
 	function setYimg (data) {
 		//console.log(data.arg);
-		document.getElementById('xyIMG').style.backgroundPosition = "0px " + ((-data.arg[0] * slideHeight)-150) + "px";
+		document.getElementById('xyIMG').style.backgroundPosition = "0px " + ((-data.arg[0] * slideHeightY)) + "px";
 	}
 
 	function doOnUnload(){
@@ -227,18 +312,63 @@
 	};
 
 
+	function switchVideo (data) {
+
+		var stage;
+                var stages = document.getElementsByName('radioStage') ;
+                for (var i=0; i<stages.length; i++) {
+                        if (stages[i].checked) { stage = stages[i].value; }
+                }
+
+		var videoSource = "/static/video/" + stage + data + ".ogv";
+		var fruit_video = $('#fruit_video');
+		fruit_video.attr('src', videoSource);
+		var video_block = $('#video_block');
+		video_block.load();
+		//console.log(videoSource);	
+	}
+
+
+
 window.onload = function()
 {
-	slideInit("MG");
-	switchPlaningImages();
+	// hide the footer
+	$('#footer').hide();
+
+	// adjust the section div size according to screen szie
+	var height = $(window).height();
+	$("#anatomy_top").height(height);
+	$("#anatomy_middle").height(height);
+	$("#anatomy_bottom").height(height);
+
+	// set floating header and footer
+	$('.anatomy_header').scrollToFixed();
+	$('.anatomy_footer').scrollToFixed( {
+		bottom: 0,
+		limit: $('.anatomy_footer').offset().top
+	});	
+
+	// load slide bar
 	doOnLoad();
 
-	/* slide bar */
-	//var sliderX, sliderY;
-	//sliderX = new dhtmlXSlider( "sliderX", { skin: "arrowgreen", min: 1, max: 10, value: 1, step: 1, size: 240, vertical: false }); 
-	//sliderY = new dhtmlXSlider( "sliderY", { skin: "arrowgreen", min: 1, max: 10, value: 1, step: 1, size: 240, vertical: true }); 
-	//sliderX.init();
-	//sliderY.init();
+	// load default stage images pink, and video
+	$('#tIMG').css("background-image", "url(/static/images/anatomy_viewer/tPink.jpg)");
+        $('#xyIMG').css("background-image", "url(/static/images/anatomy_viewer/xPink.jpg)");
+        document.getElementById('xyIMG').style.backgroundPosition = "0px " + ((0 * slideHeightX)) + "px";
+ 	$('#sliderX').show();
+	$('#sliderY').hide();
+
+	// load default video
+	var videoSource = "/static/video/Pink1.ogv";
+        var fruit_video = $('#fruit_video');
+        fruit_video.attr('src', videoSource);
+        var video_block = $('#video_block');
+        video_block.load();
+
+	// move stage to top
+	movetoTop();
+
+	$("body").css("overflow", "hidden");
 	
 	/*
 	var c=document.getElementById("xyline");
@@ -251,6 +381,5 @@ window.onload = function()
 	cxt.lineTo(240,5);
 	cxt.globalAlpha=0.7;
 	//cxt.stroke(ckground-image:url(/static/images/anatomy_viewer/xMG.jpg););
-
 	*/
 }

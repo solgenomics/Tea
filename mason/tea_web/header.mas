@@ -36,6 +36,7 @@
 			</script>
 	</head>
 	<body>
+		<div id="header">
 		<center>
 			<table id="tea_menu" cellspacing="0" cellpadding="0">
 				<tr>
@@ -47,5 +48,6 @@
 			</table>
 		</center>
 		<br/>
+		</div>
 	</body>
 </html>

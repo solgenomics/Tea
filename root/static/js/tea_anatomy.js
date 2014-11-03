@@ -220,7 +220,7 @@
 	/* switch div for x, and y axis */
 
 	var preStage, preXY;
-	function switchPlaningImages()
+	function switchPlaningImages( data )
 	{
 		var d = document.getElementsByName( 'planing' );	
 		for (var i=0; i<d.length; i++) {
@@ -231,6 +231,12 @@
 		var stages = document.getElementsByName('radioStage') ;
 		for (var i=0; i<stages.length; i++) {
 			if (stages[i].checked) { stage = stages[i].value; }
+		}
+
+		if ( data ) {
+			stage = fruitImages[data].name;
+		} else {
+			alert("ERR, no stage selected")
 		}
 	
 		var simg, timg, ximg, yimg , ximgs, yimgs;

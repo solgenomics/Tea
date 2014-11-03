@@ -14,22 +14,26 @@
             <div id="allStage">
                 <p style="text-align:center; color: #FFFFFF;">M82 fruit ripening stages</p>
                 <img src="/static/images/anatomy_viewer/all_stage.jpg" usemap="#fruitmap" width=980>
-		<map name="fruitmap">
-			<area shape="rect" coords="0,0,82,126" alt="Sun" href="sun.htm">
-			<area shape="circle" coords="90,58,3" alt="Mercury" href="mercur.htm">
-			<area shape="circle" coords="124,58,8" alt="Venus" href="venus.htm">
-		</map>
 
+<map name="fruitmap">
+<area title="Breaker" shape="poly" coords="694,67,690,75,657,92,643,136,656,183,682,214,720,215,755,194,775,153,773,100,745,71" href="javascript: switchPlaningImages(6)" />
+<area title="Pink" shape="poly" coords="868,78,907,81,932,104,928,163,906,204,872,218,847,206,825,151,822,104,840,83" href="javascript: switchPlaningImages(5)" />
+<area title="Mature Green" shape="poly" coords="571,55,598,78,604,125,586,186,555,217,528,201,504,168,493,116,499,76,522,60" href="javascript: switchPlaningImages(4)" />
+<area title="30 DPA" shape="poly" coords="395,76,429,86,450,120,445,166,433,195,414,208,399,209,364,189,348,152,341,121,357,90" href="javascript: switchPlaningImages(3)" />
+<area title="20 DPA" shape="poly" coords="267,125,294,149,287,182,276,207,261,217,242,206,230,186,232,152,243,131" href="javascript: switchPlaningImages(2)" />
+<area title="15 DPA" shape="poly" coords="168,216,150,208,151,183,161,171,182,179,182,202" href="javascript: switchPlaningImages(1)" />
+<area title="10 DPA" shape="poly" coords="75,172,90,182,93,199,84,214,75,215,63,205,64,186"  href="javascript: switchPlaningImages(0) " />
+</map>
             </div>
             <div id="stageSelectBar">
                 <table><tr align=center>
-                        <td width=100><input type="radio" name="radioStage" value="10DPA" onchange="switchPlaningImages()"></td>
-                        <td width=70><input type="radio" name="radioStage" value="15DPA" onchange="switchPlaningImages()"></td>
-                        <td width=130><input type="radio" name="radioStage" value="20DPA" onchange="switchPlaningImages()"></td>
-                        <td width=120><input type="radio" name="radioStage" value="30DPA" onchange="switchPlaningImages()"></td>
-                        <td width=160><input type="radio" name="radioStage" value="MG"   onchange="switchPlaningImages()"></td>
-			<td width=160><input type="radio" name="radioStage" value="B2" onchange="switchPlaningImages()"></td>
-                        <td width=160><input type="radio" name="radioStage" value="Pink" onchange="switchPlaningImages()"></td>
+                        <td width=100><input type="radio" name="radioStage" value="10DPA" onchange="switchPlaningImages(0)"></td>
+                        <td width=70><input type="radio" name="radioStage" value="15DPA" onchange="switchPlaningImages(1)"></td>
+                        <td width=130><input type="radio" name="radioStage" value="20DPA" onchange="switchPlaningImages(2)"></td>
+                        <td width=120><input type="radio" name="radioStage" value="30DPA" onchange="switchPlaningImages(3)"></td>
+                        <td width=160><input type="radio" name="radioStage" value="MG"   onchange="switchPlaningImages(4)"></td>
+			<td width=160><input type="radio" name="radioStage" value="B2" onchange="switchPlaningImages(6)"></td>
+                        <td width=160><input type="radio" name="radioStage" value="Pink" onchange="switchPlaningImages(5)"></td>
                 </tr></table>
             </div>
         </div>

@@ -7,51 +7,73 @@
 	var fruitImages = [
 	   {
 		name: '10DPA',
+		simg: '/static/images/anatomy_viewer/s10DPA.jpg',
 		timg: '/static/images/anatomy_viewer/t10DPA.jpg',
 		ximg: '/static/images/anatomy_viewer/x10DPA.jpg',
-		yimg: '/static/images/anatomy_viewer/y10DPA.jpg'
+		yimg: '/static/images/anatomy_viewer/y10DPA.jpg',
+		ximgs: '/static/images/anatomy_viewer/x10DPAS.jpg',
+		yimgs: '/static/images/anatomy_viewer/y10DPAS.jpg'
 	    },
 
 	    {
 		name: '15DPA',
+		simg: '/static/images/anatomy_viewer/s15DPA.jpg',
 		timg: '/static/images/anatomy_viewer/t15DPA.jpg',
 		ximg: '/static/images/anatomy_viewer/x15DPA.jpg',
-		yimg: '/static/images/anatomy_viewer/y15DPA.jpg'
+		yimg: '/static/images/anatomy_viewer/y15DPA.jpg',
+		ximgs: '/static/images/anatomy_viewer/x15DPAS.jpg',
+		yimgs: '/static/images/anatomy_viewer/y15DPAS.jpg'
 	    },
 
             {
                 name: '20DPA',
+		simg: '/static/images/anatomy_viewer/s20DPA.jpg',
                 timg: '/static/images/anatomy_viewer/t20DPA.jpg',
                 ximg: '/static/images/anatomy_viewer/x20DPA.jpg',
-                yimg: '/static/images/anatomy_viewer/y20DAP.jpg'
+                yimg: '/static/images/anatomy_viewer/y20DAP.jpg',
+		ximgs: '/static/images/anatomy_viewer/x20DPAS.jpg',
+		yimgs: '/static/images/anatomy_viewer/y20DPAS.jpg'
             },
 
             {
                 name: '30DPA',
+		simg: '/static/images/anatomy_viewer/s30DPA.jpg',
+		simg: '/static/images/anatomy_viewer/s30DPA.jpg',
                 timg: '/static/images/anatomy_viewer/t30DPA.jpg',
                 ximg: '/static/images/anatomy_viewer/x30DPA.jpg',
-                yimg: '/static/images/anatomy_viewer/y30DPA.jpg'
+                yimg: '/static/images/anatomy_viewer/y30DPA.jpg',
+		ximgs: '/static/images/anatomy_viewer/x30DPAS.jpg',
+		yimgs: '/static/images/anatomy_viewer/y30DPAS.jpg'
             },
 
 	    {
 		name: 'MG',
+		simg: '/static/images/anatomy_viewer/sMG.jpg',
 		timg: '/static/images/anatomy_viewer/tMG.jpg',
 		ximg: '/static/images/anatomy_viewer/xMG.jpg',
-		yimg: '/static/images/anatomy_viewer/yMG.jpg'    
+		yimg: '/static/images/anatomy_viewer/yMG.jpg',
+		ximgs: '/static/images/anatomy_viewer/xMGS.jpg',
+		yimgs: '/static/images/anatomy_viewer/yMGS.jpg'
 	    },
 
 	    {
 		name: 'Pink',
+		simg: '/static/images/anatomy_viewer/sPink.jpg',
 		timg: '/static/images/anatomy_viewer/tPink.jpg', 
 		ximg: '/static/images/anatomy_viewer/xPink.jpg',
-		yimg: '/static/images/anatomy_viewer/yPink.jpg'
+		yimg: '/static/images/anatomy_viewer/yPink.jpg',
+		ximgs: '/static/images/anatomy_viewer/xPinkS.jpg',
+		yimgs: '/static/images/anatomy_viewer/yPinkS.jpg'
 	    },
 
             {
                 name: 'B2',
+		simg: '/static/images/anatomy_viewer/sB2.jpg',
                 timg: '/static/images/anatomy_viewer/tB2.jpg',
                 ximg: '/static/images/anatomy_viewer/xB2.jpg',
-                yimg: '/static/images/anatomy_viewer/yB2.jpg'
+                yimg: '/static/images/anatomy_viewer/yB2.jpg',
+		ximgs: '/static/images/anatomy_viewer/xB2S.jpg',
+		yimgs: '/static/images/anatomy_viewer/yB2S.jpg'
             },
 
             {
@@ -147,16 +169,30 @@
 	*/
 
 	var preSection;
+	var sheight = screen.height;
+	var footerV_height1 = 250;
+	var footerV_height2 = 80;
+	var sliderX_size = 240;
+	var sliderY_size = 240;
+	if ( sheight < 901 ) {
+		footerV_height1 = 50;
+		footerV_height2 = 50;
+		//sliderX_size = 120;
+		//sliderY_size = 120;
+		slideHeightX = 620;
+		slideHeightY = 620;
+	}
 
 	function movetoTop () {
 		var section = 'top';
 		$('html, body').animate({ scrollTop: $("#header").offset().top }, 2000); 
 		$("#anatomy_headerV").fadeIn(2000);
 		//$("#anatomy_footerV").height(250);
-		$("#anatomy_footerV").animate({ height: '250px'}, 500);
+		$("#anatomy_footerV").animate({ height: footerV_height1 + 'px'}, 500);
 		$("#anatomy_footerV").fadeIn(1500);
 		preSection = section;
 	}
+
         function movetoMiddle (data) {
 		var section = 'middle';
 		if (preSection == 'top') {
@@ -165,18 +201,17 @@
 			$('html, body').animate({ scrollTop: $("#anatomy_middle").offset().top }, 2000); 
 		}
 		$("#anatomy_headerV").fadeOut(2000);
-		$("#anatomy_footerV").animate({ height: '80px'}, 500);
+		$("#anatomy_footerV").animate({ height: footerV_height2 + 'px'}, 500);
 		$("#anatomy_footerV").fadeOut(2000);
-
 		preSection = section;
 	}
+
         function movetoBottom () { 
 		var section = 'bottom'
 		$('html, body').animate({ scrollTop: $("#anatomy_bottom").offset().top }, 2000); 
 		$("#anatomy_headerV").fadeIn(2000);
-		$("#anatomy_footerV").animate({ height: '80px'}, 500);
+		$("#anatomy_footerV").animate({ height: footerV_height2 + 'px'}, 500);
 		$("#anatomy_footerV").fadeIn(2000);
-
 		preSection = section;
 	}
 
@@ -198,17 +233,22 @@
 			if (stages[i].checked) { stage = stages[i].value; }
 		}
 	
-		var timg; var ximg; var yimg;
+		var simg, timg, ximg, yimg , ximgs, yimgs;
 		for (var i=0; i<fruitImages.length; i++) {
 			if (fruitImages[i].name == stage) {
 				timg = fruitImages[i].timg;
 				ximg = fruitImages[i].ximg;
 				yimg = fruitImages[i].yimg;
+				if ( footerV_height1 == 50 ) {
+					//timg = fruitImages[i].simg;
+					ximg = fruitImages[i].ximgs;
+					yimg = fruitImages[i].yimgs;
+				}
 			} else {
 				//alert("Images are not ready!");
 			}
 		}
-
+		
 		$('#tIMG').css("background-image", "url("+timg+")");
 		if (axis == 'x') {
 			xyimg = ximg;
@@ -241,8 +281,8 @@
 	function doOnLoad(){
 		mySlider = new dhtmlXSlider({
 			parent: "sliderX",
-			size: 240,
-			value: 5,
+			size: sliderX_size,
+			value: 0,
 			step: 1,
 			min: 0,
 			max: 21
@@ -250,8 +290,8 @@
 			
 		mySlider2 = new dhtmlXSlider({
 			parent: "sliderY",
-			size: 240,
-			value: 15,
+			size: sliderY_size,
+			value: 0,
 			step: 1,
 			min: 0,
 			max: 19,
@@ -311,6 +351,22 @@
 		}
 	};
 
+	function get_browser() {
+		var ua=navigator.userAgent,tem,M=ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+		if(/trident/i.test(M[1])){
+			tem=/\brv[ :]+(\d+)/g.exec(ua) || [];
+			return 'IE '+(tem[1]||'');
+        	}
+		if(M[1]==='Chrome'){
+ 			tem=ua.match(/\bOPR\/(\d+)/)
+        		if(tem!=null)   {return 'Opera '+tem[1];}
+        	}
+		M=M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
+		if((tem=ua.match(/version\/(\d+)/i))!=null) {M.splice(1,1,tem[1]);}
+		return M[0];
+	}
+
+	var browser = get_browser();
 
 	function switchVideo (data) {
 
@@ -320,26 +376,44 @@
                         if (stages[i].checked) { stage = stages[i].value; }
                 }
 
-		var videoSource = "/static/video/" + stage + data + ".ogv";
+		var videoSource = "/static/video/" + stage + data;
+		var videoType;
+		if (browser == 'Firefox' || browser == 'Chrome') {
+			videoSource += ".ogv";
+			videoType = "video/ogg";
+		} else {
+			videoSource += ".mp4";
+			videoType = "video/mp4";
+		}
+		
 		var fruit_video = $('#fruit_video');
 		fruit_video.attr('src', videoSource);
+		fruit_video.attr('type', videoType);
 		var video_block = $('#video_block');
 		video_block.load();
-		//console.log(videoSource);	
 	}
-
-
 
 window.onload = function()
 {
+	if (browser != 'Firefox' && browser != 'Chrome') {
+		$("#anatomy_headerV").html( $("#anatomy_headerV").html() + "<br />This web page is only supported by Firefox and Chrome");
+	}
+
 	// hide the footer
 	$('#footer').hide();
 
 	// adjust the section div size according to screen szie
-	var height = $(window).height();
-	$("#anatomy_top").height(height);
-	$("#anatomy_middle").height(height);
-	$("#anatomy_bottom").height(height);
+	if (sheight < 800 ) {
+		//$("#tIMG").width(120);
+		//$("#tIMG").height(120);
+		$("#xyIMG").width(650);
+		$("#xyIMG").height(620);
+	}
+
+	var wheight = $(window).height();
+	$("#anatomy_top").height(wheight);
+	$("#anatomy_middle").height(wheight);
+	$("#anatomy_bottom").height(wheight);
 
 	// set floating header and footer
 	$('.anatomy_header').scrollToFixed();
@@ -359,9 +433,13 @@ window.onload = function()
 	$('#sliderY').hide();
 
 	// load default video
-	var videoSource = "/static/video/Pink1.ogv";
+	var videoSource = "/static/video/Pink1";
+	var videoType;
+	if (browser == 'Firefox' || browser == 'Chrome') { videoSource += ".ogv"; } else { videoSource += ".mp4"; }
+	if (browser == 'Firefox' || browser == 'Chrome') { videoType == "video/ogv"; } else { videoType == "video/mp4"; }
         var fruit_video = $('#fruit_video');
         fruit_video.attr('src', videoSource);
+	fruit_video.attr('type', videoType);
         var video_block = $('#video_block');
         video_block.load();
 

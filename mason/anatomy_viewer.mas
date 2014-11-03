@@ -4,7 +4,6 @@
 <script src="/static/js/video.js"></script>
 <script> videojs.options.flash.swf = "/static/css/video-js.swf"; </script>
 <center>
-
 <div id="anatomy_headerV" class="anatomy_header">
     <h2 id="subtitle"><img class="centered_img" src="/static/images/anatomy_small.png"/> Anatomy Viewer</h2>
 </div>
@@ -13,8 +12,14 @@
 	<div class="anatomy_title"><ul><li>Stage selection</li><ul></div>
         <div id="anatomy_navi">
             <div id="allStage">
-                <p class="anatomy_title" style="text-align:center">M82 fruit ripening stages</p>
-                <img src="/static/images/anatomy_viewer/all_stage.jpg" width=980>
+                <p style="text-align:center; color: #FFFFFF;">M82 fruit ripening stages</p>
+                <img src="/static/images/anatomy_viewer/all_stage.jpg" usemap="#fruitmap" width=980>
+		<map name="fruitmap">
+			<area shape="rect" coords="0,0,82,126" alt="Sun" href="sun.htm">
+			<area shape="circle" coords="90,58,3" alt="Mercury" href="mercur.htm">
+			<area shape="circle" coords="124,58,8" alt="Venus" href="venus.htm">
+		</map>
+
             </div>
             <div id="stageSelectBar">
                 <table><tr align=center>
@@ -40,22 +45,19 @@
 		&nbsp;
 	</div>
     
-	<table width="1200" border=0 cellpadding=0 cellspacing=0>
+	<table border=0 cellpadding=0 cellspacing=0>
 	<tr>
         <!-- small image -->
-        <td width="250">
+        <td>
             <table border=0>
                 <tr>
-                    <td width=12>&nbsp;&nbsp;&nbsp;</td>
-                    <td height=12><div id="sliderX" style="margin-left: 15px;"></div></td>
+                    <td>&nbsp;&nbsp;&nbsp;</td>
+                    <td><div id="sliderX" style="margin-left: 5px;"></div></td>
                 </tr>
                 <tr>
-                    <td ><div id="sliderY"></div></td>
-                    <td width=240>
-                        <div id="tIMG" class="fruitImage">
-                                <canvas id="xyline" width="240" height="240">
-                                Your browser does not support the canvas element.
-                                </canvas>
+                    <td><div id="sliderY"></div></td>
+                    <td>
+                        <div id="tIMG">
                         </div>
                     </td>
                 </tr>
@@ -68,8 +70,8 @@
         </td>
 
         <!-- big image -->
-        <td width="880" align="center"> <br />
-		<div id="xyIMG" class="xyImage"></div>
+        <td>
+		<div id="xyIMG"></div>
         </td>
     </tr>
     </table>
@@ -84,25 +86,28 @@
                     <li><a href="javascript: movetoTop();">Stage selection</a></li>
                     <li><a href="javascript: movetoMiddle();">Anatomy viewer</a></li>
                 </ul>
-                &nbsp;
         </div>
 	<table><tr><td>
 	<div id="anatomy_video_button">
 		<ul>
-			<li><a href="javascript: switchVideo(1);"><img src="static/images/anatomy_viewer/button/top_full.png"   height="120" width="138"></a></li>
-			<li><a href="javascript: switchVideo(2);"><img src="static/images/anatomy_viewer/button/left_full.png"  height="120" width="138"></a></li>
-			<li><a href="javascript: switchVideo(3);"><img src="static/images/anatomy_viewer/button/btop_half.png"  height="120" width="138"></a></li>
-			<li><a href="javascript: switchVideo(4);"><img src="static/images/anatomy_viewer/button/bleft_half.png" height="120" width="138"></a></li>
-			<li><a href="javascript: switchVideo(5);"><img src="static/images/anatomy_viewer/button/ctop_half.png"  height="120" width="138"></a></li>
-			<li><a href="javascript: switchVideo(6);"><img src="static/images/anatomy_viewer/button/cleft_half.png" height="120" width="138"></a></li>
+			<a href="javascript: switchVideo(1);" title="video1"><li><img src="static/images/anatomy_viewer/button/top_full.png"   height="60" width="69"></li></a>
+			<a href="javascript: switchVideo(2);" title="video2"><li><img src="static/images/anatomy_viewer/button/left_full.png"  height="60" width="69"></li></a>
+			<a href="javascript: switchVideo(3);" title="video3"><li><img src="static/images/anatomy_viewer/button/btop_half.png"  height="60" width="69"></li></a>
+			<a href="javascript: switchVideo(4);" title="video4"><li><img src="static/images/anatomy_viewer/button/bleft_half.png" height="60" width="69"></li></a>
+			<a href="javascript: switchVideo(5);" title="video5"><li><img src="static/images/anatomy_viewer/button/ctop_half.png"  height="60" width="69"></li></a>
+			<a href="javascript: switchVideo(6);" title="video6"><li><img src="static/images/anatomy_viewer/button/cleft_half.png" height="60" width="69"></li></a>
 		</ul>
-	</div> 
+	</div>
+	</td>
+	<td>
+	<div>
+		<video id="video_block" class="video-js vjs-default-skin" controls preload="none" width="780" height="450" 
+			data-setup="{ "controls": true, "autoplay": false, "preload": "auto"  }">
+			<source src="" type="" id="fruit_video" />
+		</video>
+	</div>
+
 	</td></tr></table>
-	<br>
-	<video id="video_block" class="video-js vjs-default-skin" controls preload="none" width="1024" height="400"
-		data-setup="{ "controls": true, "autoplay": false, "preload": "auto"  }">
-		<source src="" type='video/ogg' id="fruit_video" />
-	</video>
 </div>
 
 </center>
@@ -147,7 +152,6 @@ html,body { width:100%; min-height: 100%; _height:100%; margin:0; padding:0; }
 	width: 100%;
 	height: 50px;
 	font-weight:bold;
-	#background-color: #AABBCC;
 }
 
 .anatomy_title ul   { margin: 0; line-height: normal; list-style:none; }
@@ -157,7 +161,6 @@ html,body { width:100%; min-height: 100%; _height:100%; margin:0; padding:0; }
 
 #anatomy_navi {
 	margin: 0px auto;
-	height: 100px;
 }
 
 #anatomy_white {
@@ -176,12 +179,12 @@ html,body { width:100%; min-height: 100%; _height:100%; margin:0; padding:0; }
 }
 
 #anatomy_video_button { overflow:hidden; white-space:nowrap; }
-#anatomy_video_button ul { list-style:none; }
-#anatomy_video_button ul li { float:left; }
-#anatomy_video_button ul li a:hover { background-color: #FFF; }
+#anatomy_video_button ul    { display: block; }
+#anatomy_video_button ul li { display: block; }
+/*#anatomy_video_button ul li a:hover { background-color: #FFFFFF; } */
 
 .blockTop_spacer {
-	height: 120px;
+	height: 105px;
 }
 
 .centered_img {
@@ -196,8 +199,9 @@ html,body { width:100%; min-height: 100%; _height:100%; margin:0; padding:0; }
 
 #tIMG {
 	background-repeat:no-repeat;
-	width:260px;
 	cursor:pointer;
+	width: 240px;
+	height: 240px;
 }
 
 #xyIMG {
@@ -210,26 +214,14 @@ html,body { width:100%; min-height: 100%; _height:100%; margin:0; padding:0; }
 	#border-color: #ff0000;
 }
 
-.fruitImage { 
-    width: 240px;
-    height: 240px;
-}
-
-.xyImage {
-    width: 880px;
-    height: 880px;
-}
-
 #img{ }
 
 #sliderX {
-    width: 240px;
     height: 15px;
 }
 
 #sliderY {
     width: 15px;
-    height: 240px;
 }
 
 </style>

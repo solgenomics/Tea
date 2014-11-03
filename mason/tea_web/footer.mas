@@ -1,5 +1,6 @@
 <!-- <br/> -->
 <!-- <br/> -->
+<div id="footer">
 <hr/>
 <a href="/overview"><img src="/static/images/overview_small.png" height="50" style="float:left;margin-left:25px;"/></a>
 <a href="/Expression_viewer/input"><img src="/static/images/expr_small.png" height="50" style="float:left;margin-left:5px;"/></a>
@@ -7,3 +8,4 @@
 
 <a href="http://www.nsf.gov" target="_blank"><img src="/static/images/nsf.jpg" height="50" style="float:right;margin-right:25px;"/></a>
 <a href="http://solgenomics.net/" target="_blank"><img src="/static/images/sgn_logo.png" height="50" style="float:right;margin-right:25px;"/></a>
+</div>

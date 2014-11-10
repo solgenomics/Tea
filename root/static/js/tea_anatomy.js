@@ -98,75 +98,6 @@
     	var slideHeightY = 839;
     	var selectStage = null;
 	var fdiv, fdivLeft, fdivTop = null;
-	var axis;
-
-	/* init stages */
-	/*
-	function slideInit() 
-	{
-		fdiv = document.getElementById('tIMG');
-		fdiv.addEventListener("mousedown", handleMouseDown, false);
-		fdiv.addEventListener("mousemove", handleMouseMove, false);
-		fdiv.addEventListener("mouseup", handleMouseUp, false);
-		var pos = getPosition(fdiv).split(",");
-		fdivLeft = pos[0];
-		fdivTop = pos[1];
-		//console.log(pos[0] + " " + pos[1] + " " + fdiv.offsetWidth + " " + fdiv.offsetHeight );
-	}
-
-	function getPosition(obj) 
-	{ 
-		var topValue= 0,leftValue= 0;
-		while(obj)
-		{  
-			leftValue+= obj.offsetLeft;
-			topValue+= obj.offsetTop; 
-			obj = obj.offsetParent;
-		}
-		finalvalue = leftValue + "," + topValue;  
-		return finalvalue; 
-	}
-		
-    
-	function handleMouseMove(event) 
-	{
-            if (isMouseDown) 
-	    {
-		presentX = event.pageX;
-		presentY = event.pageY;                                
-		distanceX = parseInt((presentX - fdivLeft));
-		distanceY = parseInt((presentY - fdivTop));
-            
-		console.log("MoveX: " + distanceX + " PresentX: " + presentX);
-		console.log("MoveY: " + distanceY + " PresentY: " + presentY);
-
-		counterX = parseInt((distanceX / fdiv.offsetWidth  * noOfImagesX));
-		counterY = parseInt((distanceY / fdiv.offsetHeight * noOfImagesY));
-
-		//document.getElementById('xyIMG').style.backgroundPosition = "0px " + ((-counterX * slideHeight)-90) + "px";
-		document.getElementById('xyIMG').style.backgroundPosition = "0px " + ((-counterY * slideHeight)) + "px";
-            }
-    	}
-	
-	function handleMouseDown(event) 
-	{
-        	event.preventDefault();
-	    	isMouseDown = true;
-            	initialX = event.pageX;
-        	initialY = event.pageY;    
-        	//console.log("Mouse Down: " + initialX + " " + initialY);
-    	}
-	
-	function handleMouseUp(event) 
-	{
-        	if (isMouseDown) {
-            		isMouseDown = false;
-        	}	
-        	finalX = event.pageX;
-        	finalY = event.pageY;
-        	//console.log("Mouse Up: " + finalX + "" + finalY);
-    	}
-	*/
 
 	var preSection;
 	var sheight = screen.height;
@@ -218,21 +149,19 @@
 	var mySlider, mySlider2;
 
 	/* switch div for x, and y axis */
+	var preStage, preAxis, stage, axis, passStageValue;
 
-	var preStage, preXY;
 	function switchPlaningImages( data )
 	{
-		var d = document.getElementsByName( 'planing' );	
+		// set default axis value to x
+		axis = 'x';
+		// get axis value if select x or y 
+		var d = document.getElementsByName( 'planing' );
 		for (var i=0; i<d.length; i++) {
 			if ( d[i].checked ) { axis = d[i].value; }
 		}
 
-		var stage;
-		var stages = document.getElementsByName('radioStage') ;
-		for (var i=0; i<stages.length; i++) {
-			if (stages[i].checked) { stage = stages[i].value; }
-		}
-
+		// load stage from data, set default to
 		if ( data ) {
 			stage = fruitImages[data].name;
 		} else {
@@ -242,15 +171,17 @@
 				alert("ERR, no stage selected");
 			}
 		}
-	
+		
+		// load image according to stage and axis
+		
 		var simg, timg, ximg, yimg , ximgs, yimgs;
 		for (var i=0; i<fruitImages.length; i++) {
 			if (fruitImages[i].name == stage) {
+				passStageValue = i; // this value is passed to video				
 				timg = fruitImages[i].timg;
 				ximg = fruitImages[i].ximg;
 				yimg = fruitImages[i].yimg;
 				if ( footerV_height1 == 50 ) {
-					//timg = fruitImages[i].simg;
 					ximg = fruitImages[i].ximgs;
 					yimg = fruitImages[i].yimgs;
 				}
@@ -280,10 +211,11 @@
 		} else {
 			movetoMiddle(2);
 		}
+
 		switchVideo(1);
 
 		preStage = stage;
-		preXY = axis;
+		preAxis = axis;
 	}
 
 	/* slider init */
@@ -379,7 +311,6 @@
 	var browser = get_browser();
 
 	function switchVideo (data) {
-		var stage = preStage;
 		var videoSource = "/static/video/" + stage + data;
 		var videoType;
 		if (browser == 'Firefox' || browser == 'Chrome') {
@@ -399,9 +330,11 @@
 
 window.onload = function()
 {
-	if (browser != 'Firefox' && browser != 'Chrome') {
-		$("#anatomy_headerV").html( $("#anatomy_headerV").html() + "<br />This web page is only supported by Firefox and Chrome");
+	if (browser == "IE8" || browser == "IE7") {
+		$("#anatomy_headerV").html( $("#anatomy_headerV").html() + "<br />This page is not supported by " + browser );
 	}
+
+	// get first stages
 
 	// hide the footer
 	$('#footer').hide();
@@ -440,7 +373,7 @@ window.onload = function()
 	var videoSource = "/static/video/Pink1";
 	var videoType;
 	if (browser == 'Firefox' || browser == 'Chrome') { videoSource += ".ogv"; } else { videoSource += ".mp4"; }
-	if (browser == 'Firefox' || browser == 'Chrome') { videoType == "video/ogv"; } else { videoType == "video/mp4"; }
+	if (browser == 'Firefox' || browser == 'Chrome') { videoType == "video/ogg"; } else { videoType == "video/mp4"; }
         var fruit_video = $('#fruit_video');
         fruit_video.attr('src', videoSource);
 	fruit_video.attr('type', videoType);
@@ -451,17 +384,4 @@ window.onload = function()
 	movetoTop();
 
 	$("body").css("overflow", "hidden");
-	
-	/*
-	var c=document.getElementById("xyline");
-	var cxt=c.getContext("2d");
-	cxt.strokeStyle="#ff0000";
-	cxt.lineWidth=3;
-	cxt.moveTo(8,0);
-	cxt.lineTo(8,240);
-	cxt.moveTo(0,5);
-	cxt.lineTo(240,5);
-	cxt.globalAlpha=0.7;
-	//cxt.stroke(ckground-image:url(/static/images/anatomy_viewer/xMG.jpg););
-	*/
 }

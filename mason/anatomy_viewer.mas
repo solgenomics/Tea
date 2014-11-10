@@ -1,8 +1,6 @@
 <script src="/static/js/codebase/dhtmlxslider.js"></script>
 <script src="/static/js/jquery-scrolltofixed-min.js" type="text/javascript"></script>
 <script type="text/javascript" src="/static/js/tea_anatomy.js"></script>
-<script src="/static/js/video.js"></script>
-<script> videojs.options.flash.swf = "/static/css/video-js.swf"; </script>
 <center>
 <div id="anatomy_headerV" class="anatomy_header">
     <h2 id="subtitle"><img class="centered_img" src="/static/images/anatomy_small.png"/> Anatomy Viewer</h2>
@@ -107,7 +105,7 @@
 	<div>
 		<video id="video_block" class="video-js vjs-default-skin" controls preload="none" width="780" height="450" 
 			data-setup="{ "controls": true, "autoplay": false, "preload": "auto"  }">
-			<source src="" type="" id="fruit_video" />
+			<source src="/static/video/Pink1.ogv" type="video/ogg" id="fruit_video" />
 		</video>
 	</div>
 

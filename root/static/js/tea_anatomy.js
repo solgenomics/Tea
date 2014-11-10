@@ -236,7 +236,11 @@
 		if ( data ) {
 			stage = fruitImages[data].name;
 		} else {
-			alert("ERR, no stage selected")
+			if ( preStage ) {
+				stage = preStage;
+			} else {
+				alert("ERR, no stage selected");
+			}
 		}
 	
 		var simg, timg, ximg, yimg , ximgs, yimgs;
@@ -375,13 +379,7 @@
 	var browser = get_browser();
 
 	function switchVideo (data) {
-
-		var stage;
-                var stages = document.getElementsByName('radioStage') ;
-                for (var i=0; i<stages.length; i++) {
-                        if (stages[i].checked) { stage = stages[i].value; }
-                }
-
+		var stage = preStage;
 		var videoSource = "/static/video/" + stage + data;
 		var videoType;
 		if (browser == 'Firefox' || browser == 'Chrome') {

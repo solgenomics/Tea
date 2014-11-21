@@ -21,7 +21,7 @@ Catalyst Controller.
 
 =cut
 
-sub index :Path('/anatomy_viewer/') :Args(0) {
+sub index :Path('/tomography/') :Args(0) {
     my ( $self, $c ) = @_;
     $c->stash(template => 'anatomy_viewer.mas');
 }

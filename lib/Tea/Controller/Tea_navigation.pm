@@ -39,6 +39,16 @@ sub contact :Path('/contact/') :Args(0) {
     $c->stash(template => 'contact.mas');
 }
 
+sub av_menu :Path('/anatomy_viewer/') :Args(0) {
+    my ( $self, $c ) = @_;
+    $c->stash(template => 'anatomy_menu.mas');
+}
+
+sub microscopy :Path('/microscopy/') :Args(0) {
+    my ( $self, $c ) = @_;
+    $c->stash(template => 'microscopy.mas');
+}
+
 
 =encoding utf8
 

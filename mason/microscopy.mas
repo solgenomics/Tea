@@ -1,0 +1,47 @@
+<center>
+	<div id="pagetitle"><h1><img src="/static/images/anatomy_small.png" height="40" style="margin-bottom:-5px;"/> Anatomy Viewer</h1></div>
+	<br/>
+	<div style="width:700px;">
+		<h2>Light Microscopy & Drawings</h2>
+		
+		<!-- <p>
+			<img src="static/images/anatomy_viewer/menu/pink_pericarp.png" style="float:right;height:370px;">
+			In this section you will be able to view tomato images captured through
+			both light microscopy and through computer tomography.
+		</p>
+
+		<p>
+			<img src="static/images/anatomy_viewer/menu/ovary.jpg" style="float:left;margin-right:10px;">
+			Click here to see detailed light microscopy images of
+			tomato fruit, and the drawings derived from them
+			with the various tissue clearly identified.
+		</p>
+		<br>
+		<br>
+		<br>
+
+		<h2 style="text-align:left;">Computed Tomography <img src="static/images/anatomy_viewer/menu/ct_cut.jpg" style="float:right;"></h2>
+		<p>
+			<img src="static/images/anatomy_viewer/menu/ct_whole.jpg" style="float:left;margin-right:10px;">
+			Click here to view and transect high resolution CT images of
+			tomato fruit at various stages of development.
+		</p>
+	</div>
+	<br>
+	<br> -->
+	<br>
+	<br>
+</center>
+
+
+<style>
+	.centered_img {
+		height:40px;
+		margin-bottom:-10px;
+	}
+	
+	p {
+		text-align: left;
+	}
+</style>
+

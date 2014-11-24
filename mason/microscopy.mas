@@ -3,34 +3,75 @@
 	<br/>
 	<div style="width:700px;">
 		<h2>Light Microscopy & Drawings</h2>
+		<p>
+			The drawings on this site were derived from light microscopy image, and then traced.
+			The individual tissues are then able to be highlighted to show different expression levels found in each tissue in the expression viewer.
+		</p>
 		
-		<!-- <p>
-			<img src="static/images/anatomy_viewer/menu/pink_pericarp.png" style="float:right;height:370px;">
-			In this section you will be able to view tomato images captured through
-			both light microscopy and through computer tomography.
-		</p>
-
-		<p>
-			<img src="static/images/anatomy_viewer/menu/ovary.jpg" style="float:left;margin-right:10px;">
-			Click here to see detailed light microscopy images of
-			tomato fruit, and the drawings derived from them
-			with the various tissue clearly identified.
-		</p>
+		<h3>Tissue: Pericarp</h3>
+		<h3>Stage: 10 Days Post Anthesis</h3>
+		<img src="static/images/anatomy_viewer/microscopy/pericarp_10dpa_photo.jpg" style="float:left;margin-right:10px;width:160px;display:inline;">
+		<img src="static/images/anatomy_viewer/microscopy/arrow_img.png" style="float:left;top:120px;position:relative;">
+		<img src="static/images/anatomy_viewer/microscopy/pericarp_10dpa_draw.png" style="float:left;">
+		<ul id="color_legend">
+			<li><div class="legend_sq" style="background-color:red;"></div><p>Outer Epidermis</p></li>
+			<li><div class="legend_sq" style="background-color:#99CCFF;"></div><p>Collenchyma</p></li>
+			<li><div class="legend_sq" style="background-color:#FF9900;"></div><p>Vascular Tissue</p></li>
+			<li><div class="legend_sq" style="background-color:yellow;"></div><p>Parenchyma</p></li>
+			<li><div class="legend_sq" style="background-color:#993366;"></div><p>Inner Epidermis</p></li>
+		</ul>
+		<br>
+		<br>
+		
+		<h3>Tissue: Pericarp</h3>
+		<h3>Stage: Mature Green</h3>
+		<img src="static/images/anatomy_viewer/microscopy/pericarp_mg_photo.jpg" style="float:left;margin-right:10px;width:160px;display:inline;">
+		<img src="static/images/anatomy_viewer/microscopy/arrow_img.png" style="float:left;top:70px;position:relative;">
+		<img src="static/images/anatomy_viewer/microscopy/pericarp_mg_draw.png" style="float:left;height:220px;">
+		<ul id="color_legend2">
+			<li><div class="legend_sq" style="background-color:red;"></div><p>Outer Epidermis</p></li>
+			<li><div class="legend_sq" style="background-color:#99CCFF;"></div><p>Collenchyma</p></li>
+			<li><div class="legend_sq" style="background-color:#FF9900;"></div><p>Vascular Tissue</p></li>
+			<li><div class="legend_sq" style="background-color:yellow;"></div><p>Parenchyma</p></li>
+			<li><div class="legend_sq" style="background-color:#993366;"></div><p>Inner Epidermis</p></li>
+		</ul>
+		<br>
+		<br>
+		
+		<h3>Tissue: Pericarp</h3>
+		<h3>Stage: Pink</h3>
+		<img src="static/images/anatomy_viewer/microscopy/pericarp_pink_photo.jpg" style="float:left;margin-right:10px;width:160px;display:inline;">
+		<img src="static/images/anatomy_viewer/microscopy/arrow_img.png" style="float:left;top:120px;position:relative;margin-right:10px;">
+		<img src="static/images/anatomy_viewer/microscopy/pericarp_pink_draw.png" style="float:left;height:320px;">
+		<ul id="color_legend">
+			<li><div class="legend_sq" style="background-color:red;"></div><p>Outer Epidermis</p></li>
+			<li><div class="legend_sq" style="background-color:#99CCFF;"></div><p>Collenchyma</p></li>
+			<li><div class="legend_sq" style="background-color:#FF9900;"></div><p>Vascular Tissue</p></li>
+			<li><div class="legend_sq" style="background-color:yellow;"></div><p>Parenchyma</p></li>
+			<li><div class="legend_sq" style="background-color:#993366;"></div><p>Inner Epidermis</p></li>
+		</ul>
+		<br>
+		<br>
+		
+		<h3>Tissue: Ovary</h3>
+		<img src="static/images/anatomy_viewer/microscopy/ovary_photo.jpg" style="float:left;margin-right:10px;width:260px;display:inline;">
+		<img src="static/images/anatomy_viewer/microscopy/arrow_img.png" style="float:left;top:80px;position:relative;margin-right:10px;">
+		<img src="static/images/anatomy_viewer/microscopy/ovary_draw.png" style="float:left;height:200px;">
 		<br>
 		<br>
 		<br>
-
-		<h2 style="text-align:left;">Computed Tomography <img src="static/images/anatomy_viewer/menu/ct_cut.jpg" style="float:right;"></h2>
-		<p>
-			<img src="static/images/anatomy_viewer/menu/ct_whole.jpg" style="float:left;margin-right:10px;">
-			Click here to view and transect high resolution CT images of
-			tomato fruit at various stages of development.
-		</p>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
 	</div>
-	<br>
-	<br> -->
-	<br>
-	<br>
 </center>
 
 
@@ -38,6 +79,41 @@
 	.centered_img {
 		height:40px;
 		margin-bottom:-10px;
+	}
+	
+	#color_legend {
+		vertical-align:top;
+		width:400px;
+		margin-left:415px;
+	}
+	
+	#color_legend li {
+		display:block;
+		height:42px;
+	}
+	
+	#color_legend2 {
+		vertical-align:top;
+		width:400px;
+		margin-left:415px;
+/*		top:-20px;*/
+		position:relative;
+	}
+	
+	#color_legend2 li {
+		display:block;
+		height:27px;
+	}
+	
+	.legend_sq {
+		float:left;
+		width:25px;
+		height:25px;
+		border-style:solid;
+		border-width:2px;
+		border-color:#678;
+		border-radius:5px;
+		margin-right:10px;
 	}
 	
 	p {

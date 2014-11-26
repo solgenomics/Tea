@@ -74,6 +74,18 @@ my $json = JSON::Any->new;
 		</button>
 	</div> -->
 		
+	<div style="width:1120px;">
+		<div id="downloading" style="text-align: center; display:none;">
+		<img src="/static/images/wheel.gif" height="30"/>
+		</div>
+		
+		<form id="download_data" method="post" action="/download_expression_data/" enctype="multipart/form-data">
+			<input name="input_gene" value=<% $genes[0] %> style="display:none;">
+			<input name="correlation_filter" value=<% $correlation_filter %> style="display:none;">
+			<button id="download_expr_table" style="float:right;">Download Expression Data</button>
+		</form>
+	</div>
+	<br>
 </center>
 
 

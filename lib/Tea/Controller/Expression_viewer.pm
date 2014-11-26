@@ -51,7 +51,7 @@ sub index :Path('/Expression_viewer/input/') :Args(0) {
 sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
     my ($self, $c) = @_;
     
-    # to store erros as they happen
+    # to store erros as they may happen
     my @errors; 
  
     # get variables from catalyst object
@@ -140,7 +140,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	        children => [ $range_query, $term_query],
 	    );
 	
-	    my $hits1 = $searcher->hits( query => $term_query );
+	    # my $hits1 = $searcher->hits( query => $term_query );
 	    my $hit_intersect = $searcher->hits( query => $and_query );
 		
 		# print STDERR "\n\ntotal number of correlated genes: $hits\n\n";
@@ -258,6 +258,172 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	$c->stash->{locus_ids} = \%locus_ids;
 	
 	$c->stash->{template} = '/Expression_viewer/output.mas';
+}
+
+sub download_expression_data :Path('/download_expression_data/') :Args(0) {
+    my ($self, $c) = @_;
+    
+	#get parameters from form and config file
+	my $query_gene = $c->req->param("input_gene");
+	my $corr_filter = $c->req->param("correlation_filter");
+	my $expr_path = $c->config->{expression_indexes_path};
+	my $corr_path = $c->config->{correlation_indexes_path};
+	my $desc_path = $c->config->{description_index_path};
+	
+	# strip gene name
+	$query_gene =~ s/^\s+//;
+	$query_gene =~ s/\s+$//;
+	$query_gene =~ s/\.\d$//;
+	$query_gene =~ s/\.\d$//;
+	
+	print STDERR "downloading expression data\n";
+	
+	# get correlation filter value (it is 100 higer when it comes from the input slider)
+	if ($corr_filter > 1) {
+		$corr_filter = $corr_filter/100;
+	}
+	
+	#------------------------------------- Get Correlation Data
+	my @genes;
+	my %corr_values;
+	$corr_values{$query_gene} = 1;
+	
+	my $lucy_corr = Lucy::Simple->new(
+	    path     => $corr_path,
+	    language => 'en',
+	);
+	
+	my $sort_spec = Lucy::Search::SortSpec->new(
+	     rules => [
+		 	Lucy::Search::SortRule->new( field => 'correlation', reverse => 1,),
+		 	Lucy::Search::SortRule->new( field => 'gene2', reverse => 0,),
+		 	Lucy::Search::SortRule->new( field => 'gene1',),
+	     ],
+	);
+	
+	my $hits = $lucy_corr->search(
+		query      => $query_gene,
+		sort_spec  => $sort_spec,
+		num_wanted => 10000,
+	);
+	
+	#------------------------------------- Get data after correlation filter
+	if ($corr_filter > 0.65) {
+		my $range_query = Lucy::Search::RangeQuery->new(
+		    field         => 'correlation',
+		    lower_term    => $corr_filter,
+		);	
+		my $searcher = Lucy::Search::IndexSearcher->new( 
+		    index => $corr_path,
+		);
+		my $qparser  = Lucy::Search::QueryParser->new( 
+		    schema => $searcher->get_schema,
+		);
+		my $term_query = $qparser->parse($query_gene);
+	
+	    my $and_query = Lucy::Search::ANDQuery->new(
+	        children => [ $range_query, $term_query],
+	    );
+	}
+	
+	#------------------------------------- save data for filtered genes
+	while ( my $hit = $lucy_corr->next ) {
+		if ($query_gene eq $hit->{gene1} && $hit->{correlation} >= $corr_filter) {
+			push(@genes, $hit->{gene2});
+			$corr_values{$hit->{gene2}} = $hit->{correlation};
+		} elsif ($query_gene eq $hit->{gene2} && $hit->{correlation} >= $corr_filter) {
+			push(@genes, $hit->{gene1});
+			$corr_values{$hit->{gene1}} = $hit->{correlation};
+		}
+	}
+	
+	#------------------------------------- Temporal Data
+	unshift(@genes, $query_gene);
+	my @stages = ("10DPA", "Mature_Green", "Pink");
+	my @tissues = ("Inner_Epidermis", "Parenchyma", "Vascular", "Collenchyma", "Outer_Epidermis");
+	
+	
+	#------------------------------------- build data structure
+	my %gene_stage_tissue_expr;
+	my %stage;
+	my %tissue;
+	my %descriptions;
+
+	foreach my $g (@genes) {
+		foreach my $t (@tissues) {
+			foreach my $s (@stages) {
+				$gene_stage_tissue_expr{$g}{$t}{$s} = 0;
+			}
+		}
+	}
+	
+	my $lucy = Lucy::Simple->new(
+	    path     => $expr_path,
+	    language => 'en',
+	);
+	
+	my $lucy_desc = Lucy::Simple->new(
+	    path     => $desc_path,
+	    language => 'en',
+	);
+	
+	#------------------------------------- Create header
+	my @header;
+	my @lines;
+	
+	push(@header,"gene name");
+	
+	foreach my $t (@tissues) {
+		foreach my $s (@stages) {
+			push(@header, "$t:$s RPKM");
+		}
+	}
+	push(@header,"Correlation\tdescription");
+	push(@lines, join("\t", @header));
+	
+	#------------------------------------- get expression and description
+	foreach my $g (@genes) {
+		$lucy->search(
+		    query      => $g,
+			num_wanted => 10000,
+		);
+		
+		$lucy_desc->search(
+		    query      => $g,
+			num_wanted => 1,
+		);
+		
+		while ( my $hit = $lucy->next ) {
+			# all expression values are multiplied by 1 to transform string into integer or float
+			$gene_stage_tissue_expr{$hit->{gene}}{$hit->{tissue}}{$hit->{stage}} = $hit->{expression} * 1
+		}
+
+		while ( my $desc_hit = $lucy_desc->next ) {
+			$descriptions{$desc_hit->{gene}} = $desc_hit->{description};
+		}
+	}
+	
+	#------------------------------------- create file for downloading
+	my @expr_columns;
+	
+	foreach my $g (@genes) {
+		foreach my $t (@tissues) {
+			foreach my $s (@stages) {
+				push(@expr_columns, $gene_stage_tissue_expr{$g}{$t}{$s});
+			}
+		}
+		push(@lines, "$g\t".join("\t", @expr_columns)."\t$corr_values{$g}\t$descriptions{$g}");
+		@expr_columns = [];
+		shift(@expr_columns);
+	}
+	
+	my $tab_file = join("\n", @lines);
+	my $filename = "TEA_".$query_gene."_cf$corr_filter.txt";
+
+	#------------------------------------- send file
+	$c->res->content_type('text/plain');
+	$c->res->header('Content-Disposition', qq[attachment; filename="$filename"]);
+	$c->res->body($tab_file);
 }
 
 =encoding utf8

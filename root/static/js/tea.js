@@ -1,5 +1,5 @@
 $(document).ready(function () {
-
+	
 	function print_bar_chart(t_names,s_names,sxt_values,gene_name,corr_val) {
 		
 		var plot1 = $.jqplot(gene_name+'_bar_graph', sxt_values, {
@@ -776,7 +776,7 @@ $(document).ready(function () {
 	var canvas = new Kinetic.Stage({
 		container: "container",
 		width: 1100,
-		height: 1700
+		height: 1200
 	});
 	var tissue_layer = new Kinetic.Layer();
 

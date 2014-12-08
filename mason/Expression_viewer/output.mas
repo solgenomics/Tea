@@ -39,7 +39,7 @@ my $json = JSON::Any->new;
 </script>
 
 
-<script type="text/javascript" src="/static/js/tea.js"></script>
+<script type="text/javascript" src="/static/js/tea_expression.js"></script>
 
 
 

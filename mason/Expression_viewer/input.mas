@@ -1,50 +1,64 @@
 
-
 <center>
 	<div id="pagetitle"><h1><img src="/static/images/expr_small.png" height="40" style="margin-bottom:-10px;"/> Expression Viewer</h1></div>
 
-<!-- <form id="search_gene"> -->
-	<div style="width:700px;">
-	<form id="search_gene" method="post" action="/Expression_viewer/output" name="tea_form" enctype="multipart/form-data">
-		<table id="tea_form" cellspacing="" cellpadding="10" width"100%">
+	<div style="width:750px;margin:0 auto;">
+		
+		<& hidden_dialogs.mas &>
+		
+		<form id="search_gene" method="post" enctype="multipart/form-data">
+			<table id="tea_form" cellspacing="" cellpadding="10" width"100%" style="float:left;width:250px;">
+					<tr>
+						<td class="td_form">
+							<span id="gene_i" class="info_icon">i</span> By Tomato Gene ID
+						</td>
+					</tr>
+					<tr>
+						<td class="td_form">
+							<input class="expr_input_box" value="Solyc01g102660" name="input_gene" size="28"/>
+							<br/>
+							<br/>
+							<input id="corr_filter" name="correlation_filter" style="display:none;"/>
+							<button class="blue_button" type="submit" form="search_gene" formaction="/Expression_viewer/output" formmethod="post" formenctype="multipart/form-data">Get Expression</button>
+						</td>
+					</tr>
+			</table>
+		</form>
+	
+		<table id="tea_form" cellspacing="" cellpadding="10" width"100%" style="float:left;width:250px;">
 				<tr>
 					<td class="td_form">
-						<span class="info_icon">i</span> By Tomato Gene ID
-					</td>
-					<td class="td_form">
-						<span class="info_icon">i</span> By BLAST Search
-					</td>
-					<td class="td_form">
-						<span class="info_icon">i</span> By Custom List
+						<span id="blast_i" class="info_icon">i</span> By BLAST Search
 					</td>
 				</tr>
 				<tr>
 					<td class="td_form">
-						<input class="input" id="gene" type="input" value="Solyc01g102660" name="input_gene" size="20" />
-						<br/><br/>
-						<!-- <button class="blue_button">Get Expression</button> -->
-						<button class="blue_button" type="submit" form="search_gene" formaction="/Expression_viewer/output" formmethod="post" formenctype="multipart/form-data">Get Expression</button>
+						<input id="blast_input_box" class="expr_input_box" value="Click here" size="25" style="color: #999;"/>
 					</td>
+				</tr>
+		</table>
+	
+		<table id="tea_form" cellspacing="" cellpadding="10" width"100%" style="float:left;width:250px;">
+				<tr>
 					<td class="td_form">
-						<textarea class="input" id="blast_sequence" name="blast_sequence" cols="25" rows="1" style="background-color:#666; color:#fff;" disabled>ACGTATACGTACGTGTACTG</textarea>
-						<br/><br/>
-						<button class="blue_button" disabled>BLAST</button>
+						<span id="custom_list_i" class="info_icon">i</span> By Custom List
 					</td>
+				</tr>
+				<tr>
 					<td class="td_form">
-						<textarea class="input" id="gene_prot" type="input" name="gene_prot" size="20"  cols="25" rows="1" style="background-color:#666; color:#fff;" disabled/><% "Solyc04g008460\nSolyc04g008460" %></textarea>
-						<br/><br/>
-						<button class="blue_button" disabled>Search</button>
+						<input id="custom_input_box" class="expr_input_box" value="Click here" size="23" style="color: #999;"/>
 					</td>
 				</tr>
 		</table>
 	</div>
 </center>
+<br>
 
+
+<div width="100%" style="width:800px;margin:0 auto;clear:both;">
 <center>
 <hr/>
-<h2>Define Expression Parameters <span class="info_icon">i</span></h2>
-
-
+<h2>Define Expression Parameters <span id="parameters_i" class="info_icon">i</span></h2>
 </center>
 
 <ul id="expr_params">
@@ -64,11 +78,11 @@
 		Treatment
 	</li>
 	<li>
-		Correlation filter: 0.<input type="text" id="amount" name="correlation_filter" readonly style="border:0;font-size:22px;"><div id="correlation_slider"></div>
+		Correlation filter: 0.<input type="text" id="amount" readonly style="border:0;font-size:22px;"><div id="correlation_slider"></div>
 		<br/>
 	</li>
 </ul>
-</form>
+</div>
 
 
 <script>
@@ -81,9 +95,23 @@
       value: 65,
       slide: function( event, ui ) {
         $( "#amount" ).val( ui.value );
+        $( "#corr_filter" ).val( ui.value );
       }
     });
     $( "#amount" ).val( $( "#correlation_slider" ).slider( "value" ) );
+    $( "#corr_filter" ).val( $( "#correlation_slider" ).slider( "value" ) );
   });
 	
+	function resetSelectAll() {
+	    // if all checkbox are selected, check the selectall checkbox
+	    // and viceversa
+	    if ($(".blast_checkbox").length == $(".blast_checkbox:checked").length) {
+	        $("#selectall").attr("checked", "checked");
+	    } else {
+	        $("#selectall").removeAttr("checked");
+	    }
+	}
+	
 </script>
+<script type="text/javascript" src="/static/js/tea_expr_input.js"></script>
+

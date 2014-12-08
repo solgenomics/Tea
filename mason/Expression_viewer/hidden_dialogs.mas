@@ -1,0 +1,65 @@
+
+<!-- gene id info dialog -->
+<div id="gene_id_help" style="display:none;">
+	<ul>
+		<li>Paste a tomato gene name (Solyc ID)</li><br>
+	</ul>
+</div>
+
+<!-- BLAST info dialog -->
+<div id="blast_help" style="display:none;">
+	<ul>
+		<li>Paste a fasta sequence, a Solyc ID or just a sequence.</li><br>
+		<li>Both nucleotide or protein sequences are valid.</li>
+	</ul>
+</div>
+
+<!-- Custom list info dialog -->
+<div id="custom_list_help" style="display:none;">
+	<ul>
+		<li>Paste a list of Solyc ID.</li><br>
+	</ul>
+</div>
+
+<!-- BLAST input dialog -->
+<div id="blast_input_dialog" style="display:none;">
+	<textarea id="blast_sequence" class="dialog_text_area" cols="56" rows="10">>Solyc10g047140.1.1 Receptor like kinase, RLK
+ATGGATCAGTCGGTGTTGGCGATCTGGGTATTTCTCTGCTTAATTGGTCTGCTTTTCAATTTGTCACCCGTCGCCGGTAACGCTGAAGGTGATGCCTTGAATGCTCTGAAGACAAATTTGGCTGATCCTAATAGTGTTCTACAGAGTTGGGATGCAACCCTTGTTAATCCTTGTACTTGGTTCCATGTGACATGCAACAATGAAAATAGTGTGACTAGAGTTGATCTAGGAAATGCAAATCTATCAGGTCAACTGGTACCACAGCTTGGCCAACTCCAGAAATTGCAGTACTTGGAACTTTATAGTAATAACATAAGCGGAAGAATTCCAAATGAACTGGGAAACTTGACAGAGTTGGTTAGTTTGGATCTTTACCTGAACAACTTAAATGGTCCTATTCCTCCCTCATTGGGCAGGCTTCAGAAGCTACGCTTCCTGAGGCTCAATAATAACAGTTTGAATGAAGGTATTCCCATGTCTCTAACCACCATTGTTGCACTTCAAGTACTTGATCTCTCAAACAACCATTTGACAGGACTAGTTCCAGTCAACGGTTCCTTTTCACTTTTTACTCCTATAAGTTTTGCTAATAATCAGTTGGAAGTTCCTCCAGTTTCTCCACCTCCTCCTCTTCCTCCTACACCCTCATCGTCATCTTCAGTGGGCAACAGCGCAACTGGAGCTATCGCTGGAGGAGTTGCTGCAGGCGCTGCTCTTCTATTTGCAGCT
+	</textarea>
+	<br>
+	<br>
+	<button id="blast_button" class="blue_button" style="float:right;">BLAST</button>
+</div>
+
+<!-- BLAST result dialog -->
+<div id="blast_div_dialog" style="display:none;">
+	<input id="selectall" type='checkbox'>Select all
+
+	<form id="blast_form" method="post" enctype="multipart/form-data">
+		<table id="blast_res_dialog"></table>
+		<br>
+		<button class="blue_button" style="float:right;" type="submit" form="blast_form" formaction="/Expression_viewer/output" formmethod="post" formenctype="multipart/form-data">Get Expression</button>
+	</form>
+</div>
+
+<!-- Custom list input dialog -->
+<div id="custom_input_dialog" style="display:none;">
+	<form id="custom_list_form" method="post" enctype="multipart/form-data">
+		<textarea id="custom_list" class="dialog_text_area" cols="56" rows="10" name="input_gene">
+Solyc04g008460
+Solyc01g102660</textarea>
+		<input type="checkbox" name="hotspot">Hotspot
+		<br>
+		<br>
+		<button id="custom_list_button" class="blue_button" style="float:right;" type="submit" form="custom_list_form" formaction="/Expression_viewer/output" formmethod="post" formenctype="multipart/form-data">Get Expression</button>
+	</form>
+</div>
+
+
+<!-- parameters info dialog -->
+<div id="parameters_help" style="display:none;">
+	<ul>
+		<li>Choose any filter for your query</li><br>
+	</ul>
+</div>
+

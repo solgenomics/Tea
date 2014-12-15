@@ -703,7 +703,8 @@ $(document).ready(function () {
 				canvas.add(tissue_popup_layer);
 	
 				tmp_tissue.on('mouseover', function() {
-					var x_pos = this.getAbsolutePosition().x-10;
+					var x_pos = this.getAbsolutePosition().x;
+					// var x_pos = this.getAbsolutePosition().x-10;
 					var y_pos = this.getAbsolutePosition().y+305;
 					
 					for (var n=0; n<5; n++) {
@@ -777,7 +778,7 @@ $(document).ready(function () {
 
 	var canvas = new Kinetic.Stage({
 		container: "container",
-		width: 1100,
+		width: 1120,
 		height: 1200
 	});
 	var tissue_layer = new Kinetic.Layer();
@@ -804,7 +805,7 @@ $(document).ready(function () {
 	dpa_bg_imgObj.onload = function() {
 
 		var tissue_bg = new Kinetic.Image({
-			x: 200,
+			x: 190,
 			y: 60,
 			image: dpa_bg_imgObj,
 			width: 200,
@@ -818,7 +819,7 @@ $(document).ready(function () {
 	mg_bg_imgObj.onload = function() {
 
 		var tissue_bg2 = new Kinetic.Image({
-			x: 390,
+			x: 380,
 			y: 60,
 			image: mg_bg_imgObj,
 			width: 200,
@@ -832,7 +833,7 @@ $(document).ready(function () {
 	pink_bg_imgObj.onload = function() {
 
 		var tissue_bg3 = new Kinetic.Image({
-			x: 580,
+			x: 570,
 			y: 60,
 			image: pink_bg_imgObj,
 			width: 200,
@@ -849,10 +850,11 @@ $(document).ready(function () {
 	// -------------------------------------------------------------------------------------
 	// http://www.html5canvastutorials.com/tutorials/html5-canvas-image-loader/
 		
-	
+	// print the tissue colored images
 	for (var j = 0; j < stages.length; j++) {
 		
-		var x_offset = 200 + 190*j;
+		var x_offset = 190 + 190*j;
+		// var x_offset = 200 + 190*j;
 
 		for (var i = 0; i<tissues.length; i++) {
 			
@@ -871,14 +873,15 @@ $(document).ready(function () {
 	var cube_layer = new Kinetic.Layer();
 
 	//set variables
-	var page_width = 1100;
+	var page_width = 1120;
 
 	var x_margin = page_width -100 - tissues.length*20 - stages.length*15;
 	var y_margin = 100;
 
 	var last_x_margin = 125 + stages.length*20;
 	var last_y_margin = 155 + stages.length*15;
-
+	
+	//margins for the cube
 	var right_x_start = x_margin + 5 + tissues.length*20;
 	var top_x_start = x_margin + (stages.length*15);
 	

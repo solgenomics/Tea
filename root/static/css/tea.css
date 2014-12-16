@@ -590,6 +590,7 @@ body .ui-tooltip {
 }
 
 #blast_res_table {
+	border-collapse: collapse;
 	width: 100%;
     text-align: right;
     padding-top: 2px;
@@ -597,15 +598,16 @@ body .ui-tooltip {
 	white-space: nowrap;
 }
 
-
 #blast_res_table th {
     background-color: #aaa;
     color: #ffffff;
+	padding-left: 5px;
 }
 
 #blast_res_table tr.alt td {
     color: #000000;
     background-color: #eee;
+	padding-left: 5px;
 }
 
 #blast_aln_div {

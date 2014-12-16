@@ -85,7 +85,7 @@ $(document).ready(function () {
 			var openDialog = $("#"+gene_name+"_dialog").dialog( "isOpen" );
 			
 			if (openDialog) {
-				$("#"+gene_name+"_dialog").dialog({ position: { my: "center", at: "center", of: window } });
+				$("#"+gene_name+"_dialog").dialog({ position: { my: "center", at: "center", of: window },});
 				$("#"+gene_name+"_bar_graph").empty();
 				print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name,corr_val);
 			} else {
@@ -98,7 +98,7 @@ $(document).ready(function () {
 			
 			var dynamicDialog = $('<div id="'+gene_name+'_dialog">\
 			<center>\
-				<a href="http://solgenomics.net/locus/'+gene_id+'/view" target="_blank"><img src="/static/images/sgn_logo.png" height="25" title="Connect to SGN for metadata associated with this gene"/></a>\
+				<a class="sgn_logo_link" href="http://solgenomics.net/locus/'+gene_id+'/view" target="_blank"><img class="sgn_logo_link" src="/static/images/sgn_logo.png" height="25" title="Connect to SGN for metadata associated with this gene"/></a>\
 				<a id="paste_gene"><b>'+gene_name+'</b></a> \
 				&nbsp; &nbsp; &nbsp; <b> Correlation val: </b>'+corr_val+' \
 				<br/>\
@@ -115,6 +115,7 @@ $(document).ready(function () {
 					resizable: false,
 				});
 				$('.ui-dialog :button').blur();
+				$('.sgn_logo_link').blur();
 				print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name,corr_val);
 			});
 		}
@@ -676,9 +677,13 @@ $(document).ready(function () {
 	}
 
 	function loadImage(i,j,aoaoa,x_offset,r_color,g_color,b_color,one_tissue_layer,canvas,stage_name,tissue_name) {
+		canvas.add(one_tissue_layer);
+		
 		var tmp_imgObj = new Image();
+		tmp_imgObj.src = '/static/images/expr_viewer/'+stage_name+'_'+tissue_name+'.png';
+		
 		tmp_imgObj.onload = function() {
-
+			
 			var tmp_tissue = new Kinetic.Image({
 				id: "t_layer"+i+"_s"+j,
 				x: x_offset,
@@ -688,17 +693,19 @@ $(document).ready(function () {
 				height: 360
 			});
 			one_tissue_layer.add(tmp_tissue);
-			canvas.add(one_tissue_layer);
+			// canvas.add(one_tissue_layer);
 			
+			//fix cache bug
 			tmp_tissue.cache();
 			tmp_tissue.filters([Kinetic.Filters.RGB]);
 			tmp_tissue.red(r_color).green(g_color).blue(b_color);
+			tmp_tissue.cache();
+			tmp_tissue.moveToTop();
 			tmp_tissue.draw();
-			
 			
 			//add expression values on a tooltip
 			if (i == 4) {
-			
+				
 				var tissue_popup_layer = new Kinetic.Layer();
 				canvas.add(tissue_popup_layer);
 	
@@ -708,9 +715,9 @@ $(document).ready(function () {
 					var y_pos = this.getAbsolutePosition().y+305;
 					
 					for (var n=0; n<5; n++) {
-						var y_offset = n*65
+						var y_offset = n*65;
 						if (n == 3) {
-							y_offset = 240
+							y_offset = 240;
 						}
 						
 						var tissue_popup = new Kinetic.Rect({
@@ -734,7 +741,7 @@ $(document).ready(function () {
 							fill: "white"
 						});
 						tissue_popup_layer.add(tissue_popup);
-						tissue_popup_layer.moveToTop();
+						// tissue_popup_layer.moveToTop();
 						tissue_popup_layer.add(tissue_desc_txt);
 						tissue_popup_layer.draw();
 					}
@@ -744,11 +751,11 @@ $(document).ready(function () {
 					tissue_popup_layer.removeChildren();
 					tissue_popup_layer.draw();
 				});
-			
 			}
+			tmp_tissue.draw();
 			
 		};
-		tmp_imgObj.src = '/static/images/expr_viewer/'+stage_name+'_'+tissue_name+'.png';
+		// tmp_imgObj.src = '/static/images/expr_viewer/'+stage_name+'_'+tissue_name+'.png';
 	}
 	
 	

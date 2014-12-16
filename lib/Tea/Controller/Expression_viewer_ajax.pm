@@ -41,10 +41,15 @@ sub run_blast :Path('/Expression_viewer/blast/') :Args(0) {
 	# create BLAST input file
 	_create_blast_input_file($input_name,$input_seq,$seq_filename,$nt_blastdb_path);
 	
-	my $res = _run_blast_cmd($blast_program,$seq_filename,$nt_blastdb_path,$prot_blastdb_path,$desc_path);
+	my ($res,$aln) = _run_blast_cmd($c,$blast_program,$params,$seq_filename,$nt_blastdb_path,$prot_blastdb_path,$desc_path);
 	
 	my $blast_table = join("\n", @$res);
-	$c->stash->{rest} = {msg => "$blast_table"};
+	my $blast_alignment = join("<br>", @$aln);
+	$blast_alignment =~ s/ /\&nbsp\;/g;
+	
+	$c->stash->{rest} = {blast_table => "$blast_table",
+						blast_alignment => $blast_alignment,
+	};
 }
 
 sub _parse_blast_input {
@@ -130,12 +135,29 @@ sub _create_blast_input_file {
 
 
 sub _run_blast_cmd {
+	my $c = shift;
 	my $blast_program = shift;
+	my $params = shift;
 	my $seq_filename = shift;
 	my $nt_blastdb_path = shift;
 	my $prot_blastdb_path = shift;
 	my $desc_path = shift;
 	my $blastdb_path = $nt_blastdb_path;
+	
+	my $hits = $c->req->param("blast_hits");
+	my $blast_alignment = $c->req->param("blast_alignment");
+	my $evalue = $c->req->param("blast_evalue");
+	my $blast_filter = $c->req->param("blast_filter");
+	my $filter_val = "T";
+	my $blast_format = "8";
+	
+	if (!$blast_filter) {
+		$filter_val = "F";
+	}
+	
+	if ($blast_alignment) {
+		$blast_format = "0";
+	}
 	
 	if ($blast_program eq "blastp") {
 		$blastdb_path = "$prot_blastdb_path";
@@ -143,12 +165,18 @@ sub _run_blast_cmd {
 	# 	$blastdb_path = "$nt_blastdb_path";
 	}
 	
-	my $blast_cmd = "blastall -p $blast_program -i $seq_filename.fasta -d $blastdb_path -e 1e-3 -m 8 -v 50 -b 50 -o $seq_filename.txt";
+	my $blast_cmd = "blastall -p $blast_program -i $seq_filename.fasta -d $blastdb_path -F $filter_val -e $evalue -m $blast_format -v $hits -b $hits -o $seq_filename.txt";
 	my $blast_error = system($blast_cmd);
 	print STDERR "$blast_cmd\n";
 
+	my $aln_true = 0;
+	my @aln_file;
 	my @res;
-	push(@res, "<tr><th width='10'></th><th>Subject</th><th>Id \%</th><th>e val</th><th>Score</th><th>Description</th></tr>");
+	if ($blast_alignment) {
+		push(@res, "<tr><th width='10'></th><th>Subject</th><th>e val</th><th>Score</th><th>Description</th></tr>");
+	} else {
+		push(@res, "<tr><th width='10'></th><th>Subject</th><th>Id \%</th><th>e val</th><th>Score</th><th>Description</th></tr>");
+	}
 	
 	if ($blast_error) {
 		print STDERR "blast_error: $blast_error\n";
@@ -167,26 +195,68 @@ sub _run_blast_cmd {
 				chomp($line);
 				
 				# print STDERR "$line\n";
-				
-				# split lines by tabs getting each column value in a variable
-				my ($query,$subject,$identity,$alignment_length,$mismatch,$gapopen,$qstart,$qend,$sstart,$send,$evalue,$bitscore) = split("\t",$line);
-				
-				$subject =~ s/\.\d$//;
-				$subject =~ s/\.\d$//;
-	
-				$lucy_desc->search(
-				    query      => $subject,
-					num_wanted => 1,
-				);
-	
-				while ( my $desc_hit = $lucy_desc->next ) {
-					my $desc = $desc_hit->{description};
-					my $tr_type = "<tr>";
-					if ($#res % 2 == 0) {
-					} else {
-						$tr_type = "<tr class='alt'>"
+				if ($blast_alignment) {
+					
+					if ($line =~ /^>/) {
+						$aln_true = 1;
 					}
-					push(@res, "$tr_type<td><input type=\"checkbox\" class=\"blast_checkbox\" onclick=resetSelectAll(); value=\"$subject\" name=\"input_gene\"></td><td>$subject</td><td>$identity</td><td>$evalue</td><td>$bitscore</td><td>".$desc."</td></tr>");
+					
+					if ($line =~ /^Solyc/) {
+						# my ($subject,$kk1,$kk2,$bitscore,$evalue) = split(/\s+/,$line);
+						my @blast_m0 = split(/\s+/,$line);
+						
+						my $subject = $blast_m0[0];
+						my $evalue = $blast_m0[-1];
+						my $bitscore = $blast_m0[-2];
+						
+						$subject =~ s/\.\d$//;
+						$subject =~ s/\.\d$//;
+	
+						$lucy_desc->search(
+						    query      => $subject,
+							num_wanted => 1,
+						);
+	
+						while ( my $desc_hit = $lucy_desc->next ) {
+							my $desc = $desc_hit->{description};
+							my $tr_type = "<tr>";
+							if ($#res % 2 == 0) {
+							} else {
+								$tr_type = "<tr class='alt'>"
+							}
+							push(@res, "$tr_type<td><input type=\"checkbox\" class=\"blast_checkbox\" onclick=resetSelectAll(); value=\"$subject\" name=\"input_gene\"></td><td>$subject</td><td>$evalue</td><td>$bitscore</td><td>".$desc."</td></tr>");
+						}
+						
+					} elsif ($aln_true) {
+						push(@aln_file, "$line\n");
+					} else {
+						next;
+					}
+				} else {
+					# split lines by tabs getting each column value in a variable
+					my ($query,$subject,$identity,$alignment_length,$mismatch,$gapopen,$qstart,$qend,$sstart,$send,$evalue,$bitscore) = split("\t",$line);
+				
+					$subject =~ s/\.\d$//;
+					$subject =~ s/\.\d$//;
+	
+					$lucy_desc->search(
+					    query      => $subject,
+						num_wanted => 1,
+					);
+	
+					while ( my $desc_hit = $lucy_desc->next ) {
+						my $desc = $desc_hit->{description};
+						my $tr_type = "<tr>";
+						if ($#res % 2 == 0) {
+						} else {
+							$tr_type = "<tr class='alt'>"
+						}
+						push(@res, "$tr_type<td><input type=\"checkbox\" class=\"blast_checkbox\" onclick=resetSelectAll(); value=\"$subject\" name=\"input_gene\"></td><td>$subject</td><td>$identity</td><td>$evalue</td><td>$bitscore</td><td>".$desc."</td></tr>");
+					}
+				}
+				
+				if ($line =~ /Database\:/) {
+					$aln_true = 0;
 				}
 				
 			}
@@ -196,7 +266,8 @@ sub _run_blast_cmd {
 		}
 	}
 	
-	return \@res;
+	return (\@res,\@aln_file);
+	# return \@res;
 }
 
 =head1 AUTHOR

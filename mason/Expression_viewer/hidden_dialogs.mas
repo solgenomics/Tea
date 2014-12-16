@@ -23,32 +23,70 @@
 
 <!-- BLAST input dialog -->
 <div id="blast_input_dialog" style="display:none;">
-	<textarea id="blast_sequence" class="dialog_text_area" cols="56" rows="10">>Solyc10g047140.1.1 Receptor like kinase, RLK
-ATGGATCAGTCGGTGTTGGCGATCTGGGTATTTCTCTGCTTAATTGGTCTGCTTTTCAATTTGTCACCCGTCGCCGGTAACGCTGAAGGTGATGCCTTGAATGCTCTGAAGACAAATTTGGCTGATCCTAATAGTGTTCTACAGAGTTGGGATGCAACCCTTGTTAATCCTTGTACTTGGTTCCATGTGACATGCAACAATGAAAATAGTGTGACTAGAGTTGATCTAGGAAATGCAAATCTATCAGGTCAACTGGTACCACAGCTTGGCCAACTCCAGAAATTGCAGTACTTGGAACTTTATAGTAATAACATAAGCGGAAGAATTCCAAATGAACTGGGAAACTTGACAGAGTTGGTTAGTTTGGATCTTTACCTGAACAACTTAAATGGTCCTATTCCTCCCTCATTGGGCAGGCTTCAGAAGCTACGCTTCCTGAGGCTCAATAATAACAGTTTGAATGAAGGTATTCCCATGTCTCTAACCACCATTGTTGCACTTCAAGTACTTGATCTCTCAAACAACCATTTGACAGGACTAGTTCCAGTCAACGGTTCCTTTTCACTTTTTACTCCTATAAGTTTTGCTAATAATCAGTTGGAAGTTCCTCCAGTTTCTCCACCTCCTCCTCTTCCTCCTACACCCTCATCGTCATCTTCAGTGGGCAACAGCGCAACTGGAGCTATCGCTGGAGGAGTTGCTGCAGGCGCTGCTCTTCTATTTGCAGCT
+	Paste a sequence or Solyc ID <span id="blast_i" class="info_icon">i</span><br>
+	<textarea id="blast_sequence" class="dialog_text_area" cols="56" rows="18" style="margin-top: 5px;">>Solyc12g096500.1.1 CONSTANS-like protein  IPR010402  CCT domain
+MGTENWSLTAKLCDSCKTSPATVFCRADSAFLCLGCDCKIHAANKLASRHARVWVCEVCEQAPASVTCKADAAALCVTCDRDIHSANPLARRHERFPVVPFYDFAVAKSHGGGDTDADAVDDEKYFDSTNENPSQPEEEAEAASWILPTPKEGTDQYKSADYLFNDMDSYLDIDLMSCEQKPHILHHQQHQHNHYSSDGVVPVQNNNETTHLPGPVVDGFPTYELDFTGSKPYMYNFTSQSISQSVSSSSLDVGVVPDHSTMTDVSNTFVMNSSSGAIAGAGADVVPNAVSGLDREARVMRYREKRKNRKFEKTIRYASRKAYAETRPRIKGRFAKRTETEIDSLITVDASYGVVPSF
 	</textarea>
-	<br>
-	<br>
-	<button id="blast_button" class="blue_button" style="float:right;">BLAST</button>
+	<table style="float:left;">
+		<tr>
+			<td>Hit number</td>
+			<td>
+				<select id="blast_hits">
+					<option value='10'>10</option>
+					<option value='20' selected>20</option>
+					<option value='40'>40</option>
+					<option value='60'>60</option>
+					<option value='120'>120</option>
+				</select>
+			</td>
+			<td>
+				<input type="checkbox" id="blast_alignment"> Show Alignment
+			</td>
+		</tr>
+		<tr>
+			<td>e value</td>
+			<td>
+			<select id="blast_eval">
+				<option value='10'>10</option>
+				<option value='1e-3' selected>1e-3</option>
+				<option value='1e-6'>1e-6</option>
+				<option value='1e-9'>1e-9</option>
+				<option value='1e-12'>1e-12</option>
+			</select>
+		</td>
+		<td>
+			<input type="checkbox" id="blast_filter"><span> Filter low complexity</span>
+		</td></tr>
+	</table>
+	<button id="blast_button" class="blue_button" style="float:right; margin-top: 5px;">BLAST</button>
 </div>
 
 <!-- BLAST result dialog -->
 <div id="blast_div_dialog" style="display:none;">
-	<input id="selectall" type='checkbox'>Select all
-
+	
 	<form id="blast_form" method="post" enctype="multipart/form-data">
-		<table id="blast_res_dialog"></table>
+		<div id="blast_res_div">
+			<input id="selectall" type='checkbox'>Select all
+			<table id="blast_res_table"></table>
+		</div>
 		<br>
 		<button class="blue_button" style="float:right;" type="submit" form="blast_form" formaction="/Expression_viewer/output" formmethod="post" formenctype="multipart/form-data">Get Expression</button>
 	</form>
+	<br>
+	<br>
+	<!-- BLAST alignment dialog -->
+	<div id="blast_aln_div" style="display:none;"><p id="blast_aln_p"></p></div>
 </div>
+
 
 <!-- Custom list input dialog -->
 <div id="custom_input_dialog" style="display:none;">
+	Paste a list of tomato gene IDs (Eg:Solyc01g102660)
 	<form id="custom_list_form" method="post" enctype="multipart/form-data">
-		<textarea id="custom_list" class="dialog_text_area" cols="56" rows="10" name="input_gene">
+		<textarea id="custom_list" class="dialog_text_area" cols="56" rows="10" name="input_gene" style="margin-top: 5px;">
 Solyc04g008460
 Solyc01g102660</textarea>
-		<input type="checkbox" name="hotspot">Hotspot
+		<input type="checkbox" name="hotspot">Show cumulative expression
 		<br>
 		<br>
 		<button id="custom_list_button" class="blue_button" style="float:right;" type="submit" form="custom_list_form" formaction="/Expression_viewer/output" formmethod="post" formenctype="multipart/form-data">Get Expression</button>

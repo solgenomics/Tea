@@ -61,7 +61,7 @@ $(document).ready(function () {
 			width:450,
 			closeOnEscape:true,
 			title: "Custom List",
-			open: function(event, ui) { $('.ui-dialog-titlebar-close').blur();},
+			open: function(event, ui) { $('.ui-dialog-titlebar-close').blur(); $('.dialog_text_area').blur();},
 		});
 	});
 	
@@ -71,24 +71,34 @@ $(document).ready(function () {
 			draggable:true,
 			resizable:false,
 			modal: true,
-			width:450,
+			width:460,
+			height:470,
 			closeOnEscape:true,
 			title: "BLAST Search",
-			open: function(event, ui) { $('.ui-dialog-titlebar-close').blur();},
+			open: function(event, ui) { $('.ui-dialog-titlebar-close').blur(); $('.dialog_text_area').blur();},
 		});
 	});
 	
 	//AJAX communication to run BLAST
 	$('#blast_button').click(function () {
-		input_seq = $('#blast_sequence').val();
-		
-		// alert("sending: "+input_seq);
+		var blast_seq = $('#blast_sequence').val();
+		var blast_hits = $('#blast_hits').val();
+		var blast_evalue = $('#blast_eval').val();
+		var blast_alignment = 0;
+		var blast_filter = 0;
+
+		if ($('#blast_filter').is(":checked")) {
+			blast_filter = 1;
+		};
+		if ($('#blast_alignment').is(":checked")) {
+			blast_alignment = 1;
+		};
 		
 		$.ajax({
 			url: '/Expression_viewer/blast/',
 			timeout: 600000,
 			method: 'POST',
-			data: { 'input_seq': input_seq },
+			data: { 'input_seq': blast_seq, 'blast_hits': blast_hits, 'blast_alignment': blast_alignment, 'blast_evalue': blast_evalue, 'blast_filter': blast_filter },
 			beforeSend: function(){
 				// disable_ui();
 			},
@@ -99,19 +109,25 @@ $(document).ready(function () {
 				} else {
 					$('#blast_input_dialog').dialog("close");
 					
-					$('#blast_res_dialog').html(response.msg);
+					$('#blast_res_table').html(response.blast_table);
 					$('#blast_div_dialog').dialog({
-					draggable:true,
-					resizable:true,
-					modal: true,
-					width:700,
-					minWidth:500,
-					minHeight:300,
-					maxHeight:1100,
-					closeOnEscape:true,
-					title: "BLAST Results",
+						draggable:true,
+						resizable:true,
+						modal: true,
+						width:700,
+						minWidth:500,
+						height:750,
+						closeOnEscape:true,
+						title: "BLAST Results",
+						open: function(event, ui) {$('#selectall').blur();},
 					});
-					// alert("Hello= "+response.msg);
+					if (blast_alignment) {
+						$('#blast_aln_p').html(response.blast_alignment);
+						$('#blast_aln_div').css('display','inline');
+						$('#blast_res_div').css('height','300px');
+					} else {
+						$('#blast_res_div').css('height','600px');
+					}
 				}
 			},
 			error: function(response) {

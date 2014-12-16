@@ -553,10 +553,7 @@ body .ui-tooltip {
 	border-width:1px;
 	border-style:solid;
 	border-radius:5px;
-/*	height: 20px;
-	padding-left: 5px;
-	padding-top: 2px;
-*/	min-width: 420px;
+	min-width: 420px;
 	max-width: 420px;
 }
 
@@ -571,8 +568,28 @@ body .ui-tooltip {
 	max-width: 160px;
 }
 */
-#blast_res_dialog {
+#blast_div_dialog {
 	border-collapse: collapse;
+	width: 100%;
+    text-align: left;
+    padding-top: 10px;
+    padding-bottom: 2px;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+#blast_res_div {
+	width: 100%;
+	overflow: auto;
+	height: 300px;
+	border-color:#AAA;
+	border-width:1px;
+	border-style:solid;
+	border-radius:5px;
+    padding: 5px 0px 5px 5px;
+}
+
+#blast_res_table {
 	width: 100%;
     text-align: right;
     padding-top: 2px;
@@ -580,14 +597,35 @@ body .ui-tooltip {
 	white-space: nowrap;
 }
 
-#blast_res_dialog th {
+
+#blast_res_table th {
     background-color: #aaa;
     color: #ffffff;
 }
 
-#blast_res_dialog tr.alt td {
+#blast_res_table tr.alt td {
     color: #000000;
     background-color: #eee;
+}
+
+#blast_aln_div {
+	overflow: scroll;
+/*	height: 50px;*/
+	margin-top: 15px;
+}
+
+#blast_aln_p {
+	width: 100%;
+	font-family: "Lucida", Monospace;
+	border-color:#AAA;
+	border-width:1px;
+	border-style:solid;
+	border-radius:5px;
+    padding: 5px 0px 5px 5px;
+	overflow: auto;
+	height: 300px;
+	
+/*	margin-top: 15px;*/
 }
 
 #correlation_slider {

@@ -104,7 +104,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 		} else {
 			@genes = @uniq_genes[0..$#uniq_genes];
 		}
-		$query_gene = shift @query_gene;
+		$query_gene = shift @genes;
 	}
 	
 	# strip gene name

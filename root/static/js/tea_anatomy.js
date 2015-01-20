@@ -30,7 +30,7 @@
 		simg: '/static/images/anatomy_viewer/s20DPA.jpg',
                 timg: '/static/images/anatomy_viewer/t20DPA.jpg',
                 ximg: '/static/images/anatomy_viewer/x20DPA.jpg',
-                yimg: '/static/images/anatomy_viewer/y20DAP.jpg',
+                yimg: '/static/images/anatomy_viewer/y20DPA.jpg',
 		ximgs: '/static/images/anatomy_viewer/x20DPAS.jpg',
 		yimgs: '/static/images/anatomy_viewer/y20DPAS.jpg'
             },

@@ -173,9 +173,9 @@ sub _run_blast_cmd {
 	my @aln_file;
 	my @res;
 	if ($blast_alignment) {
-		push(@res, "<tr><th width='10'></th><th>Subject</th><th>e val</th><th>Score</th><th>Description</th></tr>");
+		push(@res, "<tr><th width='10'></th><th style=\"text-align: left;\">Subject</th><th>e val</th><th>Score</th><th style=\"text-align: left; padding-left: 10px;\">Description</th></tr>");
 	} else {
-		push(@res, "<tr><th width='10'></th><th>Subject</th><th>Id \%</th><th>e val</th><th>Score</th><th>Description</th></tr>");
+		push(@res, "<tr><th width='10'></th><th style=\"text-align: left;\">Subject</th><th>Id \%</th><th>e val</th><th>Score</th><th style=\"text-align: left; padding-left: 10px;\">Description</th></tr>");
 	}
 	
 	if ($blast_error) {
@@ -224,7 +224,7 @@ sub _run_blast_cmd {
 							} else {
 								$tr_type = "<tr class='alt'>"
 							}
-							push(@res, "$tr_type<td><input type=\"checkbox\" class=\"blast_checkbox\" onclick=resetSelectAll(); value=\"$subject\" name=\"input_gene\"></td><td>$subject</td><td>$evalue</td><td>$bitscore</td><td>".$desc."</td></tr>");
+							push(@res, "$tr_type<td><input type=\"checkbox\" class=\"blast_checkbox\" onclick=resetSelectAll(); value=\"$subject\" name=\"input_gene\"></td><td style=\"text-align: left;\">$subject</td><td>$evalue</td><td>$bitscore</td><td style=\"text-align: left; padding-left: 10px;\">".$desc."</td></tr>");
 						}
 						
 					} elsif ($aln_true) {
@@ -251,7 +251,7 @@ sub _run_blast_cmd {
 						} else {
 							$tr_type = "<tr class='alt'>"
 						}
-						push(@res, "$tr_type<td><input type=\"checkbox\" class=\"blast_checkbox\" onclick=resetSelectAll(); value=\"$subject\" name=\"input_gene\"></td><td>$subject</td><td>$identity</td><td>$evalue</td><td>$bitscore</td><td>".$desc."</td></tr>");
+						push(@res, "$tr_type<td><input type=\"checkbox\" class=\"blast_checkbox\" onclick=resetSelectAll(); value=\"$subject\" name=\"input_gene\"></td><td style=\"text-align: left;\">$subject</td><td>$identity</td><td>$evalue</td><td>$bitscore</td><td style=\"text-align: left; padding-left: 10px;\">".$desc."</td></tr>");
 					}
 				}
 				

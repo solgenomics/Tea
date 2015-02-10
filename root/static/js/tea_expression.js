@@ -693,33 +693,34 @@ $(document).ready(function () {
 				height: 360
 			});
 			one_tissue_layer.add(tmp_tissue);
-			// canvas.add(one_tissue_layer);
+			canvas.add(one_tissue_layer);
 			
 			//fix cache bug
 			tmp_tissue.cache();
 			tmp_tissue.filters([Kinetic.Filters.RGB]);
 			tmp_tissue.red(r_color).green(g_color).blue(b_color);
-			tmp_tissue.cache();
-			tmp_tissue.moveToTop();
+			// tmp_tissue.cache();
+			// tmp_tissue.moveToTop();
 			tmp_tissue.draw();
+			// one_tissue_layer.draw();
 			
 			//add expression values on a tooltip
 			if (i == 4) {
-				
+
 				var tissue_popup_layer = new Kinetic.Layer();
 				canvas.add(tissue_popup_layer);
-	
+
 				tmp_tissue.on('mouseover', function() {
 					var x_pos = this.getAbsolutePosition().x;
 					// var x_pos = this.getAbsolutePosition().x-10;
 					var y_pos = this.getAbsolutePosition().y+305;
-					
+
 					for (var n=0; n<5; n++) {
 						var y_offset = n*65;
 						if (n == 3) {
 							y_offset = 240;
 						}
-						
+
 						var tissue_popup = new Kinetic.Rect({
 							x: x_pos,
 							y: y_pos - y_offset,
@@ -729,9 +730,9 @@ $(document).ready(function () {
 							height: 20,
 							cornerRadius: 7,
 						});
-						
+
 						var tissue_name = tissues[n].replace("_"," ");
-						
+
 						var tissue_desc_txt = new Kinetic.Text({
 							x: x_pos+5,
 							y: y_pos+3 - y_offset,
@@ -743,17 +744,19 @@ $(document).ready(function () {
 						tissue_popup_layer.add(tissue_popup);
 						// tissue_popup_layer.moveToTop();
 						tissue_popup_layer.add(tissue_desc_txt);
+						tissue_popup_layer.cache();
+						tissue_popup_layer.moveToTop();
 						tissue_popup_layer.draw();
 					}
 				});
-	
+
 				tissue_layer.on('mouseout', function() {
 					tissue_popup_layer.removeChildren();
 					tissue_popup_layer.draw();
 				});
 			}
-			tmp_tissue.draw();
-			
+			// tmp_tissue.draw();
+			// tissue_popup_layer.draw();
 		};
 		// tmp_imgObj.src = '/static/images/expr_viewer/'+stage_name+'_'+tissue_name+'.png';
 	}
@@ -874,6 +877,8 @@ $(document).ready(function () {
 			
 			loadImage(i,j,aoaoa,x_offset,r,g,b,tissue_layer,canvas,stages[j],tissues[i]);
 		}
+		tissue_layer.cache();
+		tissue_layer.draw();
 	}
 	// -------------------------------------------------------------------------------------
 

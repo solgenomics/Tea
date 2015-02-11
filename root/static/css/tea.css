@@ -9,9 +9,19 @@ body {
 	margin-right:30px;
 	padding: 0px;
 /*	font-family: "CondensedLight";*/
-	font-size:20px;
+/*  font-size:20px;*/
 	font-family: "Lucida Grande","Lucida Sans Unicode",Arial,Verdana, "Helvetica Neue", Helvetica, sans-serif;
 }
+
+hr {
+  border: 0;
+  height: 1px;
+  background: #333;
+  background-image: -webkit-linear-gradient(left, #eee, #333, #eee); 
+  background-image:    -moz-linear-gradient(left, #eee, #333, #eee); 
+  background-image:     -ms-linear-gradient(left, #eee, #333, #eee); 
+  background-image:      -o-linear-gradient(left, #eee, #333, #eee); 
+} 
 
 #container {
 	border-style:dashed;
@@ -46,7 +56,7 @@ a:hover {
 
 #tea_menu {
 	font-size:24px;
-    background:#888888;
+  background:#888888;
 /*	font-family:"Verdana", arial, Sans-serif;*/
 	background:-moz-linear-gradient( center top, #888888 5%, #666666 100% );
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #888888), color-stop(1, #666666) );
@@ -55,8 +65,9 @@ a:hover {
 	text-align:center;
 	height:50px;
 	line-height:50px;
-	margin-top:20px;
 /*	box-shadow: 1px 2px 0px 0px #333333;*/
+  margin: 0px 0px 0px 0px;
+  
 }
 
 
@@ -86,12 +97,6 @@ a:hover {
 
 #right_menu {
 	width:130px;
-}
-
-#right_menu:hover {
-	background:-moz-linear-gradient( center top, #555555 5%, #666666 100% );
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #555555), color-stop(1, #666666) );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#555555', endColorstr='#666666');
 	-webkit-border-top-right-radius:20px;
 	-moz-border-radius-topright:20px;
 	border-top-right-radius:20px;
@@ -100,14 +105,20 @@ a:hover {
 	border-bottom-right-radius:20px;
 }
 
-#left_menu {
-	width:130px;
-}
-
-#left_menu:hover {
+#right_menu:hover {
 	background:-moz-linear-gradient( center top, #555555 5%, #666666 100% );
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #555555), color-stop(1, #666666) );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#555555', endColorstr='#666666');
+/*  -webkit-border-top-right-radius:20px;
+  -moz-border-radius-topright:20px;
+  border-top-right-radius:20px;
+  -webkit-border-bottom-right-radius:20px;
+  -moz-border-radius-bottomright:20px;
+  border-bottom-right-radius:20px;
+*/}
+
+#left_menu {
+	width:130px;
 	-webkit-border-top-left-radius:20px;
 	-moz-border-radius-topleft:20px;
 	border-top-left-radius:20px;
@@ -116,6 +127,18 @@ a:hover {
 	border-bottom-left-radius:20px;
 }
 
+#left_menu:hover {
+	background:-moz-linear-gradient( center top, #555555 5%, #666666 100% );
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #555555), color-stop(1, #666666) );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#555555', endColorstr='#666666');
+/*  -webkit-border-top-left-radius:20px;
+  -moz-border-radius-topleft:20px;
+  border-top-left-radius:20px;
+  -webkit-border-bottom-left-radius:20px;
+  -moz-border-radius-bottomleft:20px;
+  border-bottom-left-radius:20px;
+*/}
+
 #tea_title {
 	font-size:60px;
 	color:rgb(0,0,0);
@@ -123,6 +146,7 @@ a:hover {
 /*	font-family:"Verdana", arial, Sans-serif;*/
 	font-family: "CondensedLight";
 	text-shadow: 2px 2px 2px #bbb;
+  margin: 10px 0px 10px 0px;
 }
 
 #subtitle {
@@ -131,6 +155,21 @@ a:hover {
 	color:rgb(150,150,150);
 /*	font-family:"Verdana", arial, Sans-serif;*/
 	font-family: "CondensedLight";
+  margin: 10px 0px 10px 0px;
+}
+
+.pagetitle {
+  font-family:"Verdana", arial, Sans-serif;
+  font-size:30px;
+	font-weight:bold;
+  margin: 10px 0px 0px 0px;
+}
+
+.pagesubtitle {
+  font-family:"Verdana", arial, Sans-serif;
+  font-size:20px;
+	font-weight:bold;
+  margin: 0px 0px 0px 0px;
 }
 
 #red {
@@ -151,7 +190,7 @@ a:hover {
    text-align:center;
    margin-left:auto;
    margin-right:auto;
-   width:220px;
+   width:200px;
    font-family: "CondensedLight";
 }
 
@@ -168,6 +207,7 @@ a:hover {
 .td_form {
    text-decoration:none;
    vertical-align:top;
+   text-align:left;
 }
 
 #expr_params {
@@ -175,7 +215,7 @@ a:hover {
    font-family:"Verdana", arial, Sans-serif;
 /*   font-family: "CondensedLight";*/
    margin:10px;
-   line-height:60px;
+   line-height:50px;
 /*   font-size:28px;*/
    font-size:22px;
 }
@@ -656,4 +696,13 @@ body .ui-tooltip {
 
 .grayed_out {
 	color: #888;
+}
+
+#footer {
+  width:100%;
+/*  height:50px;*/
+  position:absolute;
+  bottom:0;
+  left:0;
+  background:#eee;
 }

@@ -1,8 +1,8 @@
 <center>
-	<div id="pagetitle"><h1><img src="/static/images/anatomy_small.png" height="40" style="margin-bottom:-5px;"/> Anatomy Viewer</h1></div>
-	<br/>
+	<!-- <div class="pagetitle"><img src="/static/images/anatomy_small.png" height="40" style="margin-bottom:-5px;"/> Anatomy Viewer</div> -->
+	<!-- <br/> -->
 	<div style="width:700px;">
-		<h2>Light Microscopy & Drawings</h2>
+		<div class="pagetitle">Light Microscopy & Drawings</div>
 		<p>
 			The drawings on this site were derived from light microscopy image, and then traced.
 			The individual tissues are then able to be highlighted to show different expression levels found in each tissue in the expression viewer.

@@ -1,26 +1,26 @@
 <center>
-	<div id="pagetitle"><h1><img src="/static/images/overview_small.png" height="40" style="margin-bottom:-5px;"/> Overview</h1></div>
-	<br/>
-<p>
-	Summary text explaining the purpose of the website, listing the options and giving background info
-</p>
+	<div class="pagetitle"><img src="/static/images/overview_small.png" height="40" style="margin-bottom:-5px;"/> Overview</div>
+		<p style="width:700px;">
+			Summary text explaining the purpose of the website, listing the options and giving background info
+		</p>
+
+	<!-- <br/> -->
+	<div style="width:700px; text-align: left;">
+		<a href="Expression_viewer/input"><img class="centered_img" src="/static/images/expr_small.png"/> <b>Expression Viewer</b></a><br/>
+		<ul>
+			<li>View the expression of a specific tomato gene or genes of interest</li>
+			<li>Identify tomato genes by BLAST search using a gene or genes of interest from another species</li>
+			<li>Identify new genes of interest though co-expression queries</li>
+			<li>Download expression data  based on parameters that you define</li>
+			<li>Link to associated metadata in the Sol Genomics Network database</li>
+		</ul>
+		<a href="anatomy_viewer"><img class="centered_img" src="/static/images/anatomy_small.png"/> <b>Anatomy Viewer</b></a></br>
+		<ul>
+			<li>Visualize target tissues and cell types in 2D</li>
+			<li>Visualize organ anatomy in 3D/4D</li>
+		</ul>
+	</div>
 </center>
-
-<a href="Expression_viewer/input"><img class="centered_img" src="/static/images/expr_small.png"/> Expression Viewer</a><br/>
-<ul>
-	<li>View the expression of a specific tomato gene or genes of interest</li>
-	<li>Identify tomato genes by BLAST search using a gene or genes of interest from another species</li>
-	<li>Identify new genes of interest though co-expression queries</li>
-	<li>Download expression data  based on parameters that you define</li>
-	<li>Link to associated metadata in the Sol Genomics Network database</li>
-</ul>
-<a href="anatomy_viewer"><img class="centered_img" src="/static/images/anatomy_small.png"/> Anatomy Viewer</a></br>
-<ul>
-	<li>Visualize target tissues and cell types in 2D</li>
-	<li>Visualize organ anatomy in 3D/4D</li>
-</ul>
-
-
 <style>
 .centered_img {
 		height:40px;

@@ -1,13 +1,13 @@
 
 <center>
-	<div id="pagetitle"><h1><img src="/static/images/expr_small.png" height="40" style="margin-bottom:-10px;"/> Expression Viewer</h1></div>
+	<div class="pagetitle"><img src="/static/images/expr_small.png" height="40" style="margin-bottom:-10px;"/> Expression Viewer</div>
 
-	<div style="width:750px;margin:0 auto;">
+	<div style="width:800px;margin-top:20px;">
 		
 		<& hidden_dialogs.mas &>
 		
 		<form id="search_gene" method="post" enctype="multipart/form-data">
-			<table id="tea_form" cellspacing="" cellpadding="10" width"100%" style="float:left;width:250px;">
+			<table id="tea_form" cellspacing="" cellpadding="5" width"100%" style="float:left;width:250px;">
 					<tr>
 						<td class="td_form">
 							<span id="gene_i" class="info_icon">i</span> By Tomato Gene ID
@@ -15,17 +15,16 @@
 					</tr>
 					<tr>
 						<td class="td_form">
-							<input class="expr_input_box" value="Solyc01g102660" name="input_gene" size="28"/>
-							<br/>
-							<br/>
+							<input class="expr_input_box" value="Solyc01g102660" name="input_gene" size="30"/>
 							<input id="corr_filter" name="correlation_filter" style="display:none;"/>
-							<button class="blue_button" type="submit" form="search_gene" formaction="/Expression_viewer/output" formmethod="post" formenctype="multipart/form-data">Get Expression</button>
+							<br/>
+							<button class="blue_button" style="margin-top:10px;" type="submit" form="search_gene" formaction="/Expression_viewer/output" formmethod="post" formenctype="multipart/form-data">Get Expression</button>
 						</td>
 					</tr>
 			</table>
 		</form>
 	
-		<table id="tea_form" cellspacing="" cellpadding="10" width"100%" style="float:left;width:250px;">
+		<table id="tea_form" cellspacing="" cellpadding="5" width"100%" style="float:left;width:250px;">
 				<tr>
 					<td class="td_form">
 						<span id="blast_i" class="info_icon">i</span> By BLAST Search
@@ -33,12 +32,12 @@
 				</tr>
 				<tr>
 					<td class="td_form">
-						<input id="blast_input_box" class="expr_input_box" value="Click here" size="25" style="color: #999;"/>
+						<input id="blast_input_box" class="expr_input_box" value="Click here" size="26" style="color: #999;"/>
 					</td>
 				</tr>
 		</table>
 	
-		<table id="tea_form" cellspacing="" cellpadding="10" width"100%" style="float:left;width:250px;">
+		<table id="tea_form" cellspacing="" cellpadding="5" width"100%" style="float:left;width:250px;">
 				<tr>
 					<td class="td_form">
 						<span id="custom_list_i" class="info_icon">i</span> By Custom List
@@ -46,7 +45,7 @@
 				</tr>
 				<tr>
 					<td class="td_form">
-						<input id="custom_input_box" class="expr_input_box" value="Click here" size="23" style="color: #999;"/>
+						<input id="custom_input_box" class="expr_input_box" value="Click here" size="26" style="color: #999;"/>
 					</td>
 				</tr>
 		</table>
@@ -57,8 +56,9 @@
 
 <div width="100%" style="width:800px;margin:0 auto;clear:both;">
 <center>
-<hr/>
-<h2>Define Expression Parameters <span id="parameters_i" class="info_icon">i</span></h2>
+<!-- <br> -->
+<hr>
+<div class="pagesubtitle">Define Expression Parameters <span id="parameters_i" class="info_icon">i</span></div>
 </center>
 
 <ul id="expr_params">

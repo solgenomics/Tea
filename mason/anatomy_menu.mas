@@ -1,14 +1,14 @@
 <center>
-	<div id="pagetitle"><h1><img src="/static/images/anatomy_small.png" height="40" style="margin-bottom:-5px;"/> Anatomy Viewer</h1></div>
-	<br/>
+	<div class="pagetitle"><img src="/static/images/anatomy_small.png" height="40" style="margin-bottom:-5px;"/> Anatomy Viewer</div>
+	<!-- <br/> -->
 	<div style="width:700px;">
 		<p>
 			<a href="/microscopy"><img src="static/images/anatomy_viewer/menu/pink_pericarp.png" style="float:right;height:370px;"></a>
 			In this section you will be able to view tomato images captured through
 			both light microscopy and through computer tomography.
 		</p>
-	
-		<a href="/microscopy"><h2 style="text-align:left;">Light Microscopy & Drawings</h2></a>
+		<br>
+		<a href="/microscopy"><div class="pagesubtitle" style="text-align:left;">Light Microscopy & Drawings</div></a>
 		<p>
 			<a href="/microscopy"><img src="static/images/anatomy_viewer/menu/ovary.jpg" style="float:left;margin-right:10px;"></a>
 			<a href="/microscopy">Click here to see detailed light microscopy images of
@@ -18,10 +18,14 @@
 		<br>
 		<br>
 		<br>
-		
-		<a href="/tomography"><h2 style="text-align:left;">Computed Tomography <img src="static/images/anatomy_viewer/menu/ct_cut.jpg" style="float:right;"></h2></a>
+		<br>
+		<br>
+		<a href="/tomography"><div class="pagesubtitle" style="text-align:left;">Computed Tomography</div></a>
 		<p>
-			<a href="/tomography"><img src="static/images/anatomy_viewer/menu/ct_whole.jpg" style="float:left;margin-right:10px;"></a>
+			<a href="/tomography">
+				<img src="static/images/anatomy_viewer/menu/ct_whole.jpg" style="float:left;margin-right:10px;">
+				<img src="static/images/anatomy_viewer/menu/ct_cut.jpg" style="float:right;">
+			</a>
 			<a href="/tomography">Click here to view and transect high resolution CT images of
 			tomato fruit at various stages of development.</a>
 		</p>

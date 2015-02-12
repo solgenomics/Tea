@@ -8,24 +8,37 @@ $(document).ready(function () {
 			modal: true,
 			width:300,
 			closeOnEscape:true,
-			title: "BLAST Info",
+			title: "Gene Expression Search",
 			open: function(event, ui) { $('.ui-dialog-titlebar-close').blur();},
 		});
 	});
 	
-	//open BLAST info dialog
-	$('#blast_i').click(function () {
-		$('#blast_help').dialog({
-			draggable:true,
-			resizable:false,
-			modal: true,
-			width:300,
-			closeOnEscape:true,
-			title: "BLAST Info",
-			open: function(event, ui) { $('.ui-dialog-titlebar-close').blur();},
-		});
-	});
-	
+  //open BLAST info dialog
+  $('#blast_i').click(function () {
+    $('#blast_help').dialog({
+      draggable:true,
+      resizable:false,
+      modal: true,
+      width:300,
+      closeOnEscape:true,
+      title: "BLAST Info",
+      open: function(event, ui) { $('.ui-dialog-titlebar-close').blur();},
+    });
+  });
+  
+  //open BLAST info dialog
+  $('#blast_i2').click(function () {
+    $('#blast_help').dialog({
+      draggable:true,
+      resizable:false,
+      modal: true,
+      width:300,
+      closeOnEscape:true,
+      title: "BLAST Info",
+      open: function(event, ui) { $('.ui-dialog-titlebar-close').blur();},
+    });
+  });
+  
 	//open custom list info dialog
 	$('#custom_list_i').click(function () {
 		$('#custom_list_help').dialog({
@@ -34,7 +47,7 @@ $(document).ready(function () {
 			modal: true,
 			width:300,
 			closeOnEscape:true,
-			title: "BLAST Info",
+			title: "Custom List Info",
 			open: function(event, ui) { $('.ui-dialog-titlebar-close').blur();},
 		});
 	});
@@ -47,7 +60,7 @@ $(document).ready(function () {
 			modal: true,
 			width:300,
 			closeOnEscape:true,
-			title: "BLAST Info",
+			title: "Parameters and Filters",
 			open: function(event, ui) { $('.ui-dialog-titlebar-close').blur();},
 		});
 	});

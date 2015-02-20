@@ -2,6 +2,8 @@ $(document).ready(function () {
 	
 	function print_bar_chart(t_names,s_names,sxt_values,gene_name,corr_val) {
 		
+    var color_array = ['#2e5989', '#5f954c', '#bb2c32', '#6e3f78', '#e79f44', '#7d807f', '#008888','#880088'];
+    
 		var plot1 = $.jqplot(gene_name+'_bar_graph', sxt_values, {
 			title: '',
 			animate: true,
@@ -16,11 +18,9 @@ $(document).ready(function () {
 					},
 				},
 			},
-			series: [
-				{label: '10DPA'},
-				{label: 'Mature green'},
-				{label: 'Pink'},
-			],
+      series: [
+        {label: s_names},
+      ],
 			highlighter: {
 				show: true,
 				showMarker:false,
@@ -40,7 +40,8 @@ $(document).ready(function () {
 						showGridline: false,
 						fontSize: '12pt',
 						textColor: 'black',
-						fontFamily: 'Arial'
+						fontFamily: 'Arial',
+            markSize: 15,
 					}
 				},
 				yaxis: {
@@ -59,8 +60,9 @@ $(document).ready(function () {
 			grid: {
 				background: "white",
 				borderColor: "black",
+        shadow: false,
 			},
-			seriesColors: ['#20608E', '#008800', '#CC0000', '#60208E', '#008888'],
+			seriesColors: color_array,
 			legend: {
 				labels: s_names,
 				show: true,
@@ -96,13 +98,19 @@ $(document).ready(function () {
 		} else {
 			//TO DO: paste gene on input box on click
 			
-			var dynamicDialog = $('<div id="'+gene_name+'_dialog">\
+      // var tr_function = transpose_barplot(tissue_names,stage_names,stage_tissue_values,gene_name,corr_val);
+      
+			var dynamicDialog = $('<div id="'+gene_name+'_dialog" value="off">\
 			<center>\
-				<a class="sgn_logo_link" href="http://solgenomics.net/locus/'+gene_id+'/view" target="_blank"><img class="sgn_logo_link" src="/static/images/sgn_logo.png" height="25" title="Connect to SGN for metadata associated with this gene"/></a>\
-				<a id="paste_gene"><b>'+gene_name+'</b></a> \
-				&nbsp; &nbsp; &nbsp; <b> Correlation val: </b>'+corr_val+' \
-				<br/>\
-				<span>'+description+'</span>\
+      <table width="90%"><tr id="dialog_top_info">\
+				<td><a href="http://solgenomics.net/locus/'+gene_id+'/view" target="_blank">\
+          <img src="/static/images/sgn_logo.png" height="25" title="Connect to SGN for metadata associated with this gene"/>\
+        </a></td>\
+				<td><a id="paste_gene"><b>'+gene_name+'</b></a></td>\
+				<td><b> Correlation val: </b>'+corr_val+'</td>\
+        <td><span id="tr_barplot'+gene_name+'" class="blue_link">transpose</span></td>\
+				</tr></table>\
+				<span>'+description+'</span><br>\
 			</center>\
 			<div id="'+gene_name+'_bar_graph"></div>\
 			</div>');
@@ -118,9 +126,34 @@ $(document).ready(function () {
 				$('.sgn_logo_link').blur();
 				print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name,corr_val);
 			});
+      
+      var switch_status = $('#'+gene_name+'_dialog');
+      var transpose_switch = $('#tr_barplot'+gene_name);
+      
+        $('#tr_barplot'+gene_name).click(function () {
+          // alert("HI");
+          var new_array = stage_tissue_values[0].map(function(col, i) { 
+            return stage_tissue_values.map(function(row) { 
+              return row[i] 
+            })
+          });
+          
+          $("#"+gene_name+"_bar_graph").empty();
+          
+          if (switch_status.val == "on") {
+            switch_status.val = "off";
+    				print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name,corr_val);
+          } else {
+            switch_status.val = "on";
+            print_bar_chart(stage_names,tissue_names,new_array,gene_name,corr_val);
+          }
+      });
+      
 		}
 	}
-
+  
+  
+  
 	//function to draw the central page numbers for the cube pagination
 	function draw_central_pages(page_index, page_x_index, y_margin, pages_group, pages_num) {
 		var central_page = new Kinetic.Text({

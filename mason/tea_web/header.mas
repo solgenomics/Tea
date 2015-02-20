@@ -8,15 +8,6 @@
 
 			<script type="text/javascript" src="/static/js/jquery.js"></script>
 			<script type="text/javascript" src="/static/js/jqueryui/jquery-ui.js"></script>
-			<script type="text/javascript" src="/static/js/kinetic-v5.1.0.min.js"></script>
-			<script type="text/javascript" src="/static/js/jqplot/jquery.jqplot.js"></script>
-			<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
-			<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
-			<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
-			<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js"></script>
-			<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.barRenderer.js"></script>
-			<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.pointLabels.min.js"></script>
-			<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.highlighter.min.js"></script>
 
 			<script>
 				//JQueryIu to define tooltip style

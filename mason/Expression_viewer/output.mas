@@ -53,19 +53,20 @@ my $json = JSON::Any->new;
 
 
 <center>
-	<div id="pagetitle">
+	<!-- <div id="pagetitle">
 		<h1><a href="/Expression_viewer/input"><img src="/static/images/expr_small.png" height="40" style="margin-bottom:-10px;"/></a> Expression Viewer</h1>
+	</div> -->
+	<br>
+	<div id="ev_output_new_gene">
+		<form id="search_gene" method="post" action="/Expression_viewer/output" name="tea_form" enctype="multipart/form-data">
+			<span>Select a gene:</span>
+			<input class="input" id="gene" type="input" name="input_gene" size="15" />&nbsp; &nbsp;
+			<input id="page_num" name="current_page" value="1" style="display:none;">
+			<input id="total_pages" name="all_pages" value="1" style="display:none;">
+			<input id="correlation_filter" name="correlation_filter" value="0.8" style="display:none;">
+			<button class="blue_button" id="run_tool" value="Run Expression Tool" style="margin: -8px 0px 0px 0px;">Get Expression</button>
+		</form>
 	</div>
-	
-	<form id="search_gene" method="post" action="/Expression_viewer/output" name="tea_form" enctype="multipart/form-data">
-		<span>Select a gene:</span>
-		<input class="input" id="gene" type="input" name="input_gene" size="15" />&nbsp; &nbsp;
-		<input id="page_num" name="current_page" value="1" style="display:none;">
-		<input id="total_pages" name="all_pages" value="1" style="display:none;">
-		<input id="correlation_filter" name="correlation_filter" value="0.8" style="display:none;">
-		<button class="blue_button" id="run_tool" value="Run Expression Tool" style="margin: -8px 0px 0px 0px;">Get Expression</button>
-	</form>
-	
 	
 	<div>
 		<p id="gene_info">
@@ -75,15 +76,8 @@ my $json = JSON::Any->new;
 		</p>
 	</div>
 	
-	<div id="container"></div>
-	<!-- <br/> -->
-	<!-- <div id="buttons">
-		<button id="save">
-			Save as image
-		</button>
-	</div> -->
-		
 	<div style="width:1120px;">
+		<a id="back_to_input" href="/Expression_viewer/input">Go back to input page</a>
 		<div id="downloading" style="text-align: center; display:none;">
 		<img src="/static/images/wheel.gif" height="30"/>
 		</div>
@@ -94,6 +88,15 @@ my $json = JSON::Any->new;
 			<button id="download_expr_table" style="float:right;">Download Expression Data</button>
 		</form>
 	</div>
+	
+	<div id="container"></div>
+	<!-- <br/> -->
+	<!-- <div id="buttons">
+		<button id="save">
+			Save as image
+		</button>
+	</div> -->
+		
 	<br>
 </center>
 

@@ -3,22 +3,15 @@
     src: url("/static/fonts/Open_Sans_Condensed/OpenSans-CondLight.ttf");
 }
 
-/*body {
-  margin: 10px;
-  margin-left:30px;
-  margin-right:30px;
-  padding: 0px;
-*//*  font-family: "CondensedLight";*/
-/*  font-size:20px;*/
-/*  font-family: "Lucida Grande","Lucida Sans Unicode",Arial,Verdana, "Helvetica Neue", Helvetica, sans-serif;
-}
-*/
 
 html,
 body {
 	margin:0;
 	padding:0;
 	height:100%;
+/*  font-family: "CondensedLight";*/
+  font-size:16px;
+  font-family: "Lucida Grande","Lucida Sans Unicode",Arial,Verdana, "Helvetica Neue", Helvetica, sans-serif;
 }
 
 #wrapper {
@@ -303,6 +296,19 @@ a:hover {
 	top:1px;
 }
 
+/* Expression Viewer output page */
+
+#ev_output_new_gene {
+  width:900px;
+}
+
+#back_to_input {
+  font-size:14px;
+  margin-left:0px;
+  float:left;
+}
+
+
 #gene_info {
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #444444), color-stop(1, #000000) );
 	background:-moz-linear-gradient( center top, #444444 5%, #000000 100% );
@@ -439,17 +445,17 @@ body .ui-tooltip {
 	border-width:1px;
 	border-style:solid;
 	border-radius:5px;
-    padding: 5px 0px 5px 5px;
+  padding: 5px 0px 5px 5px;
 }
 
 #blast_res_table {
 	border-collapse: collapse;
 	width: 100%;
-    text-align: right;
-    padding-top: 2px;
-    padding-bottom: 2px;
-    padding-left: 5px;
-    white-space: nowrap;
+  text-align: right;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 5px;
+  white-space: nowrap;
 }
 
 #blast_res_table th {

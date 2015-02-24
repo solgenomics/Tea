@@ -2,7 +2,7 @@
 <center>
 	<div class="pagetitle"><img src="/static/images/expr_small.png" height="40" style="margin-bottom:-10px;"/> Expression Viewer</div>
 
-	<div style="width:800px;margin-top:20px;">
+	<div style="width:800px;margin-top:20px;padding-left:100px;">
 		
 		<& hidden_dialogs.mas &>
 		
@@ -55,33 +55,33 @@
 
 
 <div width="100%" style="width:800px;margin:0 auto;clear:both;">
-<center>
-<!-- <br> -->
-<hr>
-<div class="pagesubtitle">Define Expression Parameters <span id="parameters_i" class="info_icon">i</span></div>
-</center>
+	<center>
+		<!-- <br> -->
+		<hr>
+		<div class="pagesubtitle">Define Expression Parameters <span id="parameters_i" class="info_icon">i</span></div>
+	</center>
 
-<ul id="expr_params">
-	<li class="grayed_out">
-		Genotype
-	</li>
-	<li class="grayed_out">
-		Organ
-	</li>
-	<li class="grayed_out">
-		Tissue/Cell type
-	</li>
-	<li class="grayed_out">
-		Developmental stage
-	</li>
-	<li class="grayed_out">
-		Treatment
-	</li>
-	<li>
-		Correlation filter: 0.<input type="text" id="amount" readonly style="border:0;font-size:22px;"><div id="correlation_slider"></div>
-		<br/>
-	</li>
-</ul>
+	<ul id="expr_params">
+		<li class="grayed_out">
+			Genotype
+		</li>
+		<li class="grayed_out">
+			Organ
+		</li>
+		<li class="grayed_out">
+			Tissue/Cell type
+		</li>
+		<li class="grayed_out">
+			Developmental stage
+		</li>
+		<li class="grayed_out">
+			Treatment
+		</li>
+		<li>
+			Correlation filter: 0.<input type="text" id="amount" readonly style="border:0;font-size:22px;"><div id="correlation_slider"></div>
+			<br/>
+		</li>
+	</ul>
 </div>
 
 

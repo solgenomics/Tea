@@ -47,14 +47,6 @@ hr {
   background-image:      -o-linear-gradient(left, #eee, #333, #eee); 
 } 
 
-#container {
-	border-style:dashed;
-	border-width:1px;
-	height:700px;
-	width:1120px;
-	overflow:scroll;
-/*	width:900px;*/
-}
 
 .center {
 	margin-left:auto;
@@ -298,34 +290,37 @@ a:hover {
 
 /* Expression Viewer output page */
 
-#ev_output_new_gene {
-  width:900px;
+#output_gene_box {
+ width:1125px;
+ padding-bottom:10px;
 }
 
 #back_to_input {
-  font-size:14px;
-  margin-left:0px;
+  color: #ffffff;
+  font-size:12px;
+  margin-left:5px;
   float:left;
+  padding-top: 12px;
 }
 
+#download_expr_table {
+  float:right;
+  margin-top:12px;
+  margin-right:5px;
+}
 
 #gene_info {
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #444444), color-stop(1, #000000) );
-	background:-moz-linear-gradient( center top, #444444 5%, #000000 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4387FD', endColorstr='#4683EA');
-/*	font-family: "CondensedLight";*/
-	background-color:#222222;
-	border-style:solid;
-	border-width:2px;
-	border-color:#DDDDDD;
-	border-radius:20px;
-	color:#7FC3FF;
-/*	font-family:Arial;*/
-	font-size:18px;
-	line-height:30px;
-	max-width:1100px;
-	width:90%;
-	padding:5px;
+  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #3c3c3c), color-stop(1, #4C4C4C) );
+  background:-moz-linear-gradient( center top, #3c3c3c 5%, #4C4C4C 100% );
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#3c3c3c', endColorstr='#4C4C4C');
+  border-top-left-radius:5px;
+  border-top-right-radius:5px;
+  background-color:#4C4C4C;
+  color:#7FC3FF;
+  font-size:18px;
+  line-height:30px;
+  width:1112px;
+  padding:5px;
 }
 
 .gene_name a {
@@ -373,6 +368,15 @@ a:hover {
 }
 
 
+#container {
+	border-style:dashed;
+	border-width:0px 1px 1px 1px;
+	height:700px;
+/*  padding-top: 15px;*/
+	width:1120px;
+	overflow:scroll;
+/*	width:900px;*/
+}
 
 
 

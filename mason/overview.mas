@@ -7,17 +7,17 @@
 	<!-- <br/> -->
 	<div style="width:700px; text-align: left;">
 		<a href="Expression_viewer/input"><img class="centered_img" src="/static/images/expr_small.png"/> <b>Expression Viewer</b></a><br/>
-		<ul>
-			<li>View the expression of a specific tomato gene or genes of interest</li>
-			<li>Identify tomato genes by BLAST search using a gene or genes of interest from another species</li>
-			<li>Identify new genes of interest though co-expression queries</li>
-			<li>Download expression data  based on parameters that you define</li>
-			<li>Link to associated metadata in the Sol Genomics Network database</li>
+		<ul class="ul_blue">
+			<li><span class="span_black">View the expression of a specific tomato gene or genes of interest</span></li>
+			<li><span class="span_black">Identify tomato genes by BLAST search using a gene or genes of interest from another species</span></li>
+			<li><span class="span_black">Identify new genes of interest though co-expression queries</span></li>
+			<li><span class="span_black">Download expression data  based on parameters that you define</span></li>
+			<li><span class="span_black">Link to associated metadata in the Sol Genomics Network database</span></li>
 		</ul>
 		<a href="anatomy_viewer"><img class="centered_img" src="/static/images/anatomy_small.png"/> <b>Anatomy Viewer</b></a></br>
-		<ul>
-			<li>Visualize target tissues and cell types in 2D</li>
-			<li>Visualize organ anatomy in 3D/4D</li>
+		<ul class="ul_blue">
+			<li><span class="span_black">Visualize target tissues and cell types in 2D</span></li>
+			<li><span class="span_black">Visualize organ anatomy in 3D/4D</span></li>
 		</ul>
 	</div>
 </center>
@@ -26,5 +26,18 @@
 		height:40px;
 		margin-bottom:-10px;
 	}
+	
+ul.ul_blue li{
+	font-size: 24px;
+	color:#5EA1FF;
+}
+
+.span_black {
+	font-size: 16px;
+	color:#000;
+}
+
+
 </style>
+
 

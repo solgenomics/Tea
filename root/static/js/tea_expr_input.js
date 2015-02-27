@@ -92,6 +92,28 @@ $(document).ready(function () {
 		});
 	});
 	
+  // input filter options
+  $('#genotype_input').click(function () {
+    $('.params_box').css("display","none");
+    var genotype_form = $('#genotype_form').html();
+    $('#genotype_form').html(genotype_form);
+    $('#genotype_form').css("display","inline");
+  });
+  
+  
+  $('#organ_input').click(function () {
+    $('.params_box').css("display","none");
+    var organ_form = $('#organ_form').html();
+    $('#organ_form').html(organ_form);
+    $('#organ_form').css("display","inline");
+  });
+  
+  
+  
+  
+  
+  
+  
 	//AJAX communication to run BLAST
 	$('#blast_button').click(function () {
 		var blast_seq = $('#blast_sequence').val();

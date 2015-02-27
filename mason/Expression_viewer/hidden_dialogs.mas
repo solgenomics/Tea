@@ -101,3 +101,18 @@ Solyc01g102660</textarea>
 	</ul>
 </div>
 
+
+
+ <!-- parameters form filters -->
+
+<form id ="genotype_form" class="params_box" style="display:none;">
+	<input type='checkbox' style="margin-left: 7px;">&nbsp;<i>S. lycopersicum</i> cv. M82 wild type
+</form>
+
+<form id ="organ_form" class="params_box" style="display:none;">
+	<input type='checkbox' style="margin-left: 7px;">&nbsp;All<br>
+	<input type='checkbox' style="margin-left: 7px;">&nbsp;Pericarp
+</form>
+
+
+

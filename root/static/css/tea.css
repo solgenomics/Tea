@@ -226,15 +226,6 @@ a:hover {
    text-align:left;
 }
 
-#expr_params {
-   text-decoration:none;
-   font-family:"Verdana", arial, Sans-serif;
-/*   font-family: "CondensedLight";*/
-   margin:10px;
-   line-height:50px;
-/*   font-size:28px;*/
-   font-size:22px;
-}
 
 .blue_button {
 	background-color:#4387FD;
@@ -402,15 +393,6 @@ body .ui-tooltip {
 
 /* Expression Viewer input page */
 
-.expr_input_box {
-	border-color:#AAA;
-	border-width:1px;
-	border-style:solid;
-	border-radius:5px;
-	height: 20px;
-	padding-left: 5px;
-}
-
 .dialog_text_area {
 	border-color:#AAA;
 	border-width:1px;
@@ -503,14 +485,52 @@ body .ui-tooltip {
 /*	margin-top: 15px;*/
 }
 
+.expr_input_box {
+	border-color:#AAA;
+	border-width:1px;
+	border-style:solid;
+	border-radius:5px;
+	height: 20px;
+	padding-left: 5px;
+}
+
 #correlation_slider {
 	width: 300px;
 	height: 8px;
 }
 
+.grayed_out {
+	color: #888;
+}
+
 #correlation_slider a:link {
 	font-size:14px;
 }
+
+#expr_params {
+   text-decoration:none;
+   font-family:"Verdana", arial, Sans-serif;
+   margin:10px;
+   line-height:50px;
+   font-size:22px;
+   white-space: nowrap;
+   width:310px;
+   cursor:pointer;
+}
+
+.params_box {
+  background-color: #efefef;
+  border-radius:5px;
+  padding:5px 15px 5px 5px;
+  margin-top:200px;
+  box-shadow: 5px 5px 5px #aaa;
+  position:absolute;
+  text-align:left;
+}
+
+
+
+
 
 .ui-widget {
 	font-size:14px;
@@ -522,9 +542,6 @@ body .ui-tooltip {
   vertical-align: middle;
 }
 
-.grayed_out {
-	color: #888;
-}
 
 .blue_link {
   color: #206ad8;

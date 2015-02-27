@@ -54,34 +54,45 @@
 <br>
 
 
-<div width="100%" style="width:800px;margin:0 auto;clear:both;">
+<div style="width:750px;margin:0 auto;clear:both;">
 	<center>
 		<!-- <br> -->
 		<hr>
 		<div class="pagesubtitle">Define Expression Parameters <span id="parameters_i" class="info_icon">i</span></div>
 	</center>
+	
+	<!-- <table>
+		<tr>
+			<td> -->
+				<ul id="expr_params">
+					<li id="genotype_input" class="grayed_out">
+						Genotype
+					</li>
+					<li id="organ_input" class="grayed_out">
+						Organ
+					</li>
+					<li class="grayed_out">
+						Tissue/Cell type
+					</li>
+					<li class="grayed_out">
+						Developmental stage
+					</li>
+					<li class="grayed_out">
+						Treatment
+					</li>
+					<li>
+						Correlation filter: 0.<input type="text" id="amount" readonly style="border:0;font-size:22px;" size="6"><div id="correlation_slider"></div>
+						<br/>
+					</li>
+				</ul>
+			<!-- </td>
+			<td>
+				<div id="params_box">
 
-	<ul id="expr_params">
-		<li class="grayed_out">
-			Genotype
-		</li>
-		<li class="grayed_out">
-			Organ
-		</li>
-		<li class="grayed_out">
-			Tissue/Cell type
-		</li>
-		<li class="grayed_out">
-			Developmental stage
-		</li>
-		<li class="grayed_out">
-			Treatment
-		</li>
-		<li>
-			Correlation filter: 0.<input type="text" id="amount" readonly style="border:0;font-size:22px;"><div id="correlation_slider"></div>
-			<br/>
-		</li>
-	</ul>
+				</div>
+			</td>
+		</tr>
+	</table> -->
 </div>
 
 

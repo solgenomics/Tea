@@ -127,7 +127,7 @@
         function movetoMiddle (data) {
 		var section = 'middle';
 		if (preSection == 'top') {
-			$('html, body').animate({ scrollTop: $("#anatomy_middle").offset().top - 65 }, 2000); 
+			$('html, body').animate({ scrollTop: $("#anatomy_middle").offset().top - 20 }, 2000); 
 		} else {
 			$('html, body').animate({ scrollTop: $("#anatomy_middle").offset().top }, 2000); 
 		}

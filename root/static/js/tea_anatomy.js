@@ -162,7 +162,7 @@
 		}
 
 		// load stage from data, set default to
-		if ( data ) {
+		if ( typeof(data) !== 'undefined' ) {
 			stage = fruitImages[data].name;
 		} else {
 			if ( preStage ) {

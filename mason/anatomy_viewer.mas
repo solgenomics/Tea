@@ -20,7 +20,7 @@
 <area title="30 DPA" shape="poly" coords="395,76,429,86,450,120,445,166,433,195,414,208,399,209,364,189,348,152,341,121,357,90" href="javascript: switchPlaningImages(3)" />
 <area title="20 DPA" shape="poly" coords="267,125,294,149,287,182,276,207,261,217,242,206,230,186,232,152,243,131" href="javascript: switchPlaningImages(2)" />
 <area title="15 DPA" shape="poly" coords="168,216,150,208,151,183,161,171,182,179,182,202" href="javascript: switchPlaningImages(1)" />
-<area title="10 DPA" shape="poly" coords="75,172,90,182,93,199,84,214,75,215,63,205,64,186"  href="javascript: switchPlaningImages(0) " />
+<area title="10 DPA" shape="poly" coords="75,172,90,182,93,199,84,214,75,215,63,205,64,186"  href="javascript: switchPlaningImages(0)" />
 </map>
             </div>
             <div id="stageSelectBar">

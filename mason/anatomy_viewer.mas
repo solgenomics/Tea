@@ -103,8 +103,8 @@
 	</td>
 	<td>
 	<div>
-		<video id="video_block" class="video-js vjs-default-skin" controls preload="none" width="780" height="450" 
-			data-setup="{ "controls": true, "autoplay": false, "preload": "auto"  }">
+		<video id="video_block" class="video-js vjs-default-skin" controls loop preload="none" width="780" height="450" 
+			data-setup="{ "controls": true, "autoplay": false, "loop": true, "preload": "auto"  }">
 			<source src="/static/video/Pink1.ogv" type="video/ogg" id="fruit_video" />
 		</video>
 	</div>

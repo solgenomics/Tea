@@ -157,9 +157,9 @@ html,body { width:100%; min-height: 100%; _height:100%; margin:0; padding:0; }
 }
 
 .anatomy_title ul   { margin: 0; line-height: normal; list-style:none; }
-.anatomy_title li   { display: block; float: left; padding: 10px 10px; color: #FFFFFF; }
-.anatomy_title li a { display: block; float: left; color: #DDDDDD; }
-.anatomy_title li a:hover { color: #EFEFEF; }
+.anatomy_title li   { display: block; float: left; padding: 10px 10px; color: #FFFFFF; font-size:1em; }
+.anatomy_title li a { display: block; float: left; color: #DDDDDD; font-size:1em; }
+.anatomy_title li a:hover { color: #EFEFEF; font-size:1em; }
 
 #anatomy_navi {
 	margin: 0px auto;

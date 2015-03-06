@@ -14,13 +14,13 @@
                 <img src="/static/images/anatomy_viewer/all_stage.jpg" usemap="#fruitmap" width=980>
 
 <map name="fruitmap">
-<area title="Breaker" href="javascript: switchPlaningImages(6)" shape="poly" coords="888,49,918,69,927,95,927,124,918,153,908,179,885,195,870,197,846,184,832,165,820,130,820,101,839,71,867,53" />
-<area title="Pink" href="javascript: switchPlaningImages(5)" shape="poly" coords="727,50,759,56,774,80,778,117,770,151,754,180,731,192,714,200,699,195,675,167,664,141,667,102,679,75,698,57" />
-<area title="Mature Green" href="javascript: switchPlaningImages(4)" shape="poly" coords="563,51,597,65,611,90,610,117,604,155,593,175,565,191,550,200,522,184,505,160,499,126,504,88,530,63,531,58" />
-<area title="30 DPA" href="javascript: switchPlaningImages(3)" shape="poly" coords="397,47,431,63,451,95,453,126,445,152,427,173,408,188,410,200,399,196,380,183,360,166,341,135,342,97,363,71" />
-<area title="20 DPA" href="javascript: switchPlaningImages(2)" shape="poly" coords="281,64,279,90,299,105,305,130,299,166,277,189,264,195,234,171,233,137,244,96" />
-<area title="15 DPA" href="javascript: switchPlaningImages(1)" shape="poly" coords="165,83,181,122,190,144,186,178,170,196,155,198,140,178,138,128" />
-<area title="10 DPA" href="javascript: switchPlaningImages(0)" shape="poly" coords="78,101,82,138,98,162,86,195,64,183,53,159" />
+<area href="javascript: switchPlaningImages(6)" shape="poly" coords="888,49,918,69,927,95,927,124,918,153,908,179,885,195,870,197,846,184,832,165,820,130,820,101,839,71,867,53" />
+<area href="javascript: switchPlaningImages(5)" shape="poly" coords="727,50,759,56,774,80,778,117,770,151,754,180,731,192,714,200,699,195,675,167,664,141,667,102,679,75,698,57" />
+<area href="javascript: switchPlaningImages(4)" shape="poly" coords="563,51,597,65,611,90,610,117,604,155,593,175,565,191,550,200,522,184,505,160,499,126,504,88,530,63,531,58" />
+<area href="javascript: switchPlaningImages(3)" shape="poly" coords="397,47,431,63,451,95,453,126,445,152,427,173,408,188,410,200,399,196,380,183,360,166,341,135,342,97,363,71" />
+<area href="javascript: switchPlaningImages(2)" shape="poly" coords="281,64,279,90,299,105,305,130,299,166,277,189,264,195,234,171,233,137,244,96" />
+<area href="javascript: switchPlaningImages(1)" shape="poly" coords="165,83,181,122,190,144,186,178,170,196,155,198,140,178,138,128" />
+<area href="javascript: switchPlaningImages(0)" shape="poly" coords="78,101,82,138,98,162,86,195,64,183,53,159" />
 </map>
             </div>
             <div id="stageSelectBar">

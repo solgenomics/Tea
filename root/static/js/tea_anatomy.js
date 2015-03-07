@@ -56,16 +56,6 @@
 		yimgs: '/static/images/anatomy_viewer/yMGS.jpg'
 	    },
 
-	    {
-		name: 'Pink',
-		simg: '/static/images/anatomy_viewer/sPink.jpg',
-		timg: '/static/images/anatomy_viewer/tPink.jpg', 
-		ximg: '/static/images/anatomy_viewer/xPink.jpg',
-		yimg: '/static/images/anatomy_viewer/yPink.jpg',
-		ximgs: '/static/images/anatomy_viewer/xPinkS.jpg',
-		yimgs: '/static/images/anatomy_viewer/yPinkS.jpg'
-	    },
-
             {
                 name: 'B2',
 		simg: '/static/images/anatomy_viewer/sB2.jpg',
@@ -75,6 +65,16 @@
 		ximgs: '/static/images/anatomy_viewer/xB2S.jpg',
 		yimgs: '/static/images/anatomy_viewer/yB2S.jpg'
             },
+
+	    {	
+		name: 'Pink',
+		simg: '/static/images/anatomy_viewer/sPink.jpg',
+		timg: '/static/images/anatomy_viewer/tPink.jpg',
+		ximg: '/static/images/anatomy_viewer/xPink.jpg',
+		yimg: '/static/images/anatomy_viewer/yPink.jpg',
+		ximgs: '/static/images/anatomy_viewer/xPinkS.jpg',
+		yimgs: '/static/images/anatomy_viewer/yPinkS.jpg'
+	    },
 
             {
                 name: 'B3',

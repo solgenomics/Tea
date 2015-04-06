@@ -35,7 +35,8 @@ The root page (/)
 #     $c->response->body( $c->welcome_message );
 # }
 
-sub index :Global {
+# sub index :Global {
+sub index :Path("/") :Args(0) {
     my ( $self, $c ) = @_;
  
     $c->stash(template => 'index.mas');

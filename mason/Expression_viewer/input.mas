@@ -1,3 +1,25 @@
+<%args>
+$organism_html => ()
+$organ_html => ()
+$stage_html => ()
+$tissue_html => ()
+
+</%args>
+
+<%perl>
+use strict;
+
+use JSON::Any;
+my $json = JSON::Any->new;
+
+</%perl>
+
+<script>
+  var organisms_html = <% $organism_html %>;
+  var organs_html = <% $organ_html %>;
+  var stages_html = <% $stage_html %>;
+  var tissues_html = <% $tissue_html %>;
+</script>
 
 <center>
 	<div class="pagetitle"><img src="/static/images/expr_small.png" height="40" style="margin-bottom:-10px;"/> Expression Viewer</div>
@@ -56,43 +78,79 @@
 
 <div style="width:750px;margin:0 auto;clear:both;">
 	<center>
-		<!-- <br> -->
 		<hr>
 		<div class="pagesubtitle">Define Expression Parameters <span id="parameters_i" class="info_icon">i</span></div>
 	</center>
+  <br>
 	
-	<!-- <table>
-		<tr>
-			<td> -->
-				<ul id="expr_params">
-					<li id="genotype_input" class="grayed_out">
-						Genotype
-					</li>
-					<li id="organ_input" class="grayed_out">
-						Organ
-					</li>
-					<li class="grayed_out">
-						Tissue/Cell type
-					</li>
-					<li class="grayed_out">
-						Developmental stage
-					</li>
-					<li class="grayed_out">
-						Treatment
-					</li>
-					<li>
-						Correlation filter: 0.<input type="text" id="amount" readonly style="border:0;font-size:22px;" size="6"><div id="correlation_slider"></div>
-						<br/>
-					</li>
-				</ul>
-			<!-- </td>
-			<td>
-				<div id="params_box">
+  <table>
+    <tr>
+      <th>
+        Genotypes
+      </th>
+      <th>
+        Organs
+      </th>
+      <th>
+        Developmental stages
+      </th>
+      <th>
+        Tissues/Cell types
+      </th>
+    </tr>
+    <tr>
+      <td width="185">
+        <select multiple id="organism_col" class="wizard_select" size="10">
+          <option value="Solanum lycopersicum">Solanum lycopersicum M82</option>
+        </select>
+        <button class="select_all">Select All</button>
+      </td>
 
-				</div>
-			</td>
-		</tr>
-	</table> -->
+      <td width="185">
+        <select multiple id="organ_col" class="wizard_select" size="10">
+          <option value="Pericarp">Pericarp</option>
+        </select>
+        <button class="select_all">Select All</button>
+      </td>
+
+      <td width="185">
+        <select multiple id="stage_col" class="wizard_select" size="10">
+          <option value="10DPA">10DPA</option>
+          <option value="Mature Green">Mature Green</option>
+          <option value="Pink">Pink</option>
+        </select>
+        <button class="select_all">Select All</button>
+      </td>
+
+      <td width="185">
+        <select multiple id="tissue_col" class="wizard_select" size="10"></select>
+        <button class="select_all">Select All</button>
+      </td>
+    </tr>
+  </table>
+        
+        
+	<ul id="expr_params">
+		<li id="genotype_input">
+			Genotype
+		</li>
+		<li id="organ_input">
+			Organ
+		</li>
+		<li id="stage_input">
+			Developmental stage
+		</li>
+		<li id="tissue_input">
+			Tissue/Cell type
+		</li>
+		<li id="treatment_input" class="grayed_out">
+			Treatment
+		</li>
+		<li>
+			Correlation filter: 0.<input type="text" id="amount" readonly style="border:0;font-size:22px;" size="6"><div id="correlation_slider"></div>
+			<br/>
+		</li>
+	</ul>
 </div>
 
 

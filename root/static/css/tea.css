@@ -500,7 +500,7 @@ body .ui-tooltip {
 }
 
 .grayed_out {
-	color: #888;
+	color: #ccc;
 }
 
 #correlation_slider a:link {
@@ -520,14 +520,64 @@ body .ui-tooltip {
 
 .params_box {
   background-color: #efefef;
+  border-style: solid;
+  border-width: 1px;
+  border-color:#ccc;
   border-radius:5px;
   padding:5px 15px 5px 5px;
-  margin-top:200px;
   box-shadow: 5px 5px 5px #aaa;
   position:absolute;
   text-align:left;
+  cursor:pointer;
 }
 
+.close_x {
+  float: right;
+  padding:0px 3px 1px 3px;
+  margin-right:-10px;
+  color: #555;
+  background-color: #ccc;
+  font-size:10px;
+/*  border-style: solid;*/
+/*  border-width: 1px;*/
+/*  border-color:#888;*/
+  border-radius:8px;
+}
+
+.close_x:hover {
+  color: #555;
+  background-color: #aaa;
+  border-color:#888;
+}
+
+.wizard_select {
+  width:185px;
+  overflow:auto;
+}
+
+#genotype_form {
+   margin-top:390px;
+   margin-left:-40px;
+   z-index: 0;
+}
+
+#organ_form {
+   margin-top:440px;
+   margin-left:10px;
+   z-index: 0;
+}
+
+#stage_form {
+   margin-top:490px;
+   margin-left:60px;
+   z-index: 0;
+}
+
+#tissue_form {
+   margin-top:540px;
+   margin-left:110px;
+   z-index: 0;
+}
 
 
 

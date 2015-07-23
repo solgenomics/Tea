@@ -92,21 +92,49 @@ $(document).ready(function () {
 		});
 	});
 	
-  // input filter options
+  
+  //get the higest css z-index and add one to move the parameter form to top
+  function move_to_top(obj_id) {
+    var z_pos = $('#max_z').val();
+    $(obj_id).css("z-index",z_pos*1 +1);
+    $('#max_z').val(z_pos*1 +1);
+  }
+  
+  //move to top when clicking on the parameter dialogs
+  $('.params_box').click(function () {
+    move_to_top(this);
+  });
+  
+  $('.close_x').click(function () {
+    $(this).parent().css("display","none");
+  });
+  
+  //display and move to top when clicking on the parameter names
+  $('#genotype_form').append(organisms_html);
   $('#genotype_input').click(function () {
-    $('.params_box').css("display","none");
-    var genotype_form = $('#genotype_form').html();
-    $('#genotype_form').html(genotype_form);
+    move_to_top('#genotype_form');
     $('#genotype_form').css("display","inline");
   });
   
-  
+  $('#organ_form').append(organs_html);
   $('#organ_input').click(function () {
-    $('.params_box').css("display","none");
-    var organ_form = $('#organ_form').html();
-    $('#organ_form').html(organ_form);
+    move_to_top('#organ_form');
     $('#organ_form').css("display","inline");
   });
+  
+  $('#stage_form').append(stages_html);
+  $('#stage_input').click(function () {
+    move_to_top('#stage_form');
+    $('#stage_form').css("display","inline");
+  });
+  
+  $('#tissue_form').append(tissues_html);
+  $('#tissue_input').click(function () {
+    move_to_top('#tissue_form');
+    $('#tissue_form').css("display","inline");
+  });
+  
+  
   
   
   
@@ -172,12 +200,38 @@ $(document).ready(function () {
 		});
 	});
 	
+  
+  $('.select_all').click(function(event) {
+    $(this).parent().children().each(function() {
+      $("option",this).prop('selected', true);
+    });
+  });  
+
+
+  //select and unselect all checkbox for each parameter form independently
+  $('.check_all').click(function(event) {
+    if(this.checked) {
+      // Iterate each checkbox
+      $(this).parent().children().each(function() {
+          this.checked = true;
+      });
+    }
+    else {
+      $(this).parent().children().each(function() {
+        this.checked = false;
+      });
+    }
+  });  
+  
+  
+  
+  //select and unselect all checkbox on BLAST output dialog
 	$('#selectall').click(function () {
 	        $('.blast_checkbox').prop('checked', isChecked('selectall'));
 	});
 	
 	function isChecked(checkboxId) {
-	    var id = '#' + checkboxId;
+	    var id = '#'+checkboxId;
 	    return $(id).is(":checked");
 	}
 	$("#selectall").removeAttr("checked");

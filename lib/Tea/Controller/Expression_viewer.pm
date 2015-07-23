@@ -32,13 +32,55 @@ Catalyst Controller.
 =cut
 
 sub index :Path('/Expression_viewer/input/') :Args(0) {
-    my ( $self, $c ) = @_;
+  my ( $self, $c ) = @_;
 
-    # $c->response->body('Matched Tea::Controller::Expression_viewer in Expression_viewer.');
- 
-    # $c->stash(template => 'Expression_viewer/output.mas');
-    $c->stash(template => 'Expression_viewer/input.mas');
-	
+  # $c->response->body('Matched Tea::Controller::Expression_viewer in Expression_viewer.');
+
+  # $c->stash(template => 'Expression_viewer/output.mas');
+  
+  
+  my $dbname = $c->config->{dbname};
+  my $host = $c->config->{dbhost};
+  my $username = $c->config->{dbuser};
+  my $password = $c->config->{dbpass};
+
+  my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
+  my $dbh = DBI->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
+  
+  my $all_organism_rs = $schema->resultset('Organism');
+  my @orgs = ();
+  while(my $org_obj = $all_organism_rs->next) {
+      push(@orgs,"<input type='checkbox'>&nbsp;".$org_obj->species." ".$org_obj->variety);
+  }
+  
+  my $organisms_html = join("<br>", @orgs);
+  $c->stash->{organism_html} = "\"$organisms_html\"";
+  
+  
+  my @layer_types = ("organ","stage","tissue");
+  
+  foreach my $type (@layer_types) {
+  
+    my $stage_rs = $schema->resultset('LayerType')->search({layer_type => $type})->single;
+    my $layer_stage_rs = $schema->resultset('Layer')->search({layer_type_id => $stage_rs->layer_type_id});
+    
+    my %html_hash =();
+    
+    while(my $layer = $layer_stage_rs->next) {
+        my $stage_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $layer->layer_info_id})->single;
+        # push(@html_array,"<input type='checkbox'>&nbsp;".$stage_rs->name);
+        $html_hash{"<input type='checkbox'>&nbsp;".$stage_rs->name} = 1;
+    }
+  
+    # my $stages_html = join("<br>", @html_array);
+    my $stages_html = join("<br>", map {$_} keys %html_hash);
+    print STDERR "\"$stages_html\"\n";
+    
+    $c->stash->{$type."_html"} = "\"$stages_html\"";
+  }
+  
+  
+  $c->stash(template => 'Expression_viewer/input.mas');
 }
 
 sub get_expression :Path('/Expression_viewer/output/') :Args(0) {

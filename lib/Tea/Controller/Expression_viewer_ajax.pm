@@ -1,5 +1,16 @@
 package Tea::Controller::Expression_viewer_ajax;
 
+=head1 AUTHOR
+
+Noe Fernandez
+
+=head1 LICENSE
+
+This library is free software. You can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
+
 use Moose;
 use JSON;
 use Bio::Seq;
@@ -7,6 +18,12 @@ use Bio::SeqIO;
 use Bio::BLAST::Database;
 use File::Temp qw | tempfile |;
 use Lucy::Simple;
+
+use DBIx::Class;
+use strict;
+use warnings;
+use Tea::Schema;
+use DBI;
 
 BEGIN { extends 'Catalyst::Controller::REST' }
 
@@ -19,37 +36,76 @@ __PACKAGE__->config(
 our %urlencode;
 
 
+sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
+  my ($self, $c) = @_;
+  
+  # to store erros as they may happen
+  my @errors; 
+
+  # get variables from catalyst object
+  my $params = $c->req->body_params();
+  my $organisms = $c->req->param("organisms");
+  my $organs = $c->req->param("organs");
+  my $tissues = $c->req->param("tissues");
+  
+  my $dbname="tea_test";
+  my $host="localhost";
+  my $username="postgres";
+  my $password="Eo0vair1";
+
+  my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
+  my $dbh = DBI->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
+  
+  my @stages;
+  # push(@stages,"<input type=\"checkbox\" class=\"select-all\">&nbsp;All");
+  
+  print STDERR "STAGES:\n";
+  
+  my $stage_rs = $schema->resultset('LayerType')->search({layer_type => "stage"})->single;
+  my $layer_stage_rs = $schema->resultset('Layer')->search({layer_type_id => $stage_rs->layer_type_id});
+  while(my $layer = $layer_stage_rs->next) {
+      my $stage_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $layer->layer_info_id})->single;
+      push(@stages,"<input type='checkbox'>&nbsp;".$stage_rs->name);
+      print " -".$stage_rs->name."\n";
+  }
+  
+  my $stage_text = join("<br>", @stages);
+  
+  $c->stash->{rest} = {stages => $stage_text,
+  };
+}
+
 sub run_blast :Path('/Expression_viewer/blast/') :Args(0) {
-    my ($self, $c) = @_;
-    
-    # to store erros as they may happen
-    my @errors; 
- 
-    # get variables from catalyst object
-    my $params = $c->req->body_params();
-	my $input_seq1 = $c->req->param("input_seq");
-	my $nt_blastdb_path = $c->config->{nt_blastdb_path};
-	my $prot_blastdb_path = $c->config->{prot_blastdb_path};
-	my $desc_path = $c->config->{description_index_path};
-	my $tmp_path = $c->config->{tmp_path};
-	
-	my ($input_name,$input_seq,$blast_program) = _parse_blast_input($input_seq1);
-	
-	# generate temporary file name for BLAST input.
-	my ($seq_fh, $seq_filename) = tempfile("TEAseqXXXXX", DIR=> $tmp_path,);
-	
-	# create BLAST input file
-	_create_blast_input_file($input_name,$input_seq,$seq_filename,$nt_blastdb_path);
-	
-	my ($res,$aln) = _run_blast_cmd($c,$blast_program,$params,$seq_filename,$nt_blastdb_path,$prot_blastdb_path,$desc_path);
-	
-	my $blast_table = join("\n", @$res);
-	my $blast_alignment = join("<br>", @$aln);
-	$blast_alignment =~ s/ /\&nbsp\;/g;
-	
-	$c->stash->{rest} = {blast_table => "$blast_table",
-						blast_alignment => $blast_alignment,
-	};
+  my ($self, $c) = @_;
+  
+  # to store erros as they may happen
+  my @errors; 
+
+  # get variables from catalyst object
+  my $params = $c->req->body_params();
+  my $input_seq1 = $c->req->param("input_seq");
+  my $nt_blastdb_path = $c->config->{nt_blastdb_path};
+  my $prot_blastdb_path = $c->config->{prot_blastdb_path};
+  my $desc_path = $c->config->{description_index_path};
+  my $tmp_path = $c->config->{tmp_path};
+  
+  my ($input_name,$input_seq,$blast_program) = _parse_blast_input($input_seq1);
+  
+  # generate temporary file name for BLAST input.
+  my ($seq_fh, $seq_filename) = tempfile("TEAseqXXXXX", DIR=> $tmp_path,);
+  
+  # create BLAST input file
+  _create_blast_input_file($input_name,$input_seq,$seq_filename,$nt_blastdb_path);
+  
+  my ($res,$aln) = _run_blast_cmd($c,$blast_program,$params,$seq_filename,$nt_blastdb_path,$prot_blastdb_path,$desc_path);
+  
+  my $blast_table = join("\n", @$res);
+  my $blast_alignment = join("<br>", @$aln);
+  $blast_alignment =~ s/ /\&nbsp\;/g;
+  
+  $c->stash->{rest} = {blast_table => "$blast_table",
+            blast_alignment => $blast_alignment,
+  };
 }
 
 sub _parse_blast_input {
@@ -270,16 +326,6 @@ sub _run_blast_cmd {
 	# return \@res;
 }
 
-=head1 AUTHOR
-
-Noe Fernandez
-
-=head1 LICENSE
-
-This library is free software. You can redistribute it and/or modify
-it under the same terms as Perl itself.
-
-=cut
 
 
 1;

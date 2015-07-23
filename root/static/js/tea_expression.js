@@ -123,32 +123,31 @@ $(document).ready(function () {
 					resizable: false,
 				});
 				$('.ui-dialog :button').blur();
-				$('.sgn_logo_link').blur();
+        $('.sgn_logo_link').blur();
 				print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name,corr_val);
 			});
       
       var switch_status = $('#'+gene_name+'_dialog');
       var transpose_switch = $('#tr_barplot'+gene_name);
       
-        $('#tr_barplot'+gene_name).click(function () {
-          // alert("HI");
-          var new_array = stage_tissue_values[0].map(function(col, i) { 
-            return stage_tissue_values.map(function(row) { 
-              return row[i] 
-            })
-          });
+      $('#tr_barplot'+gene_name).click(function () {
+        // alert("HI");
+        var new_array = stage_tissue_values[0].map(function(col, i) {
+          return stage_tissue_values.map(function(row) {
+            return row[i]
+          })
+        });
+        
+        $("#"+gene_name+"_bar_graph").empty();
           
-          $("#"+gene_name+"_bar_graph").empty();
-          
-          if (switch_status.val == "on") {
-            switch_status.val = "off";
-    				print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name,corr_val);
-          } else {
-            switch_status.val = "on";
-            print_bar_chart(stage_names,tissue_names,new_array,gene_name,corr_val);
-          }
+        if (switch_status.val == "on") {
+          switch_status.val = "off";
+    			print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name,corr_val);
+        } else {
+          switch_status.val = "on";
+          print_bar_chart(stage_names,tissue_names,new_array,gene_name,corr_val);
+        }
       });
-      
 		}
 	}
   

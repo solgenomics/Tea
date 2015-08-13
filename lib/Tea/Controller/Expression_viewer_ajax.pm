@@ -49,10 +49,10 @@ sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
   my @stages = $c->req->param("stages");
   my @tissues = $c->req->param("tissues");
   
-  my $dbname="tea_test";
-  my $host="localhost";
-  my $username="postgres";
-  my $password="Eo0vair1";
+  my $dbname = $c->config->{dbname};
+  my $host = $c->config->{dbhost};
+  my $username = $c->config->{dbuser};
+  my $password = $c->config->{dbpass};
 
   my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
   my $dbh = DBI->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");

@@ -94,45 +94,91 @@ $(document).ready(function () {
 	
   
   //get the higest css z-index and add one to move the parameter form to top
-  function move_to_top(obj_id) {
-    var z_pos = $('#max_z').val();
-    $(obj_id).css("z-index",z_pos*1 +1);
-    $('#max_z').val(z_pos*1 +1);
-  }
+  // function move_to_top(obj_id) {
+  //   var z_pos = $('#max_z').val();
+  //   $(obj_id).css("z-index",z_pos*1 +1);
+  //   $('#max_z').val(z_pos*1 +1);
+  // }
   
   //move to top when clicking on the parameter dialogs
-  $('.params_box').click(function () {
-    move_to_top(this);
-  });
-  
-  $('.close_x').click(function () {
-    $(this).parent().css("display","none");
-  });
+  // $('.params_box').click(function () {
+  //   move_to_top(this);
+  // });
+  //
+  // $('.close_x').click(function () {
+  //   $(this).parent().css("display","none");
+  // });
   
   //display and move to top when clicking on the parameter names
-  $('#genotype_form').append(organisms_html);
-  $('#genotype_input').click(function () {
-    move_to_top('#genotype_form');
-    $('#genotype_form').css("display","inline");
+  // $('#genotype_form').append(organisms_html);
+  // $('#genotype_input').click(function () {
+  //   move_to_top('#genotype_form');
+  //   $('#genotype_form').css("display","inline");
+  // });
+  //
+  // $('#organ_form').append(organs_html);
+  // $('#organ_input').click(function () {
+  //   move_to_top('#organ_form');
+  //   $('#organ_form').css("display","inline");
+  // });
+  //
+  // $('#stage_form').append(stages_html);
+  // $('#stage_input').click(function () {
+  //   move_to_top('#stage_form');
+  //   $('#stage_form').css("display","inline");
+  // });
+  //
+  // $('#tissue_form').append(tissues_html);
+  // $('#tissue_input').click(function () {
+  //   move_to_top('#tissue_form');
+  //   $('#tissue_form').css("display","inline");
+  // });
+  
+  
+  
+  
+  jQuery('.organism_col').change(function() {
+    // AJAX communication to get stage, tissue ...
+    
+    var organism_list = jQuery( '#organism_col' ).children().val();
+    // alert("organism_list: "+organism_list);
+    var organ_list = jQuery( '#organ_col' ).val();
+    var organ_list = jQuery( '#organ_part_col' ).val();
+    var stage_list = jQuery( '#stage_col' ).val();
+    var tissue_list = jQuery( '#tissue_col' ).val();
+    
+    $.ajax({
+      url: '/Expression_viewer/get_stages/',
+      timeout: 600000,
+      method: 'POST',
+      data: { 'organisms': organism_list, 'organs': organ_list, 'stages': stage_list, 'tissues': tissue_list},
+      success: function(response) {
+        if (response.error) {
+          alert("ERROR: "+response.error);
+          // enable_ui();
+        } else {
+          // alert("stages: "+response.stages);
+          jQuery('#organ_part_col').html(response.organs);
+          jQuery('#stage_col').html(response.stages);
+          jQuery('#tissue_col').html(response.tissues);
+        }
+      },
+      error: function(response) {
+        alert("An error occurred. The service may not be available right now.");
+        // enable_ui();
+      }
+    });
   });
   
-  $('#organ_form').append(organs_html);
-  $('#organ_input').click(function () {
-    move_to_top('#organ_form');
-    $('#organ_form').css("display","inline");
-  });
   
-  $('#stage_form').append(stages_html);
-  $('#stage_input').click(function () {
-    move_to_top('#stage_form');
-    $('#stage_form').css("display","inline");
-  });
   
-  $('#tissue_form').append(tissues_html);
-  $('#tissue_input').click(function () {
-    move_to_top('#tissue_form');
-    $('#tissue_form').css("display","inline");
-  });
+  
+  
+  
+  
+  
+  
+  
   
   
   
@@ -200,28 +246,34 @@ $(document).ready(function () {
 		});
 	});
 	
-  
+  //select boxes for expression parameters Genotypes, Organs...
   $('.select_all').click(function(event) {
     $(this).parent().children().each(function() {
       $("option",this).prop('selected', true);
     });
   });  
 
+  $('.select_none').click(function(event) {
+    $(this).parent().children().each(function() {
+      $("option",this).prop('selected', false);
+    });
+  });  
+
 
   //select and unselect all checkbox for each parameter form independently
-  $('.check_all').click(function(event) {
-    if(this.checked) {
-      // Iterate each checkbox
-      $(this).parent().children().each(function() {
-          this.checked = true;
-      });
-    }
-    else {
-      $(this).parent().children().each(function() {
-        this.checked = false;
-      });
-    }
-  });  
+  // $('.check_all').click(function(event) {
+  //   if(this.checked) {
+  //     // Iterate each checkbox
+  //     $(this).parent().children().each(function() {
+  //         this.checked = true;
+  //     });
+  //   }
+  //   else {
+  //     $(this).parent().children().each(function() {
+  //       this.checked = false;
+  //     });
+  //   }
+  // });
   
   
   

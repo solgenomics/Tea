@@ -43,10 +43,11 @@ sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
   my @errors; 
 
   # get variables from catalyst object
-  my $params = $c->req->body_params();
-  my $organisms = $c->req->param("organisms");
-  my $organs = $c->req->param("organs");
-  my $tissues = $c->req->param("tissues");
+  # my $params = $c->req->body_params();
+  my @organisms = $c->req->param("organisms");
+  my @organs = $c->req->param("organs");
+  my @stages = $c->req->param("stages");
+  my @tissues = $c->req->param("tissues");
   
   my $dbname="tea_test";
   my $host="localhost";
@@ -56,24 +57,116 @@ sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
   my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
   my $dbh = DBI->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
   
-  my @stages;
-  # push(@stages,"<input type=\"checkbox\" class=\"select-all\">&nbsp;All");
+  my @organism_ids;
   
-  print STDERR "STAGES:\n";
-  
-  my $stage_rs = $schema->resultset('LayerType')->search({layer_type => "stage"})->single;
-  my $layer_stage_rs = $schema->resultset('Layer')->search({layer_type_id => $stage_rs->layer_type_id});
-  while(my $layer = $layer_stage_rs->next) {
-      my $stage_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $layer->layer_info_id})->single;
-      push(@stages,"<input type='checkbox'>&nbsp;".$stage_rs->name);
-      print " -".$stage_rs->name."\n";
+  my $all_rs = $schema->resultset("Organism");
+  while(my $n = $all_rs->next) {
+    foreach my $sps (@organisms) {
+      my ($species_name, $variety) = split("-",$sps);
+      
+      if ($n->species eq $species_name && $n->variety eq $variety) {
+        push (@organism_ids,$n->organism_id);
+      }
+    }
   }
   
-  my $stage_text = join("<br>", @stages);
+  my $project_ids = _get_ids_from_query($schema,"Project",\@organism_ids,"organism_id","project_id");
+  my $experiment_ids = _get_ids_from_query($schema,"Experiment",$project_ids,"project_id","experiment_id");
+  my $layer_ids = _get_ids_from_query($schema,"ExperimentLayer",$experiment_ids,"experiment_id","layer_id");
+
+  my $organ_ids = _filter_layer_type($schema,$layer_ids,"organ");
+  my $organ_names = _get_ids_from_query($schema,"LayerInfo",$organ_ids,"layer_info_id","name");
+  my $organ_options = _array_to_option($organ_names);
+
+  my $stage_ids = _filter_layer_type($schema,$layer_ids,"stage");
+  my $stage_names = _get_ids_from_query($schema,"LayerInfo",$stage_ids,"layer_info_id","name");
+  my $stage_options = _array_to_option($stage_names);
+
+  my $tissue_ids = _filter_layer_type($schema,$layer_ids,"tissue");
+  my $tissue_names = _get_ids_from_query($schema,"LayerInfo",$tissue_ids,"layer_info_id","name");
+  my $tissue_options = _array_to_option($tissue_names);
   
-  $c->stash->{rest} = {stages => $stage_text,
+  my $organ_options = join("\n", "@{$organ_options}");
+  my $stage_options = join("\n", "@{$stage_options}");
+  my $tissue_options = join("\n", "@{$tissue_options}");
+  
+  $c->stash->{rest} = {
+    organs => $organ_options,
+    stages => $stage_options,
+    tissues => $tissue_options,
   };
 }
+
+
+
+
+
+
+
+sub _get_ids_from_query {
+  my $schema = shift;
+  my $table_name = shift;
+  my $query = shift;
+  my $column_name = shift;
+  my $column_id = shift;
+  
+  my %res_ids;
+  
+  my $all_rs = $schema->resultset($table_name);
+  while(my $n = $all_rs->next) {
+  
+    foreach my $sps (@{$query}) {
+      if ($n->$column_name eq $sps) {
+        $res_ids{$n->$column_id} = 1;
+      }
+    }
+  }
+  my @res_ids;
+  if ($column_id =~ /id/) {
+    @res_ids = sort {$a <=> $b} keys %res_ids;
+  } else {
+    @res_ids = sort keys %res_ids;
+  }
+  
+  return \@res_ids;
+}
+
+sub _filter_layer_type {
+  my $schema = shift;
+  my $layer_ids = shift;
+  my $layer_type = shift;
+  
+  my %res_ids;
+  
+  my $layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "$layer_type"})->single;
+  
+  my $all_rs = $schema->resultset("Layer");
+  while(my $n = $all_rs->next) {
+    if ($n->layer_type_id eq $layer_type_rs->layer_type_id) {
+      foreach my $sps (@{$layer_ids}) {
+        if ($n->layer_id eq $sps) {
+            $res_ids{$n->layer_info_id} = 1;
+        }
+      }
+    }
+  }
+  my @res_ids = sort {$a <=> $b} keys %res_ids;
+
+  return \@res_ids;
+}
+
+sub _array_to_option {
+  my $array = shift;
+  my @res;
+  
+  foreach my $e (@{$array}) {
+    push(@res,"<option value=\"$e\">$e</option>");
+  }
+  return \@res;
+}
+
+
+
 
 sub run_blast :Path('/Expression_viewer/blast/') :Args(0) {
   my ($self, $c) = @_;

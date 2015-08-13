@@ -89,7 +89,32 @@ my $json = JSON::Any->new;
         Genotypes
       </th>
       <th>
+      </th>
+    </tr>
+    <tr>
+      <td>
+        <div id="organism_col">
+          <% $organism_html %>
+        </div>
+      </td>
+      <td style="vertical-align: text-top;">
+        <ul id="expr_params">
+          <li>
+            Correlation filter: 0.<input type="text" id="amount" readonly style="border:0;font-size:22px;" size="6"><div id="correlation_slider"></div>
+          </li>
+        </ul>
+      </td>
+    </tr>
+  <table>
+  
+  <br/>
+  <table>
+    <tr>
+      <th>
         Organs
+      </th>
+      <th>
+        organ part
       </th>
       <th>
         Developmental stages
@@ -100,59 +125,51 @@ my $json = JSON::Any->new;
     </tr>
     <tr>
       <td width="185">
-        <select multiple id="organism_col" class="wizard_select" size="10">
-          <option value="Solanum lycopersicum">Solanum lycopersicum M82</option>
+        <select multiple id="organ_col" class="wizard_select" size="10">
         </select>
         <button class="select_all">Select All</button>
+        <button class="select_none">Unselect</button>
       </td>
 
       <td width="185">
-        <select multiple id="organ_col" class="wizard_select" size="10">
-          <option value="Pericarp">Pericarp</option>
+        <select multiple id="organ_part_col" class="wizard_select" size="10">
         </select>
         <button class="select_all">Select All</button>
+        <button class="select_none">Unselect</button>
       </td>
 
       <td width="185">
         <select multiple id="stage_col" class="wizard_select" size="10">
-          <option value="10DPA">10DPA</option>
-          <option value="Mature Green">Mature Green</option>
-          <option value="Pink">Pink</option>
         </select>
         <button class="select_all">Select All</button>
+        <button class="select_none">Unselect</button>
       </td>
 
       <td width="185">
         <select multiple id="tissue_col" class="wizard_select" size="10"></select>
         <button class="select_all">Select All</button>
+        <button class="select_none">Unselect</button>
       </td>
     </tr>
   </table>
         
         
-	<ul id="expr_params">
-		<li id="genotype_input">
-			Genotype
-		</li>
-		<li id="organ_input">
-			Organ
-		</li>
-		<li id="stage_input">
-			Developmental stage
-		</li>
-		<li id="tissue_input">
-			Tissue/Cell type
-		</li>
-		<li id="treatment_input" class="grayed_out">
-			Treatment
-		</li>
-		<li>
-			Correlation filter: 0.<input type="text" id="amount" readonly style="border:0;font-size:22px;" size="6"><div id="correlation_slider"></div>
-			<br/>
-		</li>
-	</ul>
 </div>
 
+<style>
+
+.select_none {
+  float: right;
+}
+
+#organism_col {
+  background-color: #efefef;
+  width: 350px;
+  height: 150px;
+  padding:10px;
+}
+
+</style>
 
 <script>
 
@@ -171,15 +188,15 @@ my $json = JSON::Any->new;
     $( "#corr_filter" ).val( $( "#correlation_slider" ).slider( "value" ) );
   });
 	
-	function resetSelectAll() {
-	    // if all checkbox are selected, check the selectall checkbox
-	    // and viceversa
-	    if ($(".blast_checkbox").length == $(".blast_checkbox:checked").length) {
-	        $("#selectall").attr("checked", "checked");
-	    } else {
-	        $("#selectall").removeAttr("checked");
-	    }
-	}
+  // function resetSelectAll() {
+  //     // if all checkbox are selected, check the selectall checkbox
+  //     // and viceversa
+  //     if ($(".blast_checkbox").length == $(".blast_checkbox:checked").length) {
+  //         $("#selectall").attr("checked", "checked");
+  //     } else {
+  //         $("#selectall").removeAttr("checked");
+  //     }
+  // }
 	
 </script>
 <script type="text/javascript" src="/static/js/tea_expr_input.js"></script>

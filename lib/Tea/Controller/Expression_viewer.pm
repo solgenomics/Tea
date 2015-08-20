@@ -50,13 +50,17 @@ sub index :Path('/Expression_viewer/input/') :Args(0) {
   # get all organisms for input select
   my $all_organism_rs = $schema->resultset('Organism');
   my @orgs = ();
+  my $organism_hr_name;
+  my $organism_name;
+  
   while(my $org_obj = $all_organism_rs->next) {
-    my $organism_hr_name = $org_obj->species.", ".$org_obj->variety;
-    my $organism_name = $organism_hr_name;
-    # $organism_name =~ s/\s/_/g;
-    $organism_name =~ s/, /-/g;
-    # push(@orgs,"<option value=\'$organism_name\'>$organism_hr_name</option>");
-    push(@orgs,"<input type='checkbox' class='organism_col' value=\'$organism_name\'>&nbsp;$organism_hr_name");
+    $organism_name = $org_obj->species;
+
+    if ($org_obj->variety) {
+      $organism_name .= " ".$org_obj->variety;
+    }
+
+    push(@orgs,"<input id=\"organism_".$org_obj->organism_id."\" type='checkbox' class='organism_col' value=\'".$org_obj->organism_id."\'><label for=\"organism_".$org_obj->organism_id."\" class=\"organism_label\">&nbsp;$organism_name</label><br>");
   }
   
   my $organisms_html = join("\n", @orgs);

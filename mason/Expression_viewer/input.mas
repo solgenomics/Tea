@@ -169,6 +169,10 @@ my $json = JSON::Any->new;
   padding:10px;
 }
 
+.organism_label {
+  cursor:pointer;
+}
+
 </style>
 
 <script>

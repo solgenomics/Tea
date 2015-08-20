@@ -140,12 +140,31 @@ $(document).ready(function () {
   jQuery('.organism_col').change(function() {
     // AJAX communication to get stage, tissue ...
     
-    var organism_list = jQuery( '#organism_col' ).children().val();
+    var organism_list = jQuery( "input:checked" ).val();
+    // alert("organism_list: "+organism_list);
+    // var organ_list = jQuery( '#organ_col' ).val();
+    // var organ_list = jQuery( '#organ_part_col' ).val();
+    // var stage_list = jQuery( '#stage_col' ).val();
+    // var tissue_list = jQuery( '#tissue_col' ).val();
+    
+    load_wizard(organism_list,null,null,null);
+  });
+  
+  jQuery('.wizard_select').change(function() {
+    // AJAX communication to get stage, tissue ...
+    
+    var organism_list = jQuery( "input:checked" ).val();
     // alert("organism_list: "+organism_list);
     var organ_list = jQuery( '#organ_col' ).val();
     var organ_list = jQuery( '#organ_part_col' ).val();
     var stage_list = jQuery( '#stage_col' ).val();
-    var tissue_list = jQuery( '#tissue_col' ).val();
+    // var tissue_list = jQuery( '#tissue_col' ).val();
+    
+    load_wizard(organism_list,organ_list,stage_list,null);
+  });
+  
+  
+  function load_wizard(organism_list,organ_list,stage_list,tissue_list){
     
     $.ajax({
       url: '/Expression_viewer/get_stages/',
@@ -168,10 +187,8 @@ $(document).ready(function () {
         // enable_ui();
       }
     });
-  });
-  
-  
-  
+    
+  }
   
   
   

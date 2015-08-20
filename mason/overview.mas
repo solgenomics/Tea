@@ -1,3 +1,8 @@
+<%args>
+@project_ids => ()
+%project_names => ()
+</%args>
+
 <center>
 	<div class="pagetitle"><img src="/static/images/overview_small.png" height="40" style="margin-bottom:-5px;"/> Overview</div>
 		<p style="width:700px;">
@@ -6,14 +11,22 @@
 
 	<!-- <br/> -->
 	<div style="width:700px; text-align: left;">
-		<a href="Expression_viewer/input"><img class="centered_img" src="/static/images/expr_small.png"/> <b>Expression Viewer</b></a><br/>
-		<ul class="ul_blue">
-			<li><span class="span_black">View the expression of a specific tomato gene or genes of interest</span></li>
-			<li><span class="span_black">Identify tomato genes by BLAST search using a gene or genes of interest from another species</span></li>
-			<li><span class="span_black">Identify new genes of interest though co-expression queries</span></li>
-			<li><span class="span_black">Download expression data  based on parameters that you define</span></li>
-			<li><span class="span_black">Link to associated metadata in the Sol Genomics Network database</span></li>
-		</ul>
+    <a href="#"><img class="centered_img" src="/static/images/expr_small.png"/> <b>Projects</b></a><br/>
+    <ul class="ul_blue">
+      <%perl>
+        foreach my $p_ids (@project_ids) {
+          print "<li><a href=\"project_page?project_id=$p_ids\"><span class=\"span_black\">$project_names{$p_ids}</span></a></li>";
+        }
+      </%perl>
+    </ul>
+    <a href="Expression_viewer/input"><img class="centered_img" src="/static/images/expr_small.png"/> <b>Expression Viewer</b></a><br/>
+    <ul class="ul_blue">
+      <li><span class="span_black">View the expression of a specific tomato gene or genes of interest</span></li>
+      <li><span class="span_black">Identify tomato genes by BLAST search using a gene or genes of interest from another species</span></li>
+      <li><span class="span_black">Identify new genes of interest though co-expression queries</span></li>
+      <li><span class="span_black">Download expression data  based on parameters that you define</span></li>
+      <li><span class="span_black">Link to associated metadata in the Sol Genomics Network database</span></li>
+    </ul>
 		<a href="anatomy_viewer"><img class="centered_img" src="/static/images/anatomy_small.png"/> <b>Anatomy Viewer</b></a></br>
 		<ul class="ul_blue">
 			<li><span class="span_black">Visualize target tissues and cell types in 2D</span></li>
@@ -21,6 +34,7 @@
 		</ul>
 	</div>
 </center>
+
 <style>
 .centered_img {
 		height:40px;
@@ -36,7 +50,6 @@ ul.ul_blue li{
 	font-size: 16px;
 	color:#000;
 }
-
 
 </style>
 

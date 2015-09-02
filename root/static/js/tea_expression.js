@@ -2,6 +2,13 @@ $(document).ready(function () {
 	
 	function print_bar_chart(t_names,s_names,sxt_values,gene_name,corr_val) {
 		
+    for (i in t_names) {
+      t_names[i] = t_names[i].replace(/_/g," ");
+    }
+    for (i in s_names) {
+      s_names[i] = s_names[i].replace(/_/g," ");
+    }
+    
     var color_array = ['#2e5989', '#5f954c', '#bb2c32', '#6e3f78', '#e79f44', '#7d807f', '#008888','#880088'];
     
 		var plot1 = $.jqplot(gene_name+'_bar_graph', sxt_values, {
@@ -75,10 +82,10 @@ $(document).ready(function () {
 	}
 
 
-	function open_bar_graph_dialog(stage_tissue_values, gene_name, corr_val, description, gene_id) {
+	function open_bar_graph_dialog(stage_tissue_values, gene_name, corr_val, description, gene_id, stage_names, tissue_names) {
 
-		var tissue_names = ["Inner epidermis","Parenchyma","Vascular tissue","Collenchyma","Outer epidermis"];
-		var stage_names = ["10DPA", "Mature green", "Pink"];
+    // var tissue_names = ["Inner epidermis","Parenchyma","Vascular tissue","Collenchyma","Outer epidermis"];
+    // var stage_names = ["10DPA", "Mature green", "Pink"];
 		
 		var dialog_null = document.getElementById(gene_name+"_dialog");
 		
@@ -538,7 +545,7 @@ $(document).ready(function () {
 		});
 	
 		slice_group.on('mousedown', function() {
-			open_bar_graph_dialog(aoa[n-1],gene_names_array[n-1],correlation[n-2], gene_descriptions[gene_names_array[n-1]], gene_ids[gene_names_array[n-1]]);
+			open_bar_graph_dialog(aoa[n-1],gene_names_array[n-1],correlation[n-2], gene_descriptions[gene_names_array[n-1]], gene_ids[gene_names_array[n-1]], stage_names, tissue_names);
 			circle.fill("red");
 			tmp_layer.draw();
 		});

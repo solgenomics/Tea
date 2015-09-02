@@ -103,6 +103,10 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
     my $params = $c->req->body_params();
 	my @query_gene = $c->req->param("input_gene");
 	my $corr_filter = $c->req->param("correlation_filter")||0.65;
+  # my $organ_filter = $c->req->param("organ_filter");
+  my $stage_filter = $c->req->param("stage_filter");
+  my $tissue_filter = $c->req->param("tissue_filter");
+  
 	my $current_page = $c->req->param("current_page") || 1;
 	my $pages_num = $c->req->param("all_pages") || 1;
 	my $expr_path = $c->config->{expression_indexes_path};
@@ -110,6 +114,9 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	my $desc_path = $c->config->{description_index_path};
 	my $locus_path = $c->config->{locus_index_path};
 	
+  my @stages = split(",",$stage_filter);
+  my @tissues = split(",",$tissue_filter);
+  
 	my $query_gene = "";
 	my @genes;
 	my $multiple_genes = 1;
@@ -257,8 +264,8 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 #------------------------------------------------------------------------------------------------------------------
 
 	#------------------------------------- Temporal Data
-	my @stages = ("10DPA", "Mature_Green", "Pink");
-	my @tissues = ("Inner_Epidermis", "Parenchyma", "Vascular", "Collenchyma", "Outer_Epidermis");
+  # my @stages = ("10DPA", "Mature_Green", "Pink");
+  # my @tissues = ("Inner_Epidermis", "Parenchyma", "Vascular_Tissue", "Collenchyma", "Outer_Epidermis");
 	
 	
 	# build data structure
@@ -360,6 +367,15 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
 	#get parameters from form and config file
 	my $query_gene = $c->req->param("input_gene");
 	my $corr_filter = $c->req->param("correlation_filter");
+  
+  my $stage_filter = $c->req->param("stages");
+  $stage_filter =~ s/[\[\]\"]//g;
+  my $tissue_filter = $c->req->param("tissues");
+  $tissue_filter =~ s/[\[\]\"]//g;
+  
+  my @stages = split(",",$stage_filter);
+  my @tissues = split(",",$tissue_filter);
+
 	my $expr_path = $c->config->{expression_indexes_path};
 	my $corr_path = $c->config->{correlation_indexes_path};
 	my $desc_path = $c->config->{description_index_path};
@@ -433,8 +449,8 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
 	
 	#------------------------------------- Temporal Data
 	unshift(@genes, $query_gene);
-	my @stages = ("10DPA", "Mature_Green", "Pink");
-	my @tissues = ("Inner_Epidermis", "Parenchyma", "Vascular", "Collenchyma", "Outer_Epidermis");
+  # my @stages = ("10DPA", "Mature_Green", "Pink");
+  # my @tissues = ("Inner_Epidermis", "Parenchyma", "Vascular", "Collenchyma", "Outer_Epidermis");
 	
 	
 	#------------------------------------- build data structure

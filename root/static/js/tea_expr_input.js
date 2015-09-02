@@ -177,24 +177,28 @@ $(document).ready(function () {
           // enable_ui();
         } else {
           // alert("stages: "+response.stages);
-          jQuery('#organ_part_col').html("");
-          jQuery('#stage_col').html("");
-          jQuery('#tissue_col').html("");
-          jQuery('#organ_part_col').html(response.organs);
-          jQuery('#stage_col').html(response.stages);
-          jQuery('#tissue_col').html(response.tissues);
+          $('#organ_part_col').html("");
+          $('#stage_col').html("");
+          $('#tissue_col').html("");
+          $('#organ_part_col').html(response.organs);
+          $('#stage_col').html(response.stages);
+          $('#tissue_col').html(response.tissues);
           
           for (layer_name in organ_list) {
-            jQuery("#"+organ_list[layer_name]).prop('selected', true);
+            $("#"+organ_list[layer_name]).prop('selected', true);
           }
           for (layer_name in stage_list) {
-            jQuery("#"+stage_list[layer_name]).prop('selected', true);
+            $("#"+stage_list[layer_name]).prop('selected', true);
           }
           for (layer_name in tissue_list) {
             // alert("layer_name: "+tissue_list[layer_name])
-            jQuery("#"+tissue_list[layer_name]).prop('selected', true);
+            $("#"+tissue_list[layer_name]).prop('selected', true);
           }
-
+          
+          $( '#organ_filter' ).val( $( '#organ_part_col' ).val());
+          $( '#stage_filter' ).val( $( '#stage_col' ).val());
+          $( '#tissue_filter' ).val( $( '#tissue_col' ).val());
+          
         }
       },
       error: function(response) {

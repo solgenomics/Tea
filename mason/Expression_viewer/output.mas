@@ -73,6 +73,8 @@ my $json = JSON::Any->new;
 			<form id="download_data" method="post" action="/download_expression_data/" enctype="multipart/form-data">
 				<input name="input_gene" value=<% $genes[0] %> style="display:none;">
 				<input name="correlation_filter" value=<% $correlation_filter %> style="display:none;">
+				<input name="stages" value=<% $json->encode(\@stages) %> style="display:none;">
+				<input name="tissues" value=<% $json->encode(\@tissues) %> style="display:none;">
 				<button id="download_expr_table">Download Expression Data</button>
 			</form>
 		</div>

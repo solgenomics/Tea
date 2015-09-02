@@ -18,6 +18,7 @@ use Bio::SeqIO;
 use Bio::BLAST::Database;
 use File::Temp qw | tempfile |;
 use Lucy::Simple;
+use List::MoreUtils qw(uniq);
 
 use DBIx::Class;
 use strict;
@@ -44,11 +45,16 @@ sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
 
   # get variables from catalyst object
   # my $params = $c->req->body_params();
-  my @organism_ids = $c->req->param("organisms");
-  my @organ_ids = $c->req->param("organs");
-  my @stage_ids = $c->req->param("stages");
-  my @tissue_ids = $c->req->param("tissues");
+  my @organism_ids = $c->req->param("organisms[]");
+
+  my @organ_names = $c->req->param("organs[]");
+  my @stage_names = $c->req->param("stages[]");
+  my @tissue_names = $c->req->param("tissues[]");
   
+  # my @organ_ids = $c->req->param("organs[]");
+  # my @stage_ids = $c->req->param("stages[]");
+  # my @tissue_ids = $c->req->param("tissues[]");
+  #
   my $dbname = $c->config->{dbname};
   my $host = $c->config->{dbhost};
   my $username = $c->config->{dbuser};
@@ -76,22 +82,67 @@ sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
   #   }
   # }
   
-  my $project_ids = _get_ids_from_query($schema,"Project",\@organism_ids,"organism_id","project_id");
-  my $experiment_ids = _get_ids_from_query($schema,"Experiment",$project_ids,"project_id","experiment_id");
   
   my @organ_options;
   my @stage_options;
   my @tissue_options;
   
+  
   # only organism selected
-  if ($organ_ids[0] || $stage_ids[0] || $tissue_ids[0]){
-    print scalar(@organ_ids)."\n\n";
-    print scalar(@stage_ids)."\n\n";
-    print scalar(@tissue_ids)."\n\n";
+  if ($organ_names[0] || $stage_names[0] || $tissue_names[0]){
+  # if ($organ_ids[0] || $stage_ids[0] || $tissue_ids[0]){
+    print scalar(@organ_names)."\n\n";
+    print scalar(@stage_names)."\n\n";
+    print scalar(@tissue_names)."\n\n";
+    
+    print "more things selected!!!\n\n";
+    my $organ_info_ids = _get_ids_from_query($schema,"LayerInfo",\@organ_names,"name","layer_info_id");
+    my $organ_ids = _get_ids_from_query($schema,"Layer",$organ_info_ids,"layer_info_id","layer_id");
+    $organ_ids = _filter_layer_type($schema,$organ_ids,"organ","layer_id");
+    my $organ_exp_ids = _get_ids_from_query($schema,"ExperimentLayer",$organ_ids,"layer_id","experiment_id");
+    
+    my $stage_info_ids = _get_ids_from_query($schema,"LayerInfo",\@stage_names,"name","layer_info_id");
+    my $stage_ids = _get_ids_from_query($schema,"Layer",$stage_info_ids,"layer_info_id","layer_id");
+    $stage_ids = _filter_layer_type($schema,$stage_ids,"stage","layer_id");
+    my $stage_exp_ids = _get_ids_from_query($schema,"ExperimentLayer",$stage_ids,"layer_id","experiment_id");
+    
+    my $tissue_info_ids = _get_ids_from_query($schema,"LayerInfo",\@tissue_names,"name","layer_info_id");
+    my $tissue_ids = _get_ids_from_query($schema,"Layer",$tissue_info_ids,"layer_info_id","layer_id");
+    $tissue_ids = _filter_layer_type($schema,$tissue_ids,"tissue","layer_id");
+    my $tissue_exp_ids = _get_ids_from_query($schema,"ExperimentLayer",$tissue_ids,"layer_id","experiment_id");
+    
+    # my $stage_exp_ids = _get_ids_from_query($schema,"ExperimentLayer",\@stage_ids,"layer_id","experiment_id");
+    # my $tissue_exp_ids = _get_ids_from_query($schema,"ExperimentLayer",\@tissue_ids,"layer_id","experiment_id");
+    
+    my @experiment_ids = uniq (@$organ_exp_ids, @$stage_exp_ids, @$tissue_exp_ids);
+    
+    print "experiment_ids: @experiment_ids\n";
+    my $layer_ids = _get_ids_from_query($schema,"ExperimentLayer",\@experiment_ids,"experiment_id","layer_id");
+    print "layer_ids: @$layer_ids\n";
+    
+    $organ_ids = _filter_layer_type($schema,$layer_ids,"organ","layer_id");
+    $stage_ids = _filter_layer_type($schema,$layer_ids,"stage","layer_id");
+    $tissue_ids = _filter_layer_type($schema,$layer_ids,"tissue","layer_id");
+    
+    
+    my $organ_options = _array_to_option($schema,$organ_ids);
+    my $stage_options = _array_to_option($schema,$stage_ids);
+    my $tissue_options = _array_to_option($schema,$tissue_ids);
+    
+    @organ_options = @{$organ_options};
+    @stage_options = @{$stage_options};
+    @tissue_options = @{$tissue_options};
+    
   }
   else {
+    print STDERR "only organism selected!!!\n\n";
     
+    my $project_ids = _get_ids_from_query($schema,"Project",\@organism_ids,"organism_id","project_id");
+    my $experiment_ids = _get_ids_from_query($schema,"Experiment",$project_ids,"project_id","experiment_id");
     my $layer_ids = _get_ids_from_query($schema,"ExperimentLayer",$experiment_ids,"experiment_id","layer_id");
+    
+    
+    # my $layer_ids = _get_ids_from_query($schema,"ExperimentLayer",$experiment_ids,"experiment_id","layer_id");
     my $organ_ids = _filter_layer_type($schema,$layer_ids,"organ","layer_id");
     my $stage_ids = _filter_layer_type($schema,$layer_ids,"stage","layer_id");
     my $tissue_ids = _filter_layer_type($schema,$layer_ids,"tissue","layer_id");
@@ -189,7 +240,7 @@ sub _get_ids_from_query {
   while(my $n = $all_rs->next) {
   
     foreach my $sps (@{$query}) {
-      
+      $sps =~ s/_/ /g;
       # print STDERR "Sps: $sps\n";
       
       if ($n->$column_name eq $sps) {
@@ -250,7 +301,11 @@ sub _array_to_option {
   }
   
   foreach my $name (sort(keys %res)) {
-    push(@res,"<option value=\"$res{$name}\">".$name."</option>");
+    my $option_id = $name;
+    $option_id =~ s/ /_/g;
+    
+    push(@res,"<option id=\"$option_id\" value=\"$option_id\">".$name."</option>");
+    # push(@res,"<option id=\"$res{$name}\" value=\"$res{$name}\">".$name."</option>");
   }
   
   return \@res;

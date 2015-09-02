@@ -372,7 +372,7 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
 	
 	print STDERR "downloading expression data\n";
 	
-	# get correlation filter value (it is 100 higer when it comes from the input slider)
+	# get correlation filter value (it is 100 higher when it comes from the input slider)
 	if ($corr_filter > 1) {
 		$corr_filter = $corr_filter/100;
 	}

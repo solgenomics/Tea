@@ -139,28 +139,28 @@ $(document).ready(function () {
   
   jQuery('.organism_col').change(function() {
     // AJAX communication to get stage, tissue ...
-    
-    var organism_list = jQuery( "input:checked" ).val();
-    // alert("organism_list: "+organism_list);
-    // var organ_list = jQuery( '#organ_col' ).val();
-    // var organ_list = jQuery( '#organ_part_col' ).val();
-    // var stage_list = jQuery( '#stage_col' ).val();
-    // var tissue_list = jQuery( '#tissue_col' ).val();
+    var idSelector = function() { return this.value; };
+    var organism_list = jQuery(".organism_col:checked").map(idSelector).get();
     
     load_wizard(organism_list,null,null,null);
   });
   
   jQuery('.wizard_select').change(function() {
     // AJAX communication to get stage, tissue ...
+    var idSelector = function() { return this.value; };
+    var organism_list = jQuery(".organism_col:checked").map(idSelector).get();
     
-    var organism_list = jQuery( "input:checked" ).val();
+    // var organism_list = jQuery( "input:checked" ).val();
     // alert("organism_list: "+organism_list);
-    var organ_list = jQuery( '#organ_col' ).val();
+    // var organ_list = jQuery( '#organ_col' ).val();
     var organ_list = jQuery( '#organ_part_col' ).val();
     var stage_list = jQuery( '#stage_col' ).val();
-    // var tissue_list = jQuery( '#tissue_col' ).val();
+    var tissue_list = jQuery( '#tissue_col' ).val();
+    // var tissue_list = jQuery( '#tissue_col' ).children(":selected").attr("id");
     
-    load_wizard(organism_list,organ_list,stage_list,null);
+    // alert("tissue_list: "+tissue_list);
+    
+    load_wizard(organism_list,organ_list,stage_list,tissue_list);
   });
   
   
@@ -177,9 +177,24 @@ $(document).ready(function () {
           // enable_ui();
         } else {
           // alert("stages: "+response.stages);
+          jQuery('#organ_part_col').html("");
+          jQuery('#stage_col').html("");
+          jQuery('#tissue_col').html("");
           jQuery('#organ_part_col').html(response.organs);
           jQuery('#stage_col').html(response.stages);
           jQuery('#tissue_col').html(response.tissues);
+          
+          for (layer_name in organ_list) {
+            jQuery("#"+organ_list[layer_name]).prop('selected', true);
+          }
+          for (layer_name in stage_list) {
+            jQuery("#"+stage_list[layer_name]).prop('selected', true);
+          }
+          for (layer_name in tissue_list) {
+            // alert("layer_name: "+tissue_list[layer_name])
+            jQuery("#"+tissue_list[layer_name]).prop('selected', true);
+          }
+
         }
       },
       error: function(response) {
@@ -268,12 +283,28 @@ $(document).ready(function () {
     $(this).parent().children().each(function() {
       $("option",this).prop('selected', true);
     });
+    
+    var idSelector = function() { return this.value; };
+    var organism_list = jQuery(".organism_col:checked").map(idSelector).get();
+    var organ_list = jQuery( '#organ_part_col' ).val();
+    var stage_list = jQuery( '#stage_col' ).val();
+    var tissue_list = jQuery( '#tissue_col' ).val();
+    
+    load_wizard(organism_list,organ_list,stage_list,tissue_list);
   });  
 
   $('.select_none').click(function(event) {
     $(this).parent().children().each(function() {
       $("option",this).prop('selected', false);
     });
+    
+    var idSelector = function() { return this.value; };
+    var organism_list = jQuery(".organism_col:checked").map(idSelector).get();
+    var organ_list = jQuery( '#organ_part_col' ).val();
+    var stage_list = jQuery( '#stage_col' ).val();
+    var tissue_list = jQuery( '#tissue_col' ).val();
+    
+    load_wizard(organism_list,organ_list,stage_list,tissue_list);
   });  
 
 

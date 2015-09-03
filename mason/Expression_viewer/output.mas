@@ -40,7 +40,9 @@ my $json = JSON::Any->new;
 </script>
 
 <link rel="stylesheet" href="/static/css/jqplot.css" type="text/css" />
-<script type="text/javascript" src="/static/js/tea_expression.js"></script>
+<script type="text/javascript" src="/static/js/tea_expr_functions.js"></script>
+<script type="text/javascript" src="/static/js/tea_expr_cube_functions.js"></script>
+<script type="text/javascript" src="/static/js/tea_expr_code.js"></script>
 <script type="text/javascript" src="/static/js/kinetic-v5.1.0.min.js"></script>
 <script type="text/javascript" src="/static/js/jqplot/jquery.jqplot.js"></script>
 <script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.categoryAxisRenderer.min.js"></script>

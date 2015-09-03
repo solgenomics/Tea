@@ -1,4 +1,5 @@
 	
+  //draw the expression bar graph on dialog
 	function print_bar_chart(t_names,s_names,sxt_values,gene_name,corr_val) {
 		
     for (i in t_names) {
@@ -80,7 +81,7 @@
 		
 	}
 
-
+  //open dialog for expression bar graph
 	function open_bar_graph_dialog(stage_tissue_values, gene_name, corr_val, description, gene_id, stage_names, tissue_names) {
 
     // var tissue_names = ["Inner epidermis","Parenchyma","Vascular tissue","Collenchyma","Outer epidermis"];
@@ -157,7 +158,7 @@
 		}
 	}
 
-
+  //get color for expression values for cube and tissue imgs
 	function get_expr_color(expr_val) {
 		
 		var r_color = 255;
@@ -197,89 +198,111 @@
 		return [r_color,g_color,b_color];
 	}
 
+  //load the img for each one of the tissue layers
+  function load_tissue_image(i,j,aoaoa,x_offset,r_color,g_color,b_color,one_tissue_layer,canvas,stage_name,tissue_name) {
+    canvas.add(one_tissue_layer);
+    
+    var tmp_imgObj = new Image();
+    tmp_imgObj.src = '/static/images/expr_viewer/'+stage_name+'_'+tissue_name+'.png';
+    
+    tmp_imgObj.onload = function() {
+      
+      var tmp_stage = new Kinetic.Image({
+        id: "t_layer"+i+"_s"+j,
+        x: x_offset,
+        y: 60,
+        image: tmp_imgObj,
+        width: 200,
+        height: 360
+      });
+      one_tissue_layer.add(tmp_stage);
+      canvas.add(one_tissue_layer);
+      
+      //fix cache bug
+      tmp_stage.cache();
+      tmp_stage.filters([Kinetic.Filters.RGB]);
+      tmp_stage.red(r_color).green(g_color).blue(b_color);
+      // tmp_stage.cache();
+      // tmp_stage.moveToTop();
+      tmp_stage.draw();
+      // one_tissue_layer.draw();
+      
+      //add expression values on a tooltip
+      if (i == 4) {
 
-	function loadImage(i,j,aoaoa,x_offset,r_color,g_color,b_color,one_tissue_layer,canvas,stage_name,tissue_name) {
-		canvas.add(one_tissue_layer);
-		
-		var tmp_imgObj = new Image();
-		tmp_imgObj.src = '/static/images/expr_viewer/'+stage_name+'_'+tissue_name+'.png';
-		
-		tmp_imgObj.onload = function() {
-			
-			var tmp_tissue = new Kinetic.Image({
-				id: "t_layer"+i+"_s"+j,
-				x: x_offset,
-				y: 60,
-				image: tmp_imgObj,
-				width: 200,
-				height: 360
-			});
-			one_tissue_layer.add(tmp_tissue);
-			canvas.add(one_tissue_layer);
-			
-			//fix cache bug
-			tmp_tissue.cache();
-			tmp_tissue.filters([Kinetic.Filters.RGB]);
-			tmp_tissue.red(r_color).green(g_color).blue(b_color);
-			// tmp_tissue.cache();
-			// tmp_tissue.moveToTop();
-			tmp_tissue.draw();
-			// one_tissue_layer.draw();
-			
-			//add expression values on a tooltip
-			if (i == 4) {
+        var tissue_popup_layer = new Kinetic.Layer();
+        canvas.add(tissue_popup_layer);
 
-				var tissue_popup_layer = new Kinetic.Layer();
-				canvas.add(tissue_popup_layer);
+        tmp_stage.on('mouseover', function() {
+          var x_pos = this.getAbsolutePosition().x;
+          // var x_pos = this.getAbsolutePosition().x-10;
+          var y_pos = this.getAbsolutePosition().y+305;
 
-				tmp_tissue.on('mouseover', function() {
-					var x_pos = this.getAbsolutePosition().x;
-					// var x_pos = this.getAbsolutePosition().x-10;
-					var y_pos = this.getAbsolutePosition().y+305;
+          for (var n=0; n<5; n++) {
+            var y_offset = n*65;
+            if (n == 3) {
+              y_offset = 240;
+            }
 
-					for (var n=0; n<5; n++) {
-						var y_offset = n*65;
-						if (n == 3) {
-							y_offset = 240;
-						}
+            var tissue_popup = new Kinetic.Rect({
+              x: x_pos,
+              y: y_pos - y_offset,
+              fill: '#000000',
+              opacity: 0.7,
+              width: 185,
+              height: 20,
+              cornerRadius: 7,
+            });
 
-						var tissue_popup = new Kinetic.Rect({
-							x: x_pos,
-							y: y_pos - y_offset,
-							fill: '#000000',
-							opacity: 0.7,
-							width: 185,
-							height: 20,
-							cornerRadius: 7,
-						});
+            var tissue_name = tissues[n].replace("_"," ");
 
-						var tissue_name = tissues[n].replace("_"," ");
+            var tissue_desc_txt = new Kinetic.Text({
+              x: x_pos+5,
+              y: y_pos+3 - y_offset,
+              text: tissue_name+": "+aoaoa[0][j][n],
+              fontSize: 16,
+              fontFamily: 'Arial',
+              fill: "white"
+            });
+            tissue_popup_layer.add(tissue_popup);
+            // tissue_popup_layer.moveToTop();
+            tissue_popup_layer.add(tissue_desc_txt);
+            tissue_popup_layer.cache();
+            tissue_popup_layer.moveToTop();
+            tissue_popup_layer.draw();
+          }
+        });
 
-						var tissue_desc_txt = new Kinetic.Text({
-							x: x_pos+5,
-							y: y_pos+3 - y_offset,
-							text: tissue_name+": "+aoaoa[0][j][n],
-							fontSize: 16,
-							fontFamily: 'Arial',
-							fill: "white"
-						});
-						tissue_popup_layer.add(tissue_popup);
-						// tissue_popup_layer.moveToTop();
-						tissue_popup_layer.add(tissue_desc_txt);
-						tissue_popup_layer.cache();
-						tissue_popup_layer.moveToTop();
-						tissue_popup_layer.draw();
-					}
-				});
+        one_tissue_layer.on('mouseout', function() {
+          tissue_popup_layer.removeChildren();
+          tissue_popup_layer.draw();
+        });
+      }
+      // tmp_stage.draw();
+      // tissue_popup_layer.draw();
+    };
+    // tmp_imgObj.src = '/static/images/expr_viewer/'+stage_name+'_'+tissue_name+'.png';
+  }
+  
+  //load the bg image for each stage. This will be the bg for the tissue layers
+  function load_stage_image(aoaoa,x_offset,one_tissue_layer,canvas,stage_name) {
+    canvas.add(one_tissue_layer);
+    
+    var tmp_imgObj = new Image();
+    tmp_imgObj.src = '/static/images/expr_viewer/'+stage_name+'_bg.png';
+    
+    tmp_imgObj.onload = function() {
+      
+      var tmp_stage = new Kinetic.Image({
+        x: x_offset,
+        y: 60,
+        image: tmp_imgObj,
+        width: 200,
+        height: 360
+      });
+      one_tissue_layer.add(tmp_stage);
+      canvas.add(one_tissue_layer);
 
-				one_tissue_layer.on('mouseout', function() {
-					tissue_popup_layer.removeChildren();
-					tissue_popup_layer.draw();
-				});
-			}
-			// tmp_tissue.draw();
-			// tissue_popup_layer.draw();
-		};
-		// tmp_imgObj.src = '/static/images/expr_viewer/'+stage_name+'_'+tissue_name+'.png';
-	}
+    };
+  }
 

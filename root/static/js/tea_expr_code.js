@@ -39,62 +39,16 @@ $(document).ready(function () {
 
 	organBg_imgObj.src = organ_bg_image;
 
-
-  var dpa_bg_imgObj = new Image();
-  dpa_bg_imgObj.onload = function() {
-
-    var tissue_bg = new Kinetic.Image({
-      x: 190,
-      y: img_y,
-      image: dpa_bg_imgObj,
-      width: img_width,
-      height: img_height
-    });
-    tissue_layer.add(tissue_bg);
-    canvas.add(tissue_layer);
-  };
-
-  var mg_bg_imgObj = new Image();
-  mg_bg_imgObj.onload = function() {
-
-    var tissue_bg2 = new Kinetic.Image({
-      x: 380,
-      y: img_y,
-      image: mg_bg_imgObj,
-      width: img_width,
-      height: img_height
-    });
-    tissue_layer.add(tissue_bg2);
-    canvas.add(tissue_layer);
-  };
-
-  var pink_bg_imgObj = new Image();
-  pink_bg_imgObj.onload = function() {
-
-    var tissue_bg3 = new Kinetic.Image({
-      x: 570,
-      y: img_y,
-      image: pink_bg_imgObj,
-      width: img_width,
-      height: img_height
-    });
-    tissue_layer.add(tissue_bg3);
-    canvas.add(tissue_layer);
-  };
-
-  dpa_bg_imgObj.src = '/static/images/expr_viewer/dpa_bg.png';
-  mg_bg_imgObj.src = '/static/images/expr_viewer/mg_bg.png';
-  pink_bg_imgObj.src = '/static/images/expr_viewer/pink_bg.png';
-
-	// -------------------------------------------------------------------------------------
+	// ------------- print tissue images
 	// http://www.html5canvastutorials.com/tutorials/html5-canvas-image-loader/
 		
 	// print the tissue colored images
 	for (var j = 0; j < stages.length; j++) {
 		
 		var x_offset = 190 + 190*j;
-		// var x_offset = 200 + 190*j;
-
+    
+    load_stage_image(aoaoa,x_offset,tissue_layer,canvas,stages[j]);
+    
 		for (var i = 0; i<tissues.length; i++) {
 			
 			var expr_val = aoaoa[0][j][i];
@@ -104,12 +58,13 @@ $(document).ready(function () {
 			var g = rgb_color_array[1];
 			var b = rgb_color_array[2];
 			
-			loadImage(i,j,aoaoa,x_offset,r,g,b,tissue_layer,canvas,stages[j],tissues[i]);
+			load_tissue_image(i,j,aoaoa,x_offset,r,g,b,tissue_layer,canvas,stages[j],tissues[i]);
 		}
 		tissue_layer.cache();
 		tissue_layer.draw();
 	}
-	// -------------------------------------------------------------------------------------
+  
+	// ------------- print cube
 
 	var cube_layer = new Kinetic.Layer();
 
@@ -141,9 +96,6 @@ $(document).ready(function () {
 	document.getElementById("gene_desc").innerHTML = gene_descriptions[genes[0]];
 	
 	draw_cube(genes,stages,tissues,aoaoa,cube_layer,canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start, gene_locus_id, gene_descriptions, current_page, pages_num, canvas_width);
-	
-	//remove loading wheel
-  // enable_ui();
 	
 });
 

@@ -621,14 +621,16 @@ $(document).ready(function () {
 	}
 
 
-	function add_color_grad_legend(x_pos,y_pos,color_string,tmp_layer,stage) {
+	function add_color_grad_legend(page_width,color_string,tmp_layer,stage) {
 	
 		var color = ['rgb(80,0,0)','rgb(255,0,0)','rgb(255,130,0)','rgb(255,195,125)','rgb(255,233,199)','rgb(255,255,120)','rgb(255,255,230)'];
-	
+	  var x_pos = page_width-50; // margin from right
+	  var y_pos = 135; //margin from top
+    
 		var grad_legend = new Kinetic.Rect({
 			x: x_pos,
-			y: y_pos+105,
-			width: 15,
+			y: y_pos,
+			width: 20,
 			height: 400,
 			fillLinearGradientStartPoint: {x:0, y:0},
 			fillLinearGradientEndPoint: {x:0,y:400},
@@ -638,46 +640,46 @@ $(document).ready(function () {
 		});
 	
 		var top_text = new Kinetic.Text({
-			x: x_pos-12,
-			y: y_pos+85,
+			x: x_pos-8,
+      y: y_pos-20,
 			text: "RPKM",
-			fontSize: 12,
+			fontSize: 14,
 			fontFamily: 'Helvetica',
 			fill: "black",
 			align: 'center'
 		});
 	
 		var mid1_text = new Kinetic.Text({
-			x: x_pos+20,
-			y: y_pos+180,
+			x: x_pos+25,
+			y: y_pos+60,
 			text: "300",
 			fill: "black"
 		});
 	
 		var mid2_text = new Kinetic.Text({
-			x: x_pos+20,
-			y: y_pos+260,
+			x: x_pos+25,
+			y: y_pos+140,
 			text: "100",
 			fill: "black"
 		});
 	
 		var mid3_text = new Kinetic.Text({
-			x: x_pos+20,
-			y: y_pos+340,
+			x: x_pos+25,
+			y: y_pos+220,
 			text: "10",
 			fill: "black"
 		});
 	
 		var min2_text = new Kinetic.Text({
-			x: x_pos+20,
-			y: y_pos+420,
+			x: x_pos+25,
+			y: y_pos+300,
 			text: "1",
 			fill: "black"
 		});
 	
 		var min_text = new Kinetic.Text({
-			x: x_pos+20,
-			y: y_pos+500,
+			x: x_pos+25,
+			y: y_pos+395,
 			text: "0",
 			fill: "black"
 		});
@@ -694,7 +696,7 @@ $(document).ready(function () {
 	}
 
 
-	function draw_cube(genes,stages,tissues,expr_val,tmp_layer,tmp_canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start, gene_ids, gene_descriptions,current_page, pages_num) {
+	function draw_cube(genes,stages,tissues,expr_val,tmp_layer,tmp_canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start, gene_ids, gene_descriptions,current_page,pages_num,page_width) {
 		tmp_layer.removeChildren();
 		var color_code = $('#color_code').val();
 		var genes_num = genes.length;
@@ -710,9 +712,8 @@ $(document).ready(function () {
 			var x2 = top_x_start -650 + i*180;
 			add_stage_names(x,y,stages[i],x2,tmp_layer,tmp_canvas);
 		}
-				
-		var sw_x = right_x_start + (tissues.length*15) + 10;
-		add_color_grad_legend(sw_x,y_margin-50,color_code,tmp_layer,tmp_canvas)
+		
+		add_color_grad_legend(page_width,color_code,tmp_layer,tmp_canvas)
 	}
 
 	function loadImage(i,j,aoaoa,x_offset,r_color,g_color,b_color,one_tissue_layer,canvas,stage_name,tissue_name) {
@@ -952,7 +953,7 @@ $(document).ready(function () {
 	document.getElementById("gene_name").innerHTML = "<a href='http://solgenomics.net/locus/"+gene_locus_id[genes[0]]+"/view' target='_blank'><img src='/static/images/sgn_logo.png' height='30' style='margin-bottom: -10px;' title='Connect to SGN for metadata associated with this gene'/> "+genes[0]+"</a>";
 	document.getElementById("gene_desc").innerHTML = gene_descriptions[genes[0]];
 	
-	draw_cube(genes,stages,tissues,aoaoa,cube_layer,canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start, gene_locus_id, gene_descriptions, current_page, pages_num);
+	draw_cube(genes,stages,tissues,aoaoa,cube_layer,canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start, gene_locus_id, gene_descriptions, current_page, pages_num, page_width);
 	
 	//remove loading wheel
 	enable_ui();

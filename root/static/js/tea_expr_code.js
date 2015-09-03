@@ -47,7 +47,7 @@ $(document).ready(function () {
 		
 		var x_offset = 190 + 190*j;
     
-    load_stage_image(aoaoa,x_offset,tissue_layer,canvas,stages[j]);
+    load_stage_image(aoaoa,x_offset,tissue_layer,canvas,stages[j],img_width,img_height);
     
 		for (var i = 0; i<tissues.length; i++) {
 			
@@ -58,7 +58,7 @@ $(document).ready(function () {
 			var g = rgb_color_array[1];
 			var b = rgb_color_array[2];
 			
-			load_tissue_image(i,j,aoaoa,x_offset,r,g,b,tissue_layer,canvas,stages[j],tissues[i]);
+			load_tissue_image(i,j,aoaoa,x_offset,r,g,b,tissue_layer,canvas,stages[j],tissues[i],img_width,img_height);
 		}
 		tissue_layer.cache();
 		tissue_layer.draw();

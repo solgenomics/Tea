@@ -168,7 +168,7 @@
 	function add_slice(n,gene_names_array,aoa,stage_names,tissue_names,tmp_layer,canvas,x_margin,y_margin,color_code,correlation,gene_descriptions,gene_ids,current_page,pages_num,genes_num) {
 		
 		var sq_size = 20;
-		page_y = y_margin +20*sq_size +100;
+		var page_y = y_margin +20*sq_size +60 +10*stage_names.length; //for pagination
 		y_margin = y_margin +n*sq_size;
 		x_margin = x_margin + 20;
 		
@@ -177,8 +177,8 @@
 		});
 		
 		var gene_text = new Kinetic.Text({
-			x: x_margin -150,
-			y: y_margin +62,
+			x: x_margin -120 - 10*stage_names.length,
+			y: y_margin +18 +15*stage_names.length,
 			id: "slice_name_"+n,
 			text: gene_names_array[n-1],
 			fontSize: 16, //20 for CondensedLight
@@ -289,14 +289,15 @@
 		// add stage and tissue names to the first gene
 		for (var j=1; j<=stage_names.length; j++) {
 			for (var i=tissue_names.length; i>=1; i--) {
-				var x_start = x_margin - j*15;
-				var nx = i*sq_size + x_start;
+        var x_start = x_margin - j*15; //move left next stage row
+        // var nx = i*sq_size + x_start;
 				var ny = y_margin + j*15;
 			
 				var rgb_color_array = get_expr_color(aoa[n-1][j-1][i-1]);
 				var sqr_color = 'rgb('+rgb_color_array[0]+','+rgb_color_array[1]+','+rgb_color_array[2]+')';
 				
-				nx = nx-15 + (j-1)*5;
+        var nx = x_start -15  +i*sq_size + (j-1)*5;
+        // nx = nx-15 + (j-1)*5;
 				var top_tile = new Kinetic.Line({
 					points: [(nx+15), ny, (nx+35), ny, (nx+25), ny+15, nx+5, ny+15],
 					fill: sqr_color,
@@ -304,13 +305,29 @@
 					strokeWidth: 1,
 					closed: true
 				});
-				nx = i*sq_size + x_start;
+        // nx = i*sq_size + x_start;
 			
 				slice_group.add(top_tile);
-			
-			
-				if (j == stage_names.length) {
+			  
+        //add right tiles for the last tissue
+				if (i == tissue_names.length) {
+					nx = i*sq_size + x_start-10 + (j-1)*5;
+          // nx = nx-10 + (j-1)*5;
+					var right_tile = new Kinetic.Line({
+						points: [nx+sq_size, ny+15, nx+30, ny, nx+30, ny+sq_size, nx+sq_size, ny+35],
+						fill: sqr_color,
+						stroke: 'black',
+						strokeWidth: 1,
+						closed: true
+					});
 				
+					slice_group.add(right_tile);
+				}
+      
+			  //add front tiles for last stages
+				if (j == stage_names.length) {
+				  nx = i*sq_size + x_start-15 + j*5;
+          
 					var front_tile = new Kinetic.Rect({
 						x: nx,
 						y: ny+15,
@@ -325,18 +342,6 @@
 				
 				}
 			
-				if (i == tissue_names.length) {
-					nx = nx-10 + (j-1)*5;
-					var right_tile = new Kinetic.Line({
-						points: [nx+sq_size, ny+15, nx+30, ny, nx+30, ny+sq_size, nx+sq_size, ny+35],
-						fill: sqr_color,
-						stroke: 'black',
-						strokeWidth: 1,
-						closed: true
-					});
-				
-					slice_group.add(right_tile);
-				}
 			
 				if (j == 1 && n == 1) {
 					//add tissue names to top layer
@@ -500,13 +505,13 @@
 	}
 
 
-	function draw_cube(genes,stages,tissues,expr_val,tmp_layer,tmp_canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start, gene_ids, gene_descriptions,current_page,pages_num,page_width) {
+	function draw_cube(genes,stages,tissues,expr_val,tmp_layer,tmp_canvas,top_x_start,y_margin,gene_ids,gene_descriptions,current_page,pages_num,page_width) {
 		tmp_layer.removeChildren();
 		var color_code = $('#color_code').val();
 		var genes_num = genes.length;
 		
 		for (var i=genes_num; i>=1; i--) {
-			add_slice(i,genes,expr_val,stages,tissues,tmp_layer,tmp_canvas,top_x_start,y_margin,color_code,corr_values, gene_descriptions, gene_ids, current_page, pages_num, genes_num);
+			add_slice(i,genes,expr_val,stages,tissues,tmp_layer,tmp_canvas,top_x_start,y_margin,color_code,corr_values,gene_descriptions,gene_ids,current_page,pages_num,genes_num);
 		}
 	
 		//draw stage names

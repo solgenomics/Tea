@@ -71,12 +71,8 @@ $(document).ready(function () {
 	//set variables
 	var x_margin = canvas_width -100 - tissues.length*20 - stages.length*15;
 	var y_margin = 100;
-
-	var last_x_margin = 125 + stages.length*20;
-	var last_y_margin = 155 + stages.length*15;
 	
 	//margins for the cube
-	var right_x_start = x_margin + 5 + tissues.length*20;
 	var top_x_start = x_margin + (stages.length*15);
 	
 	//return error if input gene was not found
@@ -95,7 +91,7 @@ $(document).ready(function () {
 	document.getElementById("gene_name").innerHTML = "<a href='http://solgenomics.net/locus/"+gene_locus_id[genes[0]]+"/view' target='_blank'><img src='/static/images/sgn_logo.png' height='30' style='margin-bottom: -10px;' title='Connect to SGN for metadata associated with this gene'/> "+genes[0]+"</a>";
 	document.getElementById("gene_desc").innerHTML = gene_descriptions[genes[0]];
 	
-	draw_cube(genes,stages,tissues,aoaoa,cube_layer,canvas,x_margin,last_y_margin,top_x_start,y_margin,right_x_start, gene_locus_id, gene_descriptions, current_page, pages_num, canvas_width);
+	draw_cube(genes,stages,tissues,aoaoa,cube_layer,canvas,top_x_start,y_margin,gene_locus_id,gene_descriptions,current_page,pages_num,canvas_width);
 	
 });
 

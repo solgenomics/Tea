@@ -1,6 +1,150 @@
+
+  // pagination code
+  function draw_pagination(page_y,current_page,pages_num,moving_slice_group) {
+    
+    var x_margin = 970 //x position to start the pagination elements
+  	var pages_group = new Kinetic.Group();
+
+  	//triangle to first page
+  	var first_triangle_group = new Kinetic.Group();
+  	var arrow_first = new Kinetic.Line({
+  		points: [x_margin-140, page_y+22,x_margin-150, page_y+15,x_margin-140, page_y+8,x_margin-140, page_y+22],
+  		stroke: "#111",
+  		strokeWidth: 1,
+  		closed: true,
+  		fillLinearGradientStartPoint: {x:x_margin-140, y:page_y+30},
+  		fillLinearGradientEndPoint: {x:x_margin-140,y:page_y},
+  		fillLinearGradientColorStops: [0, "#333", 1, "#888"],
+  		lineCap: 'round',
+  		tension: 0
+  	});
+    
+  	var line_first = new Kinetic.Line({
+  		points: [x_margin-150, page_y+8,x_margin-150, page_y+22],
+  		stroke: "#111",
+  		strokeWidth: 1,
+  	});
+  	first_triangle_group.add(arrow_first);
+  	first_triangle_group.add(line_first);
+
+  	first_triangle_group.on('mousedown', function() {
+  		if (current_page > 1) {
+  			document.getElementById("page_num").value = 1;
+  			document.getElementById("search_gene").submit();
+  		}
+  	});
+  	moving_slice_group.add(first_triangle_group);
+
+  	//triangle to previous page
+  	var arrow_prev = new Kinetic.Line({
+  		points: [x_margin-120, page_y+22,x_margin-130, page_y+15,x_margin-120, page_y+8,x_margin-120, page_y+22],
+  		stroke: "#111",
+  		strokeWidth: 1,
+  		closed: true,
+  		fillLinearGradientStartPoint: {x:x_margin-120, y:page_y+30},
+  		fillLinearGradientEndPoint: {x:x_margin-120,y:page_y},
+  		fillLinearGradientColorStops: [0, "#333", 1, "#888"],
+  		lineCap: 'round',
+  		tension: 0
+  	});
+  	pages_group.add(arrow_prev);
+
+  	arrow_prev.on('mousedown', function() {
+  		if (current_page > 1) {
+  			document.getElementById("page_num").value = +current_page - 1;
+  			document.getElementById("search_gene").submit();
+  		}
+  	});
+
+  	//print page number links
+  	var page_index = current_page - 3;
+  	var page_x_index = x_margin - 105;
+
+  	for (var i=0; i<7; i++) {
+  		if (page_index <= pages_num && page_index > 0) {
+  			draw_page_numbers(page_index, page_x_index, page_y, pages_group,pages_num);
+  		}
+  		page_index++;
+  		page_x_index = page_x_index + 30;
+  	}
+  	moving_slice_group.add(pages_group);
+
+  	//underline the current page
+  	var underline = new Kinetic.Line({
+  		points: [x_margin - 12, page_y+28, x_margin + 6, page_y+28],
+  		stroke: "#4387FD",
+  		strokeWidth: 2,
+  	});
+  	pages_group.add(underline);
+
+  	//triangle to next page
+  	var arrow_right = new Kinetic.Line({
+  		points: [x_margin+110, page_y+22,x_margin+120, page_y+15,x_margin+110, page_y+8,x_margin+110, page_y+22],
+  		stroke: "#111",
+  		strokeWidth: 1,
+  		closed: true,
+  		fillLinearGradientStartPoint: {x:x_margin-90, y:page_y+30},
+  		fillLinearGradientEndPoint: {x:x_margin-90,y:page_y},
+  		fillLinearGradientColorStops: [0, "#333", 1, "#888"],
+  		lineCap: 'round',
+  		tension: 0
+  	});
+  	pages_group.add(arrow_right);
+
+  	arrow_right.on('mousedown', function() {
+  		if (current_page < pages_num) {
+  			document.getElementById("page_num").value = +current_page + 1;
+  			document.getElementById("search_gene").submit();
+  		}
+  	});
+
+  	//triangle to last page
+  	var last_triangle_group = new Kinetic.Group();
+  	var arrow_last = new Kinetic.Line({
+  		points: [x_margin+130, page_y+22,x_margin+140, page_y+15,x_margin+130, page_y+8,x_margin+130, page_y+22],
+  		stroke: "#111",
+  		strokeWidth: 1,
+  		closed: true,
+  		fillLinearGradientStartPoint: {x:x_margin-90, y:page_y+30},
+  		fillLinearGradientEndPoint: {x:x_margin-90,y:page_y},
+  		fillLinearGradientColorStops: [0, "#333", 1, "#888"],
+  		lineCap: 'round',
+  		tension: 0
+  	});
+  	var line_last = new Kinetic.Line({
+  		points: [x_margin+140, page_y+8,x_margin+140, page_y+22],
+  		stroke: "#111",
+  		strokeWidth: 1,
+  	});
+  	last_triangle_group.add(arrow_last);
+  	last_triangle_group.add(line_last);
+
+  	last_triangle_group.on('mousedown', function() {
+  		if (current_page < pages_num) {
+  			document.getElementById("page_num").value = pages_num;
+  			document.getElementById("search_gene").submit();
+  		}
+  	});
+
+  	moving_slice_group.add(last_triangle_group);
+
+    //text ranking
+    var ranking_text = new Kinetic.Text({
+    	x: x_margin - 55,
+    	y: page_y + 40,
+    	text: "Ranking "+current_page+"/"+pages_num,
+    	fontSize: '16',
+    	fontVariant: 'small-caps',
+    	fill: "black"
+    });
+    moving_slice_group.add(ranking_text);
   
+  }
+
+
 	//function to draw the central page numbers for the cube pagination
-	function draw_central_pages(page_index, page_x_index, y_margin, pages_group, pages_num) {
+	function draw_page_numbers(page_index, page_x_index, y_margin, pages_group, pages_num) {
+    
 		var central_page = new Kinetic.Text({
 			x: page_x_index,
 			y: y_margin + 5,
@@ -60,13 +204,13 @@
 			}
 			
 			var gene_popup = new Kinetic.Rect({
-		        x: x_pos-80,
-		        y: y_pos,
-		        fill: '#000000',
-				opacity: 0.7,
-		        width: 530,
-		        height: 30,
-		        cornerRadius: 10
+        x: x_pos-80,
+        y: y_pos,
+        fill: '#000000',
+        opacity: 0.7,
+        width: 530,
+        height: 30,
+        cornerRadius: 10
 			});
 			
 			var desc_txt = new Kinetic.Text({
@@ -79,14 +223,14 @@
 				fill: "white"
 			});
 			if (n>1) {
-				var corr_popup = new Kinetic.Rect({
-			        x: x_pos+455,
-			        y: y_pos,
-			        fill: '#000000',
-					opacity: 0.8,
-			        width: 40,
-			        height: 30,
-			        cornerRadius: 10
+        var corr_popup = new Kinetic.Rect({
+          x: x_pos+455,
+          y: y_pos,
+          fill: '#000000',
+          opacity: 0.8,
+          width: 40,
+          height: 30,
+          cornerRadius: 10
 				});
 			
 				var corr_txt = new Kinetic.Text({
@@ -114,16 +258,16 @@
 		});
 		
 		
-		var circle = new Kinetic.Circle({
-			x: x_margin -155,
-			y: y_margin +68,
-			radius: 3,
-			fill: 'white',
-			stroke: 'black',
-			strokeWidth: 1,
-			id: "circle_"+n,
-			name: "gene_circle"
-		});
+    // var circle = new Kinetic.Circle({
+    //   x: x_margin -155,
+    //   y: y_margin +68,
+    //   radius: 3,
+    //   fill: 'white',
+    //   stroke: 'black',
+    //   strokeWidth: 1,
+    //   id: "circle_"+n,
+    //   name: "gene_circle"
+    // });
 
 		var moving_slice_group = new Kinetic.Group({
 			id: "full_slice_"+n,
@@ -139,7 +283,7 @@
 			});
 		}
 	
-		moving_slice_group.add(circle);
+    // moving_slice_group.add(circle);
 
 
 		// add stage and tissue names to the first gene
@@ -214,149 +358,10 @@
 			}
 		}
 		
-		//------------------------------------------------------------
-		// pagination code
-		//------------------------------------------------------------
-		if (n == genes_num) {
-			
-			var pages_group = new Kinetic.Group();
-			
-			//underline the current page
-			var underline = new Kinetic.Line({
-				points: [x_margin - 12, page_y+28, x_margin + 6, page_y+28],
-				stroke: "#4387FD",
-				strokeWidth: 2,
-			});
-
-			pages_group.add(underline);
-			
-			//print central page links
-			var page_index = current_page - 3;
-			var page_x_index = x_margin - 105;
-			
-			for (var i=0; i<7; i++) {
-				if (page_index <= pages_num && page_index > 0) {
-					draw_central_pages(page_index, page_x_index, page_y, pages_group,pages_num);
-				}
-				page_index++;
-				page_x_index = page_x_index + 30;
-			}
-			
-			moving_slice_group.add(pages_group);
-			
-			//triangle to first page
-			var first_triangle_group = new Kinetic.Group();
-			var arrow_first = new Kinetic.Line({
-				points: [x_margin-140, page_y+22,x_margin-150, page_y+15,x_margin-140, page_y+8,x_margin-140, page_y+22],
-				stroke: "#111",
-				strokeWidth: 1,
-				closed: true,
-				fillLinearGradientStartPoint: {x:x_margin-140, y:page_y+30},
-				fillLinearGradientEndPoint: {x:x_margin-140,y:page_y},
-				fillLinearGradientColorStops: [0, "#333", 1, "#888"],
-				lineCap: 'round',
-				tension: 0
-			});
-			var line_first = new Kinetic.Line({
-				points: [x_margin-150, page_y+8,x_margin-150, page_y+22],
-				stroke: "#111",
-				strokeWidth: 1,
-			});
-			first_triangle_group.add(arrow_first);
-			first_triangle_group.add(line_first);
-			
-			first_triangle_group.on('mousedown', function() {
-				if (current_page > 1) {
-					document.getElementById("page_num").value = 1;
-					document.getElementById("search_gene").submit();
-				}
-			});
-			moving_slice_group.add(first_triangle_group);
-			
-			//triangle to previous page
-			var arrow_prev = new Kinetic.Line({
-				points: [x_margin-120, page_y+22,x_margin-130, page_y+15,x_margin-120, page_y+8,x_margin-120, page_y+22],
-				stroke: "#111",
-				strokeWidth: 1,
-				closed: true,
-				fillLinearGradientStartPoint: {x:x_margin-120, y:page_y+30},
-				fillLinearGradientEndPoint: {x:x_margin-120,y:page_y},
-				fillLinearGradientColorStops: [0, "#333", 1, "#888"],
-				lineCap: 'round',
-				tension: 0
-			});
-			pages_group.add(arrow_prev);
-			
-			arrow_prev.on('mousedown', function() {
-				if (current_page > 1) {
-					document.getElementById("page_num").value = +current_page - 1;
-					document.getElementById("search_gene").submit();
-				}
-			});
-			
-			//triangle to next page
-			var arrow_right = new Kinetic.Line({
-				points: [x_margin+110, page_y+22,x_margin+120, page_y+15,x_margin+110, page_y+8,x_margin+110, page_y+22],
-				stroke: "#111",
-				strokeWidth: 1,
-				closed: true,
-				fillLinearGradientStartPoint: {x:x_margin-90, y:page_y+30},
-				fillLinearGradientEndPoint: {x:x_margin-90,y:page_y},
-				fillLinearGradientColorStops: [0, "#333", 1, "#888"],
-				lineCap: 'round',
-				tension: 0
-			});
-			pages_group.add(arrow_right);
-			
-			arrow_right.on('mousedown', function() {
-				if (current_page < pages_num) {
-					document.getElementById("page_num").value = +current_page + 1;
-					document.getElementById("search_gene").submit();
-				}
-			});
-			
-			//triangle to last page
-			var last_triangle_group = new Kinetic.Group();
-			var arrow_last = new Kinetic.Line({
-				points: [x_margin+130, page_y+22,x_margin+140, page_y+15,x_margin+130, page_y+8,x_margin+130, page_y+22],
-				stroke: "#111",
-				strokeWidth: 1,
-				closed: true,
-				fillLinearGradientStartPoint: {x:x_margin-90, y:page_y+30},
-				fillLinearGradientEndPoint: {x:x_margin-90,y:page_y},
-				fillLinearGradientColorStops: [0, "#333", 1, "#888"],
-				lineCap: 'round',
-				tension: 0
-			});
-			var line_last = new Kinetic.Line({
-				points: [x_margin+140, page_y+8,x_margin+140, page_y+22],
-				stroke: "#111",
-				strokeWidth: 1,
-			});
-			last_triangle_group.add(arrow_last);
-			last_triangle_group.add(line_last);
-			
-			last_triangle_group.on('mousedown', function() {
-				if (current_page < pages_num) {
-					document.getElementById("page_num").value = pages_num;
-					document.getElementById("search_gene").submit();
-				}
-			});
-			
-			moving_slice_group.add(last_triangle_group);
-			
-			//text ranking
-			var ranking_text = new Kinetic.Text({
-				x: x_margin - 55,
-				y: page_y + 40,
-				text: "Ranking "+current_page+"/"+pages_num,
-				fontSize: '16',
-				fontVariant: 'small-caps',
-				fill: "black"
-			});
-		    moving_slice_group.add(ranking_text);
-		}
-		
+    //draw the pagination on bottom of the cube
+    if (n == genes_num) {
+      draw_pagination(page_y,current_page,pages_num,moving_slice_group);
+    }
 		
 		
 		gene_text.on('mousedown', function() {
@@ -389,7 +394,7 @@
 			tmp_layer.draw();
 		});
 		
-		moving_slice_group.add(circle);
+    // moving_slice_group.add(circle);
 		moving_slice_group.add(slice_group);
 		moving_slice_group.add(gene_text);
 		tmp_layer.add(moving_slice_group);

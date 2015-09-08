@@ -20,7 +20,7 @@ $(document).ready(function () {
   var img_height = 360;
   
   //set image coordinates
-  var img_y = 60;
+  var img_y = 0;
   
   //create organ bg image
 	var organBg_imgObj = new Image();
@@ -41,13 +41,50 @@ $(document).ready(function () {
 
 	// ------------- print tissue images
 	// http://www.html5canvastutorials.com/tutorials/html5-canvas-image-loader/
-		
+	
+  var row_index = stages.length*15 + tissues.length*20
+  var col_num = 0 //to count how many stages we are printing, so we can fit them in new rows
+  
+  var x_offset = 0;
+  var y_offset = 0;
+  
 	// print the tissue colored images
 	for (var j = 0; j < stages.length; j++) {
-		
-		var x_offset = 190 + 190*j;
+		col_num++;
     
-    load_stage_image(aoaoa,x_offset,tissue_layer,canvas,stages[j],img_width,img_height);
+    // alert("row_index: "+row_index+", col_num: "+col_num+" modulus: "+col_num % 4);
+    
+    
+    if (row_index >550) { //1 columns
+      if (col_num % 1 == 0){
+        col_num = 0;
+        y_offset = y_offset + 360;
+      }
+    }
+    else if (row_index >= 360) { //2 columns
+      if (col_num % 2 == 0){
+        col_num = 0;
+        y_offset = y_offset + 360;
+      }
+    }
+    else if (row_index >= 345) { //3 columns
+      if (col_num % 3 == 0){
+        col_num = 0;
+        y_offset = y_offset + 360;
+      }
+    }
+    else if (row_index <= 195) { //4 columns
+      if (col_num % 4 == 0){
+        col_num = 0;
+        y_offset = y_offset + 360;
+      }
+    }
+    
+    x_offset = 190*col_num;
+    
+    
+    
+    load_stage_image(aoaoa,x_offset,y_offset,tissue_layer,canvas,stages[j],img_width,img_height);
     
 		for (var i = 0; i<tissues.length; i++) {
 			
@@ -58,7 +95,7 @@ $(document).ready(function () {
 			var g = rgb_color_array[1];
 			var b = rgb_color_array[2];
 			
-			load_tissue_image(i,j,aoaoa,x_offset,r,g,b,tissue_layer,canvas,stages[j],tissues[i],img_width,img_height);
+			load_tissue_image(i,j,aoaoa,x_offset,y_offset,r,g,b,tissue_layer,canvas,stages[j],tissues[i],img_width,img_height);
 		}
 		tissue_layer.cache();
 		tissue_layer.draw();

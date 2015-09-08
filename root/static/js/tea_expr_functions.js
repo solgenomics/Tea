@@ -199,7 +199,7 @@
 	}
 
   //load the img for each one of the tissue layers
-  function load_tissue_image(i,j,aoaoa,x_offset,r_color,g_color,b_color,one_tissue_layer,canvas,stage_name,tissue_name,img_width,img_height) {
+  function load_tissue_image(i,j,aoaoa,x_offset,y_offset,r_color,g_color,b_color,one_tissue_layer,canvas,stage_name,tissue_name,img_width,img_height) {
     canvas.add(one_tissue_layer);
     
     var tmp_imgObj = new Image();
@@ -210,7 +210,7 @@
       var tmp_stage = new Kinetic.Image({
         id: "t_layer"+i+"_s"+j,
         x: x_offset,
-        y: 60,
+        y: y_offset,
         image: tmp_imgObj,
         width: img_width,
         height: img_height
@@ -285,7 +285,7 @@
   }
   
   //load the bg image for each stage. This will be the bg for the tissue layers
-  function load_stage_image(aoaoa,x_offset,one_tissue_layer,canvas,stage_name,img_width,img_height) {
+  function load_stage_image(aoaoa,x_offset,y_offset,one_tissue_layer,canvas,stage_name,img_width,img_height) {
     canvas.add(one_tissue_layer);
     
     var tmp_imgObj = new Image();
@@ -295,7 +295,7 @@
       
       var tmp_stage = new Kinetic.Image({
         x: x_offset,
-        y: 60,
+        y: y_offset,
         image: tmp_imgObj,
         width: img_width,
         height: img_height

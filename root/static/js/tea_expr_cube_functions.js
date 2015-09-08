@@ -370,17 +370,19 @@
 		
 		
 		gene_text.on('mousedown', function() {
+      var y_layer_dist = stage_names.length*15 + 5;
+      
 			for (var i=0;i<=gene_names_array.length;i++) {
 				if (i>=n) {
 					var other_layer = canvas.find("#full_slice_"+i);
 					
 					if (moving_slice_group.name() == "slice_down") {
 						other_layer.move({
-							y: -50
+							y: -y_layer_dist
 						});
 					} else if (moving_slice_group.name() == "slice_up") {
 						other_layer.move({
-							y: 50
+							y: y_layer_dist
 						});
 					}
 				}

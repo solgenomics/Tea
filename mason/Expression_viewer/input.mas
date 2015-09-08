@@ -114,21 +114,21 @@ my $json = JSON::Any->new;
   <table>
     <tr>
       <th>
-        Organs
+        Developmental Stages
       </th>
       <th>
-        organ part
-      </th>
-      <th>
-        Developmental stages
+        Organ
       </th>
       <th>
         Tissues/Cell types
       </th>
+      <th>
+        Treatment
+      </th>
     </tr>
     <tr>
       <td width="185">
-        <select multiple id="organ_col" class="wizard_select" size="10">
+        <select multiple id="stage_col" class="wizard_select" size="10">
         </select>
         <button class="select_all">Select All</button>
         <button class="select_none">Unselect</button>
@@ -142,17 +142,18 @@ my $json = JSON::Any->new;
       </td>
 
       <td width="185">
-        <select multiple id="stage_col" class="wizard_select" size="10">
-        </select>
+        <select multiple id="tissue_col" class="wizard_select" size="10"></select>
         <button class="select_all">Select All</button>
         <button class="select_none">Unselect</button>
       </td>
 
       <td width="185">
-        <select multiple id="tissue_col" class="wizard_select" size="10"></select>
+        <select multiple id="organ_col" class="wizard_select" size="10">
+        </select>
         <button class="select_all">Select All</button>
         <button class="select_none">Unselect</button>
       </td>
+
     </tr>
   </table>
         

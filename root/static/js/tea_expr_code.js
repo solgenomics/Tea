@@ -48,12 +48,13 @@ $(document).ready(function () {
   var x_offset = 0;
   var y_offset = 0;
   
+  // alert("row_index: "+row_index);
+  
 	// print the tissue colored images
 	for (var j = 0; j < stages.length; j++) {
 		col_num++;
     
     // alert("row_index: "+row_index+", col_num: "+col_num+" modulus: "+col_num % 4);
-    
     
     if (row_index >550) { //1 columns
       if (col_num % 1 == 0){
@@ -67,7 +68,7 @@ $(document).ready(function () {
         y_offset = y_offset + 360;
       }
     }
-    else if (row_index >= 345) { //3 columns
+    else if (row_index > 195) { //3 columns
       if (col_num % 3 == 0){
         col_num = 0;
         y_offset = y_offset + 360;
@@ -114,7 +115,7 @@ $(document).ready(function () {
 	
 	//return error if input gene was not found
 	if (!genes[0]) {
-		alert("Gene not found");
+		alert("Gene id not found or gene not expressed");
 		enable_ui();
 	}
 	

@@ -267,7 +267,6 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   # my @stages = ("10DPA", "Mature_Green", "Pink");
   # my @tissues = ("Inner_Epidermis", "Parenchyma", "Vascular_Tissue", "Collenchyma", "Outer_Epidermis");
 	
-	
 	# build data structure
 	unshift(@genes, $query_gene);
 	my %gene_stage_tissue_expr;

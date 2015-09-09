@@ -2,7 +2,7 @@
   // pagination code
   function draw_pagination(page_y,current_page,pages_num,moving_slice_group) {
     
-    var x_margin = 970 //x position to start the pagination elements
+    var x_margin = 960 //x position to start the pagination elements
   	var pages_group = new Kinetic.Group();
 
   	//triangle to first page
@@ -167,8 +167,8 @@
 
 	function add_slice(n,gene_names_array,aoa,stage_names,tissue_names,tmp_layer,canvas,x_margin,y_margin,color_code,correlation,gene_descriptions,gene_ids,current_page,pages_num,genes_num) {
 		
+    var top_y_margin = y_margin;
 		var sq_size = 20;
-		var page_y = y_margin +20*sq_size +60 +10*stage_names.length; //for pagination
 		y_margin = y_margin +n*sq_size;
 		x_margin = x_margin + 20;
 		
@@ -363,6 +363,9 @@
 			}
 		}
 		
+		var page_y = 40 + top_y_margin + 20*sq_size + 15*stage_names.length; //for pagination only
+    // var page_y = y_margin + 20*sq_size + 10*stage_names.length; //for pagination only
+    
     //draw the pagination on bottom of the cube
     if (n == genes_num) {
       draw_pagination(page_y,current_page,pages_num,moving_slice_group);

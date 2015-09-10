@@ -134,10 +134,30 @@ $(document).ready(function () {
   //   $('#tissue_form').css("display","inline");
   // });
   
+  //select and unselect all checkbox for each parameter form independently
+  // $('.check_all').click(function(event) {
+  //   if(this.checked) {
+  //     // Iterate each checkbox
+  //     $(this).parent().children().each(function() {
+  //         this.checked = true;
+  //     });
+  //   }
+  //   else {
+  //     $(this).parent().children().each(function() {
+  //       this.checked = false;
+  //     });
+  //   }
+  // });
+  
+  jQuery("#organism_3").attr("checked", "checked");
+  var idSelector = function() { return this.value; };
+  var organism_list = jQuery(".organism_col:checked").map(idSelector).get();
+  load_wizard(organism_list,null,null,null);
   
   
-  
-  jQuery('.organism_col').change(function() {
+  // jQuery('.organism_col').change(function() {
+  jQuery('#organism_col').click(function() {
+    
     // AJAX communication to get stage, tissue ...
     var idSelector = function() { return this.value; };
     var organism_list = jQuery(".organism_col:checked").map(idSelector).get();
@@ -312,20 +332,6 @@ $(document).ready(function () {
   });  
 
 
-  //select and unselect all checkbox for each parameter form independently
-  // $('.check_all').click(function(event) {
-  //   if(this.checked) {
-  //     // Iterate each checkbox
-  //     $(this).parent().children().each(function() {
-  //         this.checked = true;
-  //     });
-  //   }
-  //   else {
-  //     $(this).parent().children().each(function() {
-  //       this.checked = false;
-  //     });
-  //   }
-  // });
   
   
   

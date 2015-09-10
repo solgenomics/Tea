@@ -96,9 +96,9 @@ my $json = JSON::Any->new;
     </tr>
     <tr>
       <td>
-        <div id="organism_col">
+        <form role="form" id="organism_col">
           <% $organism_html %>
-        </div>
+        </form>
       </td>
       <td style="vertical-align: text-top;">
         <ul id="expr_params">
@@ -195,17 +195,7 @@ my $json = JSON::Any->new;
     $( "#amount" ).val( $( "#correlation_slider" ).slider( "value" ) );
     $( "#corr_filter" ).val( $( "#correlation_slider" ).slider( "value" ) );
   });
-	
-  // function resetSelectAll() {
-  //     // if all checkbox are selected, check the selectall checkbox
-  //     // and viceversa
-  //     if ($(".blast_checkbox").length == $(".blast_checkbox:checked").length) {
-  //         $("#selectall").attr("checked", "checked");
-  //     } else {
-  //         $("#selectall").removeAttr("checked");
-  //     }
-  // }
-	
+
 </script>
 <script type="text/javascript" src="/static/js/tea_expr_input.js"></script>
 

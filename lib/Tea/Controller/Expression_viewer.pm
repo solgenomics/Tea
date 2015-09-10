@@ -60,7 +60,8 @@ sub index :Path('/Expression_viewer/input/') :Args(0) {
       $organism_name .= " ".$org_obj->variety;
     }
 
-    push(@orgs,"<input id=\"organism_".$org_obj->organism_id."\" type='checkbox' class='organism_col' value=\'".$org_obj->organism_id."\'><label for=\"organism_".$org_obj->organism_id."\" class=\"organism_label\">&nbsp;$organism_name</label><br>");
+    push(@orgs,"<div class=\"radio\">\n<label><input id=\"organism_".$org_obj->organism_id."\" type='radio' class='organism_col' name=\"optradio\" value=\'".$org_obj->organism_id."\'> $organism_name</label>\n</div>\n");
+    # push(@orgs,"<input id=\"organism_".$org_obj->organism_id."\" type='checkbox' class='organism_col' value=\'".$org_obj->organism_id."\'><label for=\"organism_".$org_obj->organism_id."\" class=\"organism_label\">&nbsp;$organism_name</label><br>");
   }
   
   my $organisms_html = join("\n", @orgs);

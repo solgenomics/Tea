@@ -70,6 +70,8 @@ __PACKAGE__->add_columns(
   "contact",
   { data_type => "varchar", is_nullable => 1, size => 80 },
   "description",
+  { data_type => "varchar", is_nullable => 1, size => 80 },
+  "indexed_dir",
   { data_type => "text", is_nullable => 1 },
   "organism_id",
   {

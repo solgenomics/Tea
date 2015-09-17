@@ -104,6 +104,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
     my $params = $c->req->body_params();
 	my @query_gene = $c->req->param("input_gene");
 	my $corr_filter = $c->req->param("correlation_filter")||0.65;
+  my $organism_filter = $c->req->param("organism_filter");
   # my $organ_filter = $c->req->param("organ_filter");
   my $stage_filter = $c->req->param("stage_filter");
   my $tissue_filter = $c->req->param("tissue_filter");
@@ -115,6 +116,23 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	my $desc_path = $c->config->{description_index_path};
 	my $locus_path = $c->config->{locus_index_path};
 	
+  # connect to the db and get the indexed dir name for the selected organism
+  my $dbname = $c->config->{dbname};
+  my $host = $c->config->{dbhost};
+  my $username = $c->config->{dbuser};
+  my $password = $c->config->{dbpass};
+
+  my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
+  my $dbh = DBI->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
+  
+  my $organism_rs = $schema->resultset('Organism')->search({organism_id => $organism_filter})->single;
+  my $project_rs = $schema->resultset('Project')->search({organism_id => $organism_rs->organism_id})->single;
+  
+  my $corr_index_path = $corr_path."/".$project_rs->indexed_dir;
+  my $expr_index_path = $expr_path."/".$project_rs->indexed_dir;
+  # indexed dir name saved in $corr_index_path and $expr_index_path
+  
+  
   my @stages = split(",",$stage_filter);
   my @tissues = split(",",$tissue_filter);
   
@@ -186,7 +204,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 		# my @genes;
 		# my @corr_values;
 		my $lucy_corr = Lucy::Simple->new(
-		    path     => $corr_path,
+		    path     => $corr_index_path,
 		    language => 'en',
 		);
 
@@ -230,7 +248,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 			    lower_term    => $corr_filter,
 			);
 			my $searcher = Lucy::Search::IndexSearcher->new(
-			    index => $corr_path,
+			    index => $corr_index_path,
 			);
 			my $qparser  = Lucy::Search::QueryParser->new(
 			    schema => $searcher->get_schema,
@@ -265,8 +283,8 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 #------------------------------------------------------------------------------------------------------------------
 
 	#------------------------------------- Temporal Data
-  my @stages = ("10DPA", "Mature_Green", "Pink");
-  my @tissues = ("Inner_Epidermis", "Parenchyma", "Vascular_Tissue", "Collenchyma", "Outer_Epidermis");
+  # my @stages = ("10DPA", "Mature_Green", "Pink");
+  # my @tissues = ("Inner_Epidermis", "Parenchyma", "Vascular_Tissue", "Collenchyma", "Outer_Epidermis");
 	
 	# build data structure
 	unshift(@genes, $query_gene);
@@ -285,7 +303,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	}
 	
 	my $lucy = Lucy::Simple->new(
-	    path     => $expr_path,
+	    path     => $expr_index_path,
 	    language => 'en',
 	);
 	
@@ -340,7 +358,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 				
 				$AoAoA[$g][$s][$t] = $gene_stage_tissue_expr{$genes[$g]}{$stages[$s]}{$tissues[$t]};
 				
-				# print STDERR "$genes[$g]\t$stages[$s]\t$tissues[$t] = $AoAoA[$g][$s][$t]\n";
+        # print STDERR "$genes[$g]\t$stages[$s]\t$tissues[$t] = $AoAoA[$g][$s][$t]\n";
 			}
 		}
 	}
@@ -355,6 +373,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	$c->stash->{current_page} = ($current_page + 1);
 	$c->stash->{correlation_filter} = ($corr_filter);
 	$c->stash->{description} = \%descriptions;
+	$c->stash->{index_dir_name} = $project_rs->indexed_dir;
 	$c->stash->{locus_ids} = \%locus_ids;
 	
 	$c->stash->{template} = '/Expression_viewer/output.mas';
@@ -367,6 +386,7 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
 	#get parameters from form and config file
 	my $query_gene = $c->req->param("input_gene");
 	my $corr_filter = $c->req->param("correlation_filter");
+  my $index_dir_name = $c->req->param("index_dir_name");
   
   my $stage_filter = $c->req->param("stages");
   $stage_filter =~ s/[\[\]\"]//g;
@@ -380,6 +400,11 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
 	my $corr_path = $c->config->{correlation_indexes_path};
 	my $desc_path = $c->config->{description_index_path};
 	
+  # indexed dir name saved in $corr_index_path and $expr_index_path
+  my $corr_index_path = $corr_path."/".$index_dir_name;
+  my $expr_index_path = $expr_path."/".$index_dir_name;
+  
+
 	# strip gene name
 	$query_gene =~ s/^\s+//;
 	$query_gene =~ s/\s+$//;
@@ -399,7 +424,7 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
 	$corr_values{$query_gene} = 1;
 	
 	my $lucy_corr = Lucy::Simple->new(
-	    path     => $corr_path,
+	    path     => $corr_index_path,
 	    language => 'en',
 	);
 	
@@ -424,7 +449,7 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
 		    lower_term    => $corr_filter,
 		);	
 		my $searcher = Lucy::Search::IndexSearcher->new( 
-		    index => $corr_path,
+		    index => $corr_index_path,
 		);
 		my $qparser  = Lucy::Search::QueryParser->new( 
 		    schema => $searcher->get_schema,
@@ -468,7 +493,7 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
 	}
 	
 	my $lucy = Lucy::Simple->new(
-	    path     => $expr_path,
+	    path     => $expr_index_path,
 	    language => 'en',
 	);
 	

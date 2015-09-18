@@ -821,10 +821,12 @@ body .ui-tooltip {
 	color: #222222/*{fcContent}*/;
 }
 .ui-widget-header {
-	border: 1px solid #aaaaaa/*{borderColorHeader}*/;
-	background: #cccccc/*{bgColorHeader}*/ url(images/ui-bg_highlight-soft_75_cccccc_1x100.png)/*{bgImgUrlHeader}*/ 50%/*{bgHeaderXPos}*/ 50%/*{bgHeaderYPos}*/ repeat-x/*{bgHeaderRepeat}*/;
-	color: #222222/*{fcHeader}*/;
+	border-bottom: 1px solid #aaaaaa;
+	background: #ffffff;
+	color: #222222;
 	font-weight: bold;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 .ui-widget-header a {
 	color: #222222/*{fcHeader}*/;

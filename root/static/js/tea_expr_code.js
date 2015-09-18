@@ -16,28 +16,32 @@ $(document).ready(function () {
 	var tissue_layer = new Kinetic.Layer();
 
   //set image dimensions
-  var img_width = 200;
-  var img_height = 360;
+  // var img_width = 450;
+  // var img_height = 500;
   
+  // //set image dimensions
+  var img_width = 200;
+  var img_height = 350;
+
   //set image coordinates
   var img_y = 0;
   
   //create organ bg image
-	var organBg_imgObj = new Image();
-	organBg_imgObj.onload = function() {
+    var organBg_imgObj = new Image();
+    organBg_imgObj.onload = function() {
 
-		var tp = new Kinetic.Image({
-			x: 0,
-			y: img_y,
-			image: organBg_imgObj,
-			width: img_width,
-			height: img_height
-		});
-		tissue_layer.add(tp);
-		canvas.add(tissue_layer);
-	};
+      var tp = new Kinetic.Image({
+        x: 0,
+        y: img_y,
+        image: organBg_imgObj,
+        width: img_width,
+        height: img_height
+      });
+      tissue_layer.add(tp);
+      canvas.add(tissue_layer);
+    };
 
-	organBg_imgObj.src = organ_bg_image;
+  organBg_imgObj.src = organ_bg_image;
 
 	// ------------- print tissue images
 	// http://www.html5canvastutorials.com/tutorials/html5-canvas-image-loader/
@@ -59,31 +63,33 @@ $(document).ready(function () {
     if (row_index >550) { //1 columns
       if (col_num % 1 == 0){
         col_num = 0;
-        y_offset = y_offset + 360;
+        y_offset = y_offset + img_height;
       }
     }
     else if (row_index >= 360) { //2 columns
       if (col_num % 2 == 0){
         col_num = 0;
-        y_offset = y_offset + 360;
+        y_offset = y_offset + img_height;
       }
     }
     else if (row_index > 195) { //3 columns
       if (col_num % 3 == 0){
         col_num = 0;
-        y_offset = y_offset + 360;
+        y_offset = y_offset + img_height;
       }
     }
     else if (row_index <= 195) { //4 columns
       if (col_num % 4 == 0){
         col_num = 0;
-        y_offset = y_offset + 360;
+        y_offset = y_offset + img_height;
       }
     }
     
-    x_offset = 190*col_num;
+    x_offset = img_width*col_num;
+    // x_offset = 190*col_num;
     
-    
+    // x_offset = 0;
+    // y_offset = 360;
     
     load_stage_image(aoaoa,x_offset,y_offset,tissue_layer,canvas,stages[j],img_width,img_height);
     

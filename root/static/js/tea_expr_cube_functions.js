@@ -156,25 +156,25 @@
   	var download_group = new Kinetic.Group();
     
 		var download_button = new Kinetic.Rect({
-      x: x_margin - 55,
+      x: x_margin - 60,
       y: page_y + 70,
 			width: 100,
 			height: 30,
-			stroke: 'black',
+			stroke: '#aaa',
 			strokeWidth: 1,
       cornerRadius : 5,
-      fill:'#efefef',
+      fill:'#aaa',
 		});
     download_group.add(download_button);
     
     //button text
     var download_text = new Kinetic.Text({
-      x: x_margin - 40,
+      x: x_margin - 45,
       y: page_y + 75,
       text: "download",
       fontSize: '18',
       fontVariant: 'small-caps',
-      fill: "#666",
+      fill: "#efefef",
       fontFamily: 'Helvetica neue',
     });
     download_group.add(download_text);

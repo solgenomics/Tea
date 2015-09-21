@@ -20,8 +20,8 @@ $(document).ready(function () {
   // var img_height = 500;
   
   // //set image dimensions
-  var img_width = 200;
-  var img_height = 350;
+  var img_width = 250;
+  var img_height = 450;
 
   //set image coordinates
   var img_y = 0;
@@ -46,46 +46,54 @@ $(document).ready(function () {
 	// ------------- print tissue images
 	// http://www.html5canvastutorials.com/tutorials/html5-canvas-image-loader/
 	
-  var row_index = stages.length*15 + tissues.length*20
-  var col_num = 0 //to count how many stages we are printing, so we can fit them in new rows
+	//set variables
+	var x_margin = canvas_width -100 - tissues.length*20 - stages.length*15;
+	var y_margin = 100;
+  
+  var cube_left_pos = x_margin -60 - stages.length*10;
+  var images_total_width = img_width //to mesure the total width of the images we are printing, so we can fit them in new rows
+  // var col_num = 0;
   
   var x_offset = 0;
   var y_offset = 0;
   
-  // alert("row_index: "+row_index);
-  
 	// print the tissue colored images
 	for (var j = 0; j < stages.length; j++) {
-		col_num++;
+    // col_num++;
+    x_offset = images_total_width;
+    images_total_width = images_total_width + img_width;
     
     // alert("row_index: "+row_index+", col_num: "+col_num+" modulus: "+col_num % 4);
     
-    if (row_index >550) { //1 columns
-      if (col_num % 1 == 0){
-        col_num = 0;
+    if (cube_left_pos <= images_total_width) { //1 columns
+      // if (col_num % 1 == 0){
+        // alert("cube_left_pos: "+cube_left_pos+" images_total_width: "+images_total_width);
+        
+        images_total_width = img_width;
+        x_offset = 0;
         y_offset = y_offset + img_height;
-      }
-    }
-    else if (row_index >= 360) { //2 columns
-      if (col_num % 2 == 0){
-        col_num = 0;
-        y_offset = y_offset + img_height;
-      }
-    }
-    else if (row_index > 195) { //3 columns
-      if (col_num % 3 == 0){
-        col_num = 0;
-        y_offset = y_offset + img_height;
-      }
-    }
-    else if (row_index <= 195) { //4 columns
-      if (col_num % 4 == 0){
-        col_num = 0;
-        y_offset = y_offset + img_height;
-      }
+      // }
     }
     
-    x_offset = img_width*col_num;
+    // else if (cube_left_pos >= 360) { //2 columns
+    //   if (col_num % 2 == 0){
+    //     col_num = 0;
+    //     y_offset = y_offset + img_height;
+    //   }
+    // }
+    // else if (cube_left_pos > 195) { //3 columns
+    //   if (col_num % 3 == 0){
+    //     col_num = 0;
+    //     y_offset = y_offset + img_height;
+    //   }
+    // }
+    // else if (cube_left_pos <= 195) { //4 columns
+    //   if (col_num % 4 == 0){
+    //     col_num = 0;
+    //     y_offset = y_offset + img_height;
+    //   }
+    // }
+    
     // x_offset = 190*col_num;
     
     // x_offset = 0;
@@ -108,14 +116,13 @@ $(document).ready(function () {
 		tissue_layer.draw();
 	}
   
+  // alert("cube_left_pos: "+cube_left_pos+" images_total_width: "+images_total_width);
+  
+  
 	// ------------- print cube
 
 	var cube_layer = new Kinetic.Layer();
-
-	//set variables
-	var x_margin = canvas_width -100 - tissues.length*20 - stages.length*15;
-	var y_margin = 100;
-	
+  
 	//margins for the cube
 	var top_x_start = x_margin + (stages.length*15);
 	

@@ -118,27 +118,80 @@
   	});
   	last_triangle_group.add(arrow_last);
   	last_triangle_group.add(line_last);
-
+    
   	last_triangle_group.on('mousedown', function() {
   		if (current_page < pages_num) {
   			document.getElementById("page_num").value = pages_num;
   			document.getElementById("search_gene").submit();
   		}
   	});
-
+    
+    pages_group.add(arrow_first);
+    pages_group.add(arrow_last);
+    
+    pages_group.on('mouseover', function() {
+        document.body.style.cursor = 'pointer';
+    });
+    pages_group.on('mouseout', function() {
+        document.body.style.cursor = 'default';
+    });
+    
+    
   	moving_slice_group.add(last_triangle_group);
 
     //text ranking
     var ranking_text = new Kinetic.Text({
-    	x: x_margin - 55,
-    	y: page_y + 40,
-    	text: "Ranking "+current_page+"/"+pages_num,
-    	fontSize: '16',
-    	fontVariant: 'small-caps',
-    	fill: "black"
+      x: x_margin - 55,
+      y: page_y + 40,
+      text: "Ranking "+current_page+"/"+pages_num,
+			fontFamily: 'Helvetica neue',
+      fontSize: '16',
+      fontVariant: 'small-caps',
+      fill: "black"
     });
     moving_slice_group.add(ranking_text);
-  
+    
+    
+    //download button
+  	var download_group = new Kinetic.Group();
+    
+		var download_button = new Kinetic.Rect({
+      x: x_margin - 55,
+      y: page_y + 70,
+			width: 100,
+			height: 30,
+			stroke: 'black',
+			strokeWidth: 1,
+      cornerRadius : 5,
+      fill:'#efefef',
+		});
+    download_group.add(download_button);
+    
+    //button text
+    var download_text = new Kinetic.Text({
+      x: x_margin - 40,
+      y: page_y + 75,
+      text: "download",
+      fontSize: '18',
+      fontVariant: 'small-caps',
+      fill: "#666",
+      fontFamily: 'Helvetica neue',
+    });
+    download_group.add(download_text);
+    
+    download_group.on('mouseover', function() {
+        document.body.style.cursor = 'pointer';
+    });
+    download_group.on('mouseout', function() {
+        document.body.style.cursor = 'default';
+    });
+    
+		download_group.on('mousedown', function() {
+			document.getElementById("download_data").submit();
+		});
+    
+    moving_slice_group.add(download_group);
+    
   }
 
 
@@ -193,6 +246,7 @@
 		gene_text.on('mouseover', function() {
 			var x_pos = this.getAbsolutePosition().x-510;
 			var y_pos = this.getAbsolutePosition().y-10;
+      document.body.style.cursor = 'pointer';
 			
 			var gene_description = gene_descriptions[gene_names_array[n-1]];
 			var gene_desc = '';
@@ -253,6 +307,7 @@
 		});
 		
 		gene_text.on('mouseout', function() {
+      document.body.style.cursor = 'default';
 			gene_popup_layer.removeChildren();
 			gene_popup_layer.draw();
 		});
@@ -400,10 +455,18 @@
 	
 		slice_group.on('mousedown', function() {
 			open_bar_graph_dialog(aoa[n-1],gene_names_array[n-1],correlation[n-2], gene_descriptions[gene_names_array[n-1]], gene_ids[gene_names_array[n-1]], stage_names, tissue_names);
-			circle.fill("red");
+      // circle.fill("red");
 			tmp_layer.draw();
 		});
 		
+    slice_group.on('mouseover', function() {
+        document.body.style.cursor = 'pointer';
+    });
+    slice_group.on('mouseout', function() {
+        document.body.style.cursor = 'default';
+    });
+    
+    
     // moving_slice_group.add(circle);
 		moving_slice_group.add(slice_group);
 		moving_slice_group.add(gene_text);

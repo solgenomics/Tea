@@ -237,6 +237,7 @@
           var x_pos = this.getAbsolutePosition().x;
           // var x_pos = this.getAbsolutePosition().x-10;
           var y_pos = this.getAbsolutePosition().y+305;
+          document.body.style.cursor = 'pointer';
 
           for (var n=0; n<5; n++) {
             var y_offset = n*65;
@@ -274,6 +275,7 @@
         });
 
         one_tissue_layer.on('mouseout', function() {
+          document.body.style.cursor = 'default';
           tissue_popup_layer.removeChildren();
           tissue_popup_layer.draw();
         });
@@ -283,6 +285,9 @@
     };
     // tmp_imgObj.src = '/static/images/expr_viewer/'+stage_name+'_'+tissue_name+'.png';
   }
+  
+  
+  
   
   //load the bg image for each stage. This will be the bg for the tissue layers
   function load_stage_image(aoaoa,x_offset,y_offset,one_tissue_layer,canvas,stage_name,img_width,img_height) {

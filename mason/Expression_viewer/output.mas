@@ -72,14 +72,14 @@ my $json = JSON::Any->new;
 				<button class="blue_button" id="run_tool" value="Run Expression Tool" style="margin: -8px 0px 0px 0px;">Get Expression</button>
 			</form>
 			
-			<a id="back_to_input" href="/Expression_viewer/input">Go back to input page</a>
+			<a id="back_to_input" href="/Expression_viewer/input">Go to input page</a>
 			<form id="download_data" method="post" action="/download_expression_data/" enctype="multipart/form-data">
 				<input name="input_gene" value=<% $genes[0] %> style="display:none;">
 				<input name="correlation_filter" value=<% $correlation_filter %> style="display:none;">
 				<input name="index_dir_name" value=<% $index_dir_name %> style="display:none;">
 				<input name="stages" value=<% $json->encode(\@stages) %> style="display:none;">
 				<input name="tissues" value=<% $json->encode(\@tissues) %> style="display:none;">
-				<button id="download_expr_table">Download Expression Data</button>
+        <!-- <button id="download_expr_table">Download Expression Data</button> -->
 			</form>
 		</div>
 

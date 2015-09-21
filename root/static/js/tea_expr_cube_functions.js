@@ -156,10 +156,10 @@
   	var download_group = new Kinetic.Group();
     
 		var download_button = new Kinetic.Rect({
-      x: x_margin - 60,
+      x: x_margin - 120,
       y: page_y + 70,
-			width: 100,
-			height: 30,
+			width: 230,
+			height: 25,
 			stroke: '#aaa',
 			strokeWidth: 1,
       cornerRadius : 5,
@@ -169,11 +169,10 @@
     
     //button text
     var download_text = new Kinetic.Text({
-      x: x_margin - 45,
-      y: page_y + 75,
-      text: "download",
+      x: x_margin - 112,
+      y: page_y + 73,
+      text: "Download expression data",
       fontSize: '18',
-      fontVariant: 'small-caps',
       fill: "#efefef",
       fontFamily: 'Helvetica neue',
     });

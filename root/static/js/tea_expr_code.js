@@ -77,32 +77,9 @@ $(document).ready(function () {
       // }
     }
     
-    // else if (cube_left_pos >= 360) { //2 columns
-    //   if (col_num % 2 == 0){
-    //     col_num = 0;
-    //     y_offset = y_offset + img_height;
-    //   }
-    // }
-    // else if (cube_left_pos > 195) { //3 columns
-    //   if (col_num % 3 == 0){
-    //     col_num = 0;
-    //     y_offset = y_offset + img_height;
-    //   }
-    // }
-    // else if (cube_left_pos <= 195) { //4 columns
-    //   if (col_num % 4 == 0){
-    //     col_num = 0;
-    //     y_offset = y_offset + img_height;
-    //   }
-    // }
-    
-    // x_offset = 190*col_num;
-    
-    // x_offset = 0;
-    // y_offset = 360;
-    
     load_stage_image(aoaoa,x_offset,y_offset,tissue_layer,canvas,stages[j],img_width,img_height);
     
+    var tissue_img_group = new Kinetic.Group();
 		for (var i = 0; i<tissues.length; i++) {
 			
 			var expr_val = aoaoa[0][j][i];
@@ -112,8 +89,11 @@ $(document).ready(function () {
 			var g = rgb_color_array[1];
 			var b = rgb_color_array[2];
 			
-			load_tissue_image(i,j,aoaoa,x_offset,y_offset,r,g,b,tissue_layer,canvas,stages[j],tissues[i],img_width,img_height);
+			load_tissue_image(i,j,aoaoa,x_offset,y_offset,r,g,b,tissue_layer,canvas,stages[j],tissues[i],img_width,img_height,tissue_img_group);
 		}
+    tissue_expr_popup(canvas,tissue_img_group,aoaoa,j,tissues,x_offset,y_offset,img_width,img_height)
+    // tissue_expr_popup(canvas,tissue_layer,tissue_img_group,aoaoa,j,tissues,x_offset,y_offset,img_width)
+    
 		tissue_layer.cache();
 		tissue_layer.draw();
 	}

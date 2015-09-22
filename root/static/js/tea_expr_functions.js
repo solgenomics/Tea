@@ -198,12 +198,92 @@
 		return [r_color,g_color,b_color];
 	}
 
+  function tissue_expr_popup(canvas,tissue_img_group,aoaoa,j,tissues,x_offset,y_offset,img_width,img_height) {
+    
+      //add expression values on a popup
+      
+      var margin = 30;
+      var tissue_popup_layer = new Kinetic.Layer();
+      canvas.add(tissue_popup_layer);
+      
+      tissue_img_group.on('mouseover', function() {
+        document.body.style.cursor = 'pointer';
+        
+        var arrow_group = new Kinetic.Group();
+        var left_arrow = new Kinetic.Line({
+          points: [x_offset+img_width-30,y_offset+img_height/2-15,    x_offset+img_width,y_offset+img_height/2-30,    x_offset+img_width,y_offset+img_height/2,    x_offset+img_width-30,y_offset+img_height/2-15],
+          stroke: "#aaa",
+          strokeWidth: 1,
+          closed: true,
+          fill: '#fff',
+          lineCap: 'round',
+          tension: 0
+        });
+        var arrow_junction = new Kinetic.Line({
+          points: [x_offset+img_width-28,y_offset+img_height/2-15,    x_offset+img_width+2,y_offset+img_height/2-30,    x_offset+img_width+2,y_offset+img_height/2,    x_offset+img_width-28,y_offset+img_height/2-15],
+          stroke: "#fff",
+          strokeWidth: 1,
+          closed: true,
+          fill: '#fff',
+          lineCap: 'round',
+          tension: 0
+        });
+      	arrow_group.add(left_arrow);
+      	arrow_group.add(arrow_junction);
+        
+        var tissue_popup = new Kinetic.Rect({
+          x: x_offset+img_width,
+          y: y_offset+50,
+          fill: '#fff',
+          opacity: 0.95,
+          stroke: '#aaa',
+          strokeWidth: 1,
+          width: img_width,
+          height: 2*margin+aoaoa[0][j].length*margin,
+          cornerRadius: 5,
+        });
+        // tissue_popup_layer.add(tissue_popup);
+        // tissue_popup.draw();
+        arrow_group.add(tissue_popup);
+        arrow_junction.moveToTop();
+      	tissue_popup_layer.add(arrow_group);
+        
+        for (var n=0; n<aoaoa[0][j].length; n++) {
+
+          var tissue_name = tissues[n].replace("_"," ");
+
+          var tissue_desc_txt = new Kinetic.Text({
+            x: x_offset+img_width+10,
+            y: y_offset+50+margin+(n*margin),
+            text: tissue_name+": "+aoaoa[0][j][n],
+            fontSize: 18,
+            opacity: 1,
+            fontFamily: 'Arial',
+            fill: "#000"
+          });
+          // tissue_popup_layer.moveToTop();
+          tissue_popup_layer.add(tissue_desc_txt);
+          tissue_popup_layer.cache();
+          tissue_popup_layer.moveToTop();
+          tissue_popup_layer.draw();
+        }
+      });
+
+      tissue_img_group.on('mouseout', function() {
+        document.body.style.cursor = 'default';
+        tissue_popup_layer.removeChildren();
+        tissue_popup_layer.draw();
+      });
+    
+  }
+
+
   //load the img for each one of the tissue layers
-  function load_tissue_image(i,j,aoaoa,x_offset,y_offset,r_color,g_color,b_color,one_tissue_layer,canvas,stage_name,tissue_name,img_width,img_height) {
+  function load_tissue_image(i,j,aoaoa,x_offset,y_offset,r_color,g_color,b_color,one_tissue_layer,canvas,stage_name,tissue_name,img_width,img_height,imgs_group,popup_switch) {
+    one_tissue_layer.add(imgs_group);
     canvas.add(one_tissue_layer);
     
     var tmp_imgObj = new Image();
-    tmp_imgObj.src = '/static/images/expr_viewer/'+stage_name+'_'+tissue_name+'.png';
     
     tmp_imgObj.onload = function() {
       
@@ -215,7 +295,8 @@
         width: img_width,
         height: img_height
       });
-      one_tissue_layer.add(tmp_stage);
+      imgs_group.add(tmp_stage)
+      one_tissue_layer.add(imgs_group);
       canvas.add(one_tissue_layer);
       
       //fix cache bug
@@ -227,66 +308,12 @@
       tmp_stage.draw();
       // one_tissue_layer.draw();
       
-      //add expression values on a tooltip
-      if (i == 4) {
-
-        var tissue_popup_layer = new Kinetic.Layer();
-        canvas.add(tissue_popup_layer);
-
-        tmp_stage.on('mouseover', function() {
-          var x_pos = this.getAbsolutePosition().x;
-          // var x_pos = this.getAbsolutePosition().x-10;
-          var y_pos = this.getAbsolutePosition().y+305;
-          document.body.style.cursor = 'pointer';
-
-          for (var n=0; n<5; n++) {
-            var y_offset = n*65;
-            if (n == 3) {
-              y_offset = 240;
-            }
-
-            var tissue_popup = new Kinetic.Rect({
-              x: x_pos,
-              y: y_pos - y_offset,
-              fill: '#000000',
-              opacity: 0.7,
-              width: 185,
-              height: 20,
-              cornerRadius: 7,
-            });
-
-            var tissue_name = tissues[n].replace("_"," ");
-
-            var tissue_desc_txt = new Kinetic.Text({
-              x: x_pos+5,
-              y: y_pos+3 - y_offset,
-              text: tissue_name+": "+aoaoa[0][j][n],
-              fontSize: 16,
-              fontFamily: 'Arial',
-              fill: "white"
-            });
-            tissue_popup_layer.add(tissue_popup);
-            // tissue_popup_layer.moveToTop();
-            tissue_popup_layer.add(tissue_desc_txt);
-            tissue_popup_layer.cache();
-            tissue_popup_layer.moveToTop();
-            tissue_popup_layer.draw();
-          }
-        });
-
-        one_tissue_layer.on('mouseout', function() {
-          document.body.style.cursor = 'default';
-          tissue_popup_layer.removeChildren();
-          tissue_popup_layer.draw();
-        });
-      }
       // tmp_stage.draw();
       // tissue_popup_layer.draw();
-    };
-    // tmp_imgObj.src = '/static/images/expr_viewer/'+stage_name+'_'+tissue_name+'.png';
+      };//end of onload
+      
+      tmp_imgObj.src = '/static/images/expr_viewer/'+stage_name+'_'+tissue_name+'.png';
   }
-  
-  
   
   
   //load the bg image for each stage. This will be the bg for the tissue layers
@@ -294,7 +321,6 @@
     canvas.add(one_tissue_layer);
     
     var tmp_imgObj = new Image();
-    tmp_imgObj.src = '/static/images/expr_viewer/'+stage_name+'_bg.png';
     
     tmp_imgObj.onload = function() {
       
@@ -307,7 +333,8 @@
       });
       one_tissue_layer.add(tmp_stage);
       canvas.add(one_tissue_layer);
-
     };
+    
+    tmp_imgObj.src = '/static/images/expr_viewer/'+stage_name+'_bg.png';
   }
 

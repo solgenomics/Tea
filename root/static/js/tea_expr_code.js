@@ -52,6 +52,7 @@ $(document).ready(function () {
   
   var cube_left_pos = x_margin -60 - stages.length*10;
   var images_total_width = img_width //to mesure the total width of the images we are printing, so we can fit them in new rows
+  var images_total_height = img_height;
   // var col_num = 0;
   
   var x_offset = 0;
@@ -72,6 +73,7 @@ $(document).ready(function () {
         images_total_width = img_width;
         x_offset = 0;
         y_offset = y_offset + img_height;
+        images_total_height = images_total_height + img_height;
       // }
     }
     
@@ -115,6 +117,14 @@ $(document).ready(function () {
 		tissue_layer.cache();
 		tissue_layer.draw();
 	}
+  
+  var frame_height = $('#container').css("height");
+  var container_height = frame_height.replace("px","");
+  
+  // alert("container_height: "+container_height+", images_total_height: "+images_total_height)
+  if (images_total_height > container_height) {
+    $('#container').css("height",images_total_height+"px");
+  }
   
   // alert("cube_left_pos: "+cube_left_pos+" images_total_width: "+images_total_width);
   

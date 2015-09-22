@@ -215,10 +215,10 @@ $(document).ready(function () {
             $("#"+tissue_list[layer_name]).prop('selected', true);
           }
           
-          $( '#organism_filter' ).val(organism_list);
-          $( '#organ_filter' ).val( $( '#organ_part_col' ).val());
-          $( '#stage_filter' ).val( $( '#stage_col' ).val());
-          $( '#tissue_filter' ).val( $( '#tissue_col' ).val());
+          $( '.organism_filter' ).val(organism_list);
+          $( '.organ_filter' ).val( $( '#organ_part_col' ).val());
+          $( '.stage_filter' ).val( $( '#stage_col' ).val());
+          $( '.tissue_filter' ).val( $( '#tissue_col' ).val());
           
         }
       },

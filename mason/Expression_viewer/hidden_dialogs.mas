@@ -69,11 +69,11 @@ MGTENWSLTAKLCDSCKTSPATVFCRADSAFLCLGCDCKIHAANKLASRHARVWVCEVCEQAPASVTCKADAAALCVTCD
 			<input id="selectall" type='checkbox' style="margin-left: 7px;">&nbsp;Select all
 			<table id="blast_res_table"></table>
 		</div>
-  	<input id="corr_filter" name="correlation_filter" style="display:none;"/>
-  	<input id="organism_filter" name="organism_filter" style="display:none;"/>
-  	<input id="organ_filter" name="organ_filter" style="display:none;"/>
-  	<input id="stage_filter" name="stage_filter" style="display:none;"/>
-  	<input id="tissue_filter" name="tissue_filter" style="display:none;"/>
+    <input class="corr_filter" name="correlation_filter" style="display:none;"/>
+    <input class="organism_filter" name="organism_filter" style="display:none;"/>
+    <input class="organ_filter" name="organ_filter" style="display:none;"/>
+    <input class="stage_filter" name="stage_filter" style="display:none;"/>
+    <input class="tissue_filter" name="tissue_filter" style="display:none;"/>
 		<br>
 		<button class="blue_button" style="float:right;" type="submit" form="blast_form" formaction="/Expression_viewer/output" formmethod="post" formenctype="multipart/form-data">Get Expression</button>
 	</form>
@@ -93,11 +93,11 @@ Solyc04g008460
 Solyc01g102660</textarea>
 		<input type="checkbox" name="hotspot">Show cumulative expression
 		<br>
-		<input id="corr_filter" name="correlation_filter" style="display:none;"/>
-		<input id="organism_filter" name="organism_filter" style="display:none;"/>
-		<input id="organ_filter" name="organ_filter" style="display:none;"/>
-		<input id="stage_filter" name="stage_filter" style="display:none;"/>
-		<input id="tissue_filter" name="tissue_filter" style="display:none;"/>
+		<input class="corr_filter" name="correlation_filter" style="display:none;"/>
+		<input class="organism_filter" name="organism_filter" style="display:none;"/>
+		<input class="organ_filter" name="organ_filter" style="display:none;"/>
+		<input class="stage_filter" name="stage_filter" style="display:none;"/>
+		<input class="tissue_filter" name="tissue_filter" style="display:none;"/>
 		<br>
 		<button id="custom_list_button" class="blue_button" style="float:right;" type="submit" form="custom_list_form" formaction="/Expression_viewer/output" formmethod="post" formenctype="multipart/form-data">Get Expression</button>
 	</form>

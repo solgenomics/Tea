@@ -10,6 +10,9 @@ $pages_num => 1
 $current_page => 1
 $index_dir_name => "slm82"
 $correlation_filter => 0.8
+$organism_filter => ()
+$stage_filter => ()
+$tissue_filter => ()
 </%args>
 
 <%perl>
@@ -35,7 +38,6 @@ my $json = JSON::Any->new;
 	var gene_locus_id = <% $json->encode(\%locus_ids) %>;
 	var pages_num = <% $pages_num %>;
 	var current_page = <% $current_page %>;
-	var correlation_filter = <% $correlation_filter %>;
 	// alert("corr: "+correlation_filter);
 	
 </script>
@@ -68,7 +70,11 @@ my $json = JSON::Any->new;
 				<input class="input" id="gene" type="input" name="input_gene" size="15" />&nbsp; &nbsp;
 				<input id="page_num" name="current_page" value="1" style="display:none;">
 				<input id="total_pages" name="all_pages" value="1" style="display:none;">
-				<input id="correlation_filter" name="correlation_filter" value="0.8" style="display:none;">
+				<input id="correlation_filter" name="correlation_filter" style="display:none;" value=<% $correlation_filter %> >
+        <input class="organism_filter" name="organism_filter" style="display:none;" value=<% $organism_filter %> >
+        <!-- <input class="organ_filter" name="organ_filter" style="display:none;"/> -->
+        <input class="stage_filter" name="stage_filter" style="display:none;" value=<% $stage_filter %> >
+        <input class="tissue_filter" name="tissue_filter" style="display:none;" value=<% $tissue_filter %> >
 				<button class="blue_button" id="run_tool" value="Run Expression Tool" style="margin: -8px 0px 0px 0px;">Get Expression</button>
 			</form>
 			

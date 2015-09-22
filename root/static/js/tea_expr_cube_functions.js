@@ -27,7 +27,7 @@
   	first_triangle_group.add(arrow_first);
   	first_triangle_group.add(line_first);
 
-  	first_triangle_group.on('mousedown', function() {
+  	arrow_first.on('mousedown', function() {
   		if (current_page > 1) {
   			document.getElementById("page_num").value = 1;
   			document.getElementById("search_gene").submit();
@@ -119,7 +119,7 @@
   	last_triangle_group.add(arrow_last);
   	last_triangle_group.add(line_last);
     
-  	last_triangle_group.on('mousedown', function() {
+  	arrow_last.on('mousedown', function() {
   		if (current_page < pages_num) {
   			document.getElementById("page_num").value = pages_num;
   			document.getElementById("search_gene").submit();

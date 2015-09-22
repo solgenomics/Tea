@@ -422,6 +422,14 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 		}
 	}
 	
+	my $corr_filter = $c->req->param("correlation_filter")||0.65;
+  my $organism_filter = $c->req->param("organism_filter");
+  # my $organ_filter = $c->req->param("organ_filter");
+  my $stage_filter = $c->req->param("stage_filter");
+  my $tissue_filter = $c->req->param("tissue_filter");
+  
+  
+  
 	
 	$c->stash->{genes} = \@genes;
 	$c->stash->{stages} = \@stages;
@@ -431,6 +439,9 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	$c->stash->{pages_num} = (int($total_corr_genes/19)+1);
 	$c->stash->{current_page} = ($current_page + 1);
 	$c->stash->{correlation_filter} = ($corr_filter);
+	$c->stash->{organism_filter} = ($organism_filter);
+	$c->stash->{stage_filter} = ($stage_filter);
+	$c->stash->{tissue_filter} = ($tissue_filter);
 	$c->stash->{description} = \%descriptions;
 	$c->stash->{index_dir_name} = $project_rs->indexed_dir;
 	$c->stash->{locus_ids} = \%locus_ids;

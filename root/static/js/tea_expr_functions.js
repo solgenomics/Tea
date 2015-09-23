@@ -203,6 +203,9 @@
       //add expression values on a popup
       
       var margin = 30;
+      var panel_height = 2*margin+aoaoa[0][j].length*margin;
+      var x_arrow = x_offset+img_width;
+      var y_arrow = y_offset+50+panel_height/2;
       var tissue_popup_layer = new Kinetic.Layer();
       canvas.add(tissue_popup_layer);
       
@@ -211,7 +214,7 @@
         
         var arrow_group = new Kinetic.Group();
         var left_arrow = new Kinetic.Line({
-          points: [x_offset+img_width-30,y_offset+img_height/2-15,    x_offset+img_width,y_offset+img_height/2-30,    x_offset+img_width,y_offset+img_height/2,    x_offset+img_width-30,y_offset+img_height/2-15],
+          points: [x_arrow-30,y_arrow-15,    x_arrow,y_arrow-30,    x_arrow,y_arrow,    x_arrow-30,y_arrow-15],
           stroke: "#aaa",
           strokeWidth: 1,
           closed: true,
@@ -220,7 +223,7 @@
           tension: 0
         });
         var arrow_junction = new Kinetic.Line({
-          points: [x_offset+img_width-28,y_offset+img_height/2-15,    x_offset+img_width+2,y_offset+img_height/2-30,    x_offset+img_width+2,y_offset+img_height/2,    x_offset+img_width-28,y_offset+img_height/2-15],
+          points: [x_arrow-28,y_arrow-15,    x_arrow+2,y_arrow-30,    x_arrow+2,y_arrow,    x_arrow-28,y_arrow-15],
           stroke: "#fff",
           strokeWidth: 1,
           closed: true,
@@ -239,7 +242,7 @@
           stroke: '#aaa',
           strokeWidth: 1,
           width: img_width,
-          height: 2*margin+aoaoa[0][j].length*margin,
+          height: panel_height,
           cornerRadius: 5,
         });
         // tissue_popup_layer.add(tissue_popup);

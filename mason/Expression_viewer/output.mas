@@ -67,7 +67,7 @@ my $json = JSON::Any->new;
 		<div id="output_gene_box">
 			<form id="search_gene" method="post" action="/Expression_viewer/output" name="tea_form" enctype="multipart/form-data">
 				<span>Select a gene:</span>
-				<input class="input" id="gene" type="input" name="input_gene" size="15" />&nbsp; &nbsp;
+				<input class="expr_input_box" id="gene" type="input" name="input_gene" size="15" />&nbsp; &nbsp;
 				<input id="page_num" name="current_page" value="1" style="display:none;">
 				<input id="total_pages" name="all_pages" value="1" style="display:none;">
 				<input id="correlation_filter" name="correlation_filter" style="display:none;" value=<% $correlation_filter %> >

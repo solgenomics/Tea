@@ -160,10 +160,9 @@
       y: page_y + 70,
 			width: 230,
 			height: 25,
-			stroke: '#aaa',
-			strokeWidth: 1,
+			strokeWidth: 0,
       cornerRadius : 5,
-      fill:'#aaa',
+      fill:'#777',
 		});
     download_group.add(download_button);
     
@@ -173,16 +172,22 @@
       y: page_y + 73,
       text: "Download expression data",
       fontSize: '18',
-      fill: "#efefef",
+      fill: "#fff",
       fontFamily: 'Helvetica neue',
     });
     download_group.add(download_text);
     
     download_group.on('mouseover', function() {
-        document.body.style.cursor = 'pointer';
+      download_text.fill("#555");
+      download_button.fill("#bbb");
+      download_group.draw();
+      document.body.style.cursor = 'pointer';
     });
     download_group.on('mouseout', function() {
-        document.body.style.cursor = 'default';
+      download_text.fill("#fff");
+      download_button.fill("#777");
+      download_group.draw();
+      document.body.style.cursor = 'default';
     });
     
 		download_group.on('mousedown', function() {

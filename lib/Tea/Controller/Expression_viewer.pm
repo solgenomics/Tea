@@ -343,7 +343,6 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	#------------------------------------- Temporal Data
   # my @stages = ("10DPA", "Mature_Green", "Pink");
   # my @tissues = ("Inner_Epidermis", "Parenchyma", "Vascular_Tissue", "Collenchyma", "Outer_Epidermis");
-	
   
 	# build data structure
 	unshift(@genes, $query_gene);
@@ -380,7 +379,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	foreach my $g (@genes) {
 		$lucy->search(
 		    query      => $g,
-			num_wanted => 20
+			num_wanted => 10000
 		);
 		
 		$lucy_desc->search(
@@ -395,7 +394,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 		
 		while ( my $hit = $lucy->next ) {
 			# all expression values are multiplied by 1 to transform string into integer or float
-			$gene_stage_tissue_expr{$hit->{gene}}{$hit->{stage}}{$hit->{tissue}} = $hit->{expression} * 1
+			$gene_stage_tissue_expr{$hit->{gene}}{$hit->{stage}}{$hit->{tissue}} = $hit->{expression} * 1;
 		}
 		
 		while ( my $desc_hit = $lucy_desc->next ) {
@@ -417,7 +416,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 				
 				$AoAoA[$g][$s][$t] = $gene_stage_tissue_expr{$genes[$g]}{$stages[$s]}{$tissues[$t]};
 				
-        # print STDERR "$genes[$g]\t$stages[$s]\t$tissues[$t] = $AoAoA[$g][$s][$t]\n";
+#        print STDERR "$genes[$g]\t$stages[$s]\t$tissues[$t] = $AoAoA[$g][$s][$t]\n";
 			}
 		}
 	}

@@ -141,10 +141,10 @@
 
     //text ranking
     var ranking_text = new Kinetic.Text({
-      x: x_margin - 55,
+      x: x_margin - 50,
       y: page_y + 40,
       text: "Ranking "+current_page+"/"+pages_num,
-			fontFamily: 'Helvetica neue',
+      fontFamily: 'Helvetica',
       fontSize: '16',
       fontVariant: 'small-caps',
       fill: "black"
@@ -169,11 +169,11 @@
     //button text
     var download_text = new Kinetic.Text({
       x: x_margin - 112,
-      y: page_y + 73,
+      y: page_y + 74,
       text: "Download expression data",
       fontSize: '18',
       fill: "#fff",
-      fontFamily: 'Helvetica neue',
+      fontFamily: 'Helvetica',
     });
     download_group.add(download_text);
     
@@ -277,7 +277,7 @@
 				text: gene_desc,
 				fontSize: 16, //20 for CondensedLight
 				// fontFamily: 'CondensedLight',
-				fontFamily: 'Arial',
+				fontFamily: 'Helvetica',
 				fill: "white"
 			});
 			if (n>1) {
@@ -481,14 +481,14 @@
 
 	function add_stage_names(x_margin,y_margin,stage_name,x_margin2,stages_layer,canvas_tmp) {
 		
-		stage_name = stage_name.replace("_", " "); //replace underscores in stage names by spaces
+		stage_name = stage_name.replace(/_/g, " "); //replace underscores in stage names by spaces
 		
 		//Stages for the cube
 		var stage_text = new Kinetic.Text({
-			x: x_margin,
-			y: y_margin,
+			x: x_margin-65,
+			y: y_margin-35,
 			text: stage_name,
-			width: 105,
+			width: 180,
 			align: 'right',
 			fontSize: 16, //20 for CondensedLight
 			fontFamily: 'Helvetica',

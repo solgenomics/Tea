@@ -93,9 +93,9 @@ sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
   
   if ($organ_names[0] || $stage_names[0] || $tissue_names[0]){
   # if ($organ_ids[0] || $stage_ids[0] || $tissue_ids[0]){
-    print scalar(@organ_names)."\n\n";
-    print scalar(@stage_names)."\n\n";
-    print scalar(@tissue_names)."\n\n";
+#    print scalar(@organ_names)."\n\n";
+#    print scalar(@stage_names)."\n\n";
+#    print scalar(@tissue_names)."\n\n";
     
     # print "more things selected!!!\n\n";
     my $organ_info_ids = $db_funct->get_ids_from_query($schema,"LayerInfo",\@organ_names,"name","layer_info_id");
@@ -118,9 +118,9 @@ sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
     
     my @experiment_ids = uniq (@$organ_exp_ids, @$stage_exp_ids, @$tissue_exp_ids);
     
-    print "experiment_ids: @experiment_ids\n";
+#    print "experiment_ids: @experiment_ids\n";
     my $layer_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",\@experiment_ids,"experiment_id","layer_id");
-    print "layer_ids: @$layer_ids\n";
+#    print "layer_ids: @$layer_ids\n";
     
     $organ_ids = $db_funct->filter_layer_type($schema,$layer_ids,"organ","layer_id");
     $stage_ids = $db_funct->filter_layer_type($schema,$layer_ids,"stage","layer_id");
@@ -204,9 +204,9 @@ sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
   # my $tissue_names = _get_ids_from_query($schema,"LayerInfo",$tissue_ids,"layer_info_id","name");
   # my $tissue_options = _array_to_option($tissue_names);
   
-  print STDERR join("\n", "@organ_options")."\n";
-  print STDERR join("\n", "@stage_options")."\n";
-  print STDERR join("\n", "@tissue_options")."\n";
+#  print STDERR join("\n", "@organ_options")."\n";
+#  print STDERR join("\n", "@stage_options")."\n";
+#  print STDERR join("\n", "@tissue_options")."\n";
   
   my $organ_options = join("\n", "@organ_options");
   my $stage_options = join("\n", "@stage_options");

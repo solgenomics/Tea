@@ -18,7 +18,8 @@ use Bio::SeqIO;
 use Bio::BLAST::Database;
 use File::Temp qw | tempfile |;
 use Lucy::Simple;
-use List::MoreUtils qw(uniq);
+use Array::Utils qw(:all);
+# use List::MoreUtils qw(uniq);
 
 use DBIx::Class;
 use strict;
@@ -96,6 +97,8 @@ sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
 #    print scalar(@organ_names)."\n\n";
 #    print scalar(@stage_names)."\n\n";
 #    print scalar(@tissue_names)."\n\n";
+    my $project_ids = $db_funct->get_ids_from_query($schema,"Project",\@organism_ids,"organism_id","project_id");
+    my $all_experiment_ids = $db_funct->get_ids_from_query($schema,"Experiment",$project_ids,"project_id","experiment_id");
     
     # print "more things selected!!!\n\n";
     my $organ_info_ids = $db_funct->get_ids_from_query($schema,"LayerInfo",\@organ_names,"name","layer_info_id");
@@ -116,7 +119,8 @@ sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
     # my $stage_exp_ids = _get_ids_from_query($schema,"ExperimentLayer",\@stage_ids,"layer_id","experiment_id");
     # my $tissue_exp_ids = _get_ids_from_query($schema,"ExperimentLayer",\@tissue_ids,"layer_id","experiment_id");
     
-    my @experiment_ids = uniq (@$organ_exp_ids, @$stage_exp_ids, @$tissue_exp_ids);
+    my @found_experiment_ids = unique (@$organ_exp_ids, @$stage_exp_ids, @$tissue_exp_ids);
+    my @experiment_ids = intersect(@$all_experiment_ids, @found_experiment_ids);
     
 #    print "experiment_ids: @experiment_ids\n";
     my $layer_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",\@experiment_ids,"experiment_id","layer_id");

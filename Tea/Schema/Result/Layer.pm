@@ -52,6 +52,26 @@ __PACKAGE__->table("layer");
   is_nullable: 0
   sequence: 'layer_layer_info_id_seq'
 
+=head2 parent_id
+
+  data_type: 'bigint'
+  is_auto_increment: 1
+  is_foreign_key: 1
+  is_nullable: 0
+  sequence: 'layer_parent_id_seq'
+
+=head2 image_width
+
+  data_type: 'varchar'
+  is_nullable: 1
+  size: 80
+
+=head2 image_height
+
+  data_type: 'varchar'
+  is_nullable: 1
+  size: 80
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -80,6 +100,18 @@ __PACKAGE__->add_columns(
     is_nullable       => 0,
     sequence          => "layer_layer_info_id_seq",
   },
+  "parent_id",
+  {
+    data_type         => "bigint",
+    is_auto_increment => 1,
+    is_foreign_key    => 1,
+    is_nullable       => 0,
+    sequence          => "layer_parent_id_seq",
+  },
+  "image_width",
+  { data_type => "varchar", is_nullable => 1, size => 80 },
+  "image_height",
+  { data_type => "varchar", is_nullable => 1, size => 80 },
 );
 
 =head1 PRIMARY KEY
@@ -141,9 +173,39 @@ __PACKAGE__->belongs_to(
   { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
+=head2 layers
 
-# Created by DBIx::Class::Schema::Loader v0.07033 @ 2015-05-22 20:12:17
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:HxXVqas63Xx1TcqTXP/QDg
+Type: has_many
+
+Related object: L<Tea::Schema::Result::Layer>
+
+=cut
+
+__PACKAGE__->has_many(
+  "layers",
+  "Tea::Schema::Result::Layer",
+  { "foreign.parent_id" => "self.layer_id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+=head2 parent
+
+Type: belongs_to
+
+Related object: L<Tea::Schema::Result::Layer>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "parent",
+  "Tea::Schema::Result::Layer",
+  { layer_id => "parent_id" },
+  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07033 @ 2015-09-25 15:32:11
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:qPcBt038fo1LTB7rbqla/w
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

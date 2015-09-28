@@ -3,8 +3,9 @@ $(document).ready(function () {
 	//set variables
   var canvas_width = 1120;
   
-	var x_margin = canvas_width -100 - tissues.length*20 - stages.length*15;
-	var y_margin = 100;
+  // var x_margin = canvas_width -100 - tissues.length*20 - stages.length*15;
+	var x_margin = canvas_width -100 - stages.length*20 - tissues.length*15;
+	var y_margin = 155;
   
   //set image dimensions
   // var img_width = 500;
@@ -12,14 +13,15 @@ $(document).ready(function () {
   var img_width = image_hash[stages[0]]["bg"]["image_width"]*1;
   var img_height = image_hash[stages[0]]["bg"]["image_height"]*1;
   
-  var cube_left_pos = x_margin -60 - stages.length*10;
+  var cube_left_pos = x_margin -60 - tissues.length*10;
+  // var cube_left_pos = x_margin -60 - stages.length*10;
   var images_total_width = img_width //to mesure the total width of the images we are printing, so we can fit them in new rows
   var images_total_height = img_height;
   
   var x_offset = 0;
   var y_offset = 0;
   
-	for (var j = 0; j < stages.length; j++) {
+  for (var j = 0; j < stages.length; j++) {
     images_total_width = images_total_width + img_width;
     
     if (cube_left_pos <= images_total_width) { //1 columns
@@ -131,7 +133,8 @@ $(document).ready(function () {
 	var cube_layer = new Kinetic.Layer();
   
 	//margins for the cube
-	var top_x_start = x_margin + (stages.length*15);
+	var top_x_start = x_margin + (tissues.length*15);
+  // var top_x_start = x_margin + (stages.length*15);
 	
 	//return error if input gene was not found
 	if (!genes[0]) {

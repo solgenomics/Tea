@@ -234,8 +234,10 @@
 		});
 		
 		var gene_text = new Kinetic.Text({
-			x: x_margin -120 - 10*stage_names.length,
-			y: y_margin +18 +15*stage_names.length,
+      x: x_margin -120 - 10*tissue_names.length,
+      y: y_margin +18 +15*tissue_names.length,
+      // x: x_margin -120 - 10*stage_names.length,
+      // y: y_margin +18 +15*stage_names.length,
 			id: "slice_name_"+n,
 			text: gene_names_array[n-1],
 			fontSize: 16, //20 for CondensedLight
@@ -277,6 +279,8 @@
 				text: gene_desc,
 				fontSize: 16, //20 for CondensedLight
 				// fontFamily: 'CondensedLight',
+  			width: 515,
+  			align: 'right',
 				fontFamily: 'Helvetica',
 				fill: "white"
 			});
@@ -316,18 +320,6 @@
 			gene_popup_layer.draw();
 		});
 		
-		
-    // var circle = new Kinetic.Circle({
-    //   x: x_margin -155,
-    //   y: y_margin +68,
-    //   radius: 3,
-    //   fill: 'white',
-    //   stroke: 'black',
-    //   strokeWidth: 1,
-    //   id: "circle_"+n,
-    //   name: "gene_circle"
-    // });
-
 		var moving_slice_group = new Kinetic.Group({
 			id: "full_slice_"+n,
 		});
@@ -341,18 +333,19 @@
 				name: 'slice_up',
 			});
 		}
-	
-    // moving_slice_group.add(circle);
-
 
 		// add stage and tissue names to the first gene
-		for (var j=1; j<=stage_names.length; j++) {
-			for (var i=tissue_names.length; i>=1; i--) {
+    // for (var j=1; j<=stage_names.length; j++) {
+    //   for (var i=tissue_names.length; i>=1; i--) {
+    for (var j=1; j<=tissue_names.length; j++) {
+      for (var i=stage_names.length; i>=1; i--) {
+        
         var x_start = x_margin - j*15; //move left next stage row
         // var nx = i*sq_size + x_start;
 				var ny = y_margin + j*15;
 			
-				var rgb_color_array = get_expr_color(aoa[n-1][j-1][i-1]);
+				var rgb_color_array = get_expr_color(aoa[n-1][i-1][j-1]);
+        // var rgb_color_array = get_expr_color(aoa[n-1][j-1][i-1]);
 				var sqr_color = 'rgb('+rgb_color_array[0]+','+rgb_color_array[1]+','+rgb_color_array[2]+')';
 				
         var nx = x_start -15  +i*sq_size + (j-1)*5;
@@ -369,7 +362,8 @@
 				slice_group.add(top_tile);
 			  
         //add right tiles for the last tissue
-				if (i == tissue_names.length) {
+        // if (i == tissue_names.length) {
+				if (i == stage_names.length) {
 					nx = i*sq_size + x_start-10 + (j-1)*5;
           // nx = nx-10 + (j-1)*5;
 					var right_tile = new Kinetic.Line({
@@ -384,7 +378,8 @@
 				}
       
 			  //add front tiles for last stages
-				if (j == stage_names.length) {
+        // if (j == stage_names.length) {
+				if (j == tissue_names.length) {
 				  nx = i*sq_size + x_start-15 + j*5;
           
 					var front_tile = new Kinetic.Rect({
@@ -404,12 +399,15 @@
 			
 				if (j == 1 && n == 1) {
 					//add tissue names to top layer
-					tissue_name = tissue_names[i-1].replace("_", " "); //replace underscores in tissue names by spaces
+          // tissue_name = tissue_names[i-1].replace("_", " "); //replace underscores in tissue names by spaces
+					stage_name = stage_names[i-1].replace("_", " "); //replace underscores in tissue names by spaces
 					
-					var tissue_text = new Kinetic.Text({
+          // var tissue_text = new Kinetic.Text({
+					var stage_text = new Kinetic.Text({
 						x: x_margin +i*20 -12,
 						y: y_margin+8,
-						text: tissue_name,
+            // text: tissue_name,
+						text: stage_name,
 						fontSize: 16, //20 for CondensedLight
 						fontFamily: 'Helvetica',
 						// fontFamily: 'CondensedLight',
@@ -417,13 +415,14 @@
 						rotation: 270
 					});
 					
-					moving_slice_group.add(tissue_text);
+					moving_slice_group.add(stage_text);
+          // moving_slice_group.add(tissue_text);
 				}
 			}
 		}
 		
-		var page_y = 40 + top_y_margin + 20*sq_size + 15*stage_names.length; //for pagination only
-    // var page_y = y_margin + 20*sq_size + 10*stage_names.length; //for pagination only
+		var page_y = 40 + top_y_margin + 20*sq_size + 15*tissue_names.length; //for pagination only
+    // var page_y = 40 + top_y_margin + 20*sq_size + 15*stage_names.length; //for pagination only
     
     //draw the pagination on bottom of the cube
     if (n == genes_num) {
@@ -486,7 +485,7 @@
 		//Stages for the cube
 		var stage_text = new Kinetic.Text({
 			x: x_margin-65,
-			y: y_margin-35,
+			y: y_margin-37,
 			text: stage_name,
 			width: 180,
 			align: 'right',
@@ -506,7 +505,7 @@
 	
 		var color = ['rgb(80,0,0)','rgb(255,0,0)','rgb(255,130,0)','rgb(255,195,125)','rgb(255,233,199)','rgb(255,255,120)','rgb(255,255,230)'];
 	  var x_pos = page_width-50; // margin from right
-	  var y_pos = 135; //margin from top
+	  var y_pos = 190; //margin from top
     
 		var grad_legend = new Kinetic.Rect({
 			x: x_pos,
@@ -587,11 +586,13 @@
 		}
 	
 		//draw stage names
-		for (var i=0; i<stages.length; i++) {
+		for (var i=0; i<tissues.length; i++) {
+    // for (var i=0; i<stages.length; i++) {
 			var x = top_x_start -75 - i*10;
 			var y = y_margin -18 + i*15;
 			var x2 = top_x_start -650 + i*180;
-			add_stage_names(x,y,stages[i],x2,tmp_layer,tmp_canvas);
+			add_stage_names(x,y,tissues[i],x2,tmp_layer,tmp_canvas);
+      // add_stage_names(x,y,stages[i],x2,tmp_layer,tmp_canvas);
 		}
 		
 		add_color_grad_legend(page_width,color_code,tmp_layer,tmp_canvas)

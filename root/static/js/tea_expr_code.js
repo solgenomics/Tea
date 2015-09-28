@@ -1,12 +1,43 @@
 $(document).ready(function () {
-
-  //temporal variables
-  var organ_bg_image = '/static/images/expr_viewer/slm82_pericarp_bg.png';
+  
+	//set variables
+  var canvas_width = 1120;
+  
+	var x_margin = canvas_width -100 - tissues.length*20 - stages.length*15;
+	var y_margin = 100;
+  
+  //set image dimensions
+  // var img_width = 500;
+  // var img_height = 500;
+  var img_width = image_hash[stages[0]]["bg"]["image_width"]*1;
+  var img_height = image_hash[stages[0]]["bg"]["image_height"]*1;
+  
+  var cube_left_pos = x_margin -60 - stages.length*10;
+  var images_total_width = img_width //to mesure the total width of the images we are printing, so we can fit them in new rows
+  var images_total_height = img_height;
+  
+  var x_offset = 0;
+  var y_offset = 0;
+  
+	for (var j = 0; j < stages.length; j++) {
+    images_total_width = images_total_width + img_width;
+    
+    if (cube_left_pos <= images_total_width) { //1 columns
+        images_total_width = img_width;
+        images_total_height = images_total_height + img_height;
+    }
+  }
+  
+  // alert("images_total_height: "+images_total_height);
   
 	//set canvas dimensions
-	var canvas_width = 1120;
-	var canvas_height = 1200;
 	
+  var canvas_height = images_total_height;
+  
+  images_total_width = img_width
+  images_total_height = img_height;
+  
+  
   //define the canvas
 	var canvas = new Kinetic.Stage({
 		container: "container",
@@ -15,13 +46,6 @@ $(document).ready(function () {
 	});
 	var tissue_layer = new Kinetic.Layer();
 
-  //set image dimensions
-  // var img_width = 450;
-  // var img_height = 500;
-  
-  // //set image dimensions
-  var img_width = 250;
-  var img_height = 450;
 
   //set image coordinates
   var img_y = 0;
@@ -34,29 +58,19 @@ $(document).ready(function () {
         x: 0,
         y: img_y,
         image: organBg_imgObj,
-        width: img_width,
-        height: img_height
+        width: image_hash["organ"]["organ"]["image_width"]*1,
+        height: image_hash["organ"]["organ"]["image_height"]*1
       });
       tissue_layer.add(tp);
       canvas.add(tissue_layer);
     };
+    var organ_bg_image = '/static/images/expr_viewer/'+image_hash["organ"]["organ"]["image_name"];
 
   organBg_imgObj.src = organ_bg_image;
 
 	// ------------- print tissue images
 	// http://www.html5canvastutorials.com/tutorials/html5-canvas-image-loader/
 	
-	//set variables
-	var x_margin = canvas_width -100 - tissues.length*20 - stages.length*15;
-	var y_margin = 100;
-  
-  var cube_left_pos = x_margin -60 - stages.length*10;
-  var images_total_width = img_width //to mesure the total width of the images we are printing, so we can fit them in new rows
-  var images_total_height = img_height;
-  // var col_num = 0;
-  
-  var x_offset = 0;
-  var y_offset = 0;
   
 	// print the tissue colored images
 	for (var j = 0; j < stages.length; j++) {
@@ -77,7 +91,7 @@ $(document).ready(function () {
       // }
     }
     
-    load_stage_image(aoaoa,x_offset,y_offset,tissue_layer,canvas,stages[j],img_width,img_height);
+    load_stage_image(aoaoa,x_offset,y_offset,tissue_layer,canvas,stages[j],image_hash);
     
     var tissue_img_group = new Kinetic.Group();
 		for (var i = 0; i<tissues.length; i++) {

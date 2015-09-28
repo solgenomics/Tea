@@ -203,6 +203,7 @@
       //add expression values on a popup
       
       var margin = 30;
+      var panel_width = 300;
       var panel_height = 2*margin+aoaoa[0][j].length*margin;
       var x_arrow = x_offset+img_width;
       var y_arrow = y_offset+50+panel_height/2;
@@ -241,7 +242,7 @@
           opacity: 0.95,
           stroke: '#aaa',
           strokeWidth: 1,
-          width: img_width,
+          width: panel_width,
           height: panel_height,
           cornerRadius: 5,
         });
@@ -320,7 +321,7 @@
   
   
   //load the bg image for each stage. This will be the bg for the tissue layers
-  function load_stage_image(aoaoa,x_offset,y_offset,one_tissue_layer,canvas,stage_name,img_width,img_height) {
+  function load_stage_image(aoaoa,x_offset,y_offset,one_tissue_layer,canvas,stage_name,image_hash) {
     canvas.add(one_tissue_layer);
     
     var tmp_imgObj = new Image();
@@ -331,13 +332,13 @@
         x: x_offset,
         y: y_offset,
         image: tmp_imgObj,
-        width: img_width,
-        height: img_height
+        width: image_hash[stage_name]["bg"]["image_width"]*1,
+        height: image_hash[stage_name]["bg"]["image_height"]*1
       });
       one_tissue_layer.add(tmp_stage);
       canvas.add(one_tissue_layer);
     };
     
-    tmp_imgObj.src = '/static/images/expr_viewer/'+stage_name+'_bg.png';
+    tmp_imgObj.src = '/static/images/expr_viewer/'+image_hash[stage_name]["bg"]["image_name"];
   }
 

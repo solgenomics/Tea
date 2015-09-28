@@ -2,6 +2,7 @@
 @genes => ()
 @stages => ()
 @tissues => ()
+%image_hash => ()
 @aoaoa => ()
 @correlation => ()
 %description => ()
@@ -32,6 +33,7 @@ my $json = JSON::Any->new;
 	var tissues = <% $json->encode(\@tissues) %>;
 	var stages = <% $json->encode(\@stages) %>;
 	var genes = <% $json->encode(\@genes) %>;
+	var image_hash = <% $json->encode(\%image_hash) %>;
 	var aoaoa = <% $json->encode(\@aoaoa) %>;
 	var corr_values = <% $json->encode(\@correlation) %>;
 	var gene_descriptions = <% $json->encode(\%description) %>;
@@ -40,6 +42,7 @@ my $json = JSON::Any->new;
 	var current_page = <% $current_page %>;
 	// alert("corr: "+correlation_filter);
 	
+  // alert("images: "+image_hash["organ"]["organ"]["image_name"]);
 </script>
 
 <link rel="stylesheet" href="/static/css/jqplot.css" type="text/css" />

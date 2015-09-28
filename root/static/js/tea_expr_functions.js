@@ -83,7 +83,13 @@
 
   //open dialog for expression bar graph
 	function open_bar_graph_dialog(stage_tissue_values, gene_name, corr_val, description, gene_id, stage_names, tissue_names) {
-
+    
+    var panel_width = 1200;
+    var panel_max = stage_names.length*tissue_names.length*50;
+    
+    if (panel_max < panel_width) {
+      panel_width = panel_max;
+    }
     // var tissue_names = ["Inner epidermis","Parenchyma","Vascular tissue","Collenchyma","Outer epidermis"];
     // var stage_names = ["10DPA", "Mature green", "Pink"];
 		
@@ -125,7 +131,7 @@
 			$(function() {
 				dynamicDialog.dialog({
 					title: gene_name,
-					minWidth: 600,
+					minWidth: panel_width,
 					draggable: true,
 					resizable: false,
 				});

@@ -283,45 +283,47 @@
 
 
   //load the img for each one of the tissue layers
-  function load_tissue_image(i,j,aoaoa,x_offset,y_offset,r_color,g_color,b_color,one_tissue_layer,canvas,stage_name,tissue_name,img_width,img_height,imgs_group,popup_switch) {
-    one_tissue_layer.add(imgs_group);
-    canvas.add(one_tissue_layer);
-    
-    var tmp_imgObj = new Image();
-    
-    tmp_imgObj.onload = function() {
+  function load_tissue_image(i,j,aoaoa,x_offset,y_offset,r_color,g_color,b_color,one_tissue_layer,canvas,stage_name,tissue_name,img_width,img_height,imgs_group,image_name,expr_val) {
       
-      var tmp_stage = new Kinetic.Image({
-        id: "t_layer"+i+"_s"+j,
-        x: x_offset,
-        y: y_offset,
-        image: tmp_imgObj,
-        width: img_width,
-        height: img_height
-      });
-      imgs_group.add(tmp_stage)
       one_tissue_layer.add(imgs_group);
       canvas.add(one_tissue_layer);
-      
-      //fix cache bug
-      tmp_stage.cache();
-      tmp_stage.filters([Kinetic.Filters.RGB]);
-      tmp_stage.red(r_color).green(g_color).blue(b_color);
-      // tmp_stage.cache();
-      // tmp_stage.moveToTop();
-      tmp_stage.draw();
-      // one_tissue_layer.draw();
-      
-      // tmp_stage.draw();
-      // tissue_popup_layer.draw();
+
+      var tmp_imgObj = new Image();
+
+      tmp_imgObj.onload = function() {
+  
+        var tmp_stage = new Kinetic.Image({
+          id: "t_layer"+i+"_s"+j,
+          x: x_offset,
+          y: y_offset,
+          image: tmp_imgObj,
+          width: img_width,
+          height: img_height
+        });
+        imgs_group.add(tmp_stage)
+        one_tissue_layer.add(imgs_group);
+        canvas.add(one_tissue_layer);
+  
+        //fix cache bug
+        tmp_stage.cache();
+        tmp_stage.filters([Kinetic.Filters.RGB]);
+        tmp_stage.red(r_color).green(g_color).blue(b_color);
+        // tmp_stage.cache();
+        // tmp_stage.moveToTop();
+        tmp_stage.draw();
+        // one_tissue_layer.draw();
+  
+        // tmp_stage.draw();
+        // tissue_popup_layer.draw();
       };//end of onload
-      
-      tmp_imgObj.src = '/static/images/expr_viewer/'+stage_name+'_'+tissue_name+'.png';
+  
+      // tmp_imgObj.src = '/static/images/expr_viewer/spim_fruit_'+stage_name+'_'+tissue_name+'.png';
+      tmp_imgObj.src = '/static/images/expr_viewer/'+image_name;
   }
   
   
   //load the bg image for each stage. This will be the bg for the tissue layers
-  function load_stage_image(aoaoa,x_offset,y_offset,one_tissue_layer,canvas,stage_name,image_hash) {
+  function load_stage_image(x_offset,y_offset,one_tissue_layer,canvas,stage_name,image_hash) {
     canvas.add(one_tissue_layer);
     
     var tmp_imgObj = new Image();

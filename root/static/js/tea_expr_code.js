@@ -74,24 +74,20 @@ $(document).ready(function () {
   
 	// print the tissue colored images
 	for (var j = 0; j < stages.length; j++) {
-    // col_num++;
+
     x_offset = images_total_width;
     images_total_width = images_total_width + img_width;
     
-    // alert("row_index: "+row_index+", col_num: "+col_num+" modulus: "+col_num % 4);
-    
-    if (cube_left_pos <= images_total_width) { //1 columns
-      // if (col_num % 1 == 0){
-        // alert("cube_left_pos: "+cube_left_pos+" images_total_width: "+images_total_width);
-        
-        images_total_width = img_width;
-        x_offset = 0;
-        y_offset = y_offset + img_height;
-        images_total_height = images_total_height + img_height;
-      // }
+    if (cube_left_pos <= images_total_width) {
+      
+      images_total_width = img_width;
+      x_offset = 0;
+      y_offset = y_offset + img_height;
+      images_total_height = images_total_height + img_height;
     }
     
-    load_stage_image(aoaoa,x_offset,y_offset,tissue_layer,canvas,stages[j],image_hash);
+    load_stage_image(x_offset,y_offset,tissue_layer,canvas,stages[j],image_hash);
+    
     
     var tissue_img_group = new Kinetic.Group();
 		for (var i = 0; i<tissues.length; i++) {
@@ -103,10 +99,20 @@ $(document).ready(function () {
 			var g = rgb_color_array[1];
 			var b = rgb_color_array[2];
 			
-			load_tissue_image(i,j,aoaoa,x_offset,y_offset,r,g,b,tissue_layer,canvas,stages[j],tissues[i],img_width,img_height,tissue_img_group);
+      if (expr_val > 0) {
+        if (typeof(image_hash[stages[j]][tissues[i]]) !== 'undefined') {
+        // if (typeof(image_hash[stages[j]][tissues[i]]["image_name"]) !== 'undefined') {
+          var image_name = image_hash[stages[j]][tissues[i]]["image_name"];
+          img_width = image_hash[stages[j]][tissues[i]]["image_width"]*1;
+          img_height = image_hash[stages[j]][tissues[i]]["image_height"]*1;
+        
+          load_tissue_image(i,j,aoaoa,x_offset,y_offset,r,g,b,tissue_layer,canvas,stages[j],tissues[i],img_width,img_height,tissue_img_group,image_name,expr_val);
+        // }
+        }
+      }
+      
 		}
     tissue_expr_popup(canvas,tissue_img_group,aoaoa,j,tissues,x_offset,y_offset,img_width,img_height)
-    // tissue_expr_popup(canvas,tissue_layer,tissue_img_group,aoaoa,j,tissues,x_offset,y_offset,img_width)
     
 		tissue_layer.cache();
 		tissue_layer.draw();
@@ -115,12 +121,9 @@ $(document).ready(function () {
   var frame_height = $('#container').css("height");
   var container_height = frame_height.replace("px","");
   
-  // alert("container_height: "+container_height+", images_total_height: "+images_total_height)
   if (images_total_height > container_height) {
     $('#container').css("height",images_total_height+"px");
   }
-  
-  // alert("cube_left_pos: "+cube_left_pos+" images_total_width: "+images_total_width);
   
   
 	// ------------- print cube

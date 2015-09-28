@@ -143,10 +143,12 @@ sub get_image_hash {
         my $layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $layer_rs->layer_info_id})->single;
         my $parent_layer_rs = $schema->resultset('Layer')->search({layer_id => $layer_rs->parent_id})->single;
         my $parent_layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $parent_layer_rs->layer_info_id})->single;
+        my $tissue_name = $layer_info_rs->name;
+        $tissue_name =~ s/ /_/g;
         
-        $res_hash{$parent_layer_info_rs->name}{$layer_info_rs->name}{"image_name"} = $layer_rs->image_file_name;
-        $res_hash{$parent_layer_info_rs->name}{$layer_info_rs->name}{"image_width"} = $layer_rs->image_width;
-        $res_hash{$parent_layer_info_rs->name}{$layer_info_rs->name}{"image_height"} = $layer_rs->image_height;
+        $res_hash{$parent_layer_info_rs->name}{$tissue_name}{"image_name"} = $layer_rs->image_file_name;
+        $res_hash{$parent_layer_info_rs->name}{$tissue_name}{"image_width"} = $layer_rs->image_width;
+        $res_hash{$parent_layer_info_rs->name}{$tissue_name}{"image_height"} = $layer_rs->image_height;
       }
       
     }

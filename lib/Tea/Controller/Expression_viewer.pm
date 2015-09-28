@@ -154,7 +154,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
     
     $image_hash_ref = $db_funct->get_image_hash($schema,$experiment_ids);
     
-    # print Dumper $image_hash_ref;
+    print Dumper $image_hash_ref;
     
     my $stage_info_ids = $db_funct->filter_layer_type($schema,$layer_ids,"stage","layer_info_id");
     my $tissue_info_ids = $db_funct->filter_layer_type($schema,$layer_ids,"tissue","layer_info_id");

@@ -431,7 +431,8 @@
 		
 		
 		gene_text.on('mousedown', function() {
-      var y_layer_dist = stage_names.length*15 + 5;
+      // var y_layer_dist = stage_names.length*15 + 5;
+      var y_layer_dist = tissue_names.length*15 + 5;
       
 			for (var i=0;i<=gene_names_array.length;i++) {
 				if (i>=n) {

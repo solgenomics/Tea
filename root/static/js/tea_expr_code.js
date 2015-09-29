@@ -1,43 +1,41 @@
 $(document).ready(function () {
   
-	//set variables
+  function get_canvas_dimensions(canvas_width,cube_left_pos,stages,tissues,image_hash) {
+    
+    var img_width = image_hash["organ"]["organ"]["image_width"]*1;
+    var img_height = image_hash["organ"]["organ"]["image_height"]*1;
+    var images_total_width = img_width;
+    var images_total_height = img_height;
+  
+    for (var j = 0; j < stages.length; j++) {
+      images_total_width = images_total_width + img_width;
+    
+      if (cube_left_pos <= images_total_width) {
+        img_width = image_hash[stages[0]]["bg"]["image_width"]*1;
+        images_total_width = img_width;
+        images_total_height = images_total_height + img_height;
+      }
+    }
+  
+  return (images_total_height)
+  }
+  
+	//set canvas width
   var canvas_width = 1120;
   
-  // var x_margin = canvas_width -100 - tissues.length*20 - stages.length*15;
+  //set variables
 	var x_margin = canvas_width -100 - stages.length*20 - tissues.length*15;
 	var y_margin = 155;
-  
-  //set image dimensions
-  // var img_width = 500;
-  // var img_height = 500;
-  var img_width = image_hash[stages[0]]["bg"]["image_width"]*1;
-  var img_height = image_hash[stages[0]]["bg"]["image_height"]*1;
-  
+
   var cube_left_pos = x_margin -60 - tissues.length*10;
-  // var cube_left_pos = x_margin -60 - stages.length*10;
-  var images_total_width = img_width //to mesure the total width of the images we are printing, so we can fit them in new rows
-  var images_total_height = img_height;
-  
+
   var x_offset = 0;
   var y_offset = 0;
   
-  for (var j = 0; j < stages.length; j++) {
-    images_total_width = images_total_width + img_width;
-    
-    if (cube_left_pos <= images_total_width) { //1 columns
-        images_total_width = img_width;
-        images_total_height = images_total_height + img_height;
-    }
-  }
   
-  // alert("images_total_height: "+images_total_height);
-  
-	//set canvas dimensions
-	
+  //set canvas height
+  images_total_height = get_canvas_dimensions(canvas_width,cube_left_pos,stages,tissues,image_hash)
   var canvas_height = images_total_height;
-  
-  images_total_width = img_width
-  images_total_height = img_height;
   
   
   //define the canvas
@@ -74,6 +72,8 @@ $(document).ready(function () {
 	// http://www.html5canvastutorials.com/tutorials/html5-canvas-image-loader/
 	
   
+  img_width = image_hash["organ"]["organ"]["image_width"]*1;
+  images_total_width = img_width;
 	// print the tissue colored images
 	for (var j = 0; j < stages.length; j++) {
 
@@ -81,7 +81,7 @@ $(document).ready(function () {
     images_total_width = images_total_width + img_width;
     
     if (cube_left_pos <= images_total_width) {
-      
+      img_width = image_hash[stages[0]]["bg"]["image_width"]*1;
       images_total_width = img_width;
       x_offset = 0;
       y_offset = y_offset + img_height;

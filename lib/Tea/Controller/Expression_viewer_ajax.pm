@@ -47,44 +47,18 @@ sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
   my @errors; 
 
   # get variables from catalyst object
-  # my $params = $c->req->body_params();
   my @organism_ids = $c->req->param("organisms[]");
 
   my @organ_names = $c->req->param("organs[]");
   my @stage_names = $c->req->param("stages[]");
   my @tissue_names = $c->req->param("tissues[]");
   
-  # my @organ_ids = $c->req->param("organs[]");
-  # my @stage_ids = $c->req->param("stages[]");
-  # my @tissue_ids = $c->req->param("tissues[]");
-  #
   my $dbname = $c->config->{dbname};
   my $host = $c->config->{dbhost};
   my $username = $c->config->{dbuser};
   my $password = $c->config->{dbpass};
 
   my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
-  # my $dbh = DBI->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
-  
-  # my @organism_ids;
-  
-  # get organism ids
-  # my $all_rs = $schema->resultset("Organism");
-  # while(my $n = $all_rs->next) {
-  #   foreach my $sps (@organisms) {
-  #     my ($species_name, $variety) = split("-",$sps);
-  #
-  #     if ($n->variety) {
-  #       if ($n->species eq $species_name && $n->variety eq $variety) {
-  #         push (@organism_ids,$n->organism_id);
-  #       }
-  #     }
-  #     elsif ($n->species eq $species_name) {
-  #       push (@organism_ids,$n->organism_id);
-  #     }
-  #   }
-  # }
-  
   
   my @organ_options;
   my @stage_options;
@@ -92,11 +66,13 @@ sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
   
   my $db_funct = Tea::Controller::Expression_viewer_functions->new();
   
+  # getting all the experiments from the organism
+  my $project_rs = $schema->resultset('Project')->search({organism_id => $organism_ids[0]})->single;
+  my $experiment_rs = $schema->resultset('Experiment')->search({project_id => $project_rs->project_id});
+  
+  
   if ($organ_names[0] || $stage_names[0] || $tissue_names[0]){
-  # if ($organ_ids[0] || $stage_ids[0] || $tissue_ids[0]){
-#    print scalar(@organ_names)."\n\n";
-#    print scalar(@stage_names)."\n\n";
-#    print scalar(@tissue_names)."\n\n";
+
     my $project_ids = $db_funct->get_ids_from_query($schema,"Project",\@organism_ids,"organism_id","project_id");
     my $all_experiment_ids = $db_funct->get_ids_from_query($schema,"Experiment",$project_ids,"project_id","experiment_id");
     
@@ -142,75 +118,12 @@ sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
   }
   else {
     # only organism selected
-    my $project_ids = $db_funct->get_ids_from_query($schema,"Project",\@organism_ids,"organism_id","project_id");
-    my $experiment_ids = $db_funct->get_ids_from_query($schema,"Experiment",$project_ids,"project_id","experiment_id");
-    my $layer_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",$experiment_ids,"experiment_id","layer_id");
-    
-    
-    # my $layer_ids = _get_ids_from_query($schema,"ExperimentLayer",$experiment_ids,"experiment_id","layer_id");
-    my $organ_ids = $db_funct->filter_layer_type($schema,$layer_ids,"organ","layer_id");
-    my $stage_ids = $db_funct->filter_layer_type($schema,$layer_ids,"stage","layer_id");
-    my $tissue_ids = $db_funct->filter_layer_type($schema,$layer_ids,"tissue","layer_id");
-    
-    my $organ_options = $db_funct->array_to_option($schema,$organ_ids);
-    my $stage_options = $db_funct->array_to_option($schema,$stage_ids);
-    my $tissue_options = $db_funct->array_to_option($schema,$tissue_ids);
+    my ($organ_options,$stage_options,$tissue_options) = $db_funct->get_input_options($schema,$experiment_rs,"layer_id");
     
     @organ_options = @{$organ_options};
     @stage_options = @{$stage_options};
     @tissue_options = @{$tissue_options};
-    
   }
-
-  
-  
-  # #layer ids for this experiment
-  # my $layer_ids = _get_ids_from_query($schema,"ExperimentLayer",[$exp_id],"experiment_id","layer_id");
-  #
-  # # organ options
-  # if (@organ_ids) {
-  #   # experiment for these organs
-  #   my $exp_ids = _get_ids_from_query($schema,"ExperimentLayer",\@organ_ids,"layer_id","experiment_id");
-  #   my $layer_ids = _get_ids_from_query($schema,"ExperimentLayer",$exp_ids,"experiment_id","layer_id");
-  #
-  #   $organ_options = _array_to_option($schema,\@organ_ids);
-  # }
-  # else {
-  #   $organ_ids = _filter_layer_type($schema,$layer_ids,"organ");
-  #   $organ_options = _array_to_option($schema,$organ_ids);
-  # }
-  # # stage options
-  # if (@stage_ids) {
-  #   $stage_options = _array_to_option($schema,\@stage_ids);
-  # }
-  # else {
-  #   $stage_ids = _filter_layer_type($schema,$layer_ids,"stage");
-  #   $stage_options = _array_to_option($schema,$stage_ids);
-  # }
-  # #tissue options
-  # if (@tissue_ids) {
-  #   $tissue_options = _array_to_option($schema,\@tissue_ids);
-  # }
-  # else {
-  #   $tissue_ids = _filter_layer_type($schema,$layer_ids,"tissue");
-  #   $tissue_options = _array_to_option($schema,$tissue_ids);
-  # }
-  
-
-  # my $organ_names = _get_ids_from_query($schema,"LayerInfo",$organ_ids,"layer_info_id","name");
-  # my $organ_options = _array_to_option($organ_ids);
-  #
-  # my $stage_ids = _filter_layer_type($schema,$layer_ids,"stage");
-  # my $stage_names = _get_ids_from_query($schema,"LayerInfo",$stage_ids,"layer_info_id","name");
-  # my $stage_options = _array_to_option($stage_names);
-  #
-  # my $tissue_ids = _filter_layer_type($schema,$layer_ids,"tissue");
-  # my $tissue_names = _get_ids_from_query($schema,"LayerInfo",$tissue_ids,"layer_info_id","name");
-  # my $tissue_options = _array_to_option($tissue_names);
-  
-#  print STDERR join("\n", "@organ_options")."\n";
-#  print STDERR join("\n", "@stage_options")."\n";
-#  print STDERR join("\n", "@tissue_options")."\n";
   
   my $organ_options = join("\n", "@organ_options");
   my $stage_options = join("\n", "@stage_options");
@@ -222,29 +135,6 @@ sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
     tissues => $tissue_options,
   };
 }
-
-
-
-
-
-
-
-
-
-
-
-
-# sub _array_to_option {
-#   my $array = shift;
-#   my @res;
-#
-#   foreach my $e (@{$array}) {
-#     push(@res,"<option value=\"$e\">$e</option>");
-#   }
-#   return \@res;
-# }
-#
-#
 
 
 sub run_blast :Path('/Expression_viewer/blast/') :Args(0) {

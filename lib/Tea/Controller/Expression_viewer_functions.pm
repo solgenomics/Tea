@@ -42,6 +42,67 @@ sub get_ids_from_query {
   return \@res_ids;
 }
 
+sub get_input_options {
+  my $self = shift;
+  my $schema = shift;
+  my $all_rs = shift;
+  my $res_column = shift;
+  
+  my %ogarns;
+  my %stages;
+  my %tissues;
+  my $organ_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "organ"})->single;
+  my $stage_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "stage"})->single;
+  my $tissue_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "tissue"})->single;
+  
+  while(my $n = $all_rs->next) {
+    
+    my $exp_layer_rs = $schema->resultset('ExperimentLayer')->search({experiment_id => $n->experiment_id});
+    
+    while(my $m = $exp_layer_rs->next) {
+      my $layer_rs = $schema->resultset('Layer')->search({layer_id => $m->layer_id})->single;
+      my $layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $layer_rs->layer_info_id})->single;
+      
+      if ($layer_rs->layer_type_id == $organ_layer_type_rs->layer_type_id){
+        $ogarns{$layer_info_rs->name} = 1;
+      }
+      if ($layer_rs->layer_type_id == $stage_layer_type_rs->layer_type_id){
+        $stages{$layer_info_rs->name} = 1;
+      }
+      if ($layer_rs->layer_type_id == $tissue_layer_type_rs->layer_type_id){
+        $tissues{$layer_info_rs->name} = 1;
+      }
+    }
+  }
+  
+  my @organ_options;
+  my @stage_options;
+  my @tissue_options;
+  my @organs = sort keys %ogarns;
+  my @stages = sort keys %stages;
+  my @tissues = sort keys %tissues;
+  
+  foreach my $e (@organs) {
+    my $option_id = $e;
+    $option_id =~ s/ /_/g;
+    push(@organ_options,"<option id=\"$option_id\" value=\"$option_id\">".$e."</option>");
+  }
+  
+  foreach my $e (@stages) {
+    my $option_id = $e;
+    $option_id =~ s/ /_/g;
+    push(@stage_options,"<option id=\"$option_id\" value=\"$option_id\">".$e."</option>");
+  }
+  
+  foreach my $e (@tissues) {
+    my $option_id = $e;
+    $option_id =~ s/ /_/g;
+    push(@tissue_options,"<option id=\"$option_id\" value=\"$option_id\">".$e."</option>");
+  }
+  
+  return (\@organ_options,\@stage_options,\@tissue_options);
+}
+
 sub filter_layer_type {
   my $self = shift;
   my $schema = shift;

@@ -43,8 +43,8 @@ my $json = JSON::Any->new;
 							<input class="organ_filter" name="organ_filter" style="display:none;"/>
 							<input class="stage_filter" name="stage_filter" style="display:none;"/>
 							<input class="tissue_filter" name="tissue_filter" style="display:none;"/>
-							<br/>
-							<button class="blue_button" style="margin-top:10px;" type="submit" form="search_gene" formaction="/Expression_viewer/output" formmethod="post" formenctype="multipart/form-data">Get Expression</button>
+              <!-- <br/>
+              <button class="blue_button" style="margin-top:10px;" type="submit" form="search_gene" formaction="/Expression_viewer/output" formmethod="post" formenctype="multipart/form-data">Get Expression</button> -->
 						</td>
 					</tr>
 			</table>
@@ -78,11 +78,14 @@ my $json = JSON::Any->new;
 	</div>
 </center>
 <br>
-
+<br>
+<br>
+<br>
 
 <div style="width:750px;margin:0 auto;clear:both;">
 	<center>
-		<hr>
+    <hr>
+    <br>
 		<div class="pagesubtitle">Define Expression Parameters <span id="parameters_i" class="info_icon">i</span></div>
 	</center>
   <br>
@@ -158,6 +161,8 @@ my $json = JSON::Any->new;
     </tr>
   </table>
         
+  <br/>
+  <button class="blue_button" style="margin-top:10px;float: right;" type="submit" form="search_gene" formaction="/Expression_viewer/output" formmethod="post" formenctype="multipart/form-data">Get Expression</button>
         
 </div>
 

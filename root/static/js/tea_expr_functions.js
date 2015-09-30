@@ -9,7 +9,7 @@
       s_names[i] = s_names[i].replace(/_/g," ");
     }
     
-    var color_array = ['#2e5989', '#5f954c', '#bb2c32', '#6e3f78', '#e79f44', '#7d807f', '#008888','#880088'];
+    var color_array = ['#2e5989','#5f954c','#bb2c32','#6e3f78','#e79f44','#7d807f','#008888','#880088','#5e89b9','#8fc57c','#eb5c62','#9e6fa8','#fccf74','#adb0af','#adb0ff'];
     
 		var plot1 = $.jqplot(gene_name+'_bar_graph', sxt_values, {
 			title: '',

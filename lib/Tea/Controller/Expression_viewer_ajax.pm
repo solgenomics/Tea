@@ -19,6 +19,7 @@ use Bio::BLAST::Database;
 use File::Temp qw | tempfile |;
 use Lucy::Simple;
 use Array::Utils qw(:all);
+use Data::Dumper;
 
 # use Time::HiRes qw( time );
 
@@ -74,11 +75,26 @@ sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
   my $experiment_rs = $schema->resultset('Experiment')->search({project_id => $project_rs->project_id});
   
   if ($organ_names[0] || $stage_names[0] || $tissue_names[0]) {
-    ($organ_options_arrayref,$stage_options_arrayref,$tissue_options_arrayref) = $db_funct->get_layer_options($schema,$experiment_rs,\@organ_names,\@stage_names,\@tissue_names);
+    
+    my $filtered_exp_rs = $db_funct->get_layer_options($schema,$experiment_rs,\@organ_names,\@stage_names,\@tissue_names);
+
+    # get all the layers from the experiment
+    my ($organ_hashref,$stage_hashref,$tissue_hashref) = $db_funct->get_input_options($schema,$filtered_exp_rs);
+    
+    # format layers to select options
+    $organ_options_arrayref = $db_funct->names_array_to_option($organ_hashref);
+    $stage_options_arrayref = $db_funct->names_array_to_option($stage_hashref);
+    $tissue_options_arrayref = $db_funct->names_array_to_option($tissue_hashref);
+    
   }
   else {
     # only organism selected
-    ($organ_options_arrayref,$stage_options_arrayref,$tissue_options_arrayref) = $db_funct->get_input_options($schema,$experiment_rs);
+    my ($organ_hashref,$stage_hashref,$tissue_hashref) = $db_funct->get_input_options($schema,$experiment_rs);
+    
+    # format layers to select options
+    $organ_options_arrayref = $db_funct->names_array_to_option($organ_hashref);
+    $stage_options_arrayref = $db_funct->names_array_to_option($stage_hashref);
+    $tissue_options_arrayref = $db_funct->names_array_to_option($tissue_hashref);
   }
   
   my $organ_options = join("\n", @$organ_options_arrayref);

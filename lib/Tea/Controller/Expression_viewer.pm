@@ -37,9 +37,7 @@ sub index :Path('/Expression_viewer/input/') :Args(0) {
   my ( $self, $c ) = @_;
 
   # $c->response->body('Matched Tea::Controller::Expression_viewer in Expression_viewer.');
-
   # $c->stash(template => 'Expression_viewer/output.mas');
-  
   
   my $dbname = $c->config->{dbname};
   my $host = $c->config->{dbhost};
@@ -68,31 +66,6 @@ sub index :Path('/Expression_viewer/input/') :Args(0) {
   
   my $organisms_html = join("\n", @orgs);
   $c->stash->{organism_html} = $organisms_html;
-  
-  
-  # my @layer_types = ("organ","stage","tissue");
-  #
-  # foreach my $type (@layer_types) {
-  #
-  #   my $stage_rs = $schema->resultset('LayerType')->search({layer_type => $type})->single;
-  #   my $layer_stage_rs = $schema->resultset('Layer')->search({layer_type_id => $stage_rs->layer_type_id});
-  #
-  #   my %html_hash =();
-  #
-  #   while(my $layer = $layer_stage_rs->next) {
-  #       my $stage_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $layer->layer_info_id})->single;
-  #       # push(@html_array,"<input type='checkbox'>&nbsp;".$stage_rs->name);
-  #       $html_hash{"<input type='checkbox'>&nbsp;".$stage_rs->name} = 1;
-  #   }
-  #
-  #   # my $stages_html = join("<br>", @html_array);
-  #   my $stages_html = join("<br>", map {$_} keys %html_hash);
-  #   print STDERR "\"$stages_html\"\n";
-  #
-  #   $c->stash->{$type."_html"} = "\"$stages_html\"";
-  # }
-  
-  
   $c->stash(template => 'Expression_viewer/input.mas');
 }
 
@@ -107,7 +80,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	my @query_gene = $c->req->param("input_gene");
 	my $corr_filter = $c->req->param("correlation_filter")||0.65;
   my $organism_filter = $c->req->param("organism_filter");
-  # my $organ_filter = $c->req->param("organ_filter");
+  my $organ_filter = $c->req->param("organ_filter");
   my $stage_filter = $c->req->param("stage_filter");
   my $tissue_filter = $c->req->param("tissue_filter");
   
@@ -127,8 +100,6 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
   my $dbh = DBI->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
   
-  # my $organism_rs = $schema->resultset('Organism')->search({organism_id => $organism_filter})->single;
-  # my $project_rs = $schema->resultset('Project')->search({organism_id => $organism_rs->organism_id})->single;
   my $project_rs = $schema->resultset('Project')->search({organism_id => $organism_filter})->single;
   
   my $corr_index_path = $corr_path."/".$project_rs->indexed_dir;
@@ -145,26 +116,36 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   my $project_ids = $db_funct->get_ids_from_query($schema,"Project",[$organism_filter],"organism_id","project_id");
   my $experiment_ids = $db_funct->get_ids_from_query($schema,"Experiment",$project_ids,"project_id","experiment_id");
   
+  # getting all the experiments from the organism
+  # my $experiment_rs = $schema->resultset('Experiment')->search({project_id => $project_rs->project_id});
+  
   # only organism selected
-  if (!$stage_filter && !$tissue_filter) {
+  if (!$stage_filter && !$tissue_filter && !$organ_filter) {
+    # my ($organ_hashref,$stage_hashref,$tissue_hashref) = $db_funct->get_input_options($schema,$experiment_rs);
+    #
+    # @stages = sort keys %$stage_hashref;
+    # @tissues = sort keys %$tissue_hashref;
+    #
+    # $image_hash_ref = $db_funct->get_image_hash($schema,\@stages,\@tissues);
     
-    my $layer_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",$experiment_ids,"experiment_id","layer_id");
-    
+
     # print Dumper @$layer_ids;
-    
+
     $image_hash_ref = $db_funct->get_image_hash($schema,$experiment_ids);
-    
-    # print Dumper $image_hash_ref;
-    
+
+    print Dumper $image_hash_ref;
+
+    my $layer_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",$experiment_ids,"experiment_id","layer_id");
+
     my $stage_info_ids = $db_funct->filter_layer_type($schema,$layer_ids,"stage","layer_info_id");
     my $tissue_info_ids = $db_funct->filter_layer_type($schema,$layer_ids,"tissue","layer_info_id");
-    
+
     my $stage_names = $db_funct->get_ids_from_query($schema,"LayerInfo",$stage_info_ids,"layer_info_id","name");
     my $tissue_names = $db_funct->get_ids_from_query($schema,"LayerInfo",$tissue_info_ids,"layer_info_id","name");
-    
+
     @stages = @{$stage_names};
     @tissues = @{$tissue_names};
-    
+   
   }
   
   # if only stage is selected
@@ -210,10 +191,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   for (@tissues) {
      s/ /_/g;
   }
-  
-  
-  
-  
+
   
 	my $query_gene = "";
 	my @genes;

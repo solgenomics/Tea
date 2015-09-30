@@ -67,19 +67,18 @@ sub get_layer_options {
   push(@all_names,@$tissue_names);
   
   my %layer_ids_found;
+  
   # get the parent layer_ids from the names
   foreach my $name (@all_names) {
     $name =~ s/_/ /g;
     my $layer_info_rs = $schema->resultset('LayerInfo')->search({name => $name});
 
     while(my $layer_info_obj = $layer_info_rs->next) {
-      # print STDERR "layer_name: ".$layer_info_obj->name."\n";
       my $layer_rs = $schema->resultset('Layer')->search({layer_info_id => $layer_info_obj->layer_info_id});
     
       while(my $layer_obj = $layer_rs->next) {
         if ($project_layer_ids{$layer_obj->parent_id}) {
           $layer_ids_found{$layer_obj->parent_id} = 1;
-          # print STDERR "parent id: ".$layer_obj->parent_id."\n";
         }
       }
     }
@@ -98,10 +97,7 @@ sub get_layer_options {
   my @experiment_ids = keys %exp_ids;
   my $filtered_exp_rs = $schema->resultset('Experiment')->search({experiment_id => \@experiment_ids});
   
-  # get all the layers from the experiment
-  my ($organs,$stages,$tissues) = get_input_options($self,$schema,$filtered_exp_rs);
-    
-  return ($organs,$stages,$tissues);
+  return $filtered_exp_rs;
 }
 
 sub get_input_options {
@@ -109,7 +105,7 @@ sub get_input_options {
   my $schema = shift;
   my $all_exp_rs = shift;
   
-  my %ogarns;
+  my %organs;
   my %stages;
   my %tissues;
   my $organ_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "organ"})->single;
@@ -125,7 +121,7 @@ sub get_input_options {
       my $layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $layer_rs->layer_info_id})->single;
       
       if ($layer_rs->layer_type_id == $organ_layer_type_rs->layer_type_id){
-        $ogarns{$layer_info_rs->name} = 1;
+        $organs{$layer_info_rs->name} = 1;
       }
       if ($layer_rs->layer_type_id == $stage_layer_type_rs->layer_type_id){
         $stages{$layer_info_rs->name} = 1;
@@ -136,33 +132,26 @@ sub get_input_options {
     }
   }
   
-  my @organ_options;
-  my @stage_options;
-  my @tissue_options;
-  my @organs = sort keys %ogarns;
-  my @stages = sort keys %stages;
-  my @tissues = sort keys %tissues;
+  return (\%organs,\%stages,\%tissues);
   
-  foreach my $e (@organs) {
-    my $option_id = $e;
-    $option_id =~ s/ /_/g;
-    push(@organ_options,"<option id=\"$option_id\" value=\"$option_id\">".$e."</option>");
-  }
-  
-  foreach my $e (@stages) {
-    my $option_id = $e;
-    $option_id =~ s/ /_/g;
-    push(@stage_options,"<option id=\"$option_id\" value=\"$option_id\">".$e."</option>");
-  }
-  
-  foreach my $e (@tissues) {
-    my $option_id = $e;
-    $option_id =~ s/ /_/g;
-    push(@tissue_options,"<option id=\"$option_id\" value=\"$option_id\">".$e."</option>");
-  }
-  
-  return (\@organ_options,\@stage_options,\@tissue_options);
 }
+
+sub names_array_to_option {
+  my $self = shift;
+  my $layers_hashref = shift;
+  
+  my @layer_options;
+  my @layers = sort keys %$layers_hashref;
+  
+  foreach my $e (@layers) {
+    my $option_id = $e;
+    $option_id =~ s/ /_/g;
+    push(@layer_options,"<option id=\"$option_id\" value=\"$option_id\">".$e."</option>");
+  }
+  
+  return (\@layer_options);
+}
+
 
 sub filter_layer_type {
   my $self = shift;
@@ -198,12 +187,10 @@ sub array_to_option {
   my @res;
   my %res;
   
-  foreach my $layer_id (@{$ids_arrayref}) {
-    
-    my $layer_info_ids = get_ids_from_query($self,$schema,"Layer",[$layer_id],"layer_id","layer_info_id");
-    my $layer_names = get_ids_from_query($self,$schema,"LayerInfo",$layer_info_ids,"layer_info_id","name");
-    
-    $res{$layer_names->[0]} = $layer_id;
+  my $layer_rs = $schema->resultset('Layer')->search({layer_id => $ids_arrayref});
+  while (my $layer_obj = $layer_rs->next) {
+    my $layer_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $layer_obj->layer_info_id})->single;
+    $res{$layer_rs->name} = $layer_rs->layer_id;
   }
   
   foreach my $name (sort(keys %res)) {
@@ -212,7 +199,6 @@ sub array_to_option {
     $option_id =~ s/ /_/g;
     
     push(@res,"<option id=\"$option_id\" value=\"$option_id\">".$name."</option>");
-    # push(@res,"<option id=\"$res{$name}\" value=\"$res{$name}\">".$name."</option>");
   }
   
   return \@res;
@@ -225,58 +211,54 @@ sub get_image_hash {
   
   my %res_hash;
   
-  # my $layer_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",$experiment_ids,"experiment_id","layer_id");
   my $organ_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "organ"})->single;
   my $stage_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "stage"})->single;
   my $tissue_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "tissue"})->single;
   
-  foreach my $exp_id (@{$experiment_ids}) {
+  my $exp_layer_rs = $schema->resultset('ExperimentLayer')->search({experiment_id => $experiment_ids});
     
-    my $layer_ids = get_ids_from_query($self,$schema,"ExperimentLayer",[$exp_id],"experiment_id","layer_id");
-    
-    foreach my $layer_id (@{$layer_ids}) {
+  while (my $exp_layer = $exp_layer_rs->next) {
       
-      my $layer_rs = $schema->resultset('Layer')->search({layer_id => $layer_id})->single;
+    my $layer_rs = $schema->resultset('Layer')->search({layer_id => $exp_layer->layer_id})->single;
     
-      # if layer is an organ
-      if ($layer_rs->layer_type_id == $organ_layer_type_rs->layer_type_id) {
-      
-        my $layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $layer_rs->layer_info_id})->single;
-        $res_hash{"organ"}{"organ"}{"image_name"} = $layer_rs->image_file_name;
-        $res_hash{"organ"}{"organ"}{"image_width"} = $layer_rs->image_width;
-        $res_hash{"organ"}{"organ"}{"image_height"} = $layer_rs->image_height;
-      }
-    
-      # if layer is a stage
-      if ($layer_rs->layer_type_id == $stage_layer_type_rs->layer_type_id) {
-        my $layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $layer_rs->layer_info_id})->single;
-        my $stage_name = $layer_info_rs->name;
-        $stage_name =~ s/ /_/g;
-        
-        $res_hash{$stage_name}{"bg"}{"image_name"} = $layer_rs->image_file_name;
-        $res_hash{$stage_name}{"bg"}{"image_width"} = $layer_rs->image_width;
-        $res_hash{$stage_name}{"bg"}{"image_height"} = $layer_rs->image_height;
-      }
-    
-      # if layer is a tissue
-      if ($layer_rs->layer_type_id == $tissue_layer_type_rs->layer_type_id) {
-      
-        my $layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $layer_rs->layer_info_id})->single;
-        my $parent_layer_rs = $schema->resultset('Layer')->search({layer_id => $layer_rs->parent_id})->single;
-        my $parent_layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $parent_layer_rs->layer_info_id})->single;
-        my $tissue_name = $layer_info_rs->name;
-        $tissue_name =~ s/ /_/g;
-        
-        $res_hash{$parent_layer_info_rs->name}{$tissue_name}{"image_name"} = $layer_rs->image_file_name;
-        $res_hash{$parent_layer_info_rs->name}{$tissue_name}{"image_width"} = $layer_rs->image_width;
-        $res_hash{$parent_layer_info_rs->name}{$tissue_name}{"image_height"} = $layer_rs->image_height;
-      }
-      
+    # if layer is an organ
+    if ($layer_rs->layer_type_id == $organ_layer_type_rs->layer_type_id) {
+      my $layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $layer_rs->layer_info_id})->single;
+      $res_hash{"organ"}{"organ"}{"image_name"} = $layer_rs->image_file_name;
+      $res_hash{"organ"}{"organ"}{"image_width"} = $layer_rs->image_width;
+      $res_hash{"organ"}{"organ"}{"image_height"} = $layer_rs->image_height;
     }
+
+    # if layer is a stage
+    if ($layer_rs->layer_type_id == $stage_layer_type_rs->layer_type_id) {
+      my $layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $layer_rs->layer_info_id})->single;
+      my $stage_name = $layer_info_rs->name;
+      $stage_name =~ s/ /_/g;
     
+      $res_hash{$stage_name}{"bg"}{"image_name"} = $layer_rs->image_file_name;
+      $res_hash{$stage_name}{"bg"}{"image_width"} = $layer_rs->image_width;
+      $res_hash{$stage_name}{"bg"}{"image_height"} = $layer_rs->image_height;
+    }
+
+    # if layer is a tissue
+    if ($layer_rs->layer_type_id == $tissue_layer_type_rs->layer_type_id) {
+  
+      my $layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $layer_rs->layer_info_id})->single;
+      my $parent_layer_rs = $schema->resultset('Layer')->search({layer_id => $layer_rs->parent_id})->single;
+      my $parent_layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $parent_layer_rs->layer_info_id})->single;
+      my $tissue_name = $layer_info_rs->name;
+      $tissue_name =~ s/ /_/g;
+    
+      $res_hash{$parent_layer_info_rs->name}{$tissue_name}{"image_name"} = $layer_rs->image_file_name;
+      $res_hash{$parent_layer_info_rs->name}{$tissue_name}{"image_width"} = $layer_rs->image_width;
+      $res_hash{$parent_layer_info_rs->name}{$tissue_name}{"image_height"} = $layer_rs->image_height;
+    }
+  
   }
   
   return \%res_hash;
 }
+
+
 
 1;

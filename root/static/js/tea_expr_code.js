@@ -86,7 +86,7 @@ $(document).ready(function () {
   images_total_width = img_width;
 	// print the tissue colored images
 	for (var j = 0; j < stages.length; j++) {
-
+    
     x_offset = images_total_width;
     images_total_width = images_total_width + img_width;
     
@@ -112,12 +112,16 @@ $(document).ready(function () {
 			var b = rgb_color_array[2];
 			
       if (expr_val > 0) {
-        if (typeof(image_hash[stages[j]][tissues[i]]) !== 'undefined') {
-        // if (typeof(image_hash[stages[j]][tissues[i]]["image_name"]) !== 'undefined') {
-          var image_name = image_hash[stages[j]][tissues[i]]["image_name"];
-          img_width = image_hash[stages[j]][tissues[i]]["image_width"]*1;
-          img_height = image_hash[stages[j]][tissues[i]]["image_height"]*1;
+        var stage_name = stages[j].replace(/_/g," ");
+        var tisue_name = tissues[i];
         
+        if (typeof(image_hash[stage_name][tisue_name]) !== 'undefined') {
+          
+        // if (typeof(image_hash[stages[j]][tissues[i]]["image_name"]) !== 'undefined') {
+          var image_name = image_hash[stage_name][tisue_name]["image_name"];
+          img_width = image_hash[stage_name][tisue_name]["image_width"]*1;
+          img_height = image_hash[stage_name][tisue_name]["image_height"]*1;
+          
           load_tissue_image(i,j,aoaoa,x_offset,y_offset,r,g,b,tissue_layer,canvas,stages[j],tissues[i],img_width,img_height,tissue_img_group,image_name,expr_val);
         // }
         }

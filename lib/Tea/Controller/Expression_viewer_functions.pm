@@ -6,7 +6,7 @@ use warnings;
 use DBIx::Class;
 use Tea::Schema;
 use DBI;
-
+use Data::Dumper;
 
 sub get_ids_from_query {
   my $self = shift;
@@ -42,11 +42,72 @@ sub get_ids_from_query {
   return \@res_ids;
 }
 
+sub get_layer_options {
+  my $self = shift;
+  my $schema = shift;
+  my $exp_rs = shift;
+  my $org_names = shift;
+  my $stage_names = shift;
+  my $tissue_names = shift;
+  
+  my %project_layer_ids;
+  # save all layer ids from the selected organism.
+  while(my $exp_obj = $exp_rs->next) {
+    my $exp_layer_rs = $schema->resultset('ExperimentLayer')->search({experiment_id => $exp_obj->experiment_id});
+
+    while(my $exp_layer_obj = $exp_layer_rs->next) {
+      $project_layer_ids{$exp_layer_obj->layer_id} = 1;
+    }
+  }
+  
+  # save all names together
+  my @all_names;
+  push(@all_names,@$org_names);
+  push(@all_names,@$stage_names);
+  push(@all_names,@$tissue_names);
+  
+  my %layer_ids_found;
+  # get the parent layer_ids from the names
+  foreach my $name (@all_names) {
+    $name =~ s/_/ /g;
+    my $layer_info_rs = $schema->resultset('LayerInfo')->search({name => $name});
+
+    while(my $layer_info_obj = $layer_info_rs->next) {
+      # print STDERR "layer_name: ".$layer_info_obj->name."\n";
+      my $layer_rs = $schema->resultset('Layer')->search({layer_info_id => $layer_info_obj->layer_info_id});
+    
+      while(my $layer_obj = $layer_rs->next) {
+        if ($project_layer_ids{$layer_obj->parent_id}) {
+          $layer_ids_found{$layer_obj->parent_id} = 1;
+          # print STDERR "parent id: ".$layer_obj->parent_id."\n";
+        }
+      }
+    }
+  }
+  
+  # get the experiment resultsets from the layers
+  my @layer_ids = keys %layer_ids_found;
+  my %exp_ids;
+  my $exp_layer_rs = $schema->resultset('ExperimentLayer')->search({layer_id => \@layer_ids});
+
+  while(my $exp_layer_obj = $exp_layer_rs->next) {
+    $exp_ids{$exp_layer_obj->experiment_id} = 1;
+    # print STDERR "exp id: ".$exp_layer_obj->experiment_id."\n";
+  }
+  
+  my @experiment_ids = keys %exp_ids;
+  my $filtered_exp_rs = $schema->resultset('Experiment')->search({experiment_id => \@experiment_ids});
+  
+  # get all the layers from the experiment
+  my ($organs,$stages,$tissues) = get_input_options($self,$schema,$filtered_exp_rs);
+    
+  return ($organs,$stages,$tissues);
+}
+
 sub get_input_options {
   my $self = shift;
   my $schema = shift;
-  my $all_rs = shift;
-  my $res_column = shift;
+  my $all_exp_rs = shift;
   
   my %ogarns;
   my %stages;
@@ -55,7 +116,7 @@ sub get_input_options {
   my $stage_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "stage"})->single;
   my $tissue_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "tissue"})->single;
   
-  while(my $n = $all_rs->next) {
+  while(my $n = $all_exp_rs->next) {
     
     my $exp_layer_rs = $schema->resultset('ExperimentLayer')->search({experiment_id => $n->experiment_id});
     
@@ -146,6 +207,7 @@ sub array_to_option {
   }
   
   foreach my $name (sort(keys %res)) {
+    
     my $option_id = $name;
     $option_id =~ s/ /_/g;
     
@@ -187,8 +249,6 @@ sub get_image_hash {
     
       # if layer is a stage
       if ($layer_rs->layer_type_id == $stage_layer_type_rs->layer_type_id) {
-        
-        
         my $layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $layer_rs->layer_info_id})->single;
         my $stage_name = $layer_info_rs->name;
         $stage_name =~ s/ /_/g;

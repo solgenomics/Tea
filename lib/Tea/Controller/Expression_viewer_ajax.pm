@@ -19,7 +19,8 @@ use Bio::BLAST::Database;
 use File::Temp qw | tempfile |;
 use Lucy::Simple;
 use Array::Utils qw(:all);
-# use List::MoreUtils qw(uniq);
+
+# use Time::HiRes qw( time );
 
 use DBIx::Class;
 use strict;
@@ -43,6 +44,8 @@ our %urlencode;
 sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
   my ($self, $c) = @_;
   
+  # my $start = time();
+  
   # to store erros as they may happen
   my @errors; 
 
@@ -60,9 +63,9 @@ sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
 
   my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
   
-  my @organ_options;
-  my @stage_options;
-  my @tissue_options;
+  my $organ_options_arrayref;
+  my $stage_options_arrayref;
+  my $tissue_options_arrayref;
   
   my $db_funct = Tea::Controller::Expression_viewer_functions->new();
   
@@ -70,70 +73,27 @@ sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
   my $project_rs = $schema->resultset('Project')->search({organism_id => $organism_ids[0]})->single;
   my $experiment_rs = $schema->resultset('Experiment')->search({project_id => $project_rs->project_id});
   
-  
-  if ($organ_names[0] || $stage_names[0] || $tissue_names[0]){
-
-    my $project_ids = $db_funct->get_ids_from_query($schema,"Project",\@organism_ids,"organism_id","project_id");
-    my $all_experiment_ids = $db_funct->get_ids_from_query($schema,"Experiment",$project_ids,"project_id","experiment_id");
-    
-    # print "more things selected!!!\n\n";
-    my $organ_info_ids = $db_funct->get_ids_from_query($schema,"LayerInfo",\@organ_names,"name","layer_info_id");
-    my $organ_ids = $db_funct->get_ids_from_query($schema,"Layer",$organ_info_ids,"layer_info_id","layer_id");
-    $organ_ids = $db_funct->filter_layer_type($schema,$organ_ids,"organ","layer_id");
-    my $organ_exp_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",$organ_ids,"layer_id","experiment_id");
-    
-    my $stage_info_ids = $db_funct->get_ids_from_query($schema,"LayerInfo",\@stage_names,"name","layer_info_id");
-    my $stage_ids = $db_funct->get_ids_from_query($schema,"Layer",$stage_info_ids,"layer_info_id","layer_id");
-    $stage_ids = $db_funct->filter_layer_type($schema,$stage_ids,"stage","layer_id");
-    my $stage_exp_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",$stage_ids,"layer_id","experiment_id");
-    
-    my $tissue_info_ids = $db_funct->get_ids_from_query($schema,"LayerInfo",\@tissue_names,"name","layer_info_id");
-    my $tissue_ids = $db_funct->get_ids_from_query($schema,"Layer",$tissue_info_ids,"layer_info_id","layer_id");
-    $tissue_ids = $db_funct->filter_layer_type($schema,$tissue_ids,"tissue","layer_id");
-    my $tissue_exp_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",$tissue_ids,"layer_id","experiment_id");
-    
-    # my $stage_exp_ids = _get_ids_from_query($schema,"ExperimentLayer",\@stage_ids,"layer_id","experiment_id");
-    # my $tissue_exp_ids = _get_ids_from_query($schema,"ExperimentLayer",\@tissue_ids,"layer_id","experiment_id");
-    
-    my @found_experiment_ids = unique (@$organ_exp_ids, @$stage_exp_ids, @$tissue_exp_ids);
-    my @experiment_ids = intersect(@$all_experiment_ids, @found_experiment_ids);
-    
-#    print "experiment_ids: @experiment_ids\n";
-    my $layer_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",\@experiment_ids,"experiment_id","layer_id");
-#    print "layer_ids: @$layer_ids\n";
-    
-    $organ_ids = $db_funct->filter_layer_type($schema,$layer_ids,"organ","layer_id");
-    $stage_ids = $db_funct->filter_layer_type($schema,$layer_ids,"stage","layer_id");
-    $tissue_ids = $db_funct->filter_layer_type($schema,$layer_ids,"tissue","layer_id");
-    
-    
-    my $organ_options = $db_funct->array_to_option($schema,$organ_ids);
-    my $stage_options = $db_funct->array_to_option($schema,$stage_ids);
-    my $tissue_options = $db_funct->array_to_option($schema,$tissue_ids);
-    
-    @organ_options = @{$organ_options};
-    @stage_options = @{$stage_options};
-    @tissue_options = @{$tissue_options};
-    
+  if ($organ_names[0] || $stage_names[0] || $tissue_names[0]) {
+    ($organ_options_arrayref,$stage_options_arrayref,$tissue_options_arrayref) = $db_funct->get_layer_options($schema,$experiment_rs,\@organ_names,\@stage_names,\@tissue_names);
   }
   else {
     # only organism selected
-    my ($organ_options,$stage_options,$tissue_options) = $db_funct->get_input_options($schema,$experiment_rs,"layer_id");
-    
-    @organ_options = @{$organ_options};
-    @stage_options = @{$stage_options};
-    @tissue_options = @{$tissue_options};
+    ($organ_options_arrayref,$stage_options_arrayref,$tissue_options_arrayref) = $db_funct->get_input_options($schema,$experiment_rs);
   }
   
-  my $organ_options = join("\n", "@organ_options");
-  my $stage_options = join("\n", "@stage_options");
-  my $tissue_options = join("\n", "@tissue_options");
+  my $organ_options = join("\n", @$organ_options_arrayref);
+  my $stage_options = join("\n", "@$stage_options_arrayref");
+  my $tissue_options = join("\n", "@$tissue_options_arrayref");
   
   $c->stash->{rest} = {
     organs => $organ_options,
     stages => $stage_options,
     tissues => $tissue_options,
   };
+  
+  # my $end = time();
+  # my $elapsed_time = sprintf("%.2f\n", $end - $start);
+  # print "get_stages time: $elapsed_time\n";
 }
 
 

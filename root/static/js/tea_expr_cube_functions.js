@@ -502,11 +502,11 @@
 	}
 
 
-	function add_color_grad_legend(page_width,color_string,tmp_layer,stage) {
+	function add_color_grad_legend(page_width,tmp_layer,stage,y_margin) {
 	
 		var color = ['rgb(80,0,0)','rgb(255,0,0)','rgb(255,130,0)','rgb(255,195,125)','rgb(255,233,199)','rgb(255,255,120)','rgb(255,255,230)'];
 	  var x_pos = page_width-50; // margin from right
-	  var y_pos = 190; //margin from top
+	  var y_pos = y_margin+35; //margin from top
     
 		var grad_legend = new Kinetic.Rect({
 			x: x_pos,
@@ -596,7 +596,7 @@
       // add_stage_names(x,y,stages[i],x2,tmp_layer,tmp_canvas);
 		}
 		
-		add_color_grad_legend(page_width,color_code,tmp_layer,tmp_canvas)
+		add_color_grad_legend(page_width,tmp_layer,tmp_canvas,y_margin)
 	}
 
 

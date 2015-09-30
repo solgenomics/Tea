@@ -17,15 +17,24 @@ $(document).ready(function () {
       }
     }
   
-  return (images_total_height)
+    return (images_total_height)
   }
   
 	//set canvas width
   var canvas_width = 1120;
+  var canvas_height = 1200;
   
   //set variables
 	var x_margin = canvas_width -100 - stages.length*20 - tissues.length*15;
-	var y_margin = 155;
+  
+  var longest_stage = 0;
+  for (var j = 0; j < stages.length; j++) {
+    if (stages[j].length > longest_stage) {
+      longest_stage = stages[j].length;
+    }
+  }
+  // alert("longest stage: "+longest_stage);
+	var y_margin = longest_stage*7;
 
   var cube_left_pos = x_margin -60 - tissues.length*10;
 
@@ -35,8 +44,9 @@ $(document).ready(function () {
   
   //set canvas height
   images_total_height = get_canvas_dimensions(canvas_width,cube_left_pos,stages,tissues,image_hash)
-  var canvas_height = images_total_height;
-  
+  if (images_total_height > canvas_height) {
+    canvas_height = images_total_height;
+  }
   
   //define the canvas
 	var canvas = new Kinetic.Stage({
@@ -123,8 +133,8 @@ $(document).ready(function () {
   var frame_height = $('#container').css("height");
   var container_height = frame_height.replace("px","");
   
-  if (images_total_height > container_height) {
-    $('#container').css("height",images_total_height+"px");
+  if (canvas_height > container_height) {
+    $('#container').css("height",canvas_height+"px");
   }
   
   

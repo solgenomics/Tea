@@ -163,6 +163,10 @@ my $json = JSON::Any->new;
         
   <br/>
   <button class="blue_button" style="margin-top:10px;float: right;" type="submit" form="search_gene" formaction="/Expression_viewer/output" formmethod="post" formenctype="multipart/form-data">Get Expression</button>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
         
 </div>
 

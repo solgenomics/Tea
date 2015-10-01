@@ -73,10 +73,10 @@ sub get_layer_options {
     $name =~ s/_/ /g;
     my $layer_info_rs = $schema->resultset('LayerInfo')->search({name => $name});
 
-    while(my $layer_info_obj = $layer_info_rs->next) {
+    while (my $layer_info_obj = $layer_info_rs->next) {
       my $layer_rs = $schema->resultset('Layer')->search({layer_info_id => $layer_info_obj->layer_info_id});
     
-      while(my $layer_obj = $layer_rs->next) {
+      while (my $layer_obj = $layer_rs->next) {
         if ($project_layer_ids{$layer_obj->parent_id}) {
           $layer_ids_found{$layer_obj->parent_id} = 1;
         }
@@ -89,7 +89,7 @@ sub get_layer_options {
   my %exp_ids;
   my $exp_layer_rs = $schema->resultset('ExperimentLayer')->search({layer_id => \@layer_ids});
 
-  while(my $exp_layer_obj = $exp_layer_rs->next) {
+  while (my $exp_layer_obj = $exp_layer_rs->next) {
     $exp_ids{$exp_layer_obj->experiment_id} = 1;
     # print STDERR "exp id: ".$exp_layer_obj->experiment_id."\n";
   }
@@ -112,7 +112,7 @@ sub get_input_options {
   my $stage_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "stage"})->single;
   my $tissue_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "tissue"})->single;
   
-  while(my $n = $all_exp_rs->next) {
+  while (my $n = $all_exp_rs->next) {
     
     my $exp_layer_rs = $schema->resultset('ExperimentLayer')->search({experiment_id => $n->experiment_id});
     

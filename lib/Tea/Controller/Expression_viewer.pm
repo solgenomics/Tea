@@ -117,39 +117,25 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   my $experiment_ids = $db_funct->get_ids_from_query($schema,"Experiment",$project_ids,"project_id","experiment_id");
   
   # getting all the experiments from the organism
-  # my $experiment_rs = $schema->resultset('Experiment')->search({project_id => $project_rs->project_id});
+  my $experiment_rs = $schema->resultset('Experiment')->search({project_id => $project_rs->project_id});
   
   # only organism selected
   if (!$stage_filter && !$tissue_filter && !$organ_filter) {
-    # my ($organ_hashref,$stage_hashref,$tissue_hashref) = $db_funct->get_input_options($schema,$experiment_rs);
-    #
-    # @stages = sort keys %$stage_hashref;
-    # @tissues = sort keys %$tissue_hashref;
-    #
-    # $image_hash_ref = $db_funct->get_image_hash($schema,\@stages,\@tissues);
-    
+    my ($organ_hashref,$stage_hashref,$tissue_hashref) = $db_funct->get_input_options($schema,$experiment_rs);
 
-    # print Dumper @$layer_ids;
+    @stages = sort keys %$stage_hashref;
+    @tissues = sort keys %$tissue_hashref;
+    my @exp_ids;
+    
+    while (my $exp_rs = $experiment_rs->next) {
+      push(@exp_ids,$exp_rs->experiment_id);
+    }
 
     $image_hash_ref = $db_funct->get_image_hash($schema,$experiment_ids);
-
-    print Dumper $image_hash_ref;
-
-    my $layer_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",$experiment_ids,"experiment_id","layer_id");
-
-    my $stage_info_ids = $db_funct->filter_layer_type($schema,$layer_ids,"stage","layer_info_id");
-    my $tissue_info_ids = $db_funct->filter_layer_type($schema,$layer_ids,"tissue","layer_info_id");
-
-    my $stage_names = $db_funct->get_ids_from_query($schema,"LayerInfo",$stage_info_ids,"layer_info_id","name");
-    my $tissue_names = $db_funct->get_ids_from_query($schema,"LayerInfo",$tissue_info_ids,"layer_info_id","name");
-
-    @stages = @{$stage_names};
-    @tissues = @{$tissue_names};
-   
   }
   
-  # if only stage is selected
-  elsif ($stage_filter && !$tissue_filter) {
+  # if only stage is selected, get all tissues
+  elsif ($stage_filter && !$tissue_filter && !$organ_filter) {
     # my $db_funct = Tea::Controller::Expression_viewer_functions->new();
     
     my $stage_info_ids = $db_funct->get_ids_from_query($schema,"LayerInfo",\@stages,"name","layer_info_id");
@@ -168,8 +154,8 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
     @tissues = @{$tissue_names};
   }
   
-  # if only tissue is selected
-  elsif (!$stage_filter && $tissue_filter) {
+  # if only tissue is selected, get all stages
+  elsif (!$stage_filter && $tissue_filter && !$organ_filter) {
     # my $db_funct = Tea::Controller::Expression_viewer_functions->new();
     
     my $tissue_info_ids = $db_funct->get_ids_from_query($schema,"LayerInfo",\@tissues,"name","layer_info_id");

@@ -363,11 +363,20 @@ a:hover {
 #container {
 /*  border-style:dashed;*/
 /*  border-width:0px 1px 1px 1px;*/
-	height:700px;
+  height:700px;
 /*  padding-top: 15px;*/
-	width:1120px;
-	overflow:scroll;
-/*	width:900px;*/
+  width:1120px;
+  overflow:scroll;
+/*  width:900px;*/
+}
+
+#container_tissues {
+  border-style: solid;
+  border-width: 1px;
+/*  height:700px;*/
+  margin: 15px;
+  min-width:1200;
+  overflow:scroll;
 }
 
 

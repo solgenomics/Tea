@@ -98,15 +98,22 @@ my $json = JSON::Any->new;
 			Annotation: <span id="gene_desc" class="gene_desc"> </span>
 		</div>
 	</div>
-	
-	<div id="container"></div>
-	<!-- <br/> -->
-	<!-- <div id="buttons">
-		<button id="save">
-			Save as image
-		</button>
-	</div> -->
-	<br>
 </center>
+
+
+<center>
+  <div class="tabs">
+      <ul class="tab-links">
+          <li class="active"><a href="#container">Expression Cube</a></li>
+          <li><a href="#container_tissues">Expression images</a></li>
+      </ul>
+  </div>
+  
+  <div class="tab-content">
+    <div id="container" class="tab active"><p>cube</p></div>
+    <div id="container_tissues" class="tab"><p>images</p></div>
+  </div>
+</center>
+	<br>
 
 

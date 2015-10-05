@@ -304,9 +304,10 @@ a:hover {
   background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #3c3c3c), color-stop(1, #4C4C4C) );
   background:-moz-linear-gradient( center top, #3c3c3c 5%, #4C4C4C 100% );
   filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#3c3c3c', endColorstr='#4C4C4C');
-  border-top-left-radius:5px;
+  border-radius:5px;
+/*  border-top-left-radius:5px;
   border-top-right-radius:5px;
-  background-color:#4C4C4C;
+*/  background-color:#4C4C4C;
   color:#7FC3FF;
   font-size:18px;
   line-height:30px;
@@ -360,8 +361,8 @@ a:hover {
 
 
 #container {
-	border-style:dashed;
-	border-width:0px 1px 1px 1px;
+/*  border-style:dashed;*/
+/*  border-width:0px 1px 1px 1px;*/
 	height:700px;
 /*  padding-top: 15px;*/
 	width:1120px;
@@ -608,3 +609,51 @@ body .ui-tooltip {
   text-decoration:none;
 }
 
+/*----- Tabs -----*/
+.tabs {
+    display:inline-block;
+}
+ 
+    /*----- Tab Links -----*/
+    .tab-links:after {
+        display:block;
+        clear:both;
+        content:'';
+    }
+ 
+    .tab-links li {
+        margin:0px 5px;
+        float:left;
+        list-style:none;
+    }
+ 
+        .tab-links a {
+            padding:9px 15px;
+            display:inline-block;
+            border-radius:3px;
+            font-size:16px;
+            font-weight:600;
+            color:#4c4c4c;
+            transition:all linear 0.15s;
+        }
+ 
+        .tab-links a:hover {
+            background:#bbb;
+            text-decoration:none;
+        }
+ 
+    li.active a, li.active a:hover {
+        background:#dedede;
+        color:#4c4c4c;
+    }
+ 
+    /*----- Content of Tabs -----*/
+        .tab {
+            display:none;
+        }
+ 
+        .tab.active {
+            display:block;
+        }
+        
+/* end tabs*/

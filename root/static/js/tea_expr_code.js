@@ -1,23 +1,29 @@
 $(document).ready(function () {
   
-  function get_canvas_dimensions(canvas_width,cube_left_pos,stages,tissues,image_hash) {
-    
-    var img_width = image_hash["organ"]["organ"]["image_width"]*1;
-    var img_height = image_hash["organ"]["organ"]["image_height"]*1;
-    var images_total_width = img_width;
-    var images_total_height = img_height;
-  
+  jQuery('.tabs .tab-links a').on('click', function(e)  {
+    var currentAttrValue = jQuery(this).attr('href');
+
+    // Show/Hide Tabs
+    jQuery(currentAttrValue).show().siblings().hide();
+    // jQuery('.tabs ' + currentAttrValue).show().siblings().hide();
+
+    // Change/remove current tab to active
+    jQuery(this).parent('li').addClass('active').siblings().removeClass('active');
+
+    e.preventDefault();
+  });
+     
+     
+  function get_canvas_width(stages) {
+
+    var images_total_width = 0;
+
     for (var j = 0; j < stages.length; j++) {
+      img_width = image_hash[stages[0]]["bg"]["image_width"]*1;
       images_total_width = images_total_width + img_width;
-    
-      if (cube_left_pos <= images_total_width) {
-        img_width = image_hash[stages[0]]["bg"]["image_width"]*1;
-        images_total_width = img_width;
-        images_total_height = images_total_height + img_height;
-      }
     }
-  
-    return (images_total_height)
+
+    return (images_total_width)
   }
   
 	//set canvas width
@@ -36,70 +42,38 @@ $(document).ready(function () {
   // alert("longest stage: "+longest_stage);
 	var y_margin = longest_stage*7;
 
-  var cube_left_pos = x_margin -60 - tissues.length*10;
+  // var cube_left_pos = x_margin -60 - tissues.length*10;
 
   var x_offset = 0;
   var y_offset = 0;
   
   
-  //set canvas height
-  images_total_height = get_canvas_dimensions(canvas_width,cube_left_pos,stages,tissues,image_hash)
-  if (images_total_height > canvas_height) {
-    canvas_height = images_total_height;
-  }
+  //set canvas width
+  images_total_width = get_canvas_width(stages)
   
-  //define the canvas
-	var canvas = new Kinetic.Stage({
-		container: "container",
-		width: canvas_width,
-		height: canvas_height
-	});
-	var tissue_layer = new Kinetic.Layer();
+  //define the cube canvas
+  var canvas = new Kinetic.Stage({
+    container: "container",
+    width: 1120,
+    height: 1200
+  });
+
+  //define the tissue canvas
+  var img_canvas = new Kinetic.Stage({
+    container: "container_tissues",
+    width: images_total_width,
+    height: canvas_height
+  });
+  var tissue_layer = new Kinetic.Layer();
 
 
   //set image coordinates
   var img_y = 0;
   
-  //create organ bg image
-    var organBg_imgObj = new Image();
-    organBg_imgObj.onload = function() {
-
-      var tp = new Kinetic.Image({
-        x: 0,
-        y: img_y,
-        image: organBg_imgObj,
-        width: image_hash["organ"]["organ"]["image_width"]*1,
-        height: image_hash["organ"]["organ"]["image_height"]*1
-      });
-      tissue_layer.add(tp);
-      canvas.add(tissue_layer);
-    };
-    var organ_bg_image = '/static/images/expr_viewer/'+image_hash["organ"]["organ"]["image_name"];
-
-  organBg_imgObj.src = organ_bg_image;
-
-	// ------------- print tissue images
-	// http://www.html5canvastutorials.com/tutorials/html5-canvas-image-loader/
-	
-  
-  img_width = image_hash["organ"]["organ"]["image_width"]*1;
-  images_total_width = img_width;
 	// print the tissue colored images
 	for (var j = 0; j < stages.length; j++) {
     
-    x_offset = images_total_width;
-    images_total_width = images_total_width + img_width;
-    
-    if (cube_left_pos <= images_total_width) {
-      img_width = image_hash[stages[0]]["bg"]["image_width"]*1;
-      images_total_width = img_width;
-      x_offset = 0;
-      y_offset = y_offset + img_height;
-      images_total_height = images_total_height + img_height;
-    }
-    
-    load_stage_image(x_offset,y_offset,tissue_layer,canvas,stages[j],image_hash);
-    
+    load_stage_image(x_offset,y_offset,tissue_layer,img_canvas,stages[j],image_hash);
     
     var tissue_img_group = new Kinetic.Group();
 		for (var i = 0; i<tissues.length; i++) {
@@ -122,16 +96,18 @@ $(document).ready(function () {
           img_width = image_hash[stage_name][tisue_name]["image_width"]*1;
           img_height = image_hash[stage_name][tisue_name]["image_height"]*1;
           
-          load_tissue_image(i,j,aoaoa,x_offset,y_offset,r,g,b,tissue_layer,canvas,stages[j],tissues[i],img_width,img_height,tissue_img_group,image_name,expr_val);
+          load_tissue_image(i,j,aoaoa,x_offset,y_offset,r,g,b,tissue_layer,img_canvas,stages[j],tissues[i],img_width,img_height,tissue_img_group,image_name,expr_val);
         // }
         }
       }
       
 		}
-    tissue_expr_popup(canvas,tissue_img_group,aoaoa,j,tissues,x_offset,y_offset,img_width,img_height)
+    tissue_expr_popup(img_canvas,tissue_img_group,aoaoa,j,tissues,x_offset,y_offset,img_width,img_height)
     
 		tissue_layer.cache();
 		tissue_layer.draw();
+    
+    x_offset = x_offset + image_hash[stages[j]]["bg"]["image_width"]*1;
 	}
   
   var frame_height = $('#container').css("height");

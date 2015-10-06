@@ -508,18 +508,28 @@
 	  var x_pos = page_width-50; // margin from right
 	  var y_pos = y_margin+35; //margin from top
     
-		var grad_legend = new Kinetic.Rect({
-			x: x_pos,
-			y: y_pos,
-			width: 20,
-			height: 400,
-			fillLinearGradientStartPoint: {x:0, y:0},
-			fillLinearGradientEndPoint: {x:0,y:400},
-			fillLinearGradientColorStops: [0, color[0], 0.2, color[1], 0.4, color[2], 0.6, color[3], 0.75, color[4], 0.9, color[5], 0.99, color[6], 1, 'rgb(255,255,255)'],
-			stroke: 'black',
-			strokeWidth: 1,
-		});
-	
+    var grad_legend = new Kinetic.Rect({
+      x: x_pos,
+      y: y_pos,
+      width: 20,
+      height: 400,
+      fillLinearGradientStartPoint: {x:0, y:0},
+      fillLinearGradientEndPoint: {x:0,y:400},
+      fillLinearGradientColorStops: [0, color[0], 0.2, color[1], 0.4, color[2], 0.6, color[3], 0.75, color[4], 0.9, color[5], 0.98, color[6]],
+      // fillLinearGradientColorStops: [0, color[0], 0.2, color[1], 0.4, color[2], 0.6, color[3], 0.75, color[4], 0.9, color[5], 0.99, color[6], 1, 'rgb(255,255,255)'],
+      stroke: 'black',
+      strokeWidth: 1,
+    });
+  
+    var legend_bottom = new Kinetic.Rect({
+      x: x_pos+1,
+      y: y_pos+394,
+      width: 18,
+      height: 5,
+      fill: 'rgb(220,220,220)',
+      strokeWidth: 0
+    });
+  
 		var top_text = new Kinetic.Text({
 			x: x_pos-8,
       y: y_pos-20,
@@ -565,7 +575,28 @@
 			fill: "black"
 		});
 	
+		var no_data_square = new Kinetic.Rect({
+			x: x_pos,
+			y: y_pos+410,
+			width: 20,
+			height: 20,
+			fill: 'white',
+			stroke: 'black',
+			strokeWidth: 1,
+		});
+    
+		var no_data_text = new Kinetic.Text({
+			x: x_pos-10,
+			y: y_pos+435,
+			text: "No data",
+			fill: "black"
+		});
+  
+  
+		tmp_layer.add(no_data_text);
+		tmp_layer.add(no_data_square);
 		tmp_layer.add(grad_legend);
+		tmp_layer.add(legend_bottom);
 		tmp_layer.add(min_text);
 		tmp_layer.add(min2_text);
 		tmp_layer.add(mid1_text);

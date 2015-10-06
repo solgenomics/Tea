@@ -172,8 +172,17 @@
 		var b_color = 255;
 		
 		if (expr_val == 0) {
-			tmp_color = 'rgb('+255+','+255+','+255+')';
-		} else if (expr_val <= 1) {
+			tmp_color = 'rgb('+50+','+50+','+50+')';
+      // tmp_color = 'rgb('+255+','+255+','+255+')';
+			r_color = 220;
+			g_color = 220;
+			b_color = 220;
+      
+    } else if (expr_val == "NA") {
+			r_color = 0;
+			g_color = 0;
+			b_color = 255;
+    } else if (expr_val <= 1) {
 			r_color = 255;
 			g_color = 255;
 			b_color = Math.round(130*(1-expr_val)+120);

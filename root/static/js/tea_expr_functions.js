@@ -85,10 +85,14 @@
 	function open_bar_graph_dialog(stage_tissue_values, gene_name, corr_val, description, gene_id, stage_names, tissue_names) {
     
     var panel_width = 1200;
-    var panel_max = stage_names.length*tissue_names.length*50;
+    var panel_max = stage_names.length*tissue_names.length*20;
+    var panel_min = 600;
     
-    if (panel_max < panel_width) {
+    // if (panel_width > panel_max) {
       panel_width = panel_max;
+    // }
+    if (panel_width < panel_min) {
+      panel_width = panel_min;
     }
     // var tissue_names = ["Inner epidermis","Parenchyma","Vascular tissue","Collenchyma","Outer epidermis"];
     // var stage_names = ["10DPA", "Mature green", "Pink"];
@@ -172,20 +176,21 @@
 		var b_color = 255;
 		
 		if (expr_val == 0) {
-			tmp_color = 'rgb('+50+','+50+','+50+')';
-      // tmp_color = 'rgb('+255+','+255+','+255+')';
-			r_color = 220;
-			g_color = 220;
-			b_color = 220;
-      
-    } else if (expr_val == "NA") {
-			r_color = 0;
-			g_color = 0;
-			b_color = 255;
-    } else if (expr_val <= 1) {
 			r_color = 255;
 			g_color = 255;
-			b_color = Math.round(130*(1-expr_val)+120);
+			b_color = 255;
+      
+    } 
+    else if (expr_val == 0.000001) {
+      r_color = 210;
+      g_color = 210;
+      b_color = 210;
+    }
+    else if (expr_val <= 1) {
+			r_color = 255;
+			g_color = 255;
+			b_color = Math.round(130*(1-expr_val)+100);
+      // b_color = Math.round(130*(1-expr_val)+120);
 		} else if (expr_val > 1 && expr_val <= 10) {
 			r_color = 255;
 			g_color = Math.round(245 - 60*expr_val/10);
@@ -268,13 +273,17 @@
       	tissue_popup_layer.add(arrow_group);
         
         for (var n=0; n<aoaoa[0][j].length; n++) {
-
+          
+          var expr_val = aoaoa[0][j][n];
+          if (expr_val == 0.000001) {
+            expr_val = "NA";
+          }
           var tissue_name = tissues[n].replace("_"," ");
 
           var tissue_desc_txt = new Kinetic.Text({
             x: x_offset+img_width+10,
             y: y_offset+50+margin+(n*margin),
-            text: tissue_name+": "+aoaoa[0][j][n],
+            text: tissue_name+": "+expr_val,
             fontSize: 18,
             opacity: 1,
             fontFamily: 'Arial',

@@ -340,7 +340,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	foreach my $g (@genes) {
 		foreach my $s (@stages) {
 			foreach my $t (@tissues) {
-				$gene_stage_tissue_expr{$g}{$s}{$t} = "No Data";
+				$gene_stage_tissue_expr{$g}{$s}{$t} = 0.000001;
 			}
 		}
 	}

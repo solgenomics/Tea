@@ -421,7 +421,7 @@
 			}
 		}
 		
-		var page_y = 40 + top_y_margin + 20*sq_size + 15*tissue_names.length; //for pagination only
+		var page_y = 70 + top_y_margin + 20*sq_size + 15*tissue_names.length; //for pagination only
     // var page_y = 40 + top_y_margin + 20*sq_size + 15*stage_names.length; //for pagination only
     
     //draw the pagination on bottom of the cube
@@ -526,7 +526,8 @@
       y: y_pos+394,
       width: 18,
       height: 5,
-      fill: 'rgb(220,220,220)',
+      fill: 'rgb(255,255,255)',
+      // fill: 'rgb(220,220,220)',
       strokeWidth: 0
     });
   
@@ -580,7 +581,8 @@
 			y: y_pos+410,
 			width: 20,
 			height: 20,
-			fill: 'white',
+			fill: 'rgb(210,210,210)',
+      // fill: 'white',
 			stroke: 'black',
 			strokeWidth: 1,
 		});

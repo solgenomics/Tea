@@ -110,8 +110,8 @@ my $json = JSON::Any->new;
   </div>
   
   <div class="tab-content">
-    <div id="container" class="tab active"><p>cube</p></div>
-    <div id="container_tissues" class="tab"><p>images</p></div>
+    <div id="container" class="tab active"></div>
+    <div id="container_tissues" class="tab"></div>
   </div>
 </center>
 	<br>

@@ -14,12 +14,6 @@ my $json = JSON::Any->new;
 
 </%perl>
 
-<script>
-  var organisms_html = <% $organism_html %>;
-  var organs_html = <% $organ_html %>;
-  var stages_html = <% $stage_html %>;
-  var tissues_html = <% $tissue_html %>;
-</script>
 
 <center>
 	<div class="pagetitle"><img src="/static/images/expr_small.png" height="40" style="margin-bottom:-10px;"/> Expression Viewer</div>
@@ -38,7 +32,7 @@ my $json = JSON::Any->new;
 					<tr>
 						<td class="td_form">
 							<input class="expr_input_box" value="Solyc01g102660" name="input_gene" size="26"/>
-							<input class="corr_filter" name="correlation_filter" style="display:none;"/>
+							<input id="corr_filter" name="correlation_filter" style="display:none;"/>
 							<input class="organism_filter" name="organism_filter" style="display:none;"/>
 							<input class="organ_filter" name="organ_filter" style="display:none;"/>
 							<input class="stage_filter" name="stage_filter" style="display:none;"/>
@@ -190,7 +184,7 @@ my $json = JSON::Any->new;
 </style>
 
 <script>
-
+  
   $(function() {
     $( "#correlation_slider" ).slider({
       range: "max",
@@ -198,8 +192,8 @@ my $json = JSON::Any->new;
       max: 99,
       value: 65,
       slide: function( event, ui ) {
-        $( "#amount" ).val( ui.value );
         $( "#corr_filter" ).val( ui.value );
+        $( "#amount" ).val( ui.value );
       }
     });
     $( "#amount" ).val( $( "#correlation_slider" ).slider( "value" ) );

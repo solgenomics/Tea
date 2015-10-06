@@ -106,6 +106,11 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   my $expr_index_path = $expr_path."/".$project_rs->indexed_dir;
   # indexed dir name saved in $corr_index_path and $expr_index_path
   
+  
+  print STDERR "corr_filter: $corr_filter\n";
+  
+  
+  
   my @stages = split(",",$stage_filter);
   my @tissues = split(",",$tissue_filter);
   

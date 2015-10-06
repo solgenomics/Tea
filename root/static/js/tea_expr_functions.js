@@ -53,6 +53,7 @@
 				},
 				yaxis: {
 					pad: 1.5,
+          label: 'RPKM',
 					min: 0,
 					tickOptions: {
 						angle: 0,

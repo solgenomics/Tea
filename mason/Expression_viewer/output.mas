@@ -103,7 +103,7 @@ my $json = JSON::Any->new;
 
 <center>
   <div class="tabs">
-      <ul class="tab-links">
+      <ul class="tab-links" style="margin-bottom:0px">
           <li class="active"><a href="#container">Expression Cube</a></li>
           <li><a href="#container_tissues">Expression images</a></li>
       </ul>

@@ -50,6 +50,9 @@ $(document).ready(function () {
   
   //set canvas width
   images_total_width = get_canvas_width(stages)
+  if (images_total_width < canvas_width) {
+    images_total_width = canvas_width;
+  }
   
   //define the cube canvas
   var canvas = new Kinetic.Stage({

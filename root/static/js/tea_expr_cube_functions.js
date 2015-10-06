@@ -400,7 +400,7 @@
 				if (j == 1 && n == 1) {
 					//add tissue names to top layer
           // tissue_name = tissue_names[i-1].replace("_", " "); //replace underscores in tissue names by spaces
-					stage_name = stage_names[i-1].replace("_", " "); //replace underscores in tissue names by spaces
+					stage_name = stage_names[i-1].replace(/_/g, " "); //replace underscores in tissue names by spaces
 					
           // var tissue_text = new Kinetic.Text({
 					var stage_text = new Kinetic.Text({

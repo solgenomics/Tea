@@ -69,12 +69,142 @@ sub index :Path('/Expression_viewer/input/') :Args(0) {
   $c->stash(template => 'Expression_viewer/input.mas');
 }
 
-sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
-  my ($self, $c) = @_;
+
+sub _get_correlation {
+  my $c = shift;
+  my $corr_filter = shift;
+  my $current_page = shift;
+  my $corr_index_path = shift;
+  my $query_gene = shift;
+  my $to_download = shift;
+  
+  my @genes;
+	my @corr_values;
+	my $total_corr_genes = 0;
+  my %corr_hash;
   
   # to store erros as they may happen
   my @errors; 
+  
+	# get correlation filter value (it is 100 higher when it comes from the input slider)
+	if ($corr_filter > 1) {
+		$corr_filter = $corr_filter/100;
+	}
+  
+	# my $total_corr_genes = 0;
+  # $current_page = $current_page - 1;
 
+	# Get Correlation Data
+	my $lucy_corr = Lucy::Simple->new(
+	    path     => $corr_index_path,
+	    language => 'en',
+	);
+
+	my $sort_spec = Lucy::Search::SortSpec->new(
+	     rules => [
+		 	Lucy::Search::SortRule->new( field => 'correlation', reverse => 1,),
+		 	Lucy::Search::SortRule->new( field => 'gene2', reverse => 0,),
+		 	Lucy::Search::SortRule->new( field => 'gene1',),
+	     ],
+	);
+  
+  my $hits;
+  if ($to_download) {
+    $hits = $lucy_corr->search(
+      query      => $query_gene,
+      sort_spec  => $sort_spec,
+      num_wanted => 10000,
+    );
+  }
+  else {
+    $hits = $lucy_corr->search(
+      query      => $query_gene,
+      sort_spec  => $sort_spec,
+      num_wanted => 19,
+      offset     => $current_page*19,
+    );
+  }
+
+	$total_corr_genes = $hits;
+
+	if (!$total_corr_genes) {
+		push ( @errors , "Gene not found.\n");
+		# print STDERR "total_corr_genes: $total_corr_genes\n";
+	}
+
+	# Send error message to the web if something is wrong
+	if (scalar (@errors) > 0){
+
+		my $user_errors = join("<br />", @errors);
+		print STDERR "$user_errors\n";
+		# $c->stash->{rest} = {error => $user_errors};
+		$c->stash->{error} = $user_errors;
+		$c->stash->{template} = '/Expression_viewer/output.mas';
+		return;
+	}
+
+	# Get page number after correlation filtering
+	if ($corr_filter > 0.65) {
+		my $range_query = Lucy::Search::RangeQuery->new(
+		    field         => 'correlation',
+		    lower_term    => $corr_filter,
+		);
+		my $searcher = Lucy::Search::IndexSearcher->new(
+		    index => $corr_index_path,
+		);
+		my $qparser  = Lucy::Search::QueryParser->new(
+		    schema => $searcher->get_schema,
+		);
+		my $term_query = $qparser->parse($query_gene);
+
+	    my $and_query = Lucy::Search::ANDQuery->new(
+	        children => [ $range_query, $term_query],
+	    );
+
+	    # my $hits1 = $searcher->hits( query => $term_query );
+	    my $hit_intersect = $searcher->hits( query => $and_query );
+
+		# print STDERR "\n\ntotal number of correlated genes: $hits\n\n";
+		# print STDERR "\n\ntotal number of TERM: ".$hits1->total_hits()."\n\n";
+		# print STDERR "\n\ntotal number of hit_intersect: ".$hit_intersect->total_hits()."\n\n";
+
+		$total_corr_genes = $hit_intersect->total_hits();
+	}
+
+	#------------------------------------- save data for filtered genes
+  $corr_hash{$query_gene} = 1;
+  
+	while ( my $hit = $lucy_corr->next ) {
+		if ($query_gene eq $hit->{gene1} && $hit->{correlation} >= $corr_filter) {
+			push(@genes, $hit->{gene2});
+			$corr_hash{$hit->{gene2}} = $hit->{correlation};
+		} elsif ($query_gene eq $hit->{gene2} && $hit->{correlation} >= $corr_filter) {
+			push(@genes, $hit->{gene1});
+			$corr_hash{$hit->{gene1}} = $hit->{correlation};
+		}
+		push(@corr_values, $hit->{correlation})
+		# print "$hit->{gene1}\t$hit->{gene2}\t$hit->{correlation}\n";
+	}
+  
+  
+  
+  return (\@genes,\@corr_values,$total_corr_genes,\%corr_hash);
+}
+  
+
+
+
+
+
+
+
+
+
+
+
+sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
+  my ($self, $c) = @_;
+  
   # get variables from catalyst object
   my $params = $c->req->body_params();
 	my @query_gene = $c->req->param("input_gene");
@@ -186,7 +316,6 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	# print STDERR "array_length = ".scalar(@query_gene)."\n";
 	
 	my @corr_values;
-	my $total_corr_genes = 0;
 	
 	#check number of input genes
 	if (scalar(@query_gene) == 1) {
@@ -236,94 +365,24 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	$query_gene =~ s/\.\d$//;
 	
 	#------------------------------------------------------------------------------------------------------------------
+  my $total_corr_genes = 0;
+  my $genes;
+  my $corr_values;
+  # my %corr_hash;
+  my $corr_hash;
+  
+	$current_page = $current_page - 1;
+  
 	if (!$multiple_genes) {
-		# get correlation filter value (it is 100 higher when it comes from the input slider)
-		if ($corr_filter > 1) {
-			$corr_filter = $corr_filter/100;
-		}
-		# my $total_corr_genes = 0;
-		$current_page = $current_page - 1;
-
-		# Get Correlation Data
-		# my @genes;
-		# my @corr_values;
-		my $lucy_corr = Lucy::Simple->new(
-		    path     => $corr_index_path,
-		    language => 'en',
-		);
-
-		my $sort_spec = Lucy::Search::SortSpec->new(
-		     rules => [
-			 	Lucy::Search::SortRule->new( field => 'correlation', reverse => 1,),
-			 	Lucy::Search::SortRule->new( field => 'gene2', reverse => 0,),
-			 	Lucy::Search::SortRule->new( field => 'gene1',),
-		     ],
-		);
-
-		my $hits = $lucy_corr->search(
-			query      => $query_gene,
-			sort_spec  => $sort_spec,
-			num_wanted => 19,
-			offset     => $current_page*19,
-		);
-
-		$total_corr_genes = $hits;
-
-		if (!$total_corr_genes) {
-			push ( @errors , "Gene not found.\n");
-			# print STDERR "total_corr_genes: $total_corr_genes\n";
-		}
-
-		# Send error message to the web if something is wrong
-		if (scalar (@errors) > 0){
-
-			my $user_errors = join("<br />", @errors);
-			print STDERR "$user_errors\n";
-			# $c->stash->{rest} = {error => $user_errors};
-			$c->stash->{error} = $user_errors;
-			$c->stash->{template} = '/Expression_viewer/output.mas';
-			return;
-		}
-
-		# Get page number after correlation filtering
-		if ($corr_filter > 0.65) {
-			my $range_query = Lucy::Search::RangeQuery->new(
-			    field         => 'correlation',
-			    lower_term    => $corr_filter,
-			);
-			my $searcher = Lucy::Search::IndexSearcher->new(
-			    index => $corr_index_path,
-			);
-			my $qparser  = Lucy::Search::QueryParser->new(
-			    schema => $searcher->get_schema,
-			);
-			my $term_query = $qparser->parse($query_gene);
-
-		    my $and_query = Lucy::Search::ANDQuery->new(
-		        children => [ $range_query, $term_query],
-		    );
-
-		    # my $hits1 = $searcher->hits( query => $term_query );
-		    my $hit_intersect = $searcher->hits( query => $and_query );
-
-			# print STDERR "\n\ntotal number of correlated genes: $hits\n\n";
-			# print STDERR "\n\ntotal number of TERM: ".$hits1->total_hits()."\n\n";
-			# print STDERR "\n\ntotal number of hit_intersect: ".$hit_intersect->total_hits()."\n\n";
-
-			$total_corr_genes = $hit_intersect->total_hits();
-		}
-
-		#------------------------------------- save data for filtered genes
-		while ( my $hit = $lucy_corr->next ) {
-			if ($query_gene eq $hit->{gene1} && $hit->{correlation} >= $corr_filter) {
-				push(@genes, $hit->{gene2});
-			} elsif ($query_gene eq $hit->{gene2} && $hit->{correlation} >= $corr_filter) {
-				push(@genes, $hit->{gene1});
-			}
-			push(@corr_values, $hit->{correlation})
-			# print "$hit->{gene1}\t$hit->{gene2}\t$hit->{correlation}\n";
-		}
+    my $to_download = 0;
+    
+    ($genes,$corr_values,$total_corr_genes,$corr_hash) = _get_correlation($c,$corr_filter,$current_page,$corr_index_path,$query_gene,$to_download);
+    
+    # %corr_hash = %$corr_hash;
+    @genes = @$genes;
+    @corr_values = @$corr_values;
 	}
+  
 #------------------------------------------------------------------------------------------------------------------
 
 	#------------------------------------- Temporal Data
@@ -414,6 +473,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	my @output_gene = $c->req->param("input_gene");
   
   
+  print STDERR "total_corr_genes: $total_corr_genes\n";
   
 	
 	$c->stash->{genes} = \@genes;
@@ -474,7 +534,7 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
   print STDERR "array_length = ".scalar(@query_gene)."\n";
 	
 	my @corr_values;
-	my $total_corr_genes = 0;
+  # my $total_corr_genes = 0;
   
   
 	#check number of input genes
@@ -534,66 +594,83 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
 	
 	my %corr_values;
   
-  if (!$multiple_genes) {
   
-  	# get correlation filter value (it is 100 higher when it comes from the input slider)
-  	if ($corr_filter > 1) {
-  		$corr_filter = $corr_filter/100;
-  	}
-	
-  	#------------------------------------- Get Correlation Data
-    # my @genes;
-  	$corr_values{$query_gene} = 1;
-	
-  	my $lucy_corr = Lucy::Simple->new(
-  	    path     => $corr_index_path,
-  	    language => 'en',
-  	);
-	
-  	my $sort_spec = Lucy::Search::SortSpec->new(
-  	     rules => [
-  		 	Lucy::Search::SortRule->new( field => 'correlation', reverse => 1,),
-  		 	Lucy::Search::SortRule->new( field => 'gene2', reverse => 0,),
-  		 	Lucy::Search::SortRule->new( field => 'gene1',),
-  	     ],
-  	);
-	
-  	my $hits = $lucy_corr->search(
-  		query      => $query_gene,
-  		sort_spec  => $sort_spec,
-  		num_wanted => 10000,
-  	);
-	
-  	#------------------------------------- Get data after correlation filter
-  	if ($corr_filter > 0.65) {
-  		my $range_query = Lucy::Search::RangeQuery->new(
-  		    field         => 'correlation',
-  		    lower_term    => $corr_filter,
-  		);	
-  		my $searcher = Lucy::Search::IndexSearcher->new( 
-  		    index => $corr_index_path,
-  		);
-  		my $qparser  = Lucy::Search::QueryParser->new( 
-  		    schema => $searcher->get_schema,
-  		);
-  		my $term_query = $qparser->parse($query_gene);
-	
-  	    my $and_query = Lucy::Search::ANDQuery->new(
-  	        children => [ $range_query, $term_query],
-  	    );
-  	}
-	
-  	#------------------------------------- save data for filtered genes
-  	while ( my $hit = $lucy_corr->next ) {
-  		if ($query_gene eq $hit->{gene1} && $hit->{correlation} >= $corr_filter) {
-  			push(@genes, $hit->{gene2});
-  			$corr_values{$hit->{gene2}} = $hit->{correlation};
-  		} elsif ($query_gene eq $hit->{gene2} && $hit->{correlation} >= $corr_filter) {
-  			push(@genes, $hit->{gene1});
-  			$corr_values{$hit->{gene1}} = $hit->{correlation};
-  		}
-  	}
-	} # end of !multiple genes
+  my $total_corr_genes = 0;
+  my $genes;
+  my $corr_values;
+	my $current_page;
+	my $corr_hash;
+	my %corr_hash;
+  
+	if (!$multiple_genes) {
+    my $to_download = 1;
+    ($genes,$corr_values,$total_corr_genes,$corr_hash) = _get_correlation($c,$corr_filter,$current_page,$corr_index_path,$query_gene,$to_download);
+    
+    %corr_hash = %$corr_hash;
+    @genes = @$genes;
+    @corr_values = @$corr_values;
+	}
+  
+  #   if (!$multiple_genes) {
+  #
+  #     # get correlation filter value (it is 100 higher when it comes from the input slider)
+  #     if ($corr_filter > 1) {
+  #       $corr_filter = $corr_filter/100;
+  #     }
+  #
+  #     #------------------------------------- Get Correlation Data
+  #     # my @genes;
+  #     $corr_values{$query_gene} = 1;
+  #
+  #     my $lucy_corr = Lucy::Simple->new(
+  #         path     => $corr_index_path,
+  #         language => 'en',
+  #     );
+  #
+  #     my $sort_spec = Lucy::Search::SortSpec->new(
+  #          rules => [
+  #          Lucy::Search::SortRule->new( field => 'correlation', reverse => 1,),
+  #          Lucy::Search::SortRule->new( field => 'gene2', reverse => 0,),
+  #          Lucy::Search::SortRule->new( field => 'gene1',),
+  #          ],
+  #     );
+  #
+  #     my $hits = $lucy_corr->search(
+  #       query      => $query_gene,
+  #       sort_spec  => $sort_spec,
+  #       num_wanted => 10000,
+  #     );
+  #
+  #     #------------------------------------- Get data after correlation filter
+  #     if ($corr_filter > 0.65) {
+  #       my $range_query = Lucy::Search::RangeQuery->new(
+  #           field         => 'correlation',
+  #           lower_term    => $corr_filter,
+  #       );
+  #       my $searcher = Lucy::Search::IndexSearcher->new(
+  #           index => $corr_index_path,
+  #       );
+  #       my $qparser  = Lucy::Search::QueryParser->new(
+  #           schema => $searcher->get_schema,
+  #       );
+  #       my $term_query = $qparser->parse($query_gene);
+  #
+  #         my $and_query = Lucy::Search::ANDQuery->new(
+  #             children => [ $range_query, $term_query],
+  #         );
+  #     }
+  #
+  #     #------------------------------------- save data for filtered genes
+  #     while ( my $hit = $lucy_corr->next ) {
+  #       if ($query_gene eq $hit->{gene1} && $hit->{correlation} >= $corr_filter) {
+  #         push(@genes, $hit->{gene2});
+  #         $corr_values{$hit->{gene2}} = $hit->{correlation};
+  #       } elsif ($query_gene eq $hit->{gene2} && $hit->{correlation} >= $corr_filter) {
+  #         push(@genes, $hit->{gene1});
+  #         $corr_values{$hit->{gene1}} = $hit->{correlation};
+  #       }
+  #     }
+  # } # end of !multiple genes
   
 	#------------------------------------- Temporal Data
 	unshift(@genes, $query_gene);
@@ -670,7 +747,7 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
 				push(@expr_columns, $gene_stage_tissue_expr{$g}{$t}{$s});
 			}
 		}
-		push(@lines, "$g\t".join("\t", @expr_columns)."\t$corr_values{$g}\t$descriptions{$g}");
+		push(@lines, "$g\t".join("\t", @expr_columns)."\t$corr_hash{$g}\t$descriptions{$g}");
 		@expr_columns = [];
 		shift(@expr_columns);
 	}

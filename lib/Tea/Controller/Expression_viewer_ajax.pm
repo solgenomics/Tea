@@ -79,12 +79,12 @@ sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
     my $filtered_exp_rs = $db_funct->get_layer_options($schema,$experiment_rs,\@organ_names,\@stage_names,\@tissue_names);
 
     # get all the layers from the experiment
-    my ($organ_hashref,$stage_hashref,$tissue_hashref) = $db_funct->get_input_options($schema,$filtered_exp_rs);
+    my ($organ_arrayref,$stage_arrayref,$tissue_arrayref) = $db_funct->get_input_options($schema,$filtered_exp_rs);
     
     # format layers to select options
-    $organ_options_arrayref = $db_funct->names_array_to_option($organ_hashref);
-    $stage_options_arrayref = $db_funct->names_array_to_option($stage_hashref);
-    $tissue_options_arrayref = $db_funct->names_array_to_option($tissue_hashref);
+    $organ_options_arrayref = $db_funct->names_array_to_option($organ_arrayref);
+    $stage_options_arrayref = $db_funct->names_array_to_option($stage_arrayref);
+    $tissue_options_arrayref = $db_funct->names_array_to_option($tissue_arrayref);
     
   }
   else {

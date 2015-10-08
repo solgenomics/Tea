@@ -252,10 +252,13 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   
   # only organism selected
   if (!$stage_filter && !$tissue_filter && !$organ_filter) {
-    my ($organ_hashref,$stage_hashref,$tissue_hashref) = $db_funct->get_input_options($schema,$experiment_rs);
+    my ($organ_arrayref,$stage_arrayref,$tissue_arrayref) = $db_funct->get_input_options($schema,$experiment_rs);
+    # my ($organ_hashref,$stage_hashref,$tissue_hashref) = $db_funct->get_input_options($schema,$experiment_rs);
 
-    @stages = sort keys %$stage_hashref;
-    @tissues = sort keys %$tissue_hashref;
+    # @stages = sort keys %$stage_hashref;
+    # @tissues = sort keys %$tissue_hashref;
+    @stages = @$stage_arrayref;
+    @tissues = @$tissue_arrayref;
     my @exp_ids;
     
     while (my $exp_rs = $experiment_rs->next) {

@@ -124,26 +124,31 @@ sub get_input_options {
         $organs{$layer_info_rs->name} = 1;
       }
       if ($layer_rs->layer_type_id == $stage_layer_type_rs->layer_type_id){
-        $stages{$layer_info_rs->name} = 1;
+        # $stages{$layer_info_rs->name} = 1;
+        $stages{$layer_info_rs->name} = $layer_rs->ordinal
       }
       if ($layer_rs->layer_type_id == $tissue_layer_type_rs->layer_type_id){
         $tissues{$layer_info_rs->name} = 1;
       }
     }
   }
+  my @organs = sort keys %organs;
+  my @stages = sort { $stages{$a} <=> $stages{$b} } keys %stages;
+  my @tissues = sort keys %tissues;
   
-  return (\%organs,\%stages,\%tissues);
+  return (\@organs,\@stages,\@tissues);
+  # return (\%organs,\%stages,\%tissues);
   
 }
 
 sub names_array_to_option {
   my $self = shift;
-  my $layers_hashref = shift;
+  my $layers_arrayref = shift;
   
   my @layer_options;
-  my @layers = sort keys %$layers_hashref;
+  # my @layers = sort keys %$layers_hashref;
   
-  foreach my $e (@layers) {
+  foreach my $e (@$layers_arrayref) {
     my $option_id = $e;
     $option_id =~ s/ /_/g;
     push(@layer_options,"<option id=\"$option_id\" value=\"$option_id\">".$e."</option>");

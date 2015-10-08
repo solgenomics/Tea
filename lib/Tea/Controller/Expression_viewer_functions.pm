@@ -128,13 +128,14 @@ sub get_input_options {
         $stages{$layer_info_rs->name} = $layer_rs->ordinal
       }
       if ($layer_rs->layer_type_id == $tissue_layer_type_rs->layer_type_id){
-        $tissues{$layer_info_rs->name} = 1;
+        # $tissues{$layer_info_rs->name} = 1;
+        $tissues{$layer_info_rs->name} = $layer_rs->ordinal
       }
     }
   }
   my @organs = sort keys %organs;
   my @stages = sort { $stages{$a} <=> $stages{$b} } keys %stages;
-  my @tissues = sort keys %tissues;
+  my @tissues = sort { $tissues{$a} <=> $tissues{$b} } keys %tissues;
   
   return (\@organs,\@stages,\@tissues);
   # return (\%organs,\%stages,\%tissues);

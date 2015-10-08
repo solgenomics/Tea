@@ -12,8 +12,8 @@ use base 'DBIx::Class::Schema';
 __PACKAGE__->load_namespaces;
 
 
-# Created by DBIx::Class::Schema::Loader v0.07033 @ 2015-05-22 20:12:17
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:rV2XUNdveY1lYgEZfNys8Q
+# Created by DBIx::Class::Schema::Loader v0.07033 @ 2015-10-08 14:06:40
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:waua3dVO6rEG3H8E6Bk4aw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

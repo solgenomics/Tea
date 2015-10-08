@@ -47,6 +47,12 @@ __PACKAGE__->table("project");
   data_type: 'text'
   is_nullable: 1
 
+=head2 indexed_dir
+
+  data_type: 'varchar'
+  is_nullable: 1
+  size: 80
+
 =head2 organism_id
 
   data_type: 'bigint'
@@ -70,9 +76,9 @@ __PACKAGE__->add_columns(
   "contact",
   { data_type => "varchar", is_nullable => 1, size => 80 },
   "description",
-  { data_type => "varchar", is_nullable => 1, size => 80 },
-  "indexed_dir",
   { data_type => "text", is_nullable => 1 },
+  "indexed_dir",
+  { data_type => "varchar", is_nullable => 1, size => 80 },
   "organism_id",
   {
     data_type         => "bigint",
@@ -142,8 +148,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07033 @ 2015-05-22 20:12:17
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:fovMKj2k4L8c4R5pti4TSw
+# Created by DBIx::Class::Schema::Loader v0.07033 @ 2015-10-08 14:06:40
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:5vQ3LvJ6H6rKIRZV74yHZw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

@@ -72,6 +72,11 @@ __PACKAGE__->table("layer");
   is_nullable: 1
   size: 80
 
+=head2 ordinal
+
+  data_type: 'integer'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -112,6 +117,8 @@ __PACKAGE__->add_columns(
   { data_type => "varchar", is_nullable => 1, size => 80 },
   "image_height",
   { data_type => "varchar", is_nullable => 1, size => 80 },
+  "ordinal",
+  { data_type => "integer", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -204,8 +211,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07033 @ 2015-09-25 15:32:11
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:qPcBt038fo1LTB7rbqla/w
+# Created by DBIx::Class::Schema::Loader v0.07033 @ 2015-10-08 14:06:40
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:xw623/wRSW+9h5iVgBdVOA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

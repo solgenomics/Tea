@@ -476,7 +476,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	my @output_gene = $c->req->param("input_gene");
   
   
-  print STDERR "total_corr_genes: $total_corr_genes\n";
+  # print STDERR "total_corr_genes: $total_corr_genes\n";
   
 	
 	$c->stash->{genes} = \@genes;
@@ -494,6 +494,8 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	$c->stash->{tissue_filter} = $tissue_filter;
 	$c->stash->{description} = \%descriptions;
 	$c->stash->{index_dir_name} = $project_rs->indexed_dir;
+	$c->stash->{project_id} = $project_rs->project_id;
+	$c->stash->{project_name} = $project_rs->name;
 	$c->stash->{locus_ids} = \%locus_ids;
 	
 	$c->stash->{template} = '/Expression_viewer/output.mas';

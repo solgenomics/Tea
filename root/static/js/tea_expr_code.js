@@ -144,6 +144,7 @@ $(document).ready(function () {
 	//display link to SGN and query gene description
 	document.getElementById("gene_name").innerHTML = "<a href='http://solgenomics.net/locus/"+gene_locus_id[genes[0]]+"/view' target='_blank'><img src='/static/images/sgn_logo.png' height='30' style='margin-bottom: -10px;' title='Connect to SGN for metadata associated with this gene'/> "+genes[0]+"</a>";
 	document.getElementById("gene_desc").innerHTML = gene_descriptions[genes[0]];
+  document.getElementById("project_desc").innerHTML = "<a href='/project_page?project_id="+project_id+"' target='_blank'>"+project_name+"</a>";
 	
 	draw_cube(genes,stages,tissues,aoaoa,cube_layer,canvas,top_x_start,y_margin,gene_locus_id,gene_descriptions,current_page,pages_num,canvas_width);
 	

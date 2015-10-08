@@ -11,7 +11,8 @@ body {
 	height:100%;
 /*  font-family: "CondensedLight";*/
   font-size:16px;
-  font-family: "Lucida Grande","Lucida Sans Unicode",Arial,Verdana, "Helvetica Neue", Helvetica, sans-serif;
+  font-family: Helvetica, sans-serif;
+/*  font-family: "Lucida Grande","Lucida Sans Unicode",Arial,Verdana, "Helvetica Neue", Helvetica, sans-serif;*/
 }
 
 #wrapper {
@@ -232,7 +233,7 @@ a:hover {
 	border:0px;
 	border-radius:10px;
 	color:#FFFFFF;
-	font-family:Arial;
+	font-family:Helvetica;
 /*	font-family: "CondensedLight";*/
 /*	font-size:20px;*/
 	font-size:16px;
@@ -282,8 +283,13 @@ a:hover {
 /* Expression Viewer output page */
 
 #output_gene_box {
- width:95%;
+/* width:95%;
  padding-bottom:10px;
+*/
+/*  width:1120px;*/
+  float: right;
+  margin-top: 20px;
+/*  position:absolute;*/
 }
 
 #back_to_input {
@@ -291,7 +297,7 @@ a:hover {
   font-size:12px;
   margin-left:5px;
   float:left;
-/*  padding-top: 12px;*/
+  margin-top: 5px;
 }
 
 #download_expr_table {
@@ -307,23 +313,28 @@ a:hover {
 /*  color:#7FC3FF;*/
   font-size:18px;
   line-height:30px;
-  width:95%;
+  width:1110px;
   padding:5px;
 }
 
 .gene_name a {
 	display:inline;
 	color:#333;
-	font-family:Arial;
+	font-family:Helvetica;
 /*	font-family: "CondensedLight";*/
 	font-size:18px;
 /*	line-height:30px;*/
 	text-decoration:none;
 }
 
+.gene_name a:hover {
+	color:#777;
+	text-decoration:none;
+}
+
 .gene_desc {
 	color:#333;
-	font-family:Arial;
+	font-family:Helvetica;
 /*	font-family: "CondensedLight";*/
 	font-size:16px;
 	font-weight:normal;
@@ -332,14 +343,9 @@ a:hover {
 	vertical-align: top;
 }
 
-.gene_name a:hover {
-	color:#777;
-	text-decoration:none;
-}
-
 .gene_name_dialog a{
 	color:#000000;
-	font-family:Arial;
+	font-family:Helvetica;
 /*	font-family: "CondensedLight";*/
 	font-size:16px;
 	line-height:18px;
@@ -348,7 +354,7 @@ a:hover {
 
 .gene_desc_dialog {
 	color:#000000;
-	font-family:Arial;
+	font-family:Helvetica;
 /*	font-family: "CondensedLight";*/
 	font-size:16px;
 	line-height:18px;
@@ -376,7 +382,7 @@ a:hover {
   border-color: #efefef;
 /*  height:700px;*/
   margin: 15px;
-  min-width:1200;
+  min-width:1120px;
   overflow:scroll;
 }
 
@@ -621,8 +627,9 @@ body .ui-tooltip {
 
 /*----- Tabs -----*/
 .tabs {
+  width: 1120px;
     display:inline-block;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
 }
  
     /*----- Tab Links -----*/
@@ -633,7 +640,7 @@ body .ui-tooltip {
     }
  
     .tab-links li {
-        margin:0px 5px;
+        margin-right: 5px;
         float:left;
         list-style:none;
     }

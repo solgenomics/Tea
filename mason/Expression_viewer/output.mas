@@ -12,6 +12,8 @@ $current_page => 1
 $index_dir_name => "slm82"
 @output_gene => ()
 $correlation_filter => 0.8
+$project_id => ()
+$project_name => ()
 $organism_filter => ()
 $stage_filter => ()
 $tissue_filter => ()
@@ -41,6 +43,8 @@ my $json = JSON::Any->new;
 	var gene_locus_id = <% $json->encode(\%locus_ids) %>;
 	var pages_num = <% $pages_num %>;
 	var current_page = <% $current_page %>;
+  var project_id = <% $project_id %>;
+  var project_name = "<% $project_name %>";
 	// alert("corr: "+correlation_filter);
 	
   // alert("images: "+image_hash["organ"]["organ"]["image_name"]);
@@ -62,49 +66,49 @@ my $json = JSON::Any->new;
 
 
 <center>
-	<br>
-	<div>
+	<div style="width:1120px">
 		<div id="downloading" style="text-align: center; display:none;">
 			<img src="/static/images/wheel.gif" height="30"/>
 		</div>
 		
-		<div id="output_gene_box">
-			<a id="back_to_input" href="/Expression_viewer/input">Go to input page</a>
-			<form id="search_gene" method="post" action="/Expression_viewer/output" name="tea_form" enctype="multipart/form-data">
-				<span>Select a gene:</span>
-				<input class="expr_input_box" id="gene" type="input" name="input_gene" size="15" />&nbsp; &nbsp;
-				<input id="page_num" name="current_page" value="1" style="display:none;">
-				<input id="total_pages" name="all_pages" value="1" style="display:none;">
-				<input id="correlation_filter" name="correlation_filter" style="display:none;" value=<% $correlation_filter %> >
+    <h1 id="project_desc"></h1>
+    
+		<a id="back_to_input" href="/Expression_viewer/input">Go to input page</a>
+		<div id="gene_info">
+			Query Gene: <span id="gene_name" class="gene_name"></span><br/>
+      Description: <span id="gene_desc" class="gene_desc"></span><br/>
+		</div>
+  
+    <div id="output_gene_box">
+      <form id="search_gene" method="post" action="/Expression_viewer/output" name="tea_form" enctype="multipart/form-data">
+        <span>Select a gene:</span>
+        <input class="expr_input_box" id="gene" type="input" name="input_gene" size="15" />&nbsp; &nbsp;
+        <input id="page_num" name="current_page" value="1" style="display:none;">
+        <input id="total_pages" name="all_pages" value="1" style="display:none;">
+        <input id="correlation_filter" name="correlation_filter" style="display:none;" value=<% $correlation_filter %> >
         <input class="organism_filter" name="organism_filter" style="display:none;" value=<% $organism_filter %> >
         <!-- <input class="organ_filter" name="organ_filter" style="display:none;"/> -->
         <input class="stage_filter" name="stage_filter" style="display:none;" value=<% $stage_filter %> >
         <input class="tissue_filter" name="tissue_filter" style="display:none;" value=<% $tissue_filter %> >
-				<button class="blue_button" id="run_tool" value="Run Expression Tool" style="margin: -8px 0px 0px 0px;">Get Expression</button>
-			</form>
-			
-			<form id="download_data" method="post" action="/download_expression_data/" enctype="multipart/form-data">
-				<input name="input_gene" value=<% $json->encode(\@output_gene) %> style="display:none;">
-				<input name="correlation_filter" value=<% $correlation_filter %> style="display:none;">
-				<input name="index_dir_name" value=<% $index_dir_name %> style="display:none;">
-				<input name="stages" value=<% $json->encode(\@stages) %> style="display:none;">
-				<input name="tissues" value=<% $json->encode(\@tissues) %> style="display:none;">
-        <!-- <button id="download_expr_table">Download Expression Data</button> -->
-			</form>
-		</div>
+        <button class="blue_button" id="run_tool" value="Run Expression Tool" style="margin: -8px 0px 0px 0px;">Get Expression</button>
+      </form>
 
-		<div id="gene_info">
-			Query Gene: <span id="gene_name" class="gene_name"></span>
-			<br/>
-			Annotation: <span id="gene_desc" class="gene_desc"> </span>
-		</div>
+      <form id="download_data" method="post" action="/download_expression_data/" enctype="multipart/form-data">
+        <input name="input_gene" value=<% $json->encode(\@output_gene) %> style="display:none;">
+        <input name="correlation_filter" value=<% $correlation_filter %> style="display:none;">
+        <input name="index_dir_name" value=<% $index_dir_name %> style="display:none;">
+        <input name="stages" value=<% $json->encode(\@stages) %> style="display:none;">
+        <input name="tissues" value=<% $json->encode(\@tissues) %> style="display:none;">
+        <!-- <button id="download_expr_table">Download Expression Data</button> -->
+      </form>
+    </div>
 	</div>
+  
 </center>
 
-
-<center>
+<center>  
   <div class="tabs">
-      <ul class="tab-links" style="margin-bottom:0px">
+      <ul class="tab-links" style="margin-bottom:0px;padding-left:0px">
           <li class="active"><a href="#container">Expression Cube</a></li>
           <li><a href="#container_tissues">Expression images</a></li>
       </ul>
@@ -115,6 +119,6 @@ my $json = JSON::Any->new;
     <div id="container_tissues" class="tab"></div>
   </div>
 </center>
-	<br>
+<br>
 
 

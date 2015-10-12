@@ -9,7 +9,6 @@ body {
 	margin:0;
 	padding:0;
 	height:100%;
-/*  font-family: "CondensedLight";*/
   font-size:16px;
   font-family: Helvetica, sans-serif;
 /*  font-family: "Lucida Grande","Lucida Sans Unicode",Arial,Verdana, "Helvetica Neue", Helvetica, sans-serif;*/
@@ -74,7 +73,6 @@ a:hover {
 #tea_menu {
 	font-size:24px;
   background:#888888;
-/*	font-family:"Verdana", arial, Sans-serif;*/
 	background:-moz-linear-gradient( center top, #888888 5%, #666666 100% );
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #888888), color-stop(1, #666666) );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#888888', endColorstr='#666666');
@@ -82,7 +80,6 @@ a:hover {
 	text-align:center;
 	height:50px;
 	line-height:50px;
-/*	box-shadow: 1px 2px 0px 0px #333333;*/
   margin: 0px 0px 0px 0px;
   
 }
@@ -104,7 +101,6 @@ a:hover {
 	font-weight:bold;
 	font-style:normal;
 	color:#FFFFFF;
-/*	font-family:"Verdana", arial, Sans-serif;*/
 	font-family: "CondensedLight";
 	display:block;
 	width:130px;
@@ -126,13 +122,7 @@ a:hover {
 	background:-moz-linear-gradient( center top, #555555 5%, #666666 100% );
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #555555), color-stop(1, #666666) );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#555555', endColorstr='#666666');
-/*  -webkit-border-top-right-radius:20px;
-  -moz-border-radius-topright:20px;
-  border-top-right-radius:20px;
-  -webkit-border-bottom-right-radius:20px;
-  -moz-border-radius-bottomright:20px;
-  border-bottom-right-radius:20px;
-*/}
+}
 
 #left_menu {
 	width:130px;
@@ -148,19 +138,12 @@ a:hover {
 	background:-moz-linear-gradient( center top, #555555 5%, #666666 100% );
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #555555), color-stop(1, #666666) );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#555555', endColorstr='#666666');
-/*  -webkit-border-top-left-radius:20px;
-  -moz-border-radius-topleft:20px;
-  border-top-left-radius:20px;
-  -webkit-border-bottom-left-radius:20px;
-  -moz-border-radius-bottomleft:20px;
-  border-bottom-left-radius:20px;
-*/}
+}
 
 #tea_title {
 	font-size:60px;
 	color:rgb(0,0,0);
 	margin-top: 0px;
-/*	font-family:"Verdana", arial, Sans-serif;*/
 	font-family: "CondensedLight";
 	text-shadow: 2px 2px 2px #bbb;
   margin: 10px 0px 10px 0px;
@@ -170,7 +153,6 @@ a:hover {
 	max-width:510px;
 	font-size:38px;
 	color:rgb(150,150,150);
-/*	font-family:"Verdana", arial, Sans-serif;*/
 	font-family: "CondensedLight";
   margin: 10px 0px 10px 0px;
 }
@@ -203,18 +185,17 @@ a:hover {
 
 
 .td_index {
-   text-decoration:none;
-   text-align:center;
-   margin-left:auto;
-   margin-right:auto;
-   width:200px;
-   font-family: "CondensedLight";
+  text-decoration:none;
+  text-align:center;
+  margin-left:auto;
+  margin-right:auto;
+  width:200px;
+  font-family: "CondensedLight";
 }
 
 
 #tea_form {
    display:inline;
-/*   margin:10px;*/
    text-decoration:none;
    width:90%;
    margin-left:auto;
@@ -234,12 +215,10 @@ a:hover {
 	border-radius:10px;
 	color:#FFFFFF;
 	font-family:Helvetica;
-/*	font-family: "CondensedLight";*/
-/*	font-size:20px;*/
 	font-size:16px;
 	height:40px;
 	line-height:38px;
-    vertical-align: top;
+  vertical-align: top;
 }
 
 .blue_button:hover {
@@ -264,11 +243,11 @@ a:hover {
 	font-size:12px;
 	font-weight:bold;
 	font-style:normal;
-	width:15px;
-	height:15px;
-	line-height:16px;
+	width:18px;
+	height:18px;
+	line-height:18px;
 	text-align:center;
-	padding:2px;
+/*  padding:2px;*/
 }
 .info_icon:hover {
 	background-color:#5EA1FF;
@@ -281,17 +260,6 @@ a:hover {
 }
 
 /* Expression Viewer output page */
-
-#output_gene_box {
-/* width:95%;
- padding-bottom:10px;
-*/
-/*  width:1120px;*/
-  float: right;
-  margin-top: 20px;
-/*  position:absolute;*/
-}
-
 #back_to_input {
   color: #555;
   font-size:12px;
@@ -306,47 +274,9 @@ a:hover {
   margin-right:5px;
 }
 
-#gene_info {
-  border-radius:5px;
-  background-color:#dedede;
-  color:#000;
-/*  color:#7FC3FF;*/
-  font-size:18px;
-  line-height:30px;
-  width:1110px;
-  padding:5px;
-}
-
-.gene_name a {
-	display:inline;
-	color:#333;
-	font-family:Helvetica;
-/*	font-family: "CondensedLight";*/
-	font-size:18px;
-/*	line-height:30px;*/
-	text-decoration:none;
-}
-
-.gene_name a:hover {
-	color:#777;
-	text-decoration:none;
-}
-
-.gene_desc {
-	color:#333;
-	font-family:Helvetica;
-/*	font-family: "CondensedLight";*/
-	font-size:16px;
-	font-weight:normal;
-/*	line-height:16px;*/
-	text-decoration:none;
-	vertical-align: top;
-}
-
 .gene_name_dialog a{
 	color:#000000;
 	font-family:Helvetica;
-/*	font-family: "CondensedLight";*/
 	font-size:16px;
 	line-height:18px;
 	text-decoration:none;
@@ -355,58 +285,47 @@ a:hover {
 .gene_desc_dialog {
 	color:#000000;
 	font-family:Helvetica;
-/*	font-family: "CondensedLight";*/
 	font-size:16px;
 	line-height:18px;
 	text-decoration:none;
 }
 
-
 #container {
   border-style: solid;
   border-width: 1px;
-  border-color: #efefef;
-  
-/*  border-style:dashed;*/
-/*  border-width:0px 1px 1px 1px;*/
+  border-color: #ddd;
+  border-width:0px 1px 1px 1px;
   height:700px;
-/*  padding-top: 15px;*/
   width:1120px;
   overflow:scroll;
-/*  width:900px;*/
 }
 
 #container_tissues {
   border-style: solid;
   border-width: 1px;
-  border-color: #efefef;
-/*  height:700px;*/
-  margin: 15px;
+  border-color: #ddd;
+  border-width: 1px;
+  margin-left: 15px;
+  margin-right: 15px;
   min-width:1120px;
   overflow:scroll;
 }
 
 
-
-
 .ui-tooltip {
-	padding: 10px;
-	position: absolute;
-	z-index: 9999;
-	max-width: 200px;
-	-webkit-box-shadow: 0 0 5px 0 #aaa;
-	box-shadow: 0 0 5px 0 #aaa;
+  padding: 10px;
+  position: absolute;
+  max-width: 200px;
 }
+
 body .ui-tooltip {
-/*	font-family: "CondensedLight";*/
-	font-size:16px;
-	border-width: 2px;
-	background: #ffffff;
-	background: rgba(55, 55, 55, 0.7);
-	color: #ffffff;
-	border-radius:20px;
-	border-color:#ffffff;
+  font-size:16px;
+  border-width: 0px;
+  background: rgba(20, 20, 20, 0.8);
+  color: #ffffff;
+  border-radius:5px;
 }
+
 
 /* Expression Viewer input page */
 
@@ -419,17 +338,6 @@ body .ui-tooltip {
 	max-width: 420px;
 }
 
-/*#custom_list {
-	border-color:#AAA;
-	border-width:1px;
-	border-style:solid;
-	border-radius:5px;
-	height: 20px;
-	padding-left: 5px;
-	padding-top: 2px;
-	max-width: 160px;
-}
-*/
 #blast_div_dialog {
 	border-collapse: collapse;
 	width: 100%;
@@ -465,26 +373,22 @@ body .ui-tooltip {
   background-color: #aaa;
   color: #ffffff;
 	padding-left: 5px;
-/*  text-align: left;*/
 }
 
 #blast_res_table tr.alt td {
   color: #000000;
   background-color: #eee;
   padding-left: 5px;
-/*  text-align: left;*/
 }
 
 #blast_res_table tr td {
   color: #000000;
   background-color: #fff;
   padding-left: 5px;
-/*  text-align: left;*/
 }
 
 #blast_aln_div {
 	overflow: scroll;
-/*	height: 50px;*/
 	margin-top: 15px;
 }
 
@@ -498,17 +402,6 @@ body .ui-tooltip {
   padding: 5px 0px 5px 5px;
 	overflow: auto;
 	height: 300px;
-	
-/*	margin-top: 15px;*/
-}
-
-.expr_input_box {
-	border-color:#AAA;
-	border-width:1px;
-	border-style:solid;
-	border-radius:5px;
-	height: 20px;
-	padding-left: 5px;
 }
 
 #correlation_slider {
@@ -555,9 +448,6 @@ body .ui-tooltip {
   color: #555;
   background-color: #ccc;
   font-size:10px;
-/*  border-style: solid;*/
-/*  border-width: 1px;*/
-/*  border-color:#888;*/
   border-radius:8px;
 }
 
@@ -568,8 +458,8 @@ body .ui-tooltip {
 }
 
 .wizard_select {
-  width:185px;
   overflow:auto;
+  margin-bottom:5px;
 }
 
 #genotype_form {
@@ -597,11 +487,8 @@ body .ui-tooltip {
 }
 
 
-
-
 .ui-widget {
 	font-size:14px;
-/*	font-family: "CondensedLight";*/
 }
 
 #dialog_top_info {
@@ -625,53 +512,9 @@ body .ui-tooltip {
   text-decoration:none;
 }
 
-/*----- Tabs -----*/
 .tabs {
   width: 1120px;
-    display:inline-block;
-    margin-bottom: 0px;
 }
- 
-    /*----- Tab Links -----*/
-    .tab-links:after {
-        display:block;
-        clear:both;
-        content:'';
-    }
- 
-    .tab-links li {
-        margin-right: 5px;
-        float:left;
-        list-style:none;
-    }
- 
-        .tab-links a {
-            padding:9px 15px;
-            display:inline-block;
-            border-radius:3px;
-            font-size:16px;
-            font-weight:600;
-            color:#4c4c4c;
-            transition:all linear 0.15s;
-        }
- 
-        .tab-links a:hover {
-            background:#bbb;
-            text-decoration:none;
-        }
- 
-    li.active a, li.active a:hover {
-        background:#dedede;
-        color:#4c4c4c;
-    }
- 
-    /*----- Content of Tabs -----*/
-        .tab {
-            display:none;
-        }
- 
-        .tab.active {
-            display:block;
-        }
-        
-/* end tabs*/
+
+
+

@@ -2,36 +2,6 @@
 <html>
 <head>
 	<title>SGN-TEA</title>
-		<link rel="stylesheet" href="/static/js/jqueryui/themes/base/jquery-ui.css">
-		<link rel="stylesheet" href="/static/css/tea.css" type="text/css" />
-		<link rel="stylesheet" type="text/css" href="/static/js/codebase/dhtmlxslider.css"/>
-
-		<script type="text/javascript" src="/static/js/jquery.js"></script>
-		<script type="text/javascript" src="/static/js/jqueryui/jquery-ui.js"></script>
-
-		<script>
-			//JQueryIu to define tooltip style
-			$(function() {
-				$( document ).tooltip({
-					position: {
-						my: "center bottom",
-						at: "center+15 top+5",
-						using: function( position, feedback ) {
-							$( this ).css( position );
-							$( "<div>" )
-						}
-					}
-				});
-			});
-			$('.ui-dialog-titlebar-close *[title]').tooltip('disable');
-		</script>
-	
-	<!--[if lt IE 7]>
-		<style type="text/css">
-			#wrapper { height:100%; }
-		</style>
-	<![endif]-->
-	
 </head>
 
 <body>

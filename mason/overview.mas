@@ -4,14 +4,14 @@
 </%args>
 
 <center>
-	<div class="pagetitle"><img src="/static/images/overview_small.png" height="40" style="margin-bottom:-5px;"/> Overview</div>
-		<p style="width:700px;">
+	<h1><img src="/static/images/overview_small.png" height="40" style="margin-bottom: 10px;"/> Overview</h1>
+		<h4 style="width:700px;">
 			Summary text explaining the purpose of the website, listing the options and giving background info
-		</p>
+    </h4>
 
-	<!-- <br/> -->
+  <!-- <br/> -->
 	<div style="width:700px; text-align: left;">
-    <a href="#"><img class="centered_img" src="/static/images/expr_small.png"/> <b>Projects</b></a><br/>
+    <a href="#"><img class="centered_img" src="/static/images/expr_small.png" style="margin-bottom: 10px;"/> <b>Projects</b></a><br/>
     <ul class="ul_blue">
       <%perl>
         foreach my $p_ids (@project_ids) {
@@ -19,7 +19,7 @@
         }
       </%perl>
     </ul>
-    <a href="Expression_viewer/input"><img class="centered_img" src="/static/images/expr_small.png"/> <b>Expression Viewer</b></a><br/>
+    <a href="Expression_viewer/input"><img class="centered_img" src="/static/images/expr_small.png" style="margin-bottom: 10px;"/> <b>Expression Viewer</b></a><br/>
     <ul class="ul_blue">
       <li><span class="span_black">View the expression of a specific tomato gene or genes of interest</span></li>
       <li><span class="span_black">Identify tomato genes by BLAST search using a gene or genes of interest from another species</span></li>
@@ -27,7 +27,7 @@
       <li><span class="span_black">Download expression data  based on parameters that you define</span></li>
       <li><span class="span_black">Link to associated metadata in the Sol Genomics Network database</span></li>
     </ul>
-		<a href="anatomy_viewer"><img class="centered_img" src="/static/images/anatomy_small.png"/> <b>Anatomy Viewer</b></a></br>
+		<a href="anatomy_viewer"><img class="centered_img" src="/static/images/anatomy_small.png" style="margin-bottom: 10px;"/> <b>Anatomy Viewer</b></a></br>
 		<ul class="ul_blue">
 			<li><span class="span_black">Visualize target tissues and cell types in 2D</span></li>
 			<li><span class="span_black">Visualize organ anatomy in 3D/4D</span></li>

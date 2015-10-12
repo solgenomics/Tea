@@ -67,22 +67,21 @@ my $json = JSON::Any->new;
 
 <center>
 	<div style="width:1120px">
-		<div id="downloading" style="text-align: center; display:none;">
-			<img src="/static/images/wheel.gif" height="30"/>
-		</div>
+    <div id="downloading" style="text-align: center; display:none;">
+      <img src="/static/images/wheel.gif" height="30"/>
+    </div>
 		
     <h1 id="project_desc"></h1>
-    
-		<a id="back_to_input" href="/Expression_viewer/input">Go to input page</a>
-		<div id="gene_info">
-			Query Gene: <span id="gene_name" class="gene_name"></span><br/>
-      Description: <span id="gene_desc" class="gene_desc"></span><br/>
+    <br>
+    <a id="back_to_input" href="/Expression_viewer/input">Go to input page</a>
+		<div id="gene_info" class="well">
+			<span id="gene_name" class="gene_name"></span><br/>
+      <span id="gene_desc" class="gene_desc"></span><br/>
 		</div>
   
-    <div id="output_gene_box">
-      <form id="search_gene" method="post" action="/Expression_viewer/output" name="tea_form" enctype="multipart/form-data">
-        <span>Select a gene:</span>
-        <input class="expr_input_box" id="gene" type="input" name="input_gene" size="15" />&nbsp; &nbsp;
+    <!-- <div id="output_gene_box"> -->
+      <form id="search_gene" class="form-inline" role="form" method="post" action="/Expression_viewer/output" name="tea_form" enctype="multipart/form-data">
+
         <input id="page_num" name="current_page" value="1" style="display:none;">
         <input id="total_pages" name="all_pages" value="1" style="display:none;">
         <input id="correlation_filter" name="correlation_filter" style="display:none;" value=<% $correlation_filter %> >
@@ -90,7 +89,12 @@ my $json = JSON::Any->new;
         <!-- <input class="organ_filter" name="organ_filter" style="display:none;"/> -->
         <input class="stage_filter" name="stage_filter" style="display:none;" value=<% $stage_filter %> >
         <input class="tissue_filter" name="tissue_filter" style="display:none;" value=<% $tissue_filter %> >
-        <button class="blue_button" id="run_tool" value="Run Expression Tool" style="margin: -8px 0px 0px 0px;">Get Expression</button>
+        
+        <label for="gene">Select a gene:</label>
+        <div class="form-group">
+         <input id="gene" class="form-control col-xs-2" type="input" name="input_gene"/>
+        </div>
+        <button class="btn btn-primary" id="run_tool" value="Run Expression Tool">Get Expression</button>
       </form>
 
       <form id="download_data" method="post" action="/download_expression_data/" enctype="multipart/form-data">
@@ -101,23 +105,24 @@ my $json = JSON::Any->new;
         <input name="tissues" value=<% $json->encode(\@tissues) %> style="display:none;">
         <!-- <button id="download_expr_table">Download Expression Data</button> -->
       </form>
-    </div>
+    <!-- </div> -->
 	</div>
   
 </center>
-
-<center>  
+<br>
+<center>
+  
   <div class="tabs">
-      <ul class="tab-links" style="margin-bottom:0px;padding-left:0px">
-          <li class="active"><a href="#container">Expression Cube</a></li>
-          <li><a href="#container_tissues">Expression images</a></li>
-      </ul>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#container">Expression Cube</a></li>
+        <li><a data-toggle="tab" href="#container_tissues">Expression images</a></li>
+    </ul>
+  </div>
+  <div class="tab-content">
+    <div id="container" class="tab-pane fade in active"></div>
+    <div id="container_tissues" class="tab-pane fade"></div>
   </div>
   
-  <div class="tab-content">
-    <div id="container" class="tab active"></div>
-    <div id="container_tissues" class="tab"></div>
-  </div>
 </center>
 <br>
 

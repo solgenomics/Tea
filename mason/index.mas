@@ -1,9 +1,8 @@
 <center>
+  <br/>
 	<h1 id="tea_title"><span id="green">T</span>omato <span id="orange">E</span>xpression <span id="red">A</span>tlas</h1>
 	<h2 id="subtitle">A high resolution map and search tool for tomato genes and their products</h2>
-	<!-- <br/> -->
-	<!-- <br/> -->
-	<!-- <br/> -->
+  <br/>
 	<table align="center">
 		<tr>
 			<td class="td_index">
@@ -13,7 +12,7 @@
 				<a href="Expression_viewer/input"><img src="/static/images/expr_logo.png" height="150" class="index_logo" title="Observe the expression of your genes of interest"/></a>
 			</td>
 			<td class="td_index">
-				<a href="anatomy_viewer"><img src="/static/images/anatomy_logo.png" height="150" class="index_logo" title="Visual material from the organs, tissues and cell types corresponding to the expression data"/></a>
+				<a href="anatomy_viewer"><img src="/static/images/anatomy_logo.png" height="150" data-toggle="tooltip" data-placement="top" class="tt index_logo" title="Visual material from the organs, tissues and cell types corresponding to the expression data"/></a>
 			</td>
 		</tr>
 		<tr>
@@ -23,5 +22,22 @@
 		</tr>
 	</table>
 </center>
-	<br/>
-	<!-- <br/> -->
+<br/>
+
+<script>
+  //JQueryIu to define tooltip style
+  $(function() {
+  	$( document ).tooltip({
+  		position: {
+  			my: "center bottom",
+  			at: "center+15 top+5",
+  			using: function( position, feedback ) {
+  				$( this ).css( position );
+  				$( "<div>" )
+  			}
+  		}
+  	});
+  });
+  $('.ui-dialog-titlebar-close *[title]').tooltip('disable');
+</script>
+

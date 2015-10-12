@@ -22,6 +22,8 @@
 		</ul>
 		<br>
 		<br>
+		<br>
+		<br>
 		
 		<h3>Tissue: Pericarp</h3>
 		<h3>Stage: Mature Green</h3>
@@ -35,6 +37,8 @@
 			<li><div class="legend_sq" style="background-color:yellow;"></div><p>Parenchyma</p></li>
 			<li><div class="legend_sq" style="background-color:#993366;"></div><p>Inner Epidermis</p></li>
 		</ul>
+		<br>
+		<br>
 		<br>
 		<br>
 		
@@ -52,11 +56,14 @@
 		</ul>
 		<br>
 		<br>
+		<br>
+		<br>
+		<br>
 		
 		<h3>Tissue: Ovary</h3>
-		<img src="static/images/anatomy_viewer/microscopy/ovary_photo.jpg" style="float:left;margin-right:10px;width:260px;display:inline;">
+		<a href="static/images/anatomy_viewer/microscopy/ovary_photo.jpg"><img src="static/images/anatomy_viewer/microscopy/ovary_photo.jpg" style="float:left;margin-right:10px;width:260px;display:inline;"></a>
 		<img src="static/images/anatomy_viewer/microscopy/arrow_img.png" style="float:left;top:80px;position:relative;margin-right:10px;">
-		<img src="static/images/anatomy_viewer/microscopy/ovary_draw.png" style="float:left;height:200px;">
+		<a href="static/images/anatomy_viewer/microscopy/ovary_draw.png"><img src="static/images/anatomy_viewer/microscopy/ovary_draw.png" style="float:left;height:200px;"></a>
 		<br>
 		<br>
 		<br>

@@ -10,7 +10,8 @@ $exp_tables => ()
 </%args>
 
 <center>
-  <div class="pagetitle"> <% $project_name %></div><br>
+  <h2><% $project_name %></h2>
+  <br>
 
   <div style="width:700px; text-align: left;">
     <p><b>Genotype: </b><% $organism %>. <% $organism_description %></p>

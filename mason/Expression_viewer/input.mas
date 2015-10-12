@@ -16,9 +16,9 @@ my $json = JSON::Any->new;
 
 
 <center>
-	<div class="pagetitle"><img src="/static/images/expr_small.png" height="40" style="margin-bottom:-10px;"/> Expression Viewer</div>
+	<h1><img src="/static/images/expr_small.png" height="40" style="margin-bottom:10px;"/> Expression Viewer</h1>
 
-	<div style="width:800px;margin-top:20px;padding-left:100px;">
+	<div style="width:750px;margin-top:20px;">
 		
 		<& hidden_dialogs.mas &>
 		
@@ -31,7 +31,9 @@ my $json = JSON::Any->new;
 					</tr>
 					<tr>
 						<td class="td_form">
-							<input class="expr_input_box" value="Solyc01g102660" name="input_gene" size="26"/>
+							<input class="form-control col-xs-2" value="Solyc01g102660" name="input_gene"/>
+              <!-- <input class="expr_input_box" value="Solyc01g102660" name="input_gene" size="26"/> -->
+              
 							<input class="corr_filter" name="correlation_filter" style="display:none;"/>
 							<input class="organism_filter" name="organism_filter" style="display:none;"/>
 							<input class="organ_filter" name="organ_filter" style="display:none;"/>
@@ -52,7 +54,8 @@ my $json = JSON::Any->new;
 				</tr>
 				<tr>
 					<td class="td_form">
-						<input id="blast_input_box" class="expr_input_box" value="Click here" size="25" style="color: #999;"/>
+						<input id="blast_input_box" class="form-control col-xs-2" value="Click here" style="color: #ccc;"/>
+            <!-- <input id="blast_input_box" class="expr_input_box" value="Click here" size="25" style="color: #999;"/> -->
 					</td>
 				</tr>
 		</table>
@@ -65,7 +68,8 @@ my $json = JSON::Any->new;
 				</tr>
 				<tr>
 					<td class="td_form">
-						<input id="custom_input_box" class="expr_input_box" value="Click here" size="24" style="color: #999;"/>
+						<input id="custom_input_box" class="form-control col-xs-2" value="Click here"  style="color: #ccc;"/>
+            <!-- <input id="custom_input_box" class="expr_input_box" value="Click here" size="24" style="color: #999;"/> -->
 					</td>
 				</tr>
 		</table>
@@ -74,19 +78,17 @@ my $json = JSON::Any->new;
 <br>
 <br>
 <br>
-<br>
 
-<div style="width:750px;margin:0 auto;clear:both;">
+<div style="width:850px;margin:0 auto;clear:both;">
 	<center>
     <hr>
-    <br>
-		<div class="pagesubtitle">Define Expression Parameters <span id="parameters_i" class="info_icon">i</span></div>
+		<h3>Define Expression Parameters <span id="parameters_i" class="info_icon">i</span></h3>
 	</center>
   <br>
 	
   <table>
     <tr>
-      <th>
+      <th style="text-align:center;">
         Genotypes
       </th>
       <th>
@@ -109,55 +111,44 @@ my $json = JSON::Any->new;
   <table>
   
   <br/>
-  <table>
-    <tr>
-      <th>
-        Developmental Stages
-      </th>
-      <th>
-        Organ
-      </th>
-      <th>
-        Tissues/Cell types
-      </th>
-      <th>
-        Treatment
-      </th>
-    </tr>
-    <tr>
-      <td width="185">
-        <select multiple id="stage_col" class="wizard_select" size="10">
-        </select>
-        <button class="select_all">Select All</button>
-        <button class="select_none">Unselect</button>
-      </td>
+  <div class="row">
+    
+    <div class="col-sm-3 col-md-3 col-lg-3">
+      <div style="text-align: center; width=100%">Developmental Stages</div>
 
-      <td width="185">
-        <select multiple id="organ_part_col" class="wizard_select" size="10">
-        </select>
-        <button class="select_all">Select All</button>
-        <button class="select_none">Unselect</button>
-      </td>
+      <select multiple id="stage_col" class="form-control wizard_select" size="10"></select>
+      <button class="select_all btn btn-default">Select All</button>
+      <button class="select_none btn btn-default pull-right">Unselect</button>
+    </div>
+    
+    <div class="col-sm-3 col-md-3 col-lg-3">
+      <div style="text-align: center; width=100%">Organ</div>
+      
+      <select multiple id="organ_part_col" class="form-control wizard_select" size="10"></select>
+      <button class="select_all btn btn-default">Select All</button>
+      <button class="select_none btn btn-default pull-right">Unselect</button>
+    </div>
+      
+    <div class="col-sm-3 col-md-3 col-lg-3">
+      <div style="text-align: center; width=100%">Tissues/Cell types</div>
 
-      <td width="185">
-        <select multiple id="tissue_col" class="wizard_select" size="10"></select>
-        <button class="select_all">Select All</button>
-        <button class="select_none">Unselect</button>
-      </td>
+      <select multiple id="tissue_col" class="form-control wizard_select" size="10"></select>
+      <button class="select_all btn btn-default">Select All</button>
+      <button class="select_none btn btn-default pull-right">Unselect</button>
+    </div>
+      
+    <div class="col-sm-3 col-md-3 col-lg-3">
+      <div style="text-align: center; width=100%">Treatment</div>
 
-      <td width="185">
-        <select multiple id="organ_col" class="wizard_select" size="10">
-        </select>
-        <button class="select_all">Select All</button>
-        <button class="select_none">Unselect</button>
-      </td>
-
-    </tr>
-  </table>
-        
+      <select multiple id="organ_col" class="form-control wizard_select" size="10"></select>
+      <button class="select_all btn btn-default pull-left">Select All</button>
+      <button class="select_none btn btn-default pull-right">Unselect</button>
+    </div>
+    
+  </div>
+  
   <br/>
-  <button class="blue_button" style="margin-top:10px;float: right;" type="submit" form="search_gene" formaction="/Expression_viewer/output" formmethod="post" formenctype="multipart/form-data">Get Expression</button>
-  <br/>
+  <button class="btn btn-primary" style="margin-top:10px;float: right;" type="submit" form="search_gene" formaction="/Expression_viewer/output" formmethod="post" formenctype="multipart/form-data">Get Expression</button>
   <br/>
   <br/>
   <br/>

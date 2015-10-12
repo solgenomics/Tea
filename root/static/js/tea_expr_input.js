@@ -1,96 +1,20 @@
 $(document).ready(function () {
-	
-	//open gene id info dialog
-	$('#gene_i').click(function () {
-		$('#gene_id_help').dialog({
-			draggable:true,
-			resizable:false,
-			modal: true,
-			width:300,
-			closeOnEscape:true,
-			title: "Gene Expression Search",
-			open: function(event, ui) { $('.ui-dialog-titlebar-close').blur();},
-		});
-	});
-	
-  //open BLAST info dialog
-  $('#blast_i').click(function () {
-    $('#blast_help').dialog({
-      draggable:true,
-      resizable:false,
-      modal: true,
-      width:300,
-      closeOnEscape:true,
-      title: "BLAST Info",
-      open: function(event, ui) { $('.ui-dialog-titlebar-close').blur();},
-    });
-  });
-  
+
   //open BLAST info dialog
   $('#blast_i2').click(function () {
-    $('#blast_help').dialog({
-      draggable:true,
-      resizable:false,
-      modal: true,
-      width:300,
-      closeOnEscape:true,
-      title: "BLAST Info",
-      open: function(event, ui) { $('.ui-dialog-titlebar-close').blur();},
-    });
+    $('#blast_help').modal();
+    $('#blast_help').css("z-index","999999");
   });
   
-	//open custom list info dialog
-	$('#custom_list_i').click(function () {
-		$('#custom_list_help').dialog({
-			draggable:true,
-			resizable:false,
-			modal: true,
-			width:300,
-			closeOnEscape:true,
-			title: "Custom List Info",
-			open: function(event, ui) { $('.ui-dialog-titlebar-close').blur();},
-		});
-	});
-	
-	//open parameters info dialog
-	$('#parameters_i').click(function () {
-		$('#parameters_help').dialog({
-			draggable:true,
-			resizable:false,
-			modal: true,
-			width:300,
-			closeOnEscape:true,
-			title: "Parameters and Filters",
-			open: function(event, ui) { $('.ui-dialog-titlebar-close').blur();},
-		});
-	});
-	
 	//open custom list input dialog
 	$('#custom_input_box').click(function () {
-		$('#custom_input_dialog').dialog({
-			draggable:true,
-			resizable:false,
-			modal: true,
-			width:450,
-			closeOnEscape:true,
-			title: "Custom List",
-			open: function(event, ui) { $('.ui-dialog-titlebar-close').blur(); $('.dialog_text_area').blur();},
-		});
+    $('#custom_input_dialog').modal();
 	});
 	
 	//open BLAST input dialog
-	$('#blast_input_box').click(function () {
-		$('#blast_input_dialog').dialog({
-			draggable:true,
-			resizable:false,
-			modal: true,
-			width:460,
-			height:470,
-			closeOnEscape:true,
-			title: "BLAST Search",
-			open: function(event, ui) { $('.ui-dialog-titlebar-close').blur(); $('.dialog_text_area').blur();},
-		});
-	});
+  $('#blast_input_box').click(function () {
+    $('#blast_input_dialog').modal();
+  });
 	
 
   jQuery("#organism_3").attr("checked", "checked");
@@ -203,20 +127,11 @@ $(document).ready(function () {
 					alert("ERROR: "+response.error);
 					// enable_ui();
 				} else {
-					$('#blast_input_dialog').dialog("close");
+          $('#blast_input_dialog').modal("hide");
 					
 					$('#blast_res_table').html(response.blast_table);
-					$('#blast_div_dialog').dialog({
-						draggable:true,
-						resizable:true,
-						modal: true,
-						width:700,
-						minWidth:500,
-						height:750,
-						closeOnEscape:true,
-						title: "BLAST Results",
-						open: function(event, ui) {$('#selectall').blur();},
-					});
+          $('#blast_div_dialog').modal();
+
 					if (blast_alignment) {
 						$('#blast_aln_p').html(response.blast_alignment);
 						$('#blast_aln_div').css('display','inline');

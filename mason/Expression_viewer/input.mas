@@ -26,21 +26,19 @@ my $json = JSON::Any->new;
 			<table id="tea_form" cellspacing="" cellpadding="5" width"100%" style="float:left;width:250px;">
 					<tr>
 						<td class="td_form">
-							<span id="gene_i" class="info_icon">i</span> By Tomato Gene ID
+              <button type="button" class="info_icon" data-toggle="modal" data-target="#gene_id_help">i</button>
+              By Tomato Gene ID
 						</td>
 					</tr>
 					<tr>
 						<td class="td_form">
 							<input class="form-control col-xs-2" value="Solyc01g102660" name="input_gene"/>
-              <!-- <input class="expr_input_box" value="Solyc01g102660" name="input_gene" size="26"/> -->
               
 							<input class="corr_filter" name="correlation_filter" style="display:none;"/>
 							<input class="organism_filter" name="organism_filter" style="display:none;"/>
 							<input class="organ_filter" name="organ_filter" style="display:none;"/>
 							<input class="stage_filter" name="stage_filter" style="display:none;"/>
 							<input class="tissue_filter" name="tissue_filter" style="display:none;"/>
-              <!-- <br/>
-              <button class="blue_button" style="margin-top:10px;" type="submit" form="search_gene" formaction="/Expression_viewer/output" formmethod="post" formenctype="multipart/form-data">Get Expression</button> -->
 						</td>
 					</tr>
 			</table>
@@ -49,13 +47,13 @@ my $json = JSON::Any->new;
 		<table id="tea_form" cellspacing="" cellpadding="5" width"100%" style="float:left; width:250px;">
 				<tr>
 					<td class="td_form">
-						<span id="blast_i" class="info_icon">i</span> By BLAST Search
+            <button type="button" class="info_icon" data-toggle="modal" data-target="#blast_help">i</button>
+            By BLAST Search
 					</td>
 				</tr>
 				<tr>
 					<td class="td_form">
 						<input id="blast_input_box" class="form-control col-xs-2" value="Click here" style="color: #ccc;"/>
-            <!-- <input id="blast_input_box" class="expr_input_box" value="Click here" size="25" style="color: #999;"/> -->
 					</td>
 				</tr>
 		</table>
@@ -63,13 +61,13 @@ my $json = JSON::Any->new;
 		<table id="tea_form" cellspacing="" cellpadding="5" width"100%" style="float:left;width:250px;">
 				<tr>
 					<td class="td_form">
-						<span id="custom_list_i" class="info_icon">i</span> By Custom List
+            <button type="button" class="info_icon" data-toggle="modal" data-target="#custom_list_help">i</button>
+            By Custom List
 					</td>
 				</tr>
 				<tr>
 					<td class="td_form">
 						<input id="custom_input_box" class="form-control col-xs-2" value="Click here"  style="color: #ccc;"/>
-            <!-- <input id="custom_input_box" class="expr_input_box" value="Click here" size="24" style="color: #999;"/> -->
 					</td>
 				</tr>
 		</table>
@@ -82,7 +80,7 @@ my $json = JSON::Any->new;
 <div style="width:850px;margin:0 auto;clear:both;">
 	<center>
     <hr>
-		<h3>Define Expression Parameters <span id="parameters_i" class="info_icon">i</span></h3>
+		<h3>Define Expression Parameters <button type="button" class="info_icon" data-toggle="modal" data-target="#parameters_help">i</button></h3>
 	</center>
   <br>
 	

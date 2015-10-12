@@ -142,7 +142,7 @@ $(document).ready(function () {
 	$('#correlation_filter').val(correlation_filter);
 	
 	//display link to SGN and query gene description
-	document.getElementById("gene_name").innerHTML = "<a href='http://solgenomics.net/locus/"+gene_locus_id[genes[0]]+"/view' target='_blank'><img src='/static/images/sgn_logo.png' height='30' style='margin-bottom: -10px;' title='Connect to SGN for metadata associated with this gene'/> "+genes[0]+"</a>";
+	document.getElementById("gene_name").innerHTML = "<a href='http://solgenomics.net/locus/"+gene_locus_id[genes[0]]+"/view' target='_blank'><img src='/static/images/sgn_logo.png' height='30' style='margin-bottom: 10px;' title='Connect to SGN for metadata associated with this gene'/> "+genes[0]+"</a>";
 	document.getElementById("gene_desc").innerHTML = gene_descriptions[genes[0]];
   document.getElementById("project_desc").innerHTML = "<a href='/project_page?project_id="+project_id+"' target='_blank'>"+project_name+"</a>";
 	

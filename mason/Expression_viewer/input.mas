@@ -26,7 +26,7 @@ my $json = JSON::Any->new;
       <div class="col-sm-4 col-md-4 col-lg-4">
         By Tomato Gene ID <button type="button" class="info_icon" data-toggle="modal" data-target="#gene_id_help">i</button>
     		<form id="search_gene" method="post" enctype="multipart/form-data">
-  				<input class="form-control col-xs-2" value="Solyc01g102660" name="input_gene"/>
+  				<input class="form-control col-xs-2 panel-primary" value="Solyc01g102660" name="input_gene"/>
         
   				<input class="corr_filter" name="correlation_filter" style="display:none;"/>
   				<input class="organism_filter" name="organism_filter" style="display:none;"/>
@@ -57,9 +57,11 @@ my $json = JSON::Any->new;
   <div class="row">
     
     <div class="col-sm-6 col-md-6 col-lg-6">
-      <div id="expr_params" class="panel">
-        <div class="panel-heading">Genotypes</div>
+      
+      <div id="expr_params" class="panel panel-primary">
+        <!-- <div class="panel-heading">Genotypes</div> -->
         <div class="panel-body">
+          Genotypes
           <form role="form" id="organism_col">
             <% $organism_html %>
           </form>
@@ -69,11 +71,13 @@ my $json = JSON::Any->new;
       
     <div class="col-sm-6 col-md-6 col-lg-6">
        <div id="expr_params" class="panel">
-          <div class="panel-heading">
-            Correlation filter: 0.<input type="text" id="amount" readonly style="border:0;font-size:18px;background-color: #fff;" size="4">
+          <!-- <div class="panel-heading"> -->
             <!-- Correlation filter: 0.<input type="text" id="amount" readonly style="border:0;font-size:18px;background-color: #f5f5f5;" size="4"> -->
-          </div>
+          <!-- </div> -->
           <div class="panel-body">
+            Correlation filter: 0.<input type="text" id="amount" readonly style="border:0;font-size:18px;background-color: #fff;" size="4">
+            <br>
+            <br>
             <div id="correlation_slider"></div>
           </div>
       </div>

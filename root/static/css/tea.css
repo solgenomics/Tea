@@ -405,7 +405,7 @@ body .ui-tooltip {
 }
 
 #correlation_slider {
-	width: 300px;
+/*  width: 300px;*/
 	height: 8px;
 }
 
@@ -419,13 +419,13 @@ body .ui-tooltip {
 
 #expr_params {
    text-decoration:none;
-   font-family:"Verdana", arial, Sans-serif;
-   margin:10px;
-   line-height:50px;
-   font-size:22px;
+/*   font-family:"Verdana", arial, Sans-serif;*/
+/*   margin:10px;*/
+/*   line-height:50px;*/
+   font-size:18px;
    white-space: nowrap;
-   width:310px;
-   cursor:pointer;
+/*   width:310px;*/
+/*   cursor:pointer;*/
 }
 
 .params_box {

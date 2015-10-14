@@ -516,5 +516,8 @@ body .ui-tooltip {
   width: 1120px;
 }
 
+.jqplot-table-legend-label {
+  padding-left:5px;
+}
 
 

@@ -251,7 +251,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   my $experiment_rs = $schema->resultset('Experiment')->search({project_id => $project_rs->project_id});
   
   # only organism selected
-  if (!$stage_filter && !$tissue_filter && !$organ_filter) {
+  if (!$stage_filter && !$tissue_filter) {
     my ($organ_arrayref,$stage_arrayref,$tissue_arrayref) = $db_funct->get_input_options($schema,$experiment_rs);
     # my ($organ_hashref,$stage_hashref,$tissue_hashref) = $db_funct->get_input_options($schema,$experiment_rs);
 
@@ -269,7 +269,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   }
   
   # if only stage is selected, get all tissues
-  elsif ($stage_filter && !$tissue_filter && !$organ_filter) {
+  elsif ($stage_filter && !$tissue_filter) {
     # my $db_funct = Tea::Controller::Expression_viewer_functions->new();
     
     my $stage_info_ids = $db_funct->get_ids_from_query($schema,"LayerInfo",\@stages,"name","layer_info_id");
@@ -289,20 +289,49 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   }
   
   # if only tissue is selected, get all stages
-  elsif (!$stage_filter && $tissue_filter && !$organ_filter) {
+  elsif (!$stage_filter && $tissue_filter) {
     # my $db_funct = Tea::Controller::Expression_viewer_functions->new();
     
     my $tissue_info_ids = $db_funct->get_ids_from_query($schema,"LayerInfo",\@tissues,"name","layer_info_id");
     my $tissue_ids = $db_funct->get_ids_from_query($schema,"Layer",$tissue_info_ids,"layer_info_id","layer_id");
     my $exp_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",$tissue_ids,"layer_id","experiment_id");
     
-    $image_hash_ref = $db_funct->get_image_hash($schema,$exp_ids);
+    my @intersected_layers = intersect(@$experiment_ids,@$exp_ids);
     
-    my $layer_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",$exp_ids,"experiment_id","layer_id");
+    $image_hash_ref = $db_funct->get_image_hash($schema,\@intersected_layers);
+    # $image_hash_ref = $db_funct->get_image_hash($schema,$exp_ids);
+    
+    my $layer_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",\@intersected_layers,"experiment_id","layer_id");
+    # my $layer_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",$exp_ids,"experiment_id","layer_id");
     my $stage_info_ids = $db_funct->filter_layer_type($schema,$layer_ids,"stage","layer_info_id");
     my $stage_names = $db_funct->get_ids_from_query($schema,"LayerInfo",$stage_info_ids,"layer_info_id","name");
 
     @stages = @{$stage_names};
+  }
+  elsif ($stage_filter && $tissue_filter) {
+    # stages and tissues selected
+    
+    my $tissue_info_ids = $db_funct->get_ids_from_query($schema,"LayerInfo",\@tissues,"name","layer_info_id");
+    my $tissue_ids = $db_funct->get_ids_from_query($schema,"Layer",$tissue_info_ids,"layer_info_id","layer_id");
+    my $stage_info_ids = $db_funct->get_ids_from_query($schema,"LayerInfo",\@stages,"name","layer_info_id");
+    my $stage_ids = $db_funct->get_ids_from_query($schema,"Layer",$stage_info_ids,"layer_info_id","layer_id");
+    
+    
+    my @intersected_layers = (@$stage_ids,@$tissue_ids);
+    
+    my $exp_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",\@intersected_layers,"layer_id","experiment_id");
+    
+    $image_hash_ref = $db_funct->get_image_hash($schema,$exp_ids);
+    
+    # my $layer_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",\@intersected_layers,"experiment_id","layer_id");
+    my $stage_info_ids = $db_funct->filter_layer_type($schema,\@intersected_layers,"stage","layer_info_id");
+    my $stage_names = $db_funct->get_ids_from_query($schema,"LayerInfo",$stage_info_ids,"layer_info_id","name");
+    my $tissue_info_ids = $db_funct->filter_layer_type($schema,\@intersected_layers,"tissue","layer_info_id");
+    my $tissue_names = $db_funct->get_ids_from_query($schema,"LayerInfo",$tissue_info_ids,"layer_info_id","name");
+
+    @tissues = @{$tissue_names};
+    @stages = @{$stage_names};
+    
   }
   
   for (@stages) {

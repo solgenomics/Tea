@@ -22,7 +22,9 @@ $(document).ready(function () {
       img_width = image_hash[stages[0]]["bg"]["image_width"]*1;
       images_total_width = images_total_width + img_width;
     }
-
+    
+    images_total_width = images_total_width + img_width + 50;
+    
     return (images_total_width)
   }
   
@@ -57,8 +59,8 @@ $(document).ready(function () {
   //define the cube canvas
   var canvas = new Kinetic.Stage({
     container: "container",
-    width: 1120,
-    height: 1200
+    width: canvas_width,
+    height: canvas_height
   });
 
   //define the tissue canvas

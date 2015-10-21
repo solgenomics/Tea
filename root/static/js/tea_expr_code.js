@@ -75,6 +75,7 @@ $(document).ready(function () {
   //set image coordinates
   var img_y = 0;
   
+  
 	// print the tissue colored images
 	for (var j = 0; j < stages.length; j++) {
     
@@ -89,8 +90,10 @@ $(document).ready(function () {
 			var r = rgb_color_array[0];
 			var g = rgb_color_array[1];
 			var b = rgb_color_array[2];
+      
+      // alert("expr_val: "+expr_val);
 			
-      if (expr_val > 0) {
+      // if (expr_val > 0) {
         var stage_name = stages[j].replace(/_/g," ");
         var tisue_name = tissues[i];
         
@@ -104,7 +107,7 @@ $(document).ready(function () {
           load_tissue_image(i,j,aoaoa,x_offset,y_offset,r,g,b,tissue_layer,img_canvas,stages[j],tissues[i],img_width,img_height,tissue_img_group,image_name,expr_val);
         // }
         }
-      }
+      // }
       
 		}
     tissue_expr_popup(img_canvas,tissue_img_group,aoaoa,j,tissues,x_offset,y_offset,img_width,img_height)

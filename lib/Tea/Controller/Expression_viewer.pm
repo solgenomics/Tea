@@ -396,6 +396,8 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	$query_gene =~ s/\.\d$//;
 	$query_gene =~ s/\.\d$//;
 	
+	$query_gene =~ s/^s/S/;
+  
 	#------------------------------------------------------------------------------------------------------------------
   my $total_corr_genes = 0;
   my $genes;

@@ -128,7 +128,7 @@ sub _get_correlation {
 	$total_corr_genes = $hits;
 
 	if (!$total_corr_genes) {
-		push ( @errors , "Gene not found.\n");
+		push ( @errors , "Not correlated genes found.\n");
 		# print STDERR "total_corr_genes: $total_corr_genes\n";
 	}
 
@@ -413,8 +413,10 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
     ($genes,$corr_values,$total_corr_genes,$corr_hash) = _get_correlation($c,$corr_filter,$current_page,$corr_index_path,$query_gene,$to_download);
     
     # %corr_hash = %$corr_hash;
-    @genes = @$genes;
-    @corr_values = @$corr_values;
+    if ($genes && $corr_values) {
+      @genes = @$genes;
+      @corr_values = @$corr_values;
+    }
 	}
   
 #------------------------------------------------------------------------------------------------------------------

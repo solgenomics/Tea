@@ -124,7 +124,7 @@ sub run_blast :Path('/Expression_viewer/blast/') :Args(0) {
   my $input_seq1 = $c->req->param("input_seq");
   my $nt_blastdb_path = $c->config->{nt_blastdb_path};
   my $prot_blastdb_path = $c->config->{prot_blastdb_path};
-  my $desc_path = $c->config->{description_index_path};
+  my $desc_path = $c->config->{loci_and_description_index_path};
   my $tmp_path = $c->config->{tmp_path};
   
   my ($input_name,$input_seq,$blast_program) = _parse_blast_input($input_seq1);

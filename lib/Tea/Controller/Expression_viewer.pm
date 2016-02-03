@@ -36,9 +36,6 @@ Catalyst Controller.
 sub index :Path('/Expression_viewer/input/') :Args(0) {
   my ( $self, $c ) = @_;
 
-  # $c->response->body('Matched Tea::Controller::Expression_viewer in Expression_viewer.');
-  # $c->stash(template => 'Expression_viewer/output.mas');
-  
   my $dbname = $c->config->{dbname};
   my $host = $c->config->{dbhost};
   my $username = $c->config->{dbuser};
@@ -137,7 +134,6 @@ sub _get_correlation {
 
 		my $user_errors = join("<br />", @errors);
 		print STDERR "$user_errors\n";
-		# $c->stash->{rest} = {error => $user_errors};
 		$c->stash->{error} = $user_errors;
 		$c->stash->{template} = '/Expression_viewer/output.mas';
 		return;
@@ -218,8 +214,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	my $pages_num = $c->req->param("all_pages") || 1;
 	my $expr_path = $c->config->{expression_indexes_path};
 	my $corr_path = $c->config->{correlation_indexes_path};
-	my $desc_path = $c->config->{description_index_path};
-	my $locus_path = $c->config->{locus_index_path};
+	my $loci_and_desc_path = $c->config->{loci_and_description_index_path};
 	
   # connect to the db and get the indexed dir name for the selected organism
   my $dbname = $c->config->{dbname};
@@ -253,10 +248,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   # only organism selected
   if (!$stage_filter && !$tissue_filter) {
     my ($organ_arrayref,$stage_arrayref,$tissue_arrayref) = $db_funct->get_input_options($schema,$experiment_rs);
-    # my ($organ_hashref,$stage_hashref,$tissue_hashref) = $db_funct->get_input_options($schema,$experiment_rs);
 
-    # @stages = sort keys %$stage_hashref;
-    # @tissues = sort keys %$tissue_hashref;
     @stages = @$stage_arrayref;
     @tissues = @$tissue_arrayref;
     my @exp_ids;
@@ -270,7 +262,6 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   
   # if only stage is selected, get all tissues
   elsif ($stage_filter && !$tissue_filter) {
-    # my $db_funct = Tea::Controller::Expression_viewer_functions->new();
     
     my $stage_info_ids = $db_funct->get_ids_from_query($schema,"LayerInfo",\@stages,"name","layer_info_id");
     my $stage_ids = $db_funct->get_ids_from_query($schema,"Layer",$stage_info_ids,"layer_info_id","layer_id");
@@ -290,7 +281,6 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   
   # if only tissue is selected, get all stages
   elsif (!$stage_filter && $tissue_filter) {
-    # my $db_funct = Tea::Controller::Expression_viewer_functions->new();
     
     my $tissue_info_ids = $db_funct->get_ids_from_query($schema,"LayerInfo",\@tissues,"name","layer_info_id");
     my $tissue_ids = $db_funct->get_ids_from_query($schema,"Layer",$tissue_info_ids,"layer_info_id","layer_id");
@@ -299,10 +289,8 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
     my @intersected_layers = intersect(@$experiment_ids,@$exp_ids);
     
     $image_hash_ref = $db_funct->get_image_hash($schema,\@intersected_layers);
-    # $image_hash_ref = $db_funct->get_image_hash($schema,$exp_ids);
     
     my $layer_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",\@intersected_layers,"experiment_id","layer_id");
-    # my $layer_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",$exp_ids,"experiment_id","layer_id");
     my $stage_info_ids = $db_funct->filter_layer_type($schema,$layer_ids,"stage","layer_info_id");
     my $stage_names = $db_funct->get_ids_from_query($schema,"LayerInfo",$stage_info_ids,"layer_info_id","name");
 
@@ -323,7 +311,6 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
     
     $image_hash_ref = $db_funct->get_image_hash($schema,$exp_ids);
     
-    # my $layer_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",\@intersected_layers,"experiment_id","layer_id");
     my $stage_info_ids = $db_funct->filter_layer_type($schema,\@intersected_layers,"stage","layer_info_id");
     my $stage_names = $db_funct->get_ids_from_query($schema,"LayerInfo",$stage_info_ids,"layer_info_id","name");
     my $tissue_info_ids = $db_funct->filter_layer_type($schema,\@intersected_layers,"tissue","layer_info_id");
@@ -356,13 +343,8 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 		
 		if ($query_gene =~ /\n/) {
 			
-      # print STDERR "$query_gene\n";
-			
 			$query_gene =~ s/[\n\s,]+/,/g;
-      # print STDERR "$query_gene\n";
-			
 			$query_gene =~ s/\.[12]\.*[12]*//g;
-      # print STDERR "$query_gene\n";
 			
 			@genes = split(",", $query_gene);
 			@corr_values = ("list") x scalar(@genes);
@@ -402,7 +384,6 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   my $total_corr_genes = 0;
   my $genes;
   my $corr_values;
-  # my %corr_hash;
   my $corr_hash;
   
 	$current_page = $current_page - 1;
@@ -412,7 +393,6 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
     
     ($genes,$corr_values,$total_corr_genes,$corr_hash) = _get_correlation($c,$corr_filter,$current_page,$corr_index_path,$query_gene,$to_download);
     
-    # %corr_hash = %$corr_hash;
     if ($genes && $corr_values) {
       @genes = @$genes;
       @corr_values = @$corr_values;
@@ -446,16 +426,10 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	    language => 'en',
 	);
 	
-	my $lucy_desc = Lucy::Simple->new(
-	    path     => $desc_path,
-	    language => 'en',
-	);
-	
-	my $lucy_locus = Lucy::Simple->new(
-	    path     => $locus_path,
-	    language => 'en',
-	);
-	
+  my $lucy_loci_and_desc = Lucy::Simple->new(
+      path     => $loci_and_desc_path,
+      language => 'en',
+  );
 	
 	foreach my $g (@genes) {
 		$lucy->search(
@@ -463,29 +437,21 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 			num_wanted => 10000
 		);
 		
-		$lucy_desc->search(
-		    query      => $g,
-			num_wanted => 1,
-		);
-		
-		$lucy_locus->search(
-		    query      => $g,
-			num_wanted => 1,
-		);
-		
+    $lucy_loci_and_desc->search(
+        query      => $g,
+      num_wanted => 1,
+    );
+    
 		while ( my $hit = $lucy->next ) {
 			# all expression values are multiplied by 1 to transform string into integer or float
 			$gene_stage_tissue_expr{$hit->{gene}}{$hit->{stage}}{$hit->{tissue}} = $hit->{expression} * 1;
 		}
-		
-		while ( my $desc_hit = $lucy_desc->next ) {
-			$descriptions{$desc_hit->{gene}} = $desc_hit->{description};
-		}
-		
-		while ( my $locus_hit = $lucy_locus->next ) {
-			$locus_ids{$locus_hit->{gene}} = $locus_hit->{locus_id};
-		}
-		
+    
+    while ( my $loci_and_desc_hit = $lucy_loci_and_desc->next ) {
+      $locus_ids{$loci_and_desc_hit->{gene}} = $loci_and_desc_hit->{locus_id};
+      $descriptions{$loci_and_desc_hit->{gene}} = $loci_and_desc_hit->{description};
+    }
+    
 	}
 	
 	
@@ -525,11 +491,11 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	$c->stash->{organism_filter} = $organism_filter;
 	$c->stash->{stage_filter} = $stage_filter;
 	$c->stash->{tissue_filter} = $tissue_filter;
-	$c->stash->{description} = \%descriptions;
+  $c->stash->{description} = \%descriptions;
 	$c->stash->{index_dir_name} = $project_rs->indexed_dir;
 	$c->stash->{project_id} = $project_rs->project_id;
 	$c->stash->{project_name} = $project_rs->name;
-	$c->stash->{locus_ids} = \%locus_ids;
+  $c->stash->{locus_ids} = \%locus_ids;
 	
 	$c->stash->{template} = '/Expression_viewer/output.mas';
 }
@@ -554,7 +520,7 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
 
 	my $expr_path = $c->config->{expression_indexes_path};
 	my $corr_path = $c->config->{correlation_indexes_path};
-	my $desc_path = $c->config->{description_index_path};
+	my $loci_and_desc_path = $c->config->{loci_and_description_index_path};
 	
   # indexed dir name saved in $corr_index_path and $expr_index_path
   my $corr_index_path = $corr_path."/".$index_dir_name;
@@ -735,11 +701,11 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
 	    language => 'en',
 	);
 	
-	my $lucy_desc = Lucy::Simple->new(
-	    path     => $desc_path,
-	    language => 'en',
-	);
-	
+  my $lucy_desc = Lucy::Simple->new(
+      path     => $loci_and_desc_path,
+      language => 'en',
+  );
+  
 	#------------------------------------- Create header
 	my @header;
 	my @lines;

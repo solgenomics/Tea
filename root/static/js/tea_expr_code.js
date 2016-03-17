@@ -20,8 +20,14 @@ $(document).ready(function () {
 
     img_total_width = image_hash[stages_array[0]]["bg"]["image_width"]*stages_array.length;
     
-    var col_num = Math.ceil(img_total_width/canvas_fix_width);
-    var row_num = stages_array.length/col_num;
+    var col_num = stages_array.length;
+    var row_num = 1;
+    
+    if (img_total_width > canvas_fix_width) {
+      col_num = Math.ceil(img_total_width/canvas_fix_width);
+    }
+    row_num = stages_array.length/col_num;
+    
     
     var img_total_height = image_hash[stages_array[0]]["bg"]["image_height"]*row_num;
     
@@ -29,7 +35,7 @@ $(document).ready(function () {
       img_total_height = canvas_fix_height;
     }
     
-    // alert("row: "+row_num+", col: "+col_num+", total width: "+images_total_width+", total height: "+images_total_height);
+    // alert("row: "+row_num+", col: "+col_num+", total width: "+img_total_width+", total height: "+img_total_height);
     return [img_total_height,col_num];
   }
   

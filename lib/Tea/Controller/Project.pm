@@ -49,11 +49,11 @@ sub index :Path('/project_page/') :Args(0) {
     my $stage_ids = _filter_layer_type($schema,$project_layer_ids,"stage","layer_id");
     my $tissue_ids = _filter_layer_type($schema,$project_layer_ids,"tissue","layer_id");
     
-    my ($organ_names,$organ_descriptions,$organ_images) = _get_layer_info($schema,$organ_ids);
-    my ($stage_names,$stage_descriptions,$stage_images) = _get_layer_info($schema,$stage_ids);
-    my ($tissue_names,$tissue_descriptions,$tissue_images) = _get_layer_info($schema,$tissue_ids);
+    my ($organ_names,$organ_descriptions,$organ_images,$organ_ordinal) = _get_layer_info($schema,$organ_ids);
+    my ($stage_names,$stage_descriptions,$stage_images,$stage_ordinal) = _get_layer_info($schema,$stage_ids);
+    my ($tissue_names,$tissue_descriptions,$tissue_images,$tissue_ordinal) = _get_layer_info($schema,$tissue_ids);
     
-    my $html_descriptions = _get_html_descriptions($project_layer_ids,$organ_names,$organ_descriptions,$stage_names,$stage_descriptions,$tissue_names,$tissue_descriptions);
+    my $html_descriptions = _get_html_descriptions($organ_names,$organ_descriptions,$stage_names,$stage_descriptions,$tissue_names,$tissue_descriptions,$organ_ordinal,$stage_ordinal,$tissue_ordinal);
     
     
     my @exp_tables;
@@ -62,19 +62,7 @@ sub index :Path('/project_page/') :Args(0) {
     
       my $layer_ids = _get_ids_from_query($schema,"ExperimentLayer",[$exp_ids],"experiment_id","layer_id");
     
-      # my $organ_info_ids = _filter_layer_type($schema,$layer_ids,"organ","layer_info_id");
-      # my $organ_names = _get_ids_from_query($schema,"LayerInfo",$organ_info_ids,"layer_info_id","name");
-      # my $organ_images = _filter_layer_type($schema,$layer_ids,"organ","image_file_name");
-      #
-      # my $stage_info_ids = _filter_layer_type($schema,$layer_ids,"stage","layer_info_id");
-      # my $stage_names = _get_ids_from_query($schema,"LayerInfo",$stage_info_ids,"layer_info_id","name");
-      # my $stage_images = _filter_layer_type($schema,$layer_ids,"stage","image_file_name");
-      #
-      # my $tissue_info_ids = _filter_layer_type($schema,$layer_ids,"tissue","layer_info_id");
-      # my $tissue_names = _get_ids_from_query($schema,"LayerInfo",$tissue_info_ids,"layer_info_id","name");
-      # my $tissue_images = _filter_layer_type($schema,$layer_ids,"tissue","image_file_name");
-
-      my $html_exp_table = _get_html_table($layer_ids,$organ_names,$organ_images,$stage_names,$stage_images,$tissue_names,$tissue_images);
+      my $html_exp_table = _get_html_table($layer_ids,$organ_names,$organ_images,$stage_names,$stage_images,$tissue_names,$tissue_images,$schema);
       push(@exp_tables,$html_exp_table);
     }
     
@@ -96,10 +84,12 @@ sub _get_layer_info {
   my %layer_names;
   my %layer_descriptions;
   my %layer_images;
+  my %layer_ordinal;
   
   foreach my $layer_id (@{$layer_ids}) {
     my $layer_rs = $schema->resultset('Layer')->search({layer_id => $layer_id})->single;
     my $image_name = $layer_rs->image_file_name;
+    my $ordinal = $layer_rs->ordinal;
     
     my $layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $layer_rs->layer_info_id})->single;
     my $layer_name = $layer_info_rs->name;
@@ -108,58 +98,58 @@ sub _get_layer_info {
     $layer_names{$layer_id} = $layer_name;
     $layer_descriptions{$layer_id} = $layer_description;
     $layer_images{$layer_id} = $image_name;
+    $layer_ordinal{$ordinal} = $layer_id;
   }
   
-  return (\%layer_names,\%layer_descriptions,\%layer_images);
+  return (\%layer_names,\%layer_descriptions,\%layer_images,\%layer_ordinal);
 }
 
+
 sub _get_html_descriptions {
-  my $layer_ids = shift;
   my $organ_names = shift;
   my $organ_descriptions = shift;
   my $stage_names = shift;
   my $stage_descriptions = shift;
   my $tissue_names = shift;
   my $tissue_descriptions = shift;
+  my $organ_ordinal = shift;
+  my $stage_ordinal = shift;
+  my $tissue_ordinal = shift;
   
   my @html;
   
-  my %organs;
-  my %stages;
-  my %tissues;
-  
-  foreach my $layer_id (@{$layer_ids}) {
-    if ($organ_names->{$layer_id}) {
-      $organs{$organ_names->{$layer_id}} = $organ_descriptions->{$layer_id};
-    }
-    if ($stage_names->{$layer_id}) {
-      $stages{$stage_names->{$layer_id}} = $stage_descriptions->{$layer_id};
-    }
-    if ($tissue_names->{$layer_id}) {
-      $tissues{$tissue_names->{$layer_id}} = $tissue_descriptions->{$layer_id};
-    }
-  }
-  
-  
   push (@html,"<table style=\"width:100%;\"><tr><th>Organ</th></tr>");
-  foreach my $name (sort(keys %organs)) {
-    push (@html,"<tr><td>".$name."</td><td>".$organs{$name}."</td></tr>");
+  foreach my $ordinal (sort keys %{$organ_ordinal}) {
+    my $name = $organ_names->{$organ_ordinal->{$ordinal}};
+    my $description = $organ_descriptions->{$organ_ordinal->{$ordinal}};
+    if ($name) {
+      push (@html,"<tr><td>".$name."</td><td>".$description."</td></tr>");
+    }
   }
   
   push (@html,"<tr><td>&nbsp;</td></tr><tr><th>Stages</th></tr>");
-  foreach my $name (sort(keys %stages)) {
-    push (@html,"<tr><td>".$name."</td><td>".$stages{$name}."</td></tr>");
+  foreach my $ordinal (sort keys %{$stage_ordinal}) {
+    my $name = $stage_names->{$stage_ordinal->{$ordinal}};
+    my $description = $stage_descriptions->{$stage_ordinal->{$ordinal}};
+    if ($name) {
+      push (@html,"<tr><td>".$name."</td><td>".$description."</td></tr>");
+    }
   }
   
   push (@html,"<tr><td>&nbsp;</td></tr><tr><th>Tissues</th></tr>");
-  foreach my $name (sort(keys %tissues)) {
-    push (@html,"<tr><td>".$name."</td><td>".$tissues{$name}."</td></tr>");
+  foreach my $ordinal (sort keys %{$tissue_ordinal}) {
+    my $name = $tissue_names->{$tissue_ordinal->{$ordinal}};
+    my $description = $tissue_descriptions->{$tissue_ordinal->{$ordinal}};
+    if ($name) {
+      push (@html,"<tr><td>".$name."</td><td>".$description."</td></tr>");
+    }
   }
-
+  
   push (@html,"</table>");
   
   return join("\n",@html);
 }
+
 
 sub _get_html_table {
   my $layer_ids = shift;
@@ -169,8 +159,19 @@ sub _get_html_table {
   my $stage_images = shift;
   my $tissue_names = shift;
   my $tissue_images = shift;
+  my $schema = shift;
   
   my @html;
+  
+  my %layer_ordinal;
+  
+  foreach my $layer_id (@{$layer_ids}) {
+    my $layer_rs = $schema->resultset('Layer')->search({layer_id => $layer_id})->single;
+    # if ($layer_rs->ordinal) {
+      $layer_ordinal{$layer_rs->ordinal} = $layer_id;
+    # }
+  }
+  
   
   push (@html,"<table class=\"project_imgs\"><tr>");
   
@@ -178,22 +179,27 @@ sub _get_html_table {
   
   foreach my $layer_id (@{$layer_ids}) {
     if ($organ_names->{$layer_id}) {
-      push (@html,"<th>Organ</th>");
+      push (@html,"<th>".$organ_names->{$layer_id}."</th>");
+      
     }
   }
   foreach my $layer_id (@{$layer_ids}) {
     if ($stage_names->{$layer_id}) {
-      push (@html,"<th>Stage</th>");
+      push (@html,"<th>".$stage_names->{$layer_id}."</th>");
+      
     }
   }
-  foreach my $layer_id (@{$layer_ids}) {
+  
+  foreach my $ordinal (sort keys %layer_ordinal) {
+    my $layer_id = $layer_ordinal{$ordinal};
     if ($tissue_names->{$layer_id}) {
       push (@html,"<th>".$tissue_names->{$layer_id}."</th>");
     }
   }
   push (@html,"</tr><tr>");
   
-  foreach my $layer_id (@{$layer_ids}) {
+  foreach my $ordinal (sort keys %layer_ordinal) {
+    my $layer_id = $layer_ordinal{$ordinal};
     if ($organ_images->{$layer_id}) {
       push (@html, "<td><img src=\"/static/images/expr_viewer/".$organ_images->{$layer_id}."\" width=\"100\"></td>\n");
     }
@@ -203,7 +209,9 @@ sub _get_html_table {
       push (@html, "<td><img src=\"/static/images/expr_viewer/".$stage_images->{$layer_id}."\" width=\"100\"></td>\n");
     }
   }
-  foreach my $layer_id (@{$layer_ids}) {
+  
+  foreach my $ordinal (sort keys %layer_ordinal) {
+    my $layer_id = $layer_ordinal{$ordinal};
     if ($tissue_images->{$layer_id}) {
       push (@html, "<td><img src=\"/static/images/expr_viewer/".$tissue_images->{$layer_id}."\" width=\"100\"></td>\n");
     }

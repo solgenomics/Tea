@@ -353,7 +353,7 @@
 				var top_tile = new Kinetic.Line({
 					points: [(nx+15), ny, (nx+35), ny, (nx+25), ny+15, nx+5, ny+15],
 					fill: sqr_color,
-					stroke: 'black',
+					stroke: 'rgb(50,50,50)',
 					strokeWidth: 1,
 					closed: true
 				});
@@ -369,7 +369,7 @@
 					var right_tile = new Kinetic.Line({
 						points: [nx+sq_size, ny+15, nx+30, ny, nx+30, ny+sq_size, nx+sq_size, ny+35],
 						fill: sqr_color,
-						stroke: 'black',
+						stroke: 'rgb(50,50,50)',
 						strokeWidth: 1,
 						closed: true
 					});
@@ -388,7 +388,7 @@
 						width: sq_size,
 						height: sq_size,
 						fill: sqr_color,
-						stroke: 'black',
+						stroke: 'rgb(50,50,50)',
 						strokeWidth: 1,
 					});
 				
@@ -517,7 +517,7 @@
       fillLinearGradientEndPoint: {x:0,y:400},
       fillLinearGradientColorStops: [0, color[0], 0.2, color[1], 0.4, color[2], 0.6, color[3], 0.75, color[4], 0.9, color[5], 0.98, color[6]],
       // fillLinearGradientColorStops: [0, color[0], 0.2, color[1], 0.4, color[2], 0.6, color[3], 0.75, color[4], 0.9, color[5], 0.99, color[6], 1, 'rgb(255,255,255)'],
-      stroke: 'black',
+			stroke: 'rgb(50,50,50)',
       strokeWidth: 1,
     });
   
@@ -583,7 +583,7 @@
 			height: 20,
 			fill: 'rgb(210,210,210)',
       // fill: 'white',
-			stroke: 'black',
+			stroke: 'rgb(50,50,50)',
 			strokeWidth: 1,
 		});
     

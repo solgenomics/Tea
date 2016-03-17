@@ -201,19 +201,19 @@ sub _get_html_table {
   foreach my $ordinal (sort keys %layer_ordinal) {
     my $layer_id = $layer_ordinal{$ordinal};
     if ($organ_images->{$layer_id}) {
-      push (@html, "<td><img src=\"/static/images/expr_viewer/".$organ_images->{$layer_id}."\" width=\"100\"></td>\n");
+      push (@html, "<td><a href=\"/static/images/expr_viewer/".$organ_images->{$layer_id}."\" target=\"blank\"> <img src=\"/static/images/expr_viewer/".$organ_images->{$layer_id}."\" width=\"100\"> </a></td>\n");
     }
   }
   foreach my $layer_id (@{$layer_ids}) {
     if ($stage_images->{$layer_id}) {
-      push (@html, "<td><img src=\"/static/images/expr_viewer/".$stage_images->{$layer_id}."\" width=\"100\"></td>\n");
+      push (@html, "<td><a href=\"/static/images/expr_viewer/".$stage_images->{$layer_id}."\" target=\"blank\"> <img src=\"/static/images/expr_viewer/".$stage_images->{$layer_id}."\" width=\"100\"> </a></td>\n");
     }
   }
   
   foreach my $ordinal (sort keys %layer_ordinal) {
     my $layer_id = $layer_ordinal{$ordinal};
     if ($tissue_images->{$layer_id}) {
-      push (@html, "<td><img src=\"/static/images/expr_viewer/".$tissue_images->{$layer_id}."\" width=\"100\"></td>\n");
+      push (@html, "<td><a href=\"/static/images/expr_viewer/".$tissue_images->{$layer_id}."\" target=\"blank\"> <img src=\"/static/images/expr_viewer/".$tissue_images->{$layer_id}."\" width=\"100\"> </a></td>\n");
     }
   }
   

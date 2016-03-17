@@ -219,15 +219,24 @@
 		return [r_color,g_color,b_color];
 	}
 
-  function tissue_expr_popup(canvas,tissue_img_group,aoaoa,j,tissues,x_offset,y_offset,img_width,img_height) {
+  function tissue_expr_popup(canvas,tissue_img_group,aoaoa,j,tissues,x_offset,y_offset,img_width,img_height,canvas_width) {
     
-      //add expression values on a popup
-      
-      var margin = 30;
+      //set values to show popup to the left of last column image
       var panel_width = 300;
+      var margin = 30;
       var panel_height = 2*margin+aoaoa[0][j].length*margin;
       var x_arrow = x_offset+img_width;
       var y_arrow = y_offset+50+panel_height/2;
+      var last_column = 0;
+      
+      if (x_offset+img_width+panel_width > canvas_width) {
+        x_offset = x_offset - img_width - panel_width;
+        x_arrow = x_offset+img_width+panel_width;
+        last_column = 1;
+      }
+      
+      
+      //create layer to display expression popup
       var tissue_popup_layer = new Kinetic.Layer();
       canvas.add(tissue_popup_layer);
       
@@ -235,24 +244,52 @@
         document.body.style.cursor = 'pointer';
         
         var arrow_group = new Kinetic.Group();
-        var left_arrow = new Kinetic.Line({
-          points: [x_arrow-30,y_arrow-15,    x_arrow,y_arrow-30,    x_arrow,y_arrow,    x_arrow-30,y_arrow-15],
-          stroke: "#aaa",
-          strokeWidth: 1,
-          closed: true,
-          fill: '#fff',
-          lineCap: 'round',
-          tension: 0
-        });
-        var arrow_junction = new Kinetic.Line({
-          points: [x_arrow-28,y_arrow-15,    x_arrow+2,y_arrow-30,    x_arrow+2,y_arrow,    x_arrow-28,y_arrow-15],
-          stroke: "#fff",
-          strokeWidth: 1,
-          closed: true,
-          fill: '#fff',
-          lineCap: 'round',
-          tension: 0
-        });
+        
+        if (last_column) {
+          
+          var left_arrow = new Kinetic.Line({
+            points: [x_arrow+30,y_arrow-15,    x_arrow,y_arrow-30,    x_arrow,y_arrow,    x_arrow+30,y_arrow-15],
+            stroke: "#aaa",
+            strokeWidth: 1,
+            closed: true,
+            fill: '#fff',
+            lineCap: 'round',
+            tension: 0
+          });
+          var arrow_junction = new Kinetic.Line({
+            points: [x_arrow+28,y_arrow-15,    x_arrow-2,y_arrow-30,    x_arrow-2,y_arrow,    x_arrow+28,y_arrow-15],
+            stroke: "#fff",
+            strokeWidth: 1,
+            closed: true,
+            fill: '#fff',
+            lineCap: 'round',
+            tension: 0
+          });
+          
+        } else {
+          
+          var left_arrow = new Kinetic.Line({
+            points: [x_arrow-30,y_arrow-15,    x_arrow,y_arrow-30,    x_arrow,y_arrow,    x_arrow-30,y_arrow-15],
+            stroke: "#aaa",
+            strokeWidth: 1,
+            closed: true,
+            fill: '#fff',
+            lineCap: 'round',
+            tension: 0
+          });
+        
+          var arrow_junction = new Kinetic.Line({
+            points: [x_arrow-28,y_arrow-15,    x_arrow+2,y_arrow-30,    x_arrow+2,y_arrow,    x_arrow-28,y_arrow-15],
+            stroke: "#fff",
+            strokeWidth: 1,
+            closed: true,
+            fill: '#fff',
+            lineCap: 'round',
+            tension: 0
+          });
+          
+        }
+        
       	arrow_group.add(left_arrow);
       	arrow_group.add(arrow_junction);
         
@@ -292,7 +329,7 @@
           });
           // tissue_popup_layer.moveToTop();
           tissue_popup_layer.add(tissue_desc_txt);
-          tissue_popup_layer.cache();
+          // tissue_popup_layer.cache();
           tissue_popup_layer.moveToTop();
           tissue_popup_layer.draw();
         }

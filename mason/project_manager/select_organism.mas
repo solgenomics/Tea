@@ -20,7 +20,7 @@
 	<div class="field_list">
 		<form class="form-horizontal" role="form">
 			<fieldset id="fs1" disabled>
-				<div class="form-group"> <label class="control-label" for="org_name">Specific name:</label> <input class="form-control" id="organism_species" placeholder="Solanum lycopersicum"> </div>
+				<div class="form-group"> <label class="control-label" for="org_name">Specific name:</label> <input class="form-control" id="organism_species" placeholder="Solanum lycopersicum"> <p class="text-danger"></p></div>
 				<div class="form-group"> <label class="control-label" for="org_variety">Variety:</label> <input class="form-control" id="organism_variety" placeholder="M82"> </div>
 				<div class="form-group"> <label class="control-label" for="org_description">Organism description:</label> <textarea class="form-control" rows="2" id="organism_description"></textarea> </div>
 			</fieldset>
@@ -43,12 +43,15 @@
 	width: 75%;
 	font-size:22px;
 	text-align: left;
-	cursor:pointer;
 }
 
 .form-group {
 	padding-left: 15px;
 	padding-right: 15px;
+}
+
+.text-danger {
+	font-size:14px;
 }
 </style>
 
@@ -60,6 +63,27 @@ $(document).ready(function () {
 		$("#fs1").prop("disabled", false);
 	});
 	
+	$("#organism_species").focusout(function(){
+	  validate_specific_name($("#organism_species"));
+	});
+
+	function validate_specific_name(sps_name) {
+		var ok = false;
+		
+    $(sps_name).removeClass("alert-danger");
+    $(sps_name).parent().find("p:first").html("");
+
+    if (!$(sps_name).val().match(/^[A-Z][a-z]+ [a-z]+/)) {
+      $(sps_name).addClass("alert-danger");
+      $(sps_name).parent().find("p:first").html("The specific name must be in the format <i>Genus species</i>");
+    } else {
+			$(sps_name).addClass("alert-success");
+    	ok = true;
+    }
+		
+		return ok;
+  }
+	
 	//Update a project
 	$('#organism_submit').click(function () {
 		var organism_id = $('input[name=optradio]:checked', '#organism_list').val();
@@ -70,6 +94,20 @@ $(document).ready(function () {
 		}
 		else {
 			var organism_species = $('#organism_species').val();
+			
+			var validated = validate_specific_name($("#organism_species"));
+			
+			if (!validated) {
+				// alert("out");
+				return;
+			}
+			// if (!organism_species.match(/^[A-Z][a-z]+ [a-z]+/)) {
+			// 	$("#organism_species").addClass("alert-danger");
+			// 	$("#organism_species").parent().find("p:first").html("The specific name must be in the format <i>Genus species</i>");
+			// 	return;
+			// }
+			
+			alert("lets create the organism");
 			var organism_variety = $('#organism_variety').val();
 			var organism_description = $('#organism_description').val();
 			// alert("organism_species: "+organism_species+", organism_variety: "+organism_variety+", organism_description: "+organism_description);
@@ -78,7 +116,7 @@ $(document).ready(function () {
 			//       url: '/import_project/update_project_data/',
 			//       timeout: 600000,
 			//       method: 'POST',
-			//       data: { 'project_id': project_id, 'project_name': project_name,'project_contact': project_contact,'project_description': project_description,'project_index': project_index,'organism_species': organism_species,'organism_variety': organism_variety,'organism_description': organism_description},
+			//       data: { 'organism_species': organism_species,'organism_variety': organism_variety,'organism_description': organism_description},
 			//       success: function(response) {
 			//         if (response.error) {
 			//           alert("ERROR: "+response.error);

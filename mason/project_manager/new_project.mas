@@ -19,8 +19,7 @@ $organism_variety => ""
 			<div class="form-group"> <label class="control-label" for="pjt_index">Index directory:</label> <input class="form-control" id="project_index"> </div>
 		</form>
 		
-		<button type="button" class="btn btn-default pull-right" style="margin-left:5px">Next</button>
-		<button id="fs1_submit" type="button" class="btn btn-primary pull-right">Submit</button>
+		<button type="button" class="btn btn-primary pull-right">Next</button>
 	</div>
 	
 	

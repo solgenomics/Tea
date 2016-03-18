@@ -83,10 +83,10 @@ $(document).ready(function () {
 	$('.edit_project').click(function () {
 		var project_id = this.id;
 		
-		//alert("project id: "+project_id);
+		// alert("project id: "+project_id);
 		
 		$.ajax({
-		      url: '/import_project/get_project_data/',
+		      url: '/get_project_data/',
 		      timeout: 600000,
 		      method: 'POST',
 		      data: { 'project_id': project_id},

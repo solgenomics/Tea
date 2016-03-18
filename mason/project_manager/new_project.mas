@@ -1,0 +1,140 @@
+<%args>
+$organism_id => 0
+$organism_species => ""
+$organism_variety => ""
+</%args>
+
+<center>
+	<div id="msg_panel" class="well">
+		Let's create a new project for <% $organism_species %> <% $organism_variety%>
+	</div>
+	
+	<div id="project_info" class="field_list">
+		<input id="project_id" style="display:none">
+		
+		<form class="form-horizontal" role="form">
+			<div class="form-group"> <label class="control-label" for="pjt_name">Project name:</label> <input class="form-control" id="project_name"> </div>
+			<div class="form-group"> <label class="control-label" for="pjt_contact">Contact info:</label> <input class="form-control" id="project_contact"> </div>
+			<div class="form-group"> <label class="control-label" for="pjt_description">Project description:</label> <textarea class="form-control" rows="2" id="project_description"></textarea> </div>
+			<div class="form-group"> <label class="control-label" for="pjt_index">Index directory:</label> <input class="form-control" id="project_index"> </div>
+		</form>
+		
+		<button type="button" class="btn btn-default pull-right" style="margin-left:5px">Next</button>
+		<button id="fs1_submit" type="button" class="btn btn-primary pull-right">Submit</button>
+	</div>
+	
+	
+	
+</center>
+
+<style>
+#msg_panel {
+	margin: 25px;
+	width: 75%;
+	font-size:22px;
+	font-weight: 700;
+}
+
+.field_list {
+	margin: 25px;
+	width: 75%;
+	font-size:22px;
+	text-align: left;
+	cursor:pointer;
+}
+
+.form-group {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+</style>
+
+
+<script>
+$(document).ready(function () {
+	
+	//create new entry for project, organism, layer, etc
+	$('.unlock_form').click(function () {
+		var fs_id = $(this).val()
+		$("#"+fs_id).prop("disabled", false);
+		$(this).css("display","none")
+		$("#"+fs_id+"_submit").css("display","block")
+	});
+	
+	//Edit a project
+	$('.edit_project').click(function () {
+		var project_id = this.id;
+		
+		//alert("project id: "+project_id);
+		
+		$.ajax({
+		      url: '/import_project/get_project_data/',
+		      timeout: 600000,
+		      method: 'POST',
+		      data: { 'project_id': project_id},
+		      success: function(response) {
+		        if (response.error) {
+		          alert("ERROR: "+response.error);
+		          // enable_ui();
+		        } else {
+							// alert("project: "+response.project_name);
+							$('#msg_panel').html("Edit project "+response.project_name);
+							$('#project').css("display","none");
+							$('#project_info').css("display","block")
+							$('#project_id').val(response.project_id);
+							$('#project_name').val(response.project_name);
+							$('#project_contact').val(response.project_contact);
+							$('#project_description').val(response.project_description);
+							$('#project_index').val(response.project_index);
+							$('#organism_species').val(response.organism_species);
+							$('#organism_variety').val(response.organism_variety);
+							$('#organism_description').val(response.organism_description);
+							
+		        }
+		      },
+		      error: function(response) {
+		        alert("An error occurred. The service may not be available right now.");
+		        // enable_ui();
+		      }
+		    });
+	});
+	
+	
+	//Update a project
+	$('#fs1_submit').click(function () {
+		
+		var project_id = $('#project_id').val();
+		var project_name = $('#project_name').val();
+		var project_contact = $('#project_contact').val();
+		var project_description = $('#project_description').val();
+		var project_index = $('#project_index').val();
+		var organism_species = $('#organism_species').val();
+		var organism_variety = $('#organism_variety').val();
+		var organism_description = $('#organism_description').val();
+		
+		$.ajax({
+		      url: '/import_project/update_project_data/',
+		      timeout: 600000,
+		      method: 'POST',
+		      data: { 'project_id': project_id, 'project_name': project_name,'project_contact': project_contact,'project_description': project_description,'project_index': project_index,'organism_species': organism_species,'organism_variety': organism_variety,'organism_description': organism_description},
+		      success: function(response) {
+		        if (response.error) {
+		          alert("ERROR: "+response.error);
+		          // enable_ui();
+		        } else {
+							$('#project_info').css("display","none")
+							$('#msg_panel').html("Project "+response.project_name+" updated");
+							
+		        }
+		      },
+		      error: function(response) {
+		        alert("An error occurred. The service may not be available right now.");
+		        // enable_ui();
+		      }
+		    });
+	});
+	
+	
+	
+});
+</script>

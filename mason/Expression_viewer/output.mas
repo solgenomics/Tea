@@ -114,8 +114,8 @@ my $json = JSON::Any->new;
   
   <div class="tabs">
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#container">Expression Cube</a></li>
-        <li><a data-toggle="tab" href="#container_tissues">Expression images</a></li>
+        <li class="active"><a data-toggle="tab" href="#container"><img src="/static/images/expr_viewer/ico2.png" height="24"/> Expression Cube</a></li>
+        <li><a data-toggle="tab" href="#container_tissues"><img src="/static/images/expr_viewer/ico1.png" height="24" style="padding-bottom:5px;"/> Expression images</a></li>
     </ul>
   </div>
   <div class="tab-content">

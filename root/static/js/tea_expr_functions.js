@@ -9,6 +9,25 @@
       s_names[i] = s_names[i].replace(/_/g," ");
     }
     
+    var bar_width = null;
+    var bar_padding = 0;
+    var bar_margin = 1;
+    
+    
+    if (s_names.length*t_names.length > 90) {
+      bar_width = 6;
+    }
+    else if (s_names.length*t_names.length > 42 && s_names.length*t_names.length <= 90) {
+      bar_width = 10;
+    }
+    else if (s_names.length*t_names.length > 8 && s_names.length*t_names.length <= 42) {
+      bar_width = 20;
+    }
+    else if (s_names.length*t_names.length <= 8) {
+      bar_width = 40;
+    }
+    
+    
     var color_array = ['#2e5989','#5f954c','#bb2c32','#6e3f78','#e79f44','#7d807f','#008888','#880088','#5e89b9','#8fc57c','#eb5c62','#9e6fa8','#fccf74','#adb0af','#adb0ff'];
     
 		var plot1 = $.jqplot(gene_name+'_bar_graph', sxt_values, {
@@ -18,6 +37,9 @@
 				shadow: false,
 				renderer:$.jqplot.BarRenderer,
 				rendererOptions: {
+					barWidth: bar_width,
+					barPadding: bar_padding,
+					barMargin: bar_margin,
 					fillToZero: true,
 					barDirection: 'vertical',
 					animation: {
@@ -86,12 +108,25 @@
 	function open_bar_graph_dialog(stage_tissue_values, gene_name, corr_val, description, gene_id, stage_names, tissue_names) {
     
     var panel_width = 1200;
-    var panel_max = stage_names.length*tissue_names.length*20;
+    var panel_max = 1200;
     var panel_min = 600;
     
-    // if (panel_width > panel_max) {
+    if (stage_names.length*tissue_names.length > 90) {
       panel_width = panel_max;
-    // }
+    }
+    else if (stage_names.length*tissue_names.length > 42 && stage_names.length*tissue_names.length <= 90) {
+      panel_width = stage_names.length*tissue_names.length*10+300;
+    }
+    else if (stage_names.length*tissue_names.length > 8 && stage_names.length*tissue_names.length <= 42) {
+      panel_width = stage_names.length*tissue_names.length*20+300;
+    }
+    else if (stage_names.length*tissue_names.length <= 8) {
+      panel_width = panel_min;
+    }
+    
+    if (panel_width > panel_max) {
+      panel_width = panel_max;
+    }
     if (panel_width < panel_min) {
       panel_width = panel_min;
     }

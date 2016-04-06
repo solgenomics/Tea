@@ -105,28 +105,22 @@ $(document).ready(function () {
   
   
   
-	//set canvas width
+  //set canvas width
   var canvas_width = 1120;
   var canvas_height = 1200;
-  
+
   //set variables
-	var x_margin = canvas_width -100 - stages.length*20 - tissues.length*15;
-  
+  var x_margin = canvas_width -100 - stages.length*20 - tissues.length*15;
+
   var x_offset = 0;
   var y_offset = 0;
-  
-  
+
+
   //set canvas height
   var height_and_col = get_canvas_height(stages,canvas_width,canvas_height);
   var images_total_height = height_and_col[0];
   var col_num = height_and_col[1];
-  
-  //define the cube canvas
-  var canvas = new Kinetic.Stage({
-    container: "container",
-    width: canvas_width,
-    height: canvas_height
-  });
+
 
   //define the tissue canvas
   var img_canvas = new Kinetic.Stage({
@@ -139,19 +133,19 @@ $(document).ready(function () {
 
   //set image coordinates
   var img_y = 0;
-  
+
   var prev_stage = "";
   var prev_stage2 = "";
   var next_stage = "";
   var next_short_name = "";
   var j_index = 0;
-  
-	// print the tissue colored images
-	for (var j = 0; j < stages.length; j++) {
-    
+
+  // print the tissue colored images
+  for (var j = 0; j < stages.length; j++) {
+
     var stage_name = stages[j].replace(/_/g," ");
     var stage_short_name = get_stage_short_name(stage_name);
-    
+
     if (stages[j+1]) {
       next_stage = stages[j+1].replace(/_/g," ");
       next_short_name = get_stage_short_name(next_stage);
@@ -160,13 +154,13 @@ $(document).ready(function () {
       next_stage = "";
       next_short_name = "";
     }
-    
+
     //sum x and y offsets to print the tissue images
     j_index++;
-    
-    
-    
-    
+
+
+
+
     //first stage
     if (j == 0) {
       x_offset = 0;
@@ -192,59 +186,66 @@ $(document).ready(function () {
     else {
         x_offset = x_offset + image_hash[stages[j]]["bg"]["image_width"]*1;
     }
-    
-    
-    
-    
+
+
+
+
     //load bg image
     load_stage_image(x_offset,y_offset,tissue_layer,img_canvas,stages[j],image_hash);
-    
-    
+
+
     //display overlapping tissue imgs and group them
     var tissue_img_group = new Kinetic.Group();
-		for (var i = 0; i<tissues.length; i++) {
-			
-			var expr_val = aoaoa[0][j][i];
-			var rgb_color_array = get_expr_color(expr_val);
-			
-			var r = rgb_color_array[0];
-			var g = rgb_color_array[1];
-			var b = rgb_color_array[2];
-      
-      // alert("expr_val: "+expr_val);
-			
-        var tisue_name = tissues[i];
-        
-        if (typeof(image_hash[stage_name][tisue_name]) !== 'undefined') {
-          
-          var image_name = image_hash[stage_name][tisue_name]["image_name"];
-          img_width = image_hash[stage_name][tisue_name]["image_width"]*1;
-          img_height = image_hash[stage_name][tisue_name]["image_height"]*1;
-          
-          load_tissue_image(i,j,aoaoa,x_offset,y_offset,r,g,b,tissue_layer,img_canvas,stages[j],tissues[i],img_width,img_height,tissue_img_group,image_name,expr_val);
-        } //if end
-      
-		} //for tissues end
+    for (var i = 0; i<tissues.length; i++) {
+
+      var expr_val = aoaoa[0][j][i];
+      var rgb_color_array = get_expr_color(expr_val);
+
+      var r = rgb_color_array[0];
+      var g = rgb_color_array[1];
+      var b = rgb_color_array[2];
+
+        // alert("expr_val: "+expr_val);
+
+          var tisue_name = tissues[i];
+
+          if (typeof(image_hash[stage_name][tisue_name]) !== 'undefined') {
+
+            var image_name = image_hash[stage_name][tisue_name]["image_name"];
+            img_width = image_hash[stage_name][tisue_name]["image_width"]*1;
+            img_height = image_hash[stage_name][tisue_name]["image_height"]*1;
+
+            load_tissue_image(i,j,aoaoa,x_offset,y_offset,r,g,b,tissue_layer,img_canvas,stages[j],tissues[i],img_width,img_height,tissue_img_group,image_name,expr_val);
+          } //if end
+
+    } //for tissues end
     tissue_expr_popup(img_canvas,tissue_img_group,aoaoa,j,tissues,x_offset,y_offset,img_width,img_height,canvas_width);
-    
+
     // tissue_layer.cache(); //when commented fixed warnings
-		tissue_layer.draw();
-    
-    
+    tissue_layer.draw();
+
+
     prev_stage2 = prev_stage;
     prev_stage = stage_short_name;
-    
-	} //for stages end
-  
-  var frame_height = $('#container').css("height");
-  var container_height = frame_height.replace("px","");
-  
-  if (canvas_height > container_height) {
-    $('#container').css("height",canvas_height+"px");
-  }
+
+  } //for stages end
+
+    var frame_height = $('#container').css("height");
+    var container_height = frame_height.replace("px","");
+
+    if (canvas_height > container_height) {
+      $('#container').css("height",canvas_height+"px");
+    }
   
   
 	// ------------- print cube
+  
+  //define the cube canvas
+  var canvas = new Kinetic.Stage({
+    container: "container",
+    width: canvas_width,
+    height: canvas_height
+  });
   
   //for y_margin for the cube
   var longest_stage = 0;

@@ -2,7 +2,7 @@
   // pagination code
   function draw_pagination(page_y,current_page,pages_num,moving_slice_group) {
     
-    var x_margin = 960 //x position to start the pagination elements
+    var x_margin = 905 //x position to start the pagination elements
   	var pages_group = new Kinetic.Group();
 
   	//triangle to first page
@@ -250,8 +250,8 @@
 		canvas.add(gene_popup_layer);
 		
 		gene_text.on('mouseover', function() {
-			var x_pos = this.getAbsolutePosition().x-510;
-			var y_pos = this.getAbsolutePosition().y-10;
+      var x_pos = this.getAbsolutePosition().x-510;
+      var y_pos = this.getAbsolutePosition().y-10;
       document.body.style.cursor = 'pointer';
 			
 			var gene_description = gene_descriptions[gene_names_array[n-1]];

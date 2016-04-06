@@ -28,13 +28,13 @@
       series: [
         {label: s_names},
       ],
-			highlighter: {
-				show: true,
-				showMarker:false,
-				tooltipAxes: 'y',
-				tooltipLocation: 'n',
-				formatString:'<div id="bar_tooltip" class="jqplot-highlighter"><p>%s</p></tr></div>'
-			},
+      highlighter: {
+        show: true,
+              showMarker:false,
+              tooltipAxes: 'y',
+              tooltipLocation: 'n',
+              formatString:'<div id="bar_tooltip" class="jqplot-highlighter"><p>%s</p></tr></div>'
+      },
 			axesDefaults: {
 				tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
 			},

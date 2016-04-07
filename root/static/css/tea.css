@@ -525,11 +525,12 @@ body .ui-tooltip {
 
 /* style for gradient color bar legend */
 
-#fix_color_legend{
+
+#legend_box {
   position: fixed;
   top:50%;
-  margin-top:-250px;
   right:0px;
+  margin-top:-250px;
   width:100px;
   height:500px;
   background-color: #f5f5f5;
@@ -537,4 +538,12 @@ body .ui-tooltip {
   border-style: solid;
   border-width: 1px 0px 1px 1px;
   border-radius:4px;
+}
+
+#hide_legend {
+  position: fixed;
+  right:0px;
+  top:50%;
+  width:100px;
+  margin-top:-280px;
 }

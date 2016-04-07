@@ -13,6 +13,19 @@ $(document).ready(function () {
     e.preventDefault();
   });
   
+  $("#hide_legend").click(function(){
+      $("#legend_box").animate({
+          width: 'toggle'
+      });
+      if ($("#legend_close").hasClass("glyphicon-remove")) {
+        $("#legend_close").removeClass("glyphicon-remove");
+        $("#legend_close").addClass("glyphicon-info-sign");
+      }
+      else {
+        $("#legend_close").addClass("glyphicon-remove");
+        $("#legend_close").removeClass("glyphicon-info-sign");
+      }
+  });
   
   function get_stage_short_name(s_name) {
     

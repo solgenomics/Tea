@@ -122,9 +122,12 @@ my $json = JSON::Any->new;
     <div id="container_tissues" class="tab-pane fade"></div>
   </div>
   
-  <div id="fix_color_legend">
+  <div id="hide_legend"><span id="legend_close" class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
+    
+  <div id="legend_box">
     <div id="container_legend"></div>
   </div>
+    
 </center>
 <br>
 

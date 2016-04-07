@@ -1,3 +1,8 @@
+<%args>
+@project_ids => ()
+%project_names => ()
+</%args>
+
 <center>
 	<!-- <div class="pagetitle"><img src="/static/images/anatomy_small.png" height="40" style="margin-bottom:-5px;"/> Anatomy Viewer</div> -->
 	<!-- <br/> -->
@@ -8,6 +13,20 @@
 			The individual tissues are then able to be highlighted to show different expression levels found in each tissue in the expression viewer.
 		</p>
 		
+    
+  	<div style="width:700px; text-align: left;">
+      <a href="#"><img class="centered_img" src="/static/images/expr_small.png" style="margin-bottom: 10px;"/> <b>Projects</b></a><br/>
+      <ul class="ul_blue">
+        <%perl>
+          foreach my $p_ids (@project_ids) {
+            print "<li><a href=\"project_page?project_id=$p_ids\"><span class=\"span_black\">$project_names{$p_ids}</span></a></li>";
+          }
+        </%perl>
+      </ul>
+  	</div>
+    
+    
+    
 		<h3>Tissue: Pericarp</h3>
 		<h3>Stage: 10 Days Post Anthesis</h3>
 		<img src="static/images/anatomy_viewer/microscopy/pericarp_10dpa_photo.jpg" style="float:left;margin-right:10px;width:160px;display:inline;">

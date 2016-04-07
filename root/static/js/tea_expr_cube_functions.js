@@ -502,15 +502,15 @@
 	}
 
 
-	function add_color_grad_legend(page_width,tmp_layer,stage,y_margin) {
+	function add_color_grad_legend(tmp_layer,stage) {
 	
 		var color = ['rgb(80,0,0)','rgb(255,0,0)','rgb(255,130,0)','rgb(255,195,125)','rgb(255,233,199)','rgb(255,255,120)','rgb(255,255,230)'];
-	  var x_pos = page_width-50; // margin from right
-	  var y_pos = y_margin+35; //margin from top
+	  var x_pos = 20; // margin from right
+	  var y_pos = 15; //margin from top
     
     var grad_legend = new Kinetic.Rect({
-      x: x_pos,
-      y: y_pos,
+      x: x_pos+10,
+      y: y_pos+20,
       width: 20,
       height: 400,
       fillLinearGradientStartPoint: {x:0, y:0},
@@ -522,8 +522,8 @@
     });
   
     var legend_bottom = new Kinetic.Rect({
-      x: x_pos+1,
-      y: y_pos+394,
+      x: x_pos+11,
+      y: y_pos+414,
       width: 18,
       height: 5,
       fill: 'rgb(255,255,255)',
@@ -532,8 +532,8 @@
     });
   
 		var top_text = new Kinetic.Text({
-			x: x_pos-8,
-      y: y_pos-20,
+			x: x_pos+2,
+      y: y_pos,
 			text: "RPKM",
 			fontSize: 14,
 			fontFamily: 'Helvetica',
@@ -542,43 +542,43 @@
 		});
 	
 		var mid1_text = new Kinetic.Text({
-			x: x_pos+25,
-			y: y_pos+60,
+			x: x_pos+35,
+			y: y_pos+80,
 			text: "300",
 			fill: "black"
 		});
 	
 		var mid2_text = new Kinetic.Text({
-			x: x_pos+25,
-			y: y_pos+140,
+			x: x_pos+35,
+			y: y_pos+160,
 			text: "100",
 			fill: "black"
 		});
 	
 		var mid3_text = new Kinetic.Text({
-			x: x_pos+25,
-			y: y_pos+220,
+			x: x_pos+35,
+			y: y_pos+240,
 			text: "10",
 			fill: "black"
 		});
 	
 		var min2_text = new Kinetic.Text({
-			x: x_pos+25,
-			y: y_pos+300,
+			x: x_pos+35,
+			y: y_pos+320,
 			text: "1",
 			fill: "black"
 		});
 	
 		var min_text = new Kinetic.Text({
-			x: x_pos+25,
-			y: y_pos+395,
+			x: x_pos+35,
+			y: y_pos+415,
 			text: "0",
 			fill: "black"
 		});
 	
 		var no_data_square = new Kinetic.Rect({
-			x: x_pos,
-			y: y_pos+410,
+			x: x_pos+10,
+			y: y_pos+430,
 			width: 20,
 			height: 20,
 			fill: 'rgb(210,210,210)',
@@ -588,8 +588,8 @@
 		});
     
 		var no_data_text = new Kinetic.Text({
-			x: x_pos-10,
-			y: y_pos+435,
+			x: x_pos,
+			y: y_pos+455,
 			text: "No data",
 			fill: "black"
 		});
@@ -629,7 +629,15 @@
       // add_stage_names(x,y,stages[i],x2,tmp_layer,tmp_canvas);
 		}
 		
-		add_color_grad_legend(page_width,tmp_layer,tmp_canvas,y_margin)
+    //define the legend canvas
+    var legend_canvas = new Kinetic.Stage({
+      container: "container_legend",
+      width: 98,
+      height: 498
+    });
+    var legend_layer = new Kinetic.Layer();
+    
+		add_color_grad_legend(legend_layer,legend_canvas)
 	}
 
 

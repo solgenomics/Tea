@@ -79,7 +79,6 @@ my $json = JSON::Any->new;
       <span id="gene_desc" class="gene_desc"></span><br/>
 		</div>
   
-    <!-- <div id="output_gene_box"> -->
       <form id="search_gene" class="form-inline" role="form" method="post" action="/Expression_viewer/output" name="tea_form" enctype="multipart/form-data">
 
         <input id="page_num" name="current_page" value="1" style="display:none;">
@@ -105,7 +104,7 @@ my $json = JSON::Any->new;
         <input name="tissues" value=<% $json->encode(\@tissues) %> style="display:none;">
         <!-- <button id="download_expr_table">Download Expression Data</button> -->
       </form>
-    <!-- </div> -->
+
 	</div>
   
 </center>
@@ -123,6 +122,9 @@ my $json = JSON::Any->new;
     <div id="container_tissues" class="tab-pane fade"></div>
   </div>
   
+  <div id="fix_color_legend">
+    <div id="container_legend"></div>
+  </div>
 </center>
 <br>
 

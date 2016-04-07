@@ -523,4 +523,18 @@ body .ui-tooltip {
   padding-left:5px;
 }
 
+/* style for gradient color bar legend */
 
+#fix_color_legend{
+  position: fixed;
+  top:50%;
+  margin-top:-250px;
+  right:0px;
+  width:100px;
+  height:500px;
+  background-color: #f5f5f5;
+  border-color: #e3e3e3;
+  border-style: solid;
+  border-width: 1px 0px 1px 1px;
+  border-radius:4px;
+}

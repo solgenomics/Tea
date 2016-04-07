@@ -6,20 +6,20 @@
 	<table align="center">
 		<tr>
 			<td class="td_index">
-				<a href="overview"><img src="/static/images/overview_logo.png" height="150" class="index_logo" title="Overview of the Tomato Expression Atlas, the tools and query options, and the datasets that are available"/></a>
+				<a href="overview"><img src="/static/images/overview_logo.png" height="150" class="index_logo" title="Overview of the Tomato Expression Atlas, the tools and query options, and the datasets that are available"/>Overview</a>
 			</td>
 			<td class="td_index">
-				<a href="Expression_viewer/input"><img src="/static/images/expr_logo.png" height="150" class="index_logo" title="Observe the expression of your genes of interest"/></a>
+				<a href="Expression_viewer/input"><img src="/static/images/expr_logo.png" height="150" class="index_logo" title="Observe the expression of your genes of interest"/>Expression Viewer</a>
 			</td>
 			<td class="td_index">
-				<a href="anatomy_viewer"><img src="/static/images/anatomy_logo.png" height="150" data-toggle="tooltip" data-placement="top" class="tt index_logo" title="Visual material from the organs, tissues and cell types corresponding to the expression data"/></a>
+				<a href="anatomy_viewer"><img src="/static/images/anatomy_logo.png" height="150" data-toggle="tooltip" data-placement="top" class="tt index_logo" title="Visual material from the organs, tissues and cell types corresponding to the expression data"/>Anatomy Viewer</a>
 			</td>
 		</tr>
-		<tr>
-			<td class="td_index"><a href="overview">Overview</a></td>
-			<td class="td_index"><a href="Expression_viewer/input">Expression Viewer</a></td>
-			<td class="td_index"><a href="anatomy_viewer">Anatomy Viewer</a></td>
-		</tr>
+    <!-- <tr>
+      <td class="td_index"><a href="overview">Overview</a></td>
+      <td class="td_index"><a href="Expression_viewer/input">Expression Viewer</a></td>
+      <td class="td_index"><a href="anatomy_viewer">Anatomy Viewer</a></td>
+    </tr> -->
 	</table>
 </center>
 <br/>
@@ -41,3 +41,26 @@
   $('.ui-dialog-titlebar-close *[title]').tooltip('disable');
 </script>
 
+<style>
+  
+  .td_index img {
+      -webkit-transition: all 0.5s ease; /* Safari and Chrome */
+      -moz-transition: all 0.5s ease; /* Firefox */
+      -ms-transition: all 0.5s ease; /* IE 9 */
+      -o-transition: all 0.5s ease; /* Opera */
+      transition: all 0.5s ease;
+  }
+
+  .td_index:hover img {
+      -webkit-transform:scale(1.1); /* Safari and Chrome */
+      -moz-transform:scale(1.1); /* Firefox */
+      -ms-transform:scale(1.1); /* IE 9 */
+      -o-transform:scale(1.1); /* Opera */
+       transform:scale(1.1);
+  }
+  
+  .td_index a:hover {
+    color:#a8a8a8;
+  }
+  
+</style>

@@ -57,13 +57,15 @@ sub index :Path('/project_page/') :Args(0) {
     
     
     my @exp_tables;
-    
+    my $counter = 0;
     foreach my $exp_ids (@{$experiment_ids}) {
     
       my $layer_ids = _get_ids_from_query($schema,"ExperimentLayer",[$exp_ids],"experiment_id","layer_id");
-    
-      my $html_exp_table = _get_html_table($layer_ids,$organ_names,$organ_images,$stage_names,$stage_images,$tissue_names,$tissue_images,$schema);
+      
+      my $html_exp_table = _get_html_table($layer_ids,$organ_names,$organ_images,$stage_names,$stage_images,$tissue_names,$tissue_images,$schema,$counter);
       push(@exp_tables,$html_exp_table);
+      
+      $counter++;
     }
     
     $c->stash(exp_tables => join("\n",@exp_tables));
@@ -160,64 +162,112 @@ sub _get_html_table {
   my $tissue_names = shift;
   my $tissue_images = shift;
   my $schema = shift;
+  my $exp_count = shift;
   
   my @html;
   
   my %layer_ordinal;
+  my %img_width;
+  my %img_height;
+  
+  my $bg_width;
+  my $bg_height;
   
   foreach my $layer_id (@{$layer_ids}) {
     my $layer_rs = $schema->resultset('Layer')->search({layer_id => $layer_id})->single;
-    # if ($layer_rs->ordinal) {
-      $layer_ordinal{$layer_rs->ordinal} = $layer_id;
-    # }
+    $layer_ordinal{$layer_rs->ordinal} = $layer_id;
+    $img_width{$layer_id} = $layer_rs->image_width;
+    $img_height{$layer_id} = $layer_rs->image_height;
   }
   
+  # my $margin_bottom = $exp_count*10;
+  my $color_deg = 140;
+  # my $color_deg = 230;
+  push (@html,"<div class=\"images_div\" >");
   
-  push (@html,"<table class=\"project_imgs\"><tr>");
-  
-  # foreach my $layer_id (@{$layer_ids}) {
-  
-  foreach my $layer_id (@{$layer_ids}) {
-    if ($organ_names->{$layer_id}) {
-      push (@html,"<th>".$organ_names->{$layer_id}."</th>");
-      
-    }
-  }
-  foreach my $layer_id (@{$layer_ids}) {
-    if ($stage_names->{$layer_id}) {
-      push (@html,"<th>".$stage_names->{$layer_id}."</th>");
-      
-    }
-  }
-  
-  foreach my $ordinal (sort keys %layer_ordinal) {
-    my $layer_id = $layer_ordinal{$ordinal};
-    if ($tissue_names->{$layer_id}) {
-      push (@html,"<th>".$tissue_names->{$layer_id}."</th>");
-    }
-  }
-  push (@html,"</tr><tr>");
-  
-  foreach my $ordinal (sort keys %layer_ordinal) {
-    my $layer_id = $layer_ordinal{$ordinal};
-    if ($organ_images->{$layer_id}) {
-      push (@html, "<td><a href=\"/static/images/expr_viewer/".$organ_images->{$layer_id}."\" target=\"blank\"> <img src=\"/static/images/expr_viewer/".$organ_images->{$layer_id}."\" width=\"100\"> </a></td>\n");
-    }
-  }
   foreach my $layer_id (@{$layer_ids}) {
     if ($stage_images->{$layer_id}) {
-      push (@html, "<td><a href=\"/static/images/expr_viewer/".$stage_images->{$layer_id}."\" target=\"blank\"> <img src=\"/static/images/expr_viewer/".$stage_images->{$layer_id}."\" width=\"100\"> </a></td>\n");
+      $bg_width = $img_width{$layer_id};
+      push (@html, "<img src=\"/static/images/expr_viewer/".$stage_images->{$layer_id}."\" width=\"$bg_width\" style=\"float:left; position:absolute;\">\n");
     }
   }
   
   foreach my $ordinal (sort keys %layer_ordinal) {
     my $layer_id = $layer_ordinal{$ordinal};
     if ($tissue_images->{$layer_id}) {
-      push (@html, "<td><a href=\"/static/images/expr_viewer/".$tissue_images->{$layer_id}."\" target=\"blank\"> <img src=\"/static/images/expr_viewer/".$tissue_images->{$layer_id}."\" width=\"100\"> </a></td>\n");
+      push (@html, "<img src=\"/static/images/expr_viewer/".$tissue_images->{$layer_id}."\" width=\"$bg_width\" style=\"float:left; position:absolute; -webkit-filter : brightness(45%) sepia(1) hue-rotate(".$color_deg."deg) saturate(300%); filter : brightness(35%) sepia(1) hue-rotate(".$color_deg."deg) saturate(600%);\">\n");
+      $color_deg += 45;
+      # $color_deg += 60;
     }
   }
   
-  push (@html,"</tr></table><br><br>");
+  push (@html,"<ul id=\"color_legend\" style=\"margin-left: ".$bg_width."px\">");
+  
+  $color_deg = 140;
+  # $color_deg = 230;
+  foreach my $ordinal (sort keys %layer_ordinal) {
+      my $layer_id = $layer_ordinal{$ordinal};
+      if ($tissue_names->{$layer_id}) {
+        push (@html, "<li><div class=\"legend_sq\" style=\"background-color:white; -webkit-filter : brightness(45%) sepia(1) hue-rotate(".$color_deg."deg) saturate(300%); filter : brightness(35%) sepia(1) hue-rotate(".$color_deg."deg) saturate(600%);\"></div> ".$tissue_names->{$layer_id}."</li>\n");
+        $color_deg += 45;
+        # $color_deg += 60;
+      }
+  }
+  push (@html,"</ul>");
+  
+  push (@html,"</div>");
+  
+  
+  
+  # print STDERR $stage_names->{$stage_id}.": margin_left: $margin_left\n";
+
+
+  
+  
+  
+  # push (@html,"<table class=\"project_imgs\"><tr>");
+  #
+  # foreach my $layer_id (@{$layer_ids}) {
+  #   if ($organ_names->{$layer_id}) {
+  #     push (@html,"<th>".$organ_names->{$layer_id}."</th>");
+  #
+  #   }
+  # }
+  # foreach my $layer_id (@{$layer_ids}) {
+  #   if ($stage_names->{$layer_id}) {
+  #     push (@html,"<th>".$stage_names->{$layer_id}."</th>");
+  #
+  #   }
+  # }
+  #
+  # foreach my $ordinal (sort keys %layer_ordinal) {
+  #   my $layer_id = $layer_ordinal{$ordinal};
+  #   if ($tissue_names->{$layer_id}) {
+  #     push (@html,"<th>".$tissue_names->{$layer_id}."</th>");
+  #   }
+  # }
+  # push (@html,"</tr><tr>");
+  #
+  # foreach my $ordinal (sort keys %layer_ordinal) {
+  #   my $layer_id = $layer_ordinal{$ordinal};
+  #   if ($organ_images->{$layer_id}) {
+  #     push (@html, "<td><a href=\"/static/images/expr_viewer/".$organ_images->{$layer_id}."\" target=\"blank\"> <img src=\"/static/images/expr_viewer/".$organ_images->{$layer_id}."\" width=\"100\"> </a></td>\n");
+  #   }
+  # }
+  # foreach my $layer_id (@{$layer_ids}) {
+  #   if ($stage_images->{$layer_id}) {
+  #     push (@html, "<td><a href=\"/static/images/expr_viewer/".$stage_images->{$layer_id}."\" target=\"blank\"> <img src=\"/static/images/expr_viewer/".$stage_images->{$layer_id}."\" width=\"100\"> </a></td>\n");
+  #   }
+  # }
+  #
+  # foreach my $ordinal (sort keys %layer_ordinal) {
+  #   my $layer_id = $layer_ordinal{$ordinal};
+  #   if ($tissue_images->{$layer_id}) {
+  #     push (@html, "<td><a href=\"/static/images/expr_viewer/".$tissue_images->{$layer_id}."\" target=\"blank\"> <img src=\"/static/images/expr_viewer/".$tissue_images->{$layer_id}."\" width=\"100\"> </a></td>\n");
+  #   }
+  # }
+  #
+  # push (@html,"</tr></table><br><br>");
   
   return join("\n",@html);
 }

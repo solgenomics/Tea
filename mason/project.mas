@@ -20,24 +20,45 @@ $exp_tables => ()
     <% $layer_description %><br>
     <% $exp_tables %><br>
   </div>
+  
+  <div class="bottom_section">
+  </div>
 </center>
+
 
 <style>
 
-.project_imgs {
-  width: 100%;
-  text-align: center;
+.bottom_section {
+  margin-bottom:100px;
+  margin-top:100px;
+  position: relative;
 }
 
-.project_imgs th {
-  width: 100%;
-  text-align: center;
+.images_div {
+  display: block;
+  height:500px;
 }
 
-.project_imgs td {
-  width: 100%;
-  align: center;
-  padding: 10px;
+#color_legend {
+	width:400px;
+  padding-top:150px;
+}
+
+#color_legend li {
+	display:block;
+	height:40px;
+  font-size: 20px;
+}
+
+.legend_sq {
+	float:left;
+	width:25px;
+	height:25px;
+	border-style:solid;
+	border-width:2px;
+	border-color:#ccc;
+	border-radius:5px;
+	margin-right:10px;
 }
 
 </style>

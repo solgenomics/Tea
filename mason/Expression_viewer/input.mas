@@ -18,7 +18,7 @@ my $json = JSON::Any->new;
 <center>
 	<h1><img src="/static/images/expr_small.png" height="40" style="margin-bottom:10px;"/> Expression Viewer</h1>
 
-	<div class="well" style="width:850px;margin-bottom:30px;">
+	<div class="well" style="width:900px;margin-bottom:30px;">
 		
 		<& hidden_dialogs.mas &>
     <div class="row">
@@ -53,7 +53,7 @@ my $json = JSON::Any->new;
   <h3>Define Expression Parameters <button type="button" class="info_icon" data-toggle="modal" data-target="#parameters_help">i</button></h3>
 </center>
 
-<div class="well" style="width:850px;margin:0 auto;clear:both;">
+<div class="well" style="width:900px;margin:0 auto;clear:both;">
   <div class="row">
     
     <div class="col-sm-6 col-md-6 col-lg-6">

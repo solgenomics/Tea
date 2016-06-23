@@ -35,7 +35,8 @@ Catalyst Controller.
 
 sub index :Path('/Expression_viewer/input/') :Args(0) {
   my ( $self, $c ) = @_;
-
+  
+	my $input_gene = $c->req->param("input_gene") || "Solyc01g102660";
   my $dbname = $c->config->{dbname};
   my $host = $c->config->{dbhost};
   my $username = $c->config->{dbuser};
@@ -75,6 +76,7 @@ sub index :Path('/Expression_viewer/input/') :Args(0) {
   # $c->stash(template => 'Expression_viewer/input.mas');
   
   my $projects_html = join("\n", @projects);
+  $c->stash->{input_gene} = $input_gene;
   $c->stash->{organism_html} = $projects_html;
   $c->stash(template => 'Expression_viewer/input.mas');
 }

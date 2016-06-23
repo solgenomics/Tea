@@ -250,54 +250,67 @@
 		canvas.add(gene_popup_layer);
 		
 		gene_text.on('mouseover', function() {
-      var x_pos = this.getAbsolutePosition().x-510;
-      var y_pos = this.getAbsolutePosition().y-10;
+      var x_pos = this.getAbsolutePosition().x;
+      var y_pos = this.getAbsolutePosition().y;
+      // var x_pos = this.getAbsolutePosition().x-510;
+      // var y_pos = this.getAbsolutePosition().y-10;
       document.body.style.cursor = 'pointer';
-			
+      
 			var gene_description = gene_descriptions[gene_names_array[n-1]];
-			var gene_desc = '';
-			
-			if (gene_description.length > 60) {
-				gene_desc = gene_description.slice(0, 60)+" ...";
-			} else {
-				gene_desc = gene_description;
-			}
-			
-			var gene_popup = new Kinetic.Rect({
-        x: x_pos-80,
-        y: y_pos,
-        fill: '#000000',
-        opacity: 0.7,
-        width: 530,
-        height: 30,
-        cornerRadius: 10
-			});
-			
+			var gene_desc = gene_description;
+      var desc_font_size = 16;
+
 			var desc_txt = new Kinetic.Text({
-				x: x_pos-75,
-				y: y_pos+8,
+        x: 15,
+        // x: x_pos-75,
+				y: y_pos-2,
 				text: gene_desc,
-				fontSize: 16, //20 for CondensedLight
+				fontSize: desc_font_size, //20 for CondensedLight
 				// fontFamily: 'CondensedLight',
-  			width: 515,
-  			align: 'right',
+  			width: x_pos-90,
+  			align: 'left',
+        // align: 'right',
 				fontFamily: 'Helvetica',
 				fill: "white"
 			});
+      
+			var desc_height = 30;
+      if (desc_txt.height() > desc_font_size) {
+          desc_height = 50;
+      }
+      if (desc_txt.height() > desc_font_size*2) {
+          desc_height = 65;
+      }
+      
+      // alert(desc_txt.height()+" "+desc_txt.lineHeight());
+
+			var gene_popup = new Kinetic.Rect({
+        x: 10,
+        // x: x_pos-80,
+        y: y_pos-10,
+        fill: '#000000',
+        opacity: 0.8,
+        width: x_pos-70,
+        // width: 450,
+        height: desc_height,
+        cornerRadius: 5
+			});
+			
+      
 			if (n>1) {
         var corr_popup = new Kinetic.Rect({
-          x: x_pos+455,
-          y: y_pos,
+          x: x_pos-50,
+          y: y_pos-10,
           fill: '#000000',
           opacity: 0.8,
           width: 40,
           height: 30,
-          cornerRadius: 10
+          cornerRadius: 5
 				});
 			
 				var corr_txt = new Kinetic.Text({
-					x: x_pos+460,
-					y: y_pos+8,
+					x: x_pos-45,
+					y: y_pos-3,
 					text: correlation[n-2],
 					fontSize: 16,
 					fontFamily: 'Helvetica',

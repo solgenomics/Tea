@@ -123,7 +123,8 @@ $(document).ready(function () {
   var canvas_height = 1200;
 
   //set variables
-  var x_margin = canvas_width -100 - stages.length*20 - tissues.length*15;
+  var x_margin = canvas_width -50 - stages.length*20 - tissues.length*15;
+  // var x_margin = canvas_width -100 - stages.length*20 - tissues.length*15;
 
   var x_offset = 0;
   var y_offset = 0;

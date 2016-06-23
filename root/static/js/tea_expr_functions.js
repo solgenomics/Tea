@@ -254,22 +254,29 @@
 		return [r_color,g_color,b_color];
 	}
 
-  function tissue_expr_popup(canvas,tissue_img_group,aoaoa,j,tissues,x_offset,y_offset,img_width,img_height,canvas_width) {
+  function tissue_expr_popup(canvas,tissue_img_group,t_hash,expr_hash,tissues,x_offset,y_offset,img_width,img_height,canvas_width) {
     
       //set values to show popup to the left of last column image
       var panel_width = 300;
       var margin = 30;
-      var panel_height = 2*margin+aoaoa[0][j].length*margin;
+      var tissue_num = t_hash["tissue_name"].length;
+      
+      //calculate panel size
+      var panel_height = 2*margin+tissue_num*margin;
+      if (t_hash["image_height"][0] > panel_height) {
+        y_offset = y_offset + (t_hash["image_height"][0]-panel_height)/4;
+      }
+      
       var x_arrow = x_offset+img_width;
       var y_arrow = y_offset+50+panel_height/2;
       var last_column = 0;
       
+      //calculate panel midle arrow position
       if (x_offset+img_width+panel_width > canvas_width) {
         x_offset = x_offset - img_width - panel_width;
         x_arrow = x_offset+img_width+panel_width;
         last_column = 1;
       }
-      
       
       //create layer to display expression popup
       var tissue_popup_layer = new Kinetic.Layer();
@@ -345,17 +352,17 @@
         arrow_junction.moveToTop();
       	tissue_popup_layer.add(arrow_group);
         
-        for (var n=0; n<aoaoa[0][j].length; n++) {
+        for (var i=0; i<t_hash["tissue_name"].length; i++) {
           
-          var expr_val = aoaoa[0][j][n];
+          var expr_val = expr_hash[t_hash["tissue_name"][i]];
           if (expr_val == 0.000001) {
             expr_val = "NA";
           }
-          var tissue_name = tissues[n].replace("_"," ");
+          var tissue_name = t_hash["tissue_name"][i].replace("_"," ");
 
           var tissue_desc_txt = new Kinetic.Text({
             x: x_offset+img_width+10,
-            y: y_offset+50+margin+(n*margin),
+            y: y_offset+50+margin+(i*margin),
             text: tissue_name+": "+expr_val,
             fontSize: 18,
             opacity: 1,
@@ -380,7 +387,9 @@
 
 
   //load the img for each one of the tissue layers
-  function load_tissue_image(i,j,aoaoa,x_offset,y_offset,r_color,g_color,b_color,one_tissue_layer,canvas,stage_name,tissue_name,img_width,img_height,imgs_group,image_name,expr_val) {
+  function load_tissue_image(x_offset,y_offset,r_color,g_color,b_color,one_tissue_layer,canvas,img_width,img_height,imgs_group,image_name) {
+      
+    // alert("image_name: "+image_name);
       
       one_tissue_layer.add(imgs_group);
       canvas.add(one_tissue_layer);
@@ -390,7 +399,6 @@
       tmp_imgObj.onload = function() {
   
         var tmp_stage = new Kinetic.Image({
-          id: "t_layer"+i+"_s"+j,
           x: x_offset,
           y: y_offset,
           image: tmp_imgObj,
@@ -414,13 +422,12 @@
         // tissue_popup_layer.draw();
       };//end of onload
   
-      // tmp_imgObj.src = '/static/images/expr_viewer/spim_fruit_'+stage_name+'_'+tissue_name+'.png';
       tmp_imgObj.src = '/static/images/expr_viewer/'+image_name;
   }
   
   
   //load the bg image for each stage. This will be the bg for the tissue layers
-  function load_stage_image(x_offset,y_offset,one_tissue_layer,canvas,stage_name,image_hash) {
+  function load_stage_image(x_offset,y_offset,one_tissue_layer,canvas,image_name,img_width,img_height) {
     canvas.add(one_tissue_layer);
     
     var tmp_imgObj = new Image();
@@ -431,13 +438,13 @@
         x: x_offset,
         y: y_offset,
         image: tmp_imgObj,
-        width: image_hash[stage_name]["bg"]["image_width"]*1,
-        height: image_hash[stage_name]["bg"]["image_height"]*1
+        width: img_width,
+        height: img_height
       });
       one_tissue_layer.add(tmp_stage);
       canvas.add(one_tissue_layer);
     };
     
-    tmp_imgObj.src = '/static/images/expr_viewer/'+image_hash[stage_name]["bg"]["image_name"];
+    tmp_imgObj.src = '/static/images/expr_viewer/'+image_name;
   }
 

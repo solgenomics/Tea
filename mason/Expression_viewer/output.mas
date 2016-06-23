@@ -2,7 +2,12 @@
 @genes => ()
 @stages => ()
 @tissues => ()
-%image_hash => ()
+
+%gst_expr_hohoh => ()
+@stage_ids_array => ()
+%stage_hash => ()
+%tissue_hash => ()
+
 @aoaoa => ()
 @correlation => ()
 %description => ()
@@ -36,7 +41,12 @@ my $json = JSON::Any->new;
 	var tissues = <% $json->encode(\@tissues) %>;
 	var stages = <% $json->encode(\@stages) %>;
 	var genes = <% $json->encode(\@genes) %>;
-	var image_hash = <% $json->encode(\%image_hash) %>;
+  
+	var gst_expr_hohoh = <% $json->encode(\%gst_expr_hohoh) %>;
+	var stage_ids_array = <% $json->encode(\@stage_ids_array) %>;
+	var stage_hash = <% $json->encode(\%stage_hash) %>;
+	var tissue_hash = <% $json->encode(\%tissue_hash) %>;
+  
 	var aoaoa = <% $json->encode(\@aoaoa) %>;
 	var corr_values = <% $json->encode(\@correlation) %>;
 	var gene_descriptions = <% $json->encode(\%description) %>;
@@ -45,9 +55,7 @@ my $json = JSON::Any->new;
 	var current_page = <% $current_page %>;
   var project_id = <% $project_id %>;
   var project_name = "<% $project_name %>";
-	// alert("corr: "+correlation_filter);
 	
-  // alert("images: "+image_hash["organ"]["organ"]["image_name"]);
 </script>
 
 <link rel="stylesheet" href="/static/css/jqplot.css" type="text/css" />

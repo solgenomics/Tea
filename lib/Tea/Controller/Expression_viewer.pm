@@ -253,7 +253,10 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   my @stages = split(",",$stage_filter);
   my @tissues = split(",",$tissue_filter);
   
-  my $image_hash_ref;
+  # variables to store values needed for the Expression images
+  my $stage_ids_arrayref;
+  my $stage_hashref;
+  my $tissue_hashref;
   
   my $db_funct = Tea::Controller::Expression_viewer_functions->new();
   
@@ -275,7 +278,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
       push(@exp_ids,$exp_rs->experiment_id);
     }
 
-    $image_hash_ref = $db_funct->get_image_hash($schema,$experiment_ids);
+    ($stage_ids_arrayref,$stage_hashref,$tissue_hashref) = $db_funct->get_image_hash($schema,$experiment_ids);
   }
   
   # if only stage is selected, get all tissues
@@ -287,8 +290,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
     
     my @exp_ids = intersect(@$experiment_ids, @$found_exp_ids);
     
-    
-    $image_hash_ref = $db_funct->get_image_hash($schema,\@exp_ids);
+    ($stage_ids_arrayref,$stage_hashref,$tissue_hashref) = $db_funct->get_image_hash($schema,$experiment_ids);
     
     my $layer_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",\@exp_ids,"experiment_id","layer_id");
     my $tissue_info_ids = $db_funct->filter_layer_type($schema,$layer_ids,"tissue","layer_info_id");
@@ -306,7 +308,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
     
     my @intersected_layers = intersect(@$experiment_ids,@$exp_ids);
     
-    $image_hash_ref = $db_funct->get_image_hash($schema,\@intersected_layers);
+    ($stage_ids_arrayref,$stage_hashref,$tissue_hashref) = $db_funct->get_image_hash($schema,$experiment_ids);
     
     my $layer_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",\@intersected_layers,"experiment_id","layer_id");
     my $stage_info_ids = $db_funct->filter_layer_type($schema,$layer_ids,"stage","layer_info_id");
@@ -322,12 +324,11 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
     my $stage_info_ids = $db_funct->get_ids_from_query($schema,"LayerInfo",\@stages,"name","layer_info_id");
     my $stage_ids = $db_funct->get_ids_from_query($schema,"Layer",$stage_info_ids,"layer_info_id","layer_id");
     
-    
     my @intersected_layers = (@$stage_ids,@$tissue_ids);
     
     my $exp_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",\@intersected_layers,"layer_id","experiment_id");
     
-    $image_hash_ref = $db_funct->get_image_hash($schema,$exp_ids);
+    ($stage_ids_arrayref,$stage_hashref,$tissue_hashref) = $db_funct->get_image_hash($schema,$experiment_ids);
     
     my $stage_info_ids = $db_funct->filter_layer_type($schema,\@intersected_layers,"stage","layer_info_id");
     my $stage_names = $db_funct->get_ids_from_query($schema,"LayerInfo",$stage_info_ids,"layer_info_id","name");
@@ -499,7 +500,12 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	$c->stash->{genes} = \@genes;
 	$c->stash->{stages} = \@stages;
 	$c->stash->{tissues} = \@tissues;
-	$c->stash->{image_hash} = $image_hash_ref;
+  
+	$c->stash->{gst_expr_hohoh} = \%gene_stage_tissue_expr;
+	$c->stash->{stage_ids_array} = $stage_ids_arrayref;
+	$c->stash->{stage_hash} = $stage_hashref;
+	$c->stash->{tissue_hash} = $tissue_hashref;
+  
 	$c->stash->{aoaoa} = \@AoAoA;
 	$c->stash->{correlation} = \@corr_values;
 	$c->stash->{pages_num} = (int($total_corr_genes/19)+1);

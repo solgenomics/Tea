@@ -45,24 +45,37 @@ sub index :Path('/Expression_viewer/input/') :Args(0) {
   my $dbh = DBI->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
   
   # get all organisms for input select
-  my $all_organism_rs = $schema->resultset('Organism');
-  my @orgs = ();
-  my $organism_hr_name;
-  my $organism_name;
+  my $projects_rs = $schema->resultset('Project');
+  # my $all_organism_rs = $schema->resultset('Organism');
+  my @projects = ();
+  # my @orgs = ();
+  # my $organism_hr_name;
+  my $project_name;
+  # my $organism_name;
   
-  while(my $org_obj = $all_organism_rs->next) {
-    $organism_name = $org_obj->species;
-
-    if ($org_obj->variety) {
-      $organism_name .= " ".$org_obj->variety;
-    }
-
-    push(@orgs,"<div class=\"radio\">\n<label><input id=\"organism_".$org_obj->organism_id."\" type='radio' class='organism_col' name=\"optradio\" value=\'".$org_obj->organism_id."\'> $organism_name</label>\n</div>\n");
-    # push(@orgs,"<input id=\"organism_".$org_obj->organism_id."\" type='checkbox' class='organism_col' value=\'".$org_obj->organism_id."\'><label for=\"organism_".$org_obj->organism_id."\" class=\"organism_label\">&nbsp;$organism_name</label><br>");
+  while(my $proj_obj = $projects_rs->next) {
+    $project_name = $proj_obj->name;
+    # push(@projects,"<div class=\"radio\">\n<label><input id=\"organism_".$proj_obj->project_id."\" type='radio' class='organism_col' name=\"optradio\" value=\'".$proj_obj->project_id."\'> $project_name</label>\n</div>\n");
+    push(@projects,"<div class=\"radio\">\n<label><input id=\"organism_".$proj_obj->organism_id."\" type='radio' class='organism_col' name=\"optradio\" value=\'".$proj_obj->organism_id."\'> $project_name</label>\n</div>\n");
   }
   
-  my $organisms_html = join("\n", @orgs);
-  $c->stash->{organism_html} = $organisms_html;
+  # while(my $org_obj = $all_organism_rs->next) {
+  #   $organism_name = $org_obj->species;
+  #
+  #   if ($org_obj->variety) {
+  #     $organism_name .= " ".$org_obj->variety;
+  #   }
+  #
+  #   push(@orgs,"<div class=\"radio\">\n<label><input id=\"organism_".$org_obj->organism_id."\" type='radio' class='organism_col' name=\"optradio\" value=\'".$org_obj->organism_id."\'> $organism_name</label>\n</div>\n");
+  #   # push(@orgs,"<input id=\"organism_".$org_obj->organism_id."\" type='checkbox' class='organism_col' value=\'".$org_obj->organism_id."\'><label for=\"organism_".$org_obj->organism_id."\" class=\"organism_label\">&nbsp;$organism_name</label><br>");
+  # }
+  #
+  # my $organisms_html = join("\n", @orgs);
+  # $c->stash->{organism_html} = $organisms_html;
+  # $c->stash(template => 'Expression_viewer/input.mas');
+  
+  my $projects_html = join("\n", @projects);
+  $c->stash->{organism_html} = $projects_html;
   $c->stash(template => 'Expression_viewer/input.mas');
 }
 

@@ -57,11 +57,11 @@ my $json = JSON::Any->new;
   <div class="row">
     
     <div class="col-sm-6 col-md-6 col-lg-6">
-      
+      <div style="text-align: center; width=100%">Projects</div>
       <div id="expr_params" class="panel panel-primary">
         <!-- <div class="panel-heading">Genotypes</div> -->
+        
         <div class="panel-body">
-          Genotypes
           <form role="form" id="organism_col">
             <% $organism_html %>
           </form>
@@ -70,7 +70,7 @@ my $json = JSON::Any->new;
     </div>
       
     <div class="col-sm-6 col-md-6 col-lg-6">
-       <div id="expr_params" class="panel">
+       <div id="expr_params" class="panel" style="margin-top: 25px;">
           <!-- <div class="panel-heading"> -->
             <!-- Correlation filter: 0.<input type="text" id="amount" readonly style="border:0;font-size:18px;background-color: #f5f5f5;" size="4"> -->
           <!-- </div> -->
@@ -98,7 +98,7 @@ my $json = JSON::Any->new;
     </div>
     
     <div class="col-sm-3 col-md-3 col-lg-3">
-      <div style="text-align: center; width=100%">Organ</div>
+      <div style="text-align: center; width=100%">Organs</div>
       
       <select multiple id="organ_part_col" class="form-control wizard_select" size="10"></select>
       <button class="select_all btn btn-default">Select All</button>
@@ -114,7 +114,7 @@ my $json = JSON::Any->new;
     </div>
       
     <div class="col-sm-3 col-md-3 col-lg-3">
-      <div style="text-align: center; width=100%">Treatment</div>
+      <div style="text-align: center; width=100%">Treatments</div>
 
       <select multiple id="organ_col" class="form-control wizard_select" size="10"></select>
       <button class="select_all btn btn-default pull-left">Select All</button>

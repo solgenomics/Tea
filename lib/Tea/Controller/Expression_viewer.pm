@@ -74,6 +74,7 @@ sub _get_correlation {
   my $corr_index_path = shift;
   my $query_gene = shift;
   my $to_download = shift;
+  my $genes_in_cube = shift;
   
   my @genes;
 	my @corr_values;
@@ -117,8 +118,8 @@ sub _get_correlation {
     $hits = $lucy_corr->search(
       query      => $query_gene,
       sort_spec  => $sort_spec,
-      num_wanted => 19,
-      offset     => $current_page*19,
+      num_wanted => $genes_in_cube-1,
+      offset     => $current_page*($genes_in_cube-1),
     );
   }
 
@@ -200,6 +201,8 @@ sub _get_correlation {
 
 sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   my ($self, $c) = @_;
+  
+  my $cube_gene_number = 15;
   
   # get variables from catalyst object
   my $params = $c->req->body_params();
@@ -350,8 +353,8 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 			@corr_values = ("list") x scalar(@genes);
 			
 			my @uniq_genes = uniq(@genes);
-			if (scalar(@uniq_genes) >=20) {
-				@genes = @uniq_genes[0..19];
+			if (scalar(@uniq_genes) >= $cube_gene_number) {
+				@genes = @uniq_genes[0..$cube_gene_number-1];
 			} else {
 				@genes = @uniq_genes[0..$#uniq_genes];
 			}
@@ -364,8 +367,8 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 		@corr_values = ("blast") x scalar(@query_gene);
 		my @uniq_genes = uniq(@query_gene);
 		
-		if (scalar(@uniq_genes) >=20) {
-			@genes = @uniq_genes[0..19];
+		if (scalar(@uniq_genes) >= $cube_gene_number) {
+			@genes = @uniq_genes[0..$cube_gene_number-1];
 		} else {
 			@genes = @uniq_genes[0..$#uniq_genes];
 		}
@@ -391,7 +394,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	if (!$multiple_genes) {
     my $to_download = 0;
     
-    ($genes,$corr_values,$total_corr_genes,$corr_hash) = _get_correlation($c,$corr_filter,$current_page,$corr_index_path,$query_gene,$to_download);
+    ($genes,$corr_values,$total_corr_genes,$corr_hash) = _get_correlation($c,$corr_filter,$current_page,$corr_index_path,$query_gene,$to_download,$cube_gene_number);
     
     if ($genes && $corr_values) {
       @genes = @$genes;
@@ -502,8 +505,11 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 
 
 sub download_expression_data :Path('/download_expression_data/') :Args(0) {
-    my ($self, $c) = @_;
-    
+  my ($self, $c) = @_;
+  
+  my $cube_gene_number = 15;
+  
+  
 	#get parameters from form and config file
 	my @query_gene = $c->req->param("input_gene");
   
@@ -564,8 +570,8 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
 			@corr_values = ("list") x scalar(@genes);
 			
 			my @uniq_genes = uniq(@genes);
-			if (scalar(@uniq_genes) >=20) {
-				@genes = @uniq_genes[0..19];
+			if (scalar(@uniq_genes) >= $cube_gene_number) {
+				@genes = @uniq_genes[0..$cube_gene_number-1];
 			} else {
 				@genes = @uniq_genes[0..$#uniq_genes];
 			}
@@ -578,8 +584,8 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
     @corr_values = ("blast") x scalar(@query_gene);
     my @uniq_genes = uniq(@query_gene);
 
-    if (scalar(@uniq_genes) >=20) {
-      @genes = @uniq_genes[0..19];
+    if (scalar(@uniq_genes) >= $cube_gene_number) {
+      @genes = @uniq_genes[0..$cube_gene_number-1];
     } else {
       @genes = @uniq_genes[0..$#uniq_genes];
     }
@@ -608,7 +614,7 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
   
 	if (!$multiple_genes) {
     my $to_download = 1;
-    ($genes,$corr_values,$total_corr_genes,$corr_hash) = _get_correlation($c,$corr_filter,$current_page,$corr_index_path,$query_gene,$to_download);
+    ($genes,$corr_values,$total_corr_genes,$corr_hash) = _get_correlation($c,$corr_filter,$current_page,$corr_index_path,$query_gene,$to_download,$cube_gene_number);
     
     %corr_hash = %$corr_hash;
     @genes = @$genes;

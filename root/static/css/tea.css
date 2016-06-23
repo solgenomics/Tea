@@ -261,11 +261,12 @@ a:hover {
 
 /* Expression Viewer output page */
 #back_to_input {
-  color: #555;
-  font-size:12px;
+  color: #4387fd;
+  font-size:14px;
   margin-left:5px;
   float:left;
   margin-top: 5px;
+  text-decoration: underline;
 }
 
 #download_expr_table {

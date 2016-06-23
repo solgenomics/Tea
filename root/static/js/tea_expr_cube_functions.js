@@ -2,7 +2,14 @@
   // pagination code
   function draw_pagination(page_y,current_page,pages_num,moving_slice_group) {
     
-    var x_margin = 905 //x position to start the pagination elements
+    //x position to start the pagination elements when
+    //tea_expr_code.js x_margin = canvas_width -50 - stages.length*20 - tissues.length*15;
+    var x_margin = 955;
+    
+    //x position to start the pagination elements when
+    //tea_expr_code.js x_margin = canvas_width -100 - stages.length*20 - tissues.length*15;
+    // var x_margin = 905;
+    
   	var pages_group = new Kinetic.Group();
 
   	//triangle to first page

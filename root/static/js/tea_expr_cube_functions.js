@@ -421,7 +421,8 @@
 			}
 		}
 		
-		var page_y = 70 + top_y_margin + 20*sq_size + 15*tissue_names.length; //for pagination only
+    var genes_number_in_cube = 15; //for pagination only
+		var page_y = 70 + top_y_margin + genes_number_in_cube*sq_size + 15*tissue_names.length; //for pagination only
     // var page_y = 40 + top_y_margin + 20*sq_size + 15*stage_names.length; //for pagination only
     
     //draw the pagination on bottom of the cube

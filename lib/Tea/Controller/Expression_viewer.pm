@@ -122,7 +122,7 @@ sub _get_correlation {
 
 	if (!$total_corr_genes) {
 		push ( @errors , "Not correlated genes found.\n");
-		# print STDERR "total_corr_genes: $total_corr_genes\n";
+    # print STDERR "total_corr_genes: $total_corr_genes\n";
 	}
 
 	# Send error message to the web if something is wrong
@@ -134,6 +134,8 @@ sub _get_correlation {
 		$c->stash->{template} = '/Expression_viewer/output.mas';
 		return;
 	}
+
+  # print STDERR "corr_filter: $corr_filter\n";
 
 	# Get page number after correlation filtering
 	if ($corr_filter > 0.65) {
@@ -149,16 +151,14 @@ sub _get_correlation {
 		);
 		my $term_query = $qparser->parse($query_gene);
 
-	    my $and_query = Lucy::Search::ANDQuery->new(
-	        children => [ $range_query, $term_query],
-	    );
+    my $and_query = Lucy::Search::ANDQuery->new(
+        children => [ $range_query, $term_query],
+    );
 
-	    # my $hits1 = $searcher->hits( query => $term_query );
-	    my $hit_intersect = $searcher->hits( query => $and_query );
+    my $hit_intersect = $searcher->hits( query => $and_query );
 
-		# print STDERR "\n\ntotal number of correlated genes: $hits\n\n";
-		# print STDERR "\n\ntotal number of TERM: ".$hits1->total_hits()."\n\n";
-		# print STDERR "\n\ntotal number of hit_intersect: ".$hit_intersect->total_hits()."\n\n";
+    # print STDERR "\n\ntotal number of correlated genes: $hits\n\n";
+    # print STDERR "\n\ntotal number of hit_intersect: ".$hit_intersect->total_hits()."\n\n";
 
 		$total_corr_genes = $hit_intersect->total_hits();
 	}
@@ -225,11 +225,12 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   
   my $project_rs = $schema->resultset('Project')->search({organism_id => $organism_filter})->single;
   
+  # get the path to the expression and correlation lucy indexes
   my $corr_index_path = $corr_path."/".$project_rs->indexed_dir;
   my $expr_index_path = $expr_path."/".$project_rs->indexed_dir;
   # indexed dir name saved in $corr_index_path and $expr_index_path
   
-  
+  # getting the stages and tissues slected at input page
   my @stages = split(",",$stage_filter);
   my @tissues = split(",",$tissue_filter);
   
@@ -243,7 +244,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   my $project_ids = $db_funct->get_ids_from_query($schema,"Project",[$organism_filter],"organism_id","project_id");
   my $experiment_ids = $db_funct->get_ids_from_query($schema,"Experiment",$project_ids,"project_id","experiment_id");
   
-  # getting all the experiments from the organism
+  # getting all the experiments from the project
   my $experiment_rs = $schema->resultset('Experiment')->search({project_id => $project_rs->project_id});
   
   # only organism selected
@@ -488,7 +489,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   
 	$c->stash->{aoaoa} = \@AoAoA;
 	$c->stash->{correlation} = \@corr_values;
-	$c->stash->{pages_num} = (int($total_corr_genes/19)+1);
+	$c->stash->{pages_num} = (int($total_corr_genes/$cube_gene_number)+1);
 	$c->stash->{current_page} = ($current_page + 1);
 	$c->stash->{output_gene} = \@output_gene;
 	$c->stash->{correlation_filter} = $corr_filter;

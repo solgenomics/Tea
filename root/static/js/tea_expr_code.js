@@ -295,6 +295,7 @@ $(document).ready(function () {
 	//display query gene name
 	$('#gene').val(genes[0]);
 	
+  
 	//set correlation filter value
 	$('#correlation_filter').val(correlation_filter);
 	

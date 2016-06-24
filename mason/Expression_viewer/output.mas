@@ -15,7 +15,7 @@
 $pages_num => 1
 $current_page => 1
 @output_gene => ()
-$correlation_filter => 0.8
+$correlation_filter => ()
 $project_id => ()
 $project_name => ()
 $organism_filter => ()
@@ -54,6 +54,7 @@ my $json = JSON::Any->new;
 	var current_page = <% $current_page %>;
   var project_id = <% $project_id %>;
   var project_name = "<% $project_name %>";
+  var correlation_filter = <% $correlation_filter %>;
 	
 </script>
 

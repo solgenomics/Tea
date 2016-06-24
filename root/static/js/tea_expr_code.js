@@ -1,17 +1,17 @@
 $(document).ready(function () {
   
-  jQuery('.tabs .tab-links a').on('click', function(e)  {
-    var currentAttrValue = jQuery(this).attr('href');
-
-    // Show/Hide Tabs
-    jQuery(currentAttrValue).show().siblings().hide();
-    // jQuery('.tabs ' + currentAttrValue).show().siblings().hide();
-
-    // Change/remove current tab to active
-    jQuery(this).parent('li').addClass('active').siblings().removeClass('active');
-
-    e.preventDefault();
-  });
+  // $('.tabs .tab-links a').on('click', function(e)  {
+  //   var currentAttrValue = jQuery(this).attr('href');
+  //
+  //   // Show/Hide Tabs
+  //   $(currentAttrValue).show().siblings().hide();
+  //   // jQuery('.tabs ' + currentAttrValue).show().siblings().hide();
+  //
+  //   // Change/remove current tab to active
+  //   $(this).parent('li').addClass('active').siblings().removeClass('active');
+  //
+  //   e.preventDefault();
+  // });
   
   $("#hide_legend").click(function(){
       $("#legend_box").animate({
@@ -163,7 +163,7 @@ $(document).ready(function () {
   }
   
   
-  function draw_expression_images(stage_ids_a,stage_h,canvas_w,canvas_h,tissue_h,gst_expr_hhh,gene_a,tissue_a) {
+  function draw_expression_images(canvas_h,canvas_w,stage_ids_a,stage_h,tissue_h,gst_expr_hhh,gene_a,tissue_a) {
     
     var x_offset = 0;
     var y_offset = 0;
@@ -288,7 +288,6 @@ $(document).ready(function () {
 	//return error if input gene was not found
 	if (!genes[0]) {
 		alert("Gene id not found or gene not expressed");
-		enable_ui();
 	}
   
 	//display query gene name
@@ -310,15 +309,38 @@ $(document).ready(function () {
   var x_margin = canvas_width -50 - stages.length*20 - tissues.length*15;
   // var x_margin = canvas_width -100 - stages.length*20 - tissues.length*15;
 
-
   //print cube
-
   setup_cube(canvas_height,canvas_width,x_margin,genes,stages,tissues,aoaoa,gene_locus_id,gene_descriptions,current_page,pages_num);
 
 
-  //print Expression images -------------------------------
+  //print Expression images
+  var expr_imgs_loaded = 0;
+  
+  $("#expr_imgs_tab").click(function(){
+    // alert("images: "+expr_imgs_loaded);
+    if (!expr_imgs_loaded) {
+      
+      // $("#loading_modal").modal("show");
 
-  draw_expression_images(stage_ids_array,stage_hash,canvas_width,canvas_height,tissue_hash,gst_expr_hohoh,genes,tissues);
+      draw_expression_images(canvas_height,canvas_width,stage_ids_array,stage_hash,tissue_hash,gst_expr_hohoh,genes,tissues);
+      expr_imgs_loaded = 1;
+      
+      // $("#loading_modal").modal("hide");
+    }
+  });
+  
+  $("#cube_tab").on('click', function(e)  {
+    var currentAttrValue = jQuery(this).attr('href');
+    // alert("cube");
+    // Show/Hide Tabs
+    $(currentAttrValue).show().siblings().hide();
+    // jQuery('.tabs ' + currentAttrValue).show().siblings().hide();
+
+    // Change/remove current tab to active
+    $(this).parent('li').addClass('active').siblings().removeClass('active');
+
+    e.preventDefault();
+  });
   
 });
 

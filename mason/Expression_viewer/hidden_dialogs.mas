@@ -202,27 +202,4 @@ Solyc01g102660
 </div>
 
 
- <!-- parameters form filters -->
-<div id="max_z" value="0" style="display:none;"></div>
-<form id ="genotype_form" class="params_box" style="display:none;">
-  <div class="close_x">x</div>
-	<input type='checkbox' class="check_all">&nbsp;All<br>
-</form>
-
-<form id ="organ_form" class="params_box" style="display:none;">
-  <div class="close_x">x</div>
-  <input type='checkbox' class="check_all">&nbsp;All<br>
-</form>
-
-<form id ="tissue_form" class="params_box" style="display:none;">
-  <div class="close_x">x</div>
-  <input type='checkbox' class="check_all">&nbsp;All<br>
-</form>
-
-<form id ="stage_form" class="params_box" style="display:none;">
-  <div class="close_x">x</div>
-  <input type='checkbox' class="check_all">&nbsp;All<br>
-</form>
-
-
 

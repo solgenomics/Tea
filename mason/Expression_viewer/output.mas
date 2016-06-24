@@ -31,10 +31,6 @@ my $json = JSON::Any->new;
 
 </%perl>
 
-<div id="working" style="text-align: center; display:none;">
-	<br/>
-  <img src="/static/images/wheel.gif" height="30"/>
-</div>
 
 <script>
 	var tissues = <% $json->encode(\@tissues) %>;
@@ -72,12 +68,29 @@ my $json = JSON::Any->new;
 <script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.pointLabels.min.js"></script>
 <script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.highlighter.min.js"></script>
 
+<!-- working wheel modal -->
+<div class="modal fade" id="loading_modal" role="dialog">
+  <div class="modal-dialog modal-sm">
+    
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Loading images ...</h4>
+      </div>
+      <div class="modal-body">
+        <div style="text-align: center;">
+          <img src="/static/images/wheel.gif" height="30"/>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    
+  </div>
+</div>
 
 <center>
 	<div style="width:1120px">
-    <div id="downloading" style="text-align: center; display:none;">
-      <img src="/static/images/wheel.gif" height="30"/>
-    </div>
 		
     <h1 id="project_desc"></h1>
     <br>
@@ -118,8 +131,8 @@ my $json = JSON::Any->new;
   
   <div class="tabs">
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#container"><img src="/static/images/expr_viewer/ico2.png" height="24"/> Expression Cube</a></li>
-        <li><a data-toggle="tab" href="#container_tissues"><img src="/static/images/expr_viewer/ico1.png" height="24" style="padding-bottom:5px;"/> Expression images</a></li>
+        <li id="cube_tab" class="active"><a data-toggle="tab" href="#container"><img src="/static/images/expr_viewer/ico2.png" height="24"/> Expression Cube</a></li>
+        <li id="expr_imgs_tab"><a data-toggle="tab" href="#container_tissues"><img src="/static/images/expr_viewer/ico1.png" height="24" style="padding-bottom:5px;"/> Expression images</a></li>
     </ul>
   </div>
   <div class="tab-content">

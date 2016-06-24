@@ -329,6 +329,7 @@ $(document).ready(function () {
     }
   });
   
+  //code to change tabs content
   $("#cube_tab").on('click', function(e)  {
     var currentAttrValue = jQuery(this).attr('href');
     // alert("cube");

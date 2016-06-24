@@ -137,6 +137,8 @@ sub get_input_options {
   my @stages = sort { $stages{$a} <=> $stages{$b} } keys %stages;
   my @tissues = sort { $tissues{$a} <=> $tissues{$b} } keys %tissues;
   
+  # print STDERR Dumper(%stages);
+  
   return (\@organs,\@stages,\@tissues);
   # return (\%organs,\%stages,\%tissues);
   

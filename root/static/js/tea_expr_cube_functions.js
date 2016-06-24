@@ -500,15 +500,15 @@
 	}
 
 
-	function add_stage_names(x_margin,y_margin,stage_name,x_margin2,stages_layer,canvas_tmp) {
+	function add_tissue_names(x_margin,y_margin,tissue_name,x_margin2,tmp_cube_layer,canvas_tmp) {
 		
-		stage_name = stage_name.replace(/_/g, " "); //replace underscores in stage names by spaces
+		tissue_name = tissue_name.replace(/_/g, " "); //replace underscores in stage names by spaces
 		
-		//Stages for the cube
-		var stage_text = new Kinetic.Text({
+		//Tissue names for the cube
+		var tissue_text = new Kinetic.Text({
 			x: x_margin-65,
 			y: y_margin-37,
-			text: stage_name,
+			text: tissue_name,
 			width: 180,
 			align: 'right',
 			fontSize: 16, //20 for CondensedLight
@@ -518,8 +518,8 @@
 			rotation: 30
 		});
 	
-		stages_layer.add(stage_text);
-		canvas_tmp.add(stages_layer);
+		tmp_cube_layer.add(tissue_text);
+		canvas_tmp.add(tmp_cube_layer);
 	}
 
 
@@ -640,13 +640,13 @@
 			add_slice(i,genes,expr_val,stages,tissues,tmp_layer,tmp_canvas,top_x_start,y_margin,color_code,corr_values,gene_descriptions,gene_ids,current_page,pages_num,genes_num);
 		}
 	
-		//draw stage names
+		//draw tissue names
 		for (var i=0; i<tissues.length; i++) {
     // for (var i=0; i<stages.length; i++) {
 			var x = top_x_start -75 - i*10;
 			var y = y_margin -18 + i*15;
 			var x2 = top_x_start -650 + i*180;
-			add_stage_names(x,y,tissues[i],x2,tmp_layer,tmp_canvas);
+			add_tissue_names(x,y,tissues[i],x2,tmp_layer,tmp_canvas);
       // add_stage_names(x,y,stages[i],x2,tmp_layer,tmp_canvas);
 		}
 		

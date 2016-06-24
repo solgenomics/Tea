@@ -126,7 +126,181 @@ $(document).ready(function () {
   }
   
   
+  function setup_cube(canvas_h,canvas_w,cube_x_margin,gene_a,stage_a,tissue_a,AoAoA,locus_id,gene_desc,c_page,pages_number) {
+    
+    var frame_height = $('#container').css("height");
+    var container_height = frame_height.replace("px","");
+
+    if (canvas_h > container_height) {
+      $('#container').css("height",canvas_h+"px");
+    }
+  
+    //define the cube canvas
+    var canvas = new Kinetic.Stage({
+      container: "container",
+      width: canvas_w,
+      height: canvas_h
+    });
+  
+    //for y_margin (top margin) for the cube, to have space for the stages names
+    var longest_stage = 0;
+    for (var j = 0; j < stage_a.length; j++) {
+      if (stage_a[j].length > longest_stage) {
+        longest_stage = stage_a[j].length;
+      }
+    }
+
+  	var y_margin = longest_stage*7;
+  
+  	var cube_layer = new Kinetic.Layer();
+  
+  	//margins for the cube
+  	var top_x_start = cube_x_margin + (tissue_a.length*15);
+	
+	
+  	draw_cube(gene_a,stage_a,tissue_a,AoAoA,cube_layer,canvas,top_x_start,y_margin,locus_id,gene_desc,c_page,pages_number,canvas_w);
+    
+  }
+  
+  
+  function draw_expression_images(stage_ids_a,stage_h,canvas_w,canvas_h,tissue_h,gst_expr_hhh,gene_a,tissue_a) {
+    
+    var x_offset = 0;
+    var y_offset = 0;
+
+
+    //set canvas height
+    // var height_and_col = get_canvas_height(stages,canvas_w,canvas_h);
+    var height_and_col = get_canvas_height(stage_ids_a,stage_h,canvas_w,canvas_h);
+    var images_total_height = height_and_col[0];
+    var col_num = height_and_col[1];
+
+
+    //define canvas for Expression Images
+    var img_canvas = new Kinetic.Stage({
+      container: "container_tissues",
+      width: canvas_w,
+      height: images_total_height
+    });
+    
+    var tissue_layer = new Kinetic.Layer();
+
+    //set image coordinates
+    var img_y = 0;
+
+    var prev_stage = "";
+    var prev_stage2 = "";
+    var next_stage = "";
+    var next_short_name = "";
+    var j_index = 0;
+
+    // print the tissue colored images ----------------------
+    
+    //iterate by image
+    for (var n = 0; n < stage_ids_a.length; n++) { 
+    
+      var img_name = stage_h[stage_ids_a[n]]["image_name"];
+      var img_width = stage_h[stage_ids_a[n]]["image_width"]*1;
+      var img_height = stage_h[stage_ids_a[n]]["image_height"]*1;
+      var stage_name = stage_h[stage_ids_a[n]]["stage_name"];
+    
+      //cluster the images by stage name. Remove stem, equatorial and stylar for short names
+      var stage_short_name = get_stage_short_name(stage_name.replace(/_/g," "));
+    
+      //check next image
+      if (stage_h[stage_ids_a[n+1]]) {
+        next_stage = stage_h[stage_ids_a[n+1]]["stage_name"].replace(/_/g," ");
+        next_short_name = get_stage_short_name(next_stage);
+      }
+      else {
+        next_stage = "";
+        next_short_name = "";
+      }
+
+      //sum x and y offsets to print the tissue images
+      j_index++;
+    
+      //first stage
+      if (n == 0) {
+        x_offset = 0;
+        y_offset = 0;
+      }
+      //same line -- if same stage and not over limit
+      else if (stage_short_name == prev_stage && j_index <= col_num) {
+        x_offset = x_offset + img_width;
+      }
+      //new line -- if starting a set of stages or over the limit
+      else if (stage_short_name == next_short_name || j_index > col_num) {
+        x_offset = 0;
+        j_index = 1;
+        y_offset = y_offset + img_height;
+      }
+      //new line -- if not belong to a set of stages
+      else if (stage_short_name != prev_stage && prev_stage2 && prev_stage == prev_stage2) {
+        x_offset = 0;
+        j_index = 1;
+        y_offset = y_offset + img_height;
+      }
+      //same line
+      else {
+          x_offset = x_offset + img_width;
+      }
+    
+      //load bg image
+      load_stage_image(x_offset,y_offset,tissue_layer,img_canvas,img_name,img_width,img_height);
+    
+    
+    
+      //display overlapping tissue imgs and group them
+      var tissue_img_group = new Kinetic.Group();
+      for (var i = 0; i<tissue_h[stage_ids_a[n]]["image_name"].length; i++) {
+      
+        var tisue_name = tissue_h[stage_ids_a[n]]["tissue_name"][i];
+        var expr_val = gst_expr_hhh[gene_a[0]][stage_name][tisue_name];
+      
+        var rgb_color_array = get_expr_color(expr_val);
+
+        var r = rgb_color_array[0];
+        var g = rgb_color_array[1];
+        var b = rgb_color_array[2];
+
+        var image_name = tissue_h[stage_ids_a[n]]["image_name"][i];
+      
+        img_width = tissue_h[stage_ids_a[n]]["image_width"][i]*1;
+        img_height = tissue_h[stage_ids_a[n]]["image_height"][i]*1;
+
+        load_tissue_image(x_offset,y_offset,r,g,b,tissue_layer,img_canvas,img_width,img_height,tissue_img_group,image_name);
+      } //for tissues end
+    
+      tissue_expr_popup(img_canvas,tissue_img_group,tissue_h[stage_ids_a[n]],gst_expr_hhh[gene_a[0]][stage_name],tissue_a,x_offset,y_offset,img_width,img_height,canvas_w);
+
+      // tissue_layer.cache(); //when commented fixed warnings
+      tissue_layer.draw();
+    
+      prev_stage2 = prev_stage;
+      prev_stage = stage_short_name;
+    } //stage for ends
+    
+  }
+  
   //start code to draw cube and Expression images ----------------------------------------
+  
+	//return error if input gene was not found
+	if (!genes[0]) {
+		alert("Gene id not found or gene not expressed");
+		enable_ui();
+	}
+  
+	//display query gene name
+	$('#gene').val(genes[0]);
+  
+	//set correlation filter value
+	$('#correlation_filter').val(correlation_filter);
+  
+	//display link to SGN and query gene description
+	$("#gene_name").html("<a href='http://solgenomics.net/locus/"+gene_locus_id[genes[0]]+"/view' target='_blank'><img src='/static/images/sgn_logo.png' height='30' style='margin-bottom: 10px;' title='Connect to SGN for metadata associated with this gene'/> "+genes[0]+"</a>");
+	$("#gene_desc").html(gene_descriptions[genes[0]]);
+  $("#project_desc").html("<a href='/project_page?project_id="+project_id+"' target='_blank'>"+project_name+"</a>");
   
   //set canvas width
   var canvas_width = 1120;
@@ -136,176 +310,16 @@ $(document).ready(function () {
   var x_margin = canvas_width -50 - stages.length*20 - tissues.length*15;
   // var x_margin = canvas_width -100 - stages.length*20 - tissues.length*15;
 
-  var x_offset = 0;
-  var y_offset = 0;
+
+  //print cube
+
+  setup_cube(canvas_height,canvas_width,x_margin,genes,stages,tissues,aoaoa,gene_locus_id,gene_descriptions,current_page,pages_num);
 
 
-  //set canvas height
-  // var height_and_col = get_canvas_height(stages,canvas_width,canvas_height);
-  var height_and_col = get_canvas_height(stage_ids_array,stage_hash,canvas_width,canvas_height);
-  var images_total_height = height_and_col[0];
-  var col_num = height_and_col[1];
+  //print Expression images -------------------------------
 
-
-  //define canvas for Expression Images
-  var img_canvas = new Kinetic.Stage({
-    container: "container_tissues",
-    width: canvas_width,
-    height: images_total_height
-  });
-  var tissue_layer = new Kinetic.Layer();
-
-
-  //set image coordinates
-  var img_y = 0;
-
-  var prev_stage = "";
-  var prev_stage2 = "";
-  var next_stage = "";
-  var next_short_name = "";
-  var j_index = 0;
-
-  // print the tissue colored images ----------------------
-    
-  //iterate by image
-  for (var n = 0; n < stage_ids_array.length; n++) { 
-    
-    var img_name = stage_hash[stage_ids_array[n]]["image_name"];
-    var img_width = stage_hash[stage_ids_array[n]]["image_width"]*1;
-    var img_height = stage_hash[stage_ids_array[n]]["image_height"]*1;
-    var stage_name = stage_hash[stage_ids_array[n]]["stage_name"];
-    
-    
-    //cluster the images by stage name. Remove stem, equatorial and stylar for short names
-    var stage_short_name = get_stage_short_name(stage_name.replace(/_/g," "));
-    
-    //check next image
-    if (stage_hash[stage_ids_array[n+1]]) {
-      next_stage = stage_hash[stage_ids_array[n+1]]["stage_name"].replace(/_/g," ");
-      next_short_name = get_stage_short_name(next_stage);
-    }
-    else {
-      next_stage = "";
-      next_short_name = "";
-    }
-
-    //sum x and y offsets to print the tissue images
-    j_index++;
-    
-    //first stage
-    if (n == 0) {
-      x_offset = 0;
-      y_offset = 0;
-    }
-    //same line -- if same stage and not over limit
-    else if (stage_short_name == prev_stage && j_index <= col_num) {
-      x_offset = x_offset + img_width;
-    }
-    //new line -- if starting a set of stages or over the limit
-    else if (stage_short_name == next_short_name || j_index > col_num) {
-      x_offset = 0;
-      j_index = 1;
-      y_offset = y_offset + img_height;
-    }
-    //new line -- if not belong to a set of stages
-    else if (stage_short_name != prev_stage && prev_stage2 && prev_stage == prev_stage2) {
-      x_offset = 0;
-      j_index = 1;
-      y_offset = y_offset + img_height;
-    }
-    //same line
-    else {
-        x_offset = x_offset + img_width;
-    }
-    
-    //load bg image
-    load_stage_image(x_offset,y_offset,tissue_layer,img_canvas,img_name,img_width,img_height);
-    
-    
-    
-    //display overlapping tissue imgs and group them
-    var tissue_img_group = new Kinetic.Group();
-    for (var i = 0; i<tissue_hash[stage_ids_array[n]]["image_name"].length; i++) {
-      
-      var tisue_name = tissue_hash[stage_ids_array[n]]["tissue_name"][i];
-      var expr_val = gst_expr_hohoh[genes[0]][stage_name][tisue_name];
-      
-      var rgb_color_array = get_expr_color(expr_val);
-
-      var r = rgb_color_array[0];
-      var g = rgb_color_array[1];
-      var b = rgb_color_array[2];
-
-      var image_name = tissue_hash[stage_ids_array[n]]["image_name"][i];
-      
-      img_width = tissue_hash[stage_ids_array[n]]["image_width"][i]*1;
-      img_height = tissue_hash[stage_ids_array[n]]["image_height"][i]*1;
-
-      load_tissue_image(x_offset,y_offset,r,g,b,tissue_layer,img_canvas,img_width,img_height,tissue_img_group,image_name);
-    } //for tissues end
-    
-    tissue_expr_popup(img_canvas,tissue_img_group,tissue_hash[stage_ids_array[n]],gst_expr_hohoh[genes[0]][stage_name],tissues,x_offset,y_offset,img_width,img_height,canvas_width);
-
-    // tissue_layer.cache(); //when commented fixed warnings
-    tissue_layer.draw();
-    
-    prev_stage2 = prev_stage;
-    prev_stage = stage_short_name;
-  } //stage for ends
+  draw_expression_images(stage_ids_array,stage_hash,canvas_width,canvas_height,tissue_hash,gst_expr_hohoh,genes,tissues);
   
-  
-  //print cube -------------------------------
-
-  var frame_height = $('#container').css("height");
-  var container_height = frame_height.replace("px","");
-
-  if (canvas_height > container_height) {
-    $('#container').css("height",canvas_height+"px");
-  }
-  
-  //define the cube canvas
-  var canvas = new Kinetic.Stage({
-    container: "container",
-    width: canvas_width,
-    height: canvas_height
-  });
-  
-  //for y_margin for the cube, to have space for the stages names
-  var longest_stage = 0;
-  for (var j = 0; j < stages.length; j++) {
-    if (stages[j].length > longest_stage) {
-      longest_stage = stages[j].length;
-    }
-  }
-
-	var y_margin = longest_stage*7;
-  
-	var cube_layer = new Kinetic.Layer();
-  
-	//margins for the cube
-	var top_x_start = x_margin + (tissues.length*15);
-  // var top_x_start = x_margin + (stages.length*15);
-	
-	//return error if input gene was not found
-	if (!genes[0]) {
-		alert("Gene id not found or gene not expressed");
-		enable_ui();
-	}
-	
-	//display query gene name
-	$('#gene').val(genes[0]);
-	
-  
-	//set correlation filter value
-	$('#correlation_filter').val(correlation_filter);
-	
-	//display link to SGN and query gene description
-	document.getElementById("gene_name").innerHTML = "<a href='http://solgenomics.net/locus/"+gene_locus_id[genes[0]]+"/view' target='_blank'><img src='/static/images/sgn_logo.png' height='30' style='margin-bottom: 10px;' title='Connect to SGN for metadata associated with this gene'/> "+genes[0]+"</a>";
-	document.getElementById("gene_desc").innerHTML = gene_descriptions[genes[0]];
-  document.getElementById("project_desc").innerHTML = "<a href='/project_page?project_id="+project_id+"' target='_blank'>"+project_name+"</a>";
-	
-	draw_cube(genes,stages,tissues,aoaoa,cube_layer,canvas,top_x_start,y_margin,gene_locus_id,gene_descriptions,current_page,pages_num,canvas_width);
-	
 });
 
 

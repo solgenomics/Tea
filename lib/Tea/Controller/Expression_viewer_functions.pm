@@ -225,6 +225,8 @@ sub get_image_hash {
   
   my $exp_layer_rs = $schema->resultset('ExperimentLayer')->search({experiment_id => $experiment_ids});
     
+  # print STDERR Dumper($experiment_ids);
+    
   while (my $exp_layer = $exp_layer_rs->next) {
       
     my $layer_rs = $schema->resultset('Layer')->search({layer_id => $exp_layer->layer_id})->single;

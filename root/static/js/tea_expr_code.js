@@ -163,18 +163,68 @@ $(document).ready(function () {
   }
   
   
+  function iterate_by_stage(n,stage_h,stage_ids_a,next_stage,next_short_name,j_index,x_offset,y_offset,prev_stage,prev_stage2,col_num) {
+    
+    var img_name = stage_h[stage_ids_a[n]]["image_name"];
+    var img_width = stage_h[stage_ids_a[n]]["image_width"]*1;
+    var img_height = stage_h[stage_ids_a[n]]["image_height"]*1;
+    var stage_name = stage_h[stage_ids_a[n]]["stage_name"];
+  
+    //cluster the images by stage name. Remove stem, equatorial and stylar for short names
+    var stage_short_name = get_stage_short_name(stage_name.replace(/_/g," "));
+  
+    //check next image
+    if (stage_h[stage_ids_a[n+1]]) {
+      next_stage = stage_h[stage_ids_a[n+1]]["stage_name"].replace(/_/g," ");
+      next_short_name = get_stage_short_name(next_stage);
+    }
+    else {
+      next_stage = "";
+      next_short_name = "";
+    }
+
+    //sum x and y offsets to print the tissue images
+    j_index++;
+  
+    //first stage
+    if (n == 0) {
+      x_offset = 0;
+      y_offset = 0;
+    }
+    //same line -- if same stage and not over limit
+    else if (stage_short_name == prev_stage && j_index <= col_num) {
+      x_offset = x_offset + img_width;
+    }
+    //new line -- if starting a set of stages or over the limit
+    else if (stage_short_name == next_short_name || j_index > col_num) {
+      x_offset = 0;
+      j_index = 1;
+      y_offset = y_offset + img_height;
+    }
+    //new line -- if not belong to a set of stages
+    else if (stage_short_name != prev_stage && prev_stage2 && prev_stage == prev_stage2) {
+      x_offset = 0;
+      j_index = 1;
+      y_offset = y_offset + img_height;
+    }
+    //same line
+    else {
+        x_offset = x_offset + img_width;
+    }
+    
+    return [x_offset,y_offset,stage_name,img_name,img_width,img_height,stage_short_name];
+  }
+  
   function draw_expression_images(canvas_h,canvas_w,stage_ids_a,stage_h,tissue_h,gst_expr_hhh,gene_a,tissue_a) {
     
     var x_offset = 0;
     var y_offset = 0;
-
 
     //set canvas height
     // var height_and_col = get_canvas_height(stages,canvas_w,canvas_h);
     var height_and_col = get_canvas_height(stage_ids_a,stage_h,canvas_w,canvas_h);
     var images_total_height = height_and_col[0];
     var col_num = height_and_col[1];
-
 
     //define canvas for Expression Images
     var img_canvas = new Kinetic.Stage({
@@ -196,68 +246,31 @@ $(document).ready(function () {
 
     // print the tissue colored images ----------------------
     
-    //iterate by image
-    for (var n = 0; n < stage_ids_a.length; n++) { 
+    //iterate by image and load all stage images
+    for (var m = 0; m < stage_ids_a.length; m++) { 
     
-      var img_name = stage_h[stage_ids_a[n]]["image_name"];
-      var img_width = stage_h[stage_ids_a[n]]["image_width"]*1;
-      var img_height = stage_h[stage_ids_a[n]]["image_height"]*1;
-      var stage_name = stage_h[stage_ids_a[n]]["stage_name"];
-    
-      //cluster the images by stage name. Remove stem, equatorial and stylar for short names
-      var stage_short_name = get_stage_short_name(stage_name.replace(/_/g," "));
-    
-      //check next image
-      if (stage_h[stage_ids_a[n+1]]) {
-        next_stage = stage_h[stage_ids_a[n+1]]["stage_name"].replace(/_/g," ");
-        next_short_name = get_stage_short_name(next_stage);
-      }
-      else {
-        next_stage = "";
-        next_short_name = "";
-      }
-
-      //sum x and y offsets to print the tissue images
-      j_index++;
-    
-      //first stage
-      if (n == 0) {
-        x_offset = 0;
-        y_offset = 0;
-      }
-      //same line -- if same stage and not over limit
-      else if (stage_short_name == prev_stage && j_index <= col_num) {
-        x_offset = x_offset + img_width;
-      }
-      //new line -- if starting a set of stages or over the limit
-      else if (stage_short_name == next_short_name || j_index > col_num) {
-        x_offset = 0;
-        j_index = 1;
-        y_offset = y_offset + img_height;
-      }
-      //new line -- if not belong to a set of stages
-      else if (stage_short_name != prev_stage && prev_stage2 && prev_stage == prev_stage2) {
-        x_offset = 0;
-        j_index = 1;
-        y_offset = y_offset + img_height;
-      }
-      //same line
-      else {
-          x_offset = x_offset + img_width;
-      }
-    
+      [x_offset,y_offset,stage_name,img_name,img_width,img_height,stage_short_name] = iterate_by_stage(m,stage_h,stage_ids_a,next_stage,next_short_name,j_index,x_offset,y_offset,prev_stage,prev_stage2,col_num)
+      
       //load bg image
       load_stage_image(x_offset,y_offset,tissue_layer,img_canvas,img_name,img_width,img_height);
+      
+      prev_stage2 = prev_stage;
+      prev_stage = stage_short_name;
+      tissue_layer.draw();
+    }
     
-    
-    
+    //scond round to draw only tissue layer over the stage images from the first round (output more reliable?)
+    for (var n = 0; n < stage_ids_a.length; n++) {
+
+      [x_offset,y_offset,stage_name,img_name,img_width,img_height,stage_short_name] = iterate_by_stage(n,stage_h,stage_ids_a,next_stage,next_short_name,j_index,x_offset,y_offset,prev_stage,prev_stage2,col_num)
+
       //display overlapping tissue imgs and group them
       var tissue_img_group = new Kinetic.Group();
       for (var i = 0; i<tissue_h[stage_ids_a[n]]["image_name"].length; i++) {
-      
+
         var tisue_name = tissue_h[stage_ids_a[n]]["tissue_name"][i];
         var expr_val = gst_expr_hhh[gene_a[0]][stage_name][tisue_name];
-      
+
         var rgb_color_array = get_expr_color(expr_val);
 
         var r = rgb_color_array[0];
@@ -265,18 +278,19 @@ $(document).ready(function () {
         var b = rgb_color_array[2];
 
         var image_name = tissue_h[stage_ids_a[n]]["image_name"][i];
-      
+
         img_width = tissue_h[stage_ids_a[n]]["image_width"][i]*1;
         img_height = tissue_h[stage_ids_a[n]]["image_height"][i]*1;
 
         load_tissue_image(x_offset,y_offset,r,g,b,tissue_layer,img_canvas,img_width,img_height,tissue_img_group,image_name);
+        tissue_layer.draw();
       } //for tissues end
-    
+
       tissue_expr_popup(img_canvas,tissue_img_group,tissue_h[stage_ids_a[n]],gst_expr_hhh[gene_a[0]][stage_name],tissue_a,x_offset,y_offset,img_width,img_height,canvas_w);
 
       // tissue_layer.cache(); //when commented fixed warnings
       tissue_layer.draw();
-    
+
       prev_stage2 = prev_stage;
       prev_stage = stage_short_name;
     } //stage for ends

@@ -163,7 +163,7 @@ $(document).ready(function () {
   }
   
   
-  function iterate_by_stage(n,stage_h,stage_ids_a,next_stage,next_short_name,j_index,x_offset,y_offset,prev_stage,prev_stage2,col_num) {
+  function iterate_by_stage(n,stage_h,stage_ids_a,j_index,x_offset,y_offset,next_stage,next_short_name,prev_stage,prev_stage2,col_num) {
     
     var img_name = stage_h[stage_ids_a[n]]["image_name"];
     var img_width = stage_h[stage_ids_a[n]]["image_width"]*1;
@@ -235,9 +235,6 @@ $(document).ready(function () {
     
     var tissue_layer = new Kinetic.Layer();
 
-    //set image coordinates
-    var img_y = 0;
-
     var prev_stage = "";
     var prev_stage2 = "";
     var next_stage = "";
@@ -249,7 +246,7 @@ $(document).ready(function () {
     //iterate by image and load all stage images
     for (var m = 0; m < stage_ids_a.length; m++) { 
     
-      [x_offset,y_offset,j_index,stage_name,img_name,img_width,img_height,stage_short_name] = iterate_by_stage(m,stage_h,stage_ids_a,next_stage,next_short_name,j_index,x_offset,y_offset,prev_stage,prev_stage2,col_num)
+      [x_offset,y_offset,j_index,stage_name,img_name,img_width,img_height,stage_short_name] = iterate_by_stage(m,stage_h,stage_ids_a,j_index,x_offset,y_offset,next_stage,next_short_name,prev_stage,prev_stage2,col_num)
       
       //load bg image
       load_stage_image(x_offset,y_offset,tissue_layer,img_canvas,img_name,img_width,img_height);
@@ -259,10 +256,18 @@ $(document).ready(function () {
       tissue_layer.draw();
     }
     
+    x_offset = 0;
+    y_offset = 0;
+    prev_stage = "";
+    prev_stage2 = "";
+    next_stage = "";
+    next_short_name = "";
+    j_index = 0;
+
     //scond round to draw only tissue layer over the stage images from the first round (output more reliable?)
     for (var n = 0; n < stage_ids_a.length; n++) {
 
-      [x_offset,y_offset,j_index,stage_name,img_name,img_width,img_height,stage_short_name] = iterate_by_stage(n,stage_h,stage_ids_a,next_stage,next_short_name,j_index,x_offset,y_offset,prev_stage,prev_stage2,col_num)
+      [x_offset,y_offset,j_index,stage_name,img_name,img_width,img_height,stage_short_name] = iterate_by_stage(n,stage_h,stage_ids_a,j_index,x_offset,y_offset,next_stage,next_short_name,prev_stage,prev_stage2,col_num)
 
       //display overlapping tissue imgs and group them
       var tissue_img_group = new Kinetic.Group();

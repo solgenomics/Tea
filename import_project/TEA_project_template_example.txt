@@ -1,0 +1,114 @@
+# Please use one line per field and one file per project. Do not edit or remove any line starting with #
+
+#organism
+organism_species: Solanum lycopersicum
+organism_variety: M82
+organism_description: this organism is a plant, commonly known as tomato
+# organism - end
+
+
+#project
+project_name: S. Lycopersicum M82 Fruit Development
+project_contact: Jocelyn Rose
+project_description: tomato expression data for fruit development.
+index_dir_name: tomato_index
+# project - end
+
+
+# experiment --- All info needed for a cluster of images (usually includes a stage and all its tissues). Copy this block as many times as you need (including as many layer blocks as you need).
+experiment_name: Fruit 5DPA
+experiment_description: 
+# write experiment metadata
+
+#layer: define all stages, tissues, organs and conditions from your project
+layer_name: Fruit
+layer_description: Tomato fruit
+layer_type: organ
+layer_image: slm82_fruit.png
+image_width: 250
+image_height: 500
+ordinal: 10
+# layer - end
+
+#layer
+layer_name: 5DPA
+layer_description: Five days post anthesis
+layer_type:stage
+layer_image: slm82_fruit_5dpa-equatorial_bg.png
+image_width: 250
+image_height: 500
+ordinal: 100
+# layer - end
+
+#layer
+layer_name: Pericarp
+layer_description: 
+layer_type:tissue
+layer_image: slm82_fruit_5dpa-equatorial_pericarp.png
+image_width: 250
+image_height: 500
+ordinal: 1000
+# layer - end
+
+#layer
+layer_name: Septum
+layer_description:
+layer_type:tissue
+layer_image: slm82_fruit_5dpa-equatorial_septum.png
+image_width: 250
+image_height: 500
+ordinal: 1010
+# layer - end
+
+# experiment - end
+
+
+# experiment --- All info needed for a cluster of images (usually includes a stage and all its tissues). Copy this block as many times as you need.
+experiment_name: Fruit Breaker Stem
+experiment_description: 
+# write experiment metadata
+
+#layer: define all stages, tissues, organs and conditions from your project
+layer_name: Fruit
+layer_description: Tomato fruit
+layer_type: organ
+layer_image: slm82_fruit.png
+image_width: 250
+image_height: 500
+ordinal: 10
+# layer - end
+
+#layer
+layer_name: Breaker stem
+layer_description:
+layer_type:stage
+layer_image: slm82_fruit_breaker-stem_bg.png
+image_width: 250
+image_height: 500
+ordinal: 110
+# layer - end
+
+#layer
+layer_name: Pericarp
+layer_description: 
+layer_type:tissue
+layer_image: slm82_fruit_breaker-stem_pericarp.png
+image_width: 250
+image_height: 500
+ordinal: 1000
+# layer - end
+
+#layer
+layer_name: Septum
+layer_description:
+layer_type:tissue
+layer_image: slm82_fruit_breaker-stem_septum.png
+image_width: 250
+image_height: 500
+ordinal: 1010
+# layer - end
+
+
+# experiment - end
+
+

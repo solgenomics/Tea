@@ -1,0 +1,74 @@
+# Please use one line per field and one file per project. Do not edit or remove any line starting with #
+
+#organism
+organism_species: 
+organism_variety: 
+organism_description:
+# organism - end
+
+
+#project
+project_name: 
+project_contact: 
+project_description: 
+index_dir_name: 
+# project - end
+
+
+# experiment --- All info needed for a cluster of images (usually includes a stage and all its tissues). Copy this block as many times as you need (including as many layer blocks as you need).
+experiment_name: 
+experiment_description: 
+# write experiment metadata
+
+#layer: define all stages, tissues, organs and conditions from your project
+layer_name: 
+layer_description: 
+layer_type: 
+layer_image: 
+image_width: 
+image_height: 
+ordinal: 
+# layer - end
+
+#layer
+layer_name: 
+layer_description: 
+layer_type: 
+layer_image: 
+image_width: 
+image_height: 
+ordinal: 
+# layer - end
+
+
+# experiment - end
+
+
+# experiment --- All info needed for a cluster of images (usually includes a stage and all its tissues). Copy this block as many times as you need (including as many layer blocks as you need).
+experiment_name: 
+experiment_description: 
+# write experiment metadata
+
+#layer: define all stages, tissues, organs and conditions from your project
+layer_name: 
+layer_description: 
+layer_type: 
+layer_image: 
+image_width: 
+image_height: 
+ordinal: 
+# layer - end
+
+#layer
+layer_name: 
+layer_description: 
+layer_type: 
+layer_image: 
+image_width: 
+image_height: 
+ordinal: 
+# layer - end
+
+# experiment - end
+
+

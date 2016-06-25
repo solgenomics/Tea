@@ -52,7 +52,7 @@ sub index :Path('/Expression_viewer/input/') :Args(0) {
   
   while(my $proj_obj = $projects_rs->next) {
     $project_name = $proj_obj->name;
-    push(@projects,"<div class=\"radio\">\n<label><input id=\"organism_".$proj_obj->organism_id."\" type='radio' class='organism_col' name=\"optradio\" value=\'".$proj_obj->organism_id."\'> $project_name</label>\n</div>\n");
+    push(@projects,"<div id=\"project_radio_div\" class=\"radio\">\n<label><input id=\"organism_".$proj_obj->organism_id."\" type='radio' class='organism_col' name=\"optradio\" value=\'".$proj_obj->organism_id."\'> $project_name</label>\n</div>\n");
   }
   
   my $projects_html = join("\n", @projects);

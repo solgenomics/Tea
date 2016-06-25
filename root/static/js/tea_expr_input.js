@@ -17,7 +17,7 @@ $(document).ready(function () {
   });
 	
 
-  jQuery("#organism_3").attr("checked", "checked");
+  $(".organism_col").first().attr("checked", "checked");
   var idSelector = function() { return this.value; };
   var organism_list = jQuery(".organism_col:checked").map(idSelector).get();
   load_wizard(organism_list,null,null,null);

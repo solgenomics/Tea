@@ -36,7 +36,8 @@ Catalyst Controller.
 sub index :Path('/Expression_viewer/input/') :Args(0) {
   my ( $self, $c ) = @_;
   
-	my $input_gene = $c->req->param("input_gene") || "Solyc01g102660";
+  my $default_gene = $c->config->{default_gene};
+	my $input_gene = $c->req->param("input_gene") || $default_gene;
   my $dbname = $c->config->{dbname};
   my $host = $c->config->{dbhost};
   my $username = $c->config->{dbuser};

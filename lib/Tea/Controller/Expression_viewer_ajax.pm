@@ -59,7 +59,7 @@ sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
   my @errors; 
 
   # get variables from catalyst object
-  my @organism_ids = $c->req->param("organisms[]");
+  my $project_id = $c->req->param("project_id");
 
   my @organ_names = $c->req->param("organs[]");
   my @stage_names = $c->req->param("stages[]");
@@ -79,8 +79,8 @@ sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
   my $db_funct = Tea::Controller::Expression_viewer_functions->new();
   
   # getting all the experiments from the project
-  my $project_rs = $schema->resultset('Project')->search({organism_id => $organism_ids[0]})->single;
-  my $all_experiment_rs = $schema->resultset('Experiment')->search({project_id => $project_rs->project_id});
+  # my $project_rs = $schema->resultset('Project')->search({project_id => $project_id})->single;
+  my $all_experiment_rs = $schema->resultset('Experiment')->search({project_id => $project_id});
   
   if ($organ_names[0] || $stage_names[0] || $tissue_names[0]) {
     

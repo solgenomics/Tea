@@ -125,10 +125,10 @@ sub get_layer_options {
 =head2 get_input_options
 
 get experiment_rs objs and save them in
-organ, stage and tissue hashes with name as key and rs_obj as value
+organ, stage and tissue name arrays sorted by ordinal
 
 ARGS: schema, experiments_rs
-Returns: organ, stage and tissue hashes
+Returns: organ, stage and tissue name arrays sorted by ordinal
 
 =cut
 
@@ -342,6 +342,9 @@ sub get_image_hash {
   foreach my $id (sort {$stage_ordinal_id{$a} <=> $stage_ordinal_id{$b} } keys %stage_ordinal_id) {
     push(@stage_ids,$id);
   }
+  
+  print "get_image_hash stages_id:\n";
+  print STDERR Dumper(@stage_ids);
   
   return (\@stage_ids,\%stage_hash,\%tissue_hash);
 }

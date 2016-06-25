@@ -28,8 +28,10 @@ Catalyst Controller.
 
 =cut
 
-
 =head2 index
+
+Get variables from configuration file, connect to database
+and send to Expression_viewer/input.mas the project list formatted in HTML
 
 =cut
 
@@ -46,22 +48,37 @@ sub index :Path('/Expression_viewer/input/') :Args(0) {
   my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
   my $dbh = DBI->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
   
-  # get all organisms for input select
+  # get all projects for input select
   my $projects_rs = $schema->resultset('Project');
   my @projects = ();
   my $project_name;
   
   while(my $proj_obj = $projects_rs->next) {
     $project_name = $proj_obj->name;
+    # push(@projects,"<div id=\"project_radio_div\" class=\"radio\">\n<label><input id=\"project_".$proj_obj->project_id."\" type='radio' class='organism_col' name=\"optradio\" value=\'".$proj_obj->project_id."\'> $project_name</label>\n</div>\n");
     push(@projects,"<div id=\"project_radio_div\" class=\"radio\">\n<label><input id=\"organism_".$proj_obj->organism_id."\" type='radio' class='organism_col' name=\"optradio\" value=\'".$proj_obj->organism_id."\'> $project_name</label>\n</div>\n");
   }
   
+  # save array info in text variable
   my $projects_html = join("\n", @projects);
+  
+  # send variables to TEA input view
   $c->stash->{input_gene} = $input_gene;
   $c->stash->{organism_html} = $projects_html;
   $c->stash(template => 'Expression_viewer/input.mas');
 }
 
+=head2 _get_correlation
+
+Get correlation values for the query gene and the correlated genes in the cube for that page
+
+ARGV: correlation filter, current page, path to correlation index, query gene, 
+number of genes for cube and boolean to specify if data are for downloading
+
+Return: list of genes, correlation values, number of correlated genes, 
+and hash of genes and correlation values
+
+=cut
 
 sub _get_correlation {
   my $c = shift;
@@ -187,12 +204,19 @@ sub _get_correlation {
 
 
 
+=head2 get_expression
 
+Get expression values and send all data needed to output view
 
+ARGV: query gene, correlation filter, selection of project, organ, stage and tissue,
+current page for cube, total number of pages, path to description, expression and correlation index
 
+Return: list of genes, stages and tissues, hash with expression values (HoHoH), stages ids, stage_info HoH,
+tissue_info HoHoA, AoAoA, correlation values, number of pages, current page, gene list for output,
+correlation filter, selection of project, stage and tissues, descriptions, project_id, project name, 
+and hash of locus id (to link to SGN)
 
-
-
+=cut
 
 
 sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
@@ -506,6 +530,16 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 }
 
 
+=head2 download_expression_data
+
+Get expression and correlation values for the selected experiment and save results in a file
+
+ARGV: query gene, correlation filter, selection of stage and tissue, path to expression and correlation index
+
+Return: print file with expression and correlation data for each gene, stage and tissue
+
+=cut
+
 sub download_expression_data :Path('/download_expression_data/') :Args(0) {
   my ($self, $c) = @_;
   
@@ -772,6 +806,17 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
 	$c->res->header('Content-Disposition', qq[attachment; filename="$filename"]);
 	$c->res->body($tab_file);
 }
+
+
+
+=head2 uniq
+
+Remove repeated entries from an array and return uniq array
+ARGV: array
+
+Return: array with uniq entries
+
+=cut
 
 sub uniq {
     my %seen;

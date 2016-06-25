@@ -41,6 +41,14 @@ __PACKAGE__->config(
 
 our %urlencode;
 
+=head2 get_stages
+
+get selected info on input and return parent-children info back to input
+
+ARGS: selected project, organ, stage and tissue
+Returns: organ, stage and tissue HTML options
+
+=cut
 
 sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
   my ($self, $c) = @_;
@@ -70,13 +78,13 @@ sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
   
   my $db_funct = Tea::Controller::Expression_viewer_functions->new();
   
-  # getting all the experiments from the organism
+  # getting all the experiments from the project
   my $project_rs = $schema->resultset('Project')->search({organism_id => $organism_ids[0]})->single;
-  my $experiment_rs = $schema->resultset('Experiment')->search({project_id => $project_rs->project_id});
+  my $all_experiment_rs = $schema->resultset('Experiment')->search({project_id => $project_rs->project_id});
   
   if ($organ_names[0] || $stage_names[0] || $tissue_names[0]) {
     
-    my $filtered_exp_rs = $db_funct->get_layer_options($schema,$experiment_rs,\@organ_names,\@stage_names,\@tissue_names);
+    my $filtered_exp_rs = $db_funct->get_layer_options($schema,$all_experiment_rs,\@organ_names,\@stage_names,\@tissue_names);
 
     # get all the layers from the experiment
     my ($organ_arrayref,$stage_arrayref,$tissue_arrayref) = $db_funct->get_input_options($schema,$filtered_exp_rs);
@@ -88,8 +96,8 @@ sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
     
   }
   else {
-    # only organism selected
-    my ($organ_hashref,$stage_hashref,$tissue_hashref) = $db_funct->get_input_options($schema,$experiment_rs);
+    # only project selected
+    my ($organ_hashref,$stage_hashref,$tissue_hashref) = $db_funct->get_input_options($schema,$all_experiment_rs);
     
     # format layers to select options
     $organ_options_arrayref = $db_funct->names_array_to_option($organ_hashref);
@@ -112,6 +120,13 @@ sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
   # print "get_stages time: $elapsed_time\n";
 }
 
+=head2 run_blast
+
+Run blast from expression viewer input and return results to same page using ajax
+ARGS: input sequence
+Returns: BLAST results
+
+=cut
 
 sub run_blast :Path('/Expression_viewer/blast/') :Args(0) {
   my ($self, $c) = @_;
@@ -145,6 +160,14 @@ sub run_blast :Path('/Expression_viewer/blast/') :Args(0) {
             blast_alignment => $blast_alignment,
   };
 }
+
+=head2 _parse_blast_input
+
+filter input sequence and detects blast program (blastn or blastp)
+ARGS: input sequence
+Returns: filtered input, input name and blast program
+
+=cut
 
 sub _parse_blast_input {
 	my $input = shift;
@@ -201,6 +224,13 @@ sub _parse_blast_input {
 	return ($input_name,$input,$blast_prog);
 }
 
+=head2 _create_blast_input_file
+
+Create input file for blast from gene id or pasted sequence
+ARGS: gene is, input sequence, file name, path to blast db
+Returns: write input file for blast
+
+=cut
 
 sub _create_blast_input_file {
 	my $id = shift;
@@ -227,6 +257,13 @@ sub _create_blast_input_file {
 	
 }
 
+=head2 _run_blast_cmd
+
+Run blast program and format output for HTML checkboxes in a table
+ARGS: blast program, blast options, output file name, blast db path, description file path
+Returns: HTML formatted blast results with check box and blast alignment
+
+=cut
 
 sub _run_blast_cmd {
 	my $c = shift;

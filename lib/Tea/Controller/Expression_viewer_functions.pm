@@ -8,6 +8,17 @@ use Tea::Schema;
 use DBI;
 use Data::Dumper;
 
+
+=head2 get_ids_from_query
+
+Query postgres database to extract ids from a table using a rs obj 
+for a given column name to match and a given column name (column id) to return
+
+ARGS: schema, table name, query (rs obj), column name, column id
+Returns: sorted array of ids matching for the query
+
+=cut
+
 sub get_ids_from_query {
   my $self = shift;
   my $schema = shift;
@@ -42,6 +53,16 @@ sub get_ids_from_query {
   return \@res_ids;
 }
 
+=head2 get_layer_options
+
+get all organ, stage and tissue names from input page, get their experiment and layer ids
+check all the parents and return selected feature together with their parents
+
+ARGS: schema, all_experiments_rs, organims_selected, stages_selected, tissues_selected
+Returns: selected_experiments_rs
+
+=cut
+
 sub get_layer_options {
   my $self = shift;
   my $schema = shift;
@@ -51,7 +72,7 @@ sub get_layer_options {
   my $tissue_names = shift;
   
   my %project_layer_ids;
-  # save all layer ids from the selected organism.
+  # save all layer ids from the selected project.
   while(my $exp_obj = $exp_rs->next) {
     my $exp_layer_rs = $schema->resultset('ExperimentLayer')->search({experiment_id => $exp_obj->experiment_id});
 
@@ -100,6 +121,17 @@ sub get_layer_options {
   return $filtered_exp_rs;
 }
 
+
+=head2 get_input_options
+
+get experiment_rs objs and save them in
+organ, stage and tissue hashes with name as key and rs_obj as value
+
+ARGS: schema, experiments_rs
+Returns: organ, stage and tissue hashes
+
+=cut
+
 sub get_input_options {
   my $self = shift;
   my $schema = shift;
@@ -144,6 +176,16 @@ sub get_input_options {
   
 }
 
+=head2 names_array_to_option
+
+Format an arrayref with layer names in HTML format, as options for a form,
+using the name as the part visible for the user and the name without spaces as the HTML id and value
+
+ARGS: arrayref of layers
+Returns: HTML option format
+
+=cut
+
 sub names_array_to_option {
   my $self = shift;
   my $layers_arrayref = shift;
@@ -160,6 +202,14 @@ sub names_array_to_option {
   return (\@layer_options);
 }
 
+=head2 filter_layer_type
+
+Find all the layers for the selected layer type. Return the selected column for each one of the layer_ids sent to the function.
+
+ARGS: schema, arrayref of layer ids, layer type (stage, tissue, organ), column to return
+Returns: sorted arrayref of selected column to return
+
+=cut
 
 sub filter_layer_type {
   my $self = shift;
@@ -187,6 +237,17 @@ sub filter_layer_type {
   return \@res_ids;
 }
 
+=head2 array_to_option
+
+Format an arrayref with layer ids in HTML format as options for a form.
+Using the ids extract the names for the result
+
+
+ARGS: schema, arrayref of layer ids
+Returns: arraryref of HTML option formatted layer names
+
+=cut
+
 sub array_to_option {
   my $self = shift;
   my $schema = shift;
@@ -212,6 +273,17 @@ sub array_to_option {
   return \@res;
 }
 
+=head2 get_image_hash
+
+From an array of experiment ids return an array of ids sorted by ordinal, 
+a HoH for stages and a HoHoA for tissues. The HoH has as first keys the layer ids and as a second key image_name, image_width, image_height and stage 
+or tissue name in the case of the HoHoA, that have as values the list of image names, width, height or tissue names
+
+ARGS: schema, arrayref of experiment ids
+Returns: arraryref of stage ids sorted by ordinal, stage images hash and tissue images hash
+
+=cut
+
 sub get_image_hash {
   my $self = shift;
   my $schema = shift;
@@ -228,9 +300,11 @@ sub get_image_hash {
   my $exp_layer_rs = $schema->resultset('ExperimentLayer')->search({experiment_id => $experiment_ids});
     
   # print STDERR Dumper($experiment_ids);
-    
+  
+  # iterate each one of the experiment layers table
   while (my $exp_layer = $exp_layer_rs->next) {
-      
+    
+    # get one layer
     my $layer_rs = $schema->resultset('Layer')->search({layer_id => $exp_layer->layer_id})->single;
     
     # if layer is a stage

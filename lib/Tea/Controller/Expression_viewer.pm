@@ -235,11 +235,13 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   
 	my $current_page = $c->req->param("current_page") || 1;
 	my $pages_num = $c->req->param("all_pages") || 1;
+  
+  # get the path to the expression and correlation lucy indexes
 	my $expr_path = $c->config->{expression_indexes_path};
 	my $corr_path = $c->config->{correlation_indexes_path};
 	my $loci_and_desc_path = $c->config->{loci_and_description_index_path};
 	
-  # connect to the db and get the indexed dir name for the selected organism
+  # connect to the db
   my $dbname = $c->config->{dbname};
   my $host = $c->config->{dbhost};
   my $username = $c->config->{dbuser};
@@ -248,15 +250,14 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
   my $dbh = DBI->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
   
+  # get DBIx project resultset
   my $project_rs = $schema->resultset('Project')->search({project_id => $project_id})->single;
-  # my $project_rs = $schema->resultset('Project')->search({organism_id => $organism_filter})->single;
   
-  # get the path to the expression and correlation lucy indexes
+  # set the path to the expression and correlation indexes
   my $corr_index_path = $corr_path."/".$project_rs->indexed_dir;
   my $expr_index_path = $expr_path."/".$project_rs->indexed_dir;
-  # indexed dir name saved in $corr_index_path and $expr_index_path
   
-  # getting the stages and tissues slected at input page
+  # getting the organs, stages and tissues slected at input page
   my @stages = split(",",$stage_filter);
   my @tissues = split(",",$tissue_filter);
   my @organs = split(",",$organ_filter);
@@ -266,19 +267,18 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   my $stage_hashref;
   my $tissue_hashref;
   
+  # open a connection to the functions on Expression_viewer_function controller
   my $db_funct = Tea::Controller::Expression_viewer_functions->new();
   
-  # my $project_ids = $db_funct->get_ids_from_query($schema,"Project",[$project_id],"organism_id","project_id");
-  # my $project_ids = $db_funct->get_ids_from_query($schema,"Project",[$organism_filter],"organism_id","project_id");
+  # get the experiment ids for the selected project
   my $experiment_ids = $db_funct->get_ids_from_query($schema,"Experiment",[$project_id],"project_id","experiment_id");
-  # my $experiment_ids = $db_funct->get_ids_from_query($schema,"Experiment",$project_ids,"project_id","experiment_id");
   
-  # getting all the experiments from the project
+  # get the experiment resultsets for the selected project
   my $experiment_rs = $schema->resultset('Experiment')->search({project_id => $project_rs->project_id});
   
-  
-  
-  
+  # save all the layer ids from the experiments of the project in arrayref and hash
+  my $this_project_all_layer_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",$experiment_ids,"experiment_id","layer_id");
+  my %all_layer_ids_in_project=map{$_=>1} @$this_project_all_layer_ids;
   
   # no filters selected
   if (!$organ_filter && !$stage_filter && !$tissue_filter) {
@@ -287,226 +287,150 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
       @stages = @$stage_arrayref;
       @tissues = @$tissue_arrayref;
 
-      ($stage_ids_arrayref,$stage_hashref,$tissue_hashref) = $db_funct->get_image_hash($schema,$experiment_ids);
+      ($stage_ids_arrayref,$stage_hashref,$tissue_hashref) = $db_funct->get_image_hash($schema,$this_project_all_layer_ids);
   }
+  # organs, stages and/or tissues selected
   else {
-      
+    
+    # selected organ ids for the selected project
     my @organs_in_project_ids;
     my %organs_in_project;
     
+    # names of all stages for selected project and organs
     my @all_stages_in_selected_organs;
+    # layer_ids of all stages for selected project and organs
     my @selected_stage_ids;
+    # for selected organs and project, key = stage_id, value = stage_name
     my %stage_in_organ;
+    # selected stage_ids = 1
     my %selected_stages;
     
+    # names of all tissues for selected stages
     my @all_tissues_in_selected_stages;
+    # layer_ids of all tissues for selected stages
     my @selected_tissue_ids;
+    # for selected stages and project, key = tissue_id, value = tissue_name
     my %tissues_in_stages;
     
-    # get all the layer ids from the project
-    my $this_project_all_layer_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",$experiment_ids,"experiment_id","layer_id");
-    my %all_layer_ids_in_project=map{$_=>1} @$this_project_all_layer_ids;
-    
-      
-    #------------------------------------------------------------------ Organ
+    # Get Organ info
     my $organ_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "organ"})->single;
       
-      # get selected organ layer ids or all organ layer ids
-      if (!$organ_filter) {
-        my $all_organs_layer_rs = $schema->resultset('Layer')->search({layer_type_id => $organ_layer_type_rs->layer_type_id});
-        while (my $o = $all_organs_layer_rs->next) {
-          if ($all_layer_ids_in_project{$o->layer_id}) {
-            $organs_in_project{$o->layer_id} = 1;
-          }
-        }
-      } else {
-        my $organ_info_ids = $db_funct->get_ids_from_query($schema,"LayerInfo",\@organs,"name","layer_info_id");
-        my $organ_ids = $db_funct->get_ids_from_query($schema,"Layer",$organ_info_ids,"layer_info_id","layer_id");
-        @organs_in_project_ids = intersect(@$this_project_all_layer_ids,@$organ_ids);
-        %organs_in_project=map{$_=>1} @organs_in_project_ids;
-      }
-      
-      #------------------------------------------------------------------ Stage
-      
-      # get stage layer type
-      my $stage_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "stage"})->single;
-      
-      # get all stage layer obj
-      my $all_stages_layer_rs = $schema->resultset('Layer')->search({layer_type_id => $stage_layer_type_rs->layer_type_id});
-      
-      # iterate by all stages
-      while (my $s = $all_stages_layer_rs->next) {
-        
-        # get stages for selected organs and project
-        if ($organs_in_project{$s->parent_id} && $all_layer_ids_in_project{$s->layer_id}) {
-          
-          # get layer info obj
-          my $layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $s->layer_info_id})->single;
-          
-          # save layer id and name in hash and arrays
-          $stage_in_organ{$s->layer_id} = $layer_info_rs->name;
-          push(@all_stages_in_selected_organs,$layer_info_rs->name);
-          push(@selected_stage_ids,$s->layer_id);
+    # get selected organ layer ids or all organ layer ids
+    if (!$organ_filter) {
+      my $all_organs_layer_rs = $schema->resultset('Layer')->search({layer_type_id => $organ_layer_type_rs->layer_type_id});
+      while (my $o = $all_organs_layer_rs->next) {
+        if ($all_layer_ids_in_project{$o->layer_id}) {
+          $organs_in_project{$o->layer_id} = 1;
         }
       }
+    } else {
+      my $organ_info_ids = $db_funct->get_ids_from_query($schema,"LayerInfo",\@organs,"name","layer_info_id");
+      my $organ_ids = $db_funct->get_ids_from_query($schema,"Layer",$organ_info_ids,"layer_info_id","layer_id");
+      @organs_in_project_ids = intersect(@$this_project_all_layer_ids,@$organ_ids);
+      %organs_in_project=map{$_=>1} @organs_in_project_ids;
+    }
+      
+    # Get Stage info
+    
+    # get stage layer type
+    my $stage_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "stage"})->single;
+    
+    # get all stage layer obj
+    my $all_stages_layer_rs = $schema->resultset('Layer')->search({layer_type_id => $stage_layer_type_rs->layer_type_id});
+    
+    # iterate by all stages
+    while (my $s = $all_stages_layer_rs->next) {
+      
+      # get stages for selected organs and project
+      if ($organs_in_project{$s->parent_id} && $all_layer_ids_in_project{$s->layer_id}) {
         
-      if ($stage_filter) {
-        my $stage_info_ids = $db_funct->get_ids_from_query($schema,"LayerInfo",\@stages,"name","layer_info_id");
-        my $stage_ids = $db_funct->get_ids_from_query($schema,"Layer",$stage_info_ids,"layer_info_id","layer_id");
+        # get layer info obj
+        my $layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $s->layer_info_id})->single;
         
-        @stages = ();
-        @selected_stage_ids = ();
-        foreach my $st_id (@$stage_ids) {
-          if ($stage_in_organ{$st_id}) {
-            push(@stages,$stage_in_organ{$st_id});
-            push(@selected_stage_ids,$st_id);
-            $selected_stages{$st_id} = 1;
-          }
-        }
-      } else {
-        @stages = @all_stages_in_selected_organs;
-        %selected_stages = %stage_in_organ;
+        # save layer id and name in hash and arrays
+        $stage_in_organ{$s->layer_id} = $layer_info_rs->name;
+        push(@all_stages_in_selected_organs,$layer_info_rs->name);
+        push(@selected_stage_ids,$s->layer_id);
       }
+    }
+    # @all_stages_in_selected_organs = uniq(@all_stages_in_selected_organs);
+    
+    # get selected stage layer ids or all stage layer ids
+    if ($stage_filter) {
+      my $stage_info_ids = $db_funct->get_ids_from_query($schema,"LayerInfo",\@stages,"name","layer_info_id");
+      my $stage_ids = $db_funct->get_ids_from_query($schema,"Layer",$stage_info_ids,"layer_info_id","layer_id");
       
-      #------------------------------------------------------------------ Tissue
-      
-      # get tissue layer type
-      my $tissue_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "tissue"})->single;
-      
-      # get all tissue layer obj
-      my $all_tissues_layer_rs = $schema->resultset('Layer')->search({layer_type_id => $tissue_layer_type_rs->layer_type_id});
-      
-      # iterate by all tissues
-      while (my $t = $all_tissues_layer_rs->next) {
-        
-        # get tissues for selected stages and project
-        if ($selected_stages{$t->parent_id} && $all_layer_ids_in_project{$t->layer_id}) {
-          
-          # get layer info obj
-          my $layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $t->layer_info_id})->single;
-          
-          # save layer id and name in hash and arrays
-          $tissues_in_stages{$t->layer_id} = $layer_info_rs->name;
-          push(@all_tissues_in_selected_stages,$layer_info_rs->name);
-          push(@selected_tissue_ids,$t->layer_id);
+      @stages = ();
+      @selected_stage_ids = ();
+      foreach my $st_id (@$stage_ids) {
+        if ($stage_in_organ{$st_id}) {
+          push(@stages,$stage_in_organ{$st_id});
+          push(@selected_stage_ids,$st_id);
+          $selected_stages{$st_id} = 1;
         }
       }
-      @all_tissues_in_selected_stages = uniq(@all_tissues_in_selected_stages);
+      # remove repeated names to avoid errors in cube
+      @stages = uniq(@stages);
+    } else {
+      # remove repeated names to avoid errors in cube
+      @stages = uniq(@all_stages_in_selected_organs);
+      %selected_stages = %stage_in_organ;
+    }
       
+    # Get Tissue info
+    
+    # get tissue layer type
+    my $tissue_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "tissue"})->single;
+    
+    # get all tissue layer obj
+    my $all_tissues_layer_rs = $schema->resultset('Layer')->search({layer_type_id => $tissue_layer_type_rs->layer_type_id},{order_by => 'ordinal'});
+    
+    # iterate by all tissues
+    while (my $t = $all_tissues_layer_rs->next) {
       
-      if ($tissue_filter) {
-        my $tissue_info_ids = $db_funct->get_ids_from_query($schema,"LayerInfo",\@tissues,"name","layer_info_id");
-        my $tissue_ids = $db_funct->get_ids_from_query($schema,"Layer",$tissue_info_ids,"layer_info_id","layer_id");
+      # get tissues for selected stages and project
+      if ($selected_stages{$t->parent_id} && $all_layer_ids_in_project{$t->layer_id}) {
         
-        @tissues = ();
-        @selected_tissue_ids = ();
-        foreach my $tis_id (@$tissue_ids) {
-          if ($tissues_in_stages{$tis_id}) {
-            push(@tissues,$tissues_in_stages{$tis_id});
-            push(@selected_tissue_ids,$tis_id);
-          }
-        }
-        @tissues = uniq(@tissues);
-      } else {
-        @tissues = @all_tissues_in_selected_stages;
+        # get layer info obj
+        my $layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $t->layer_info_id})->single;
+        
+        # save layer id and name in hash and arrays
+        $tissues_in_stages{$t->layer_id} = $layer_info_rs->name;
+        push(@all_tissues_in_selected_stages,$layer_info_rs->name);
+        push(@selected_tissue_ids,$t->layer_id);
       }
+    }
+    # remove repeated names to avoid errors in cube
+    @all_tissues_in_selected_stages = uniq(@all_tissues_in_selected_stages);
+    
+    # get selected tissue layer ids or all tissue layer ids
+    if ($tissue_filter) {
+      my $tissue_info_ids = $db_funct->get_ids_from_query($schema,"LayerInfo",\@tissues,"name","layer_info_id");
+      my $tissue_ids = $db_funct->get_ids_from_query($schema,"Layer",$tissue_info_ids,"layer_info_id","layer_id");
       
-      my $filtered_exp_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",\@selected_stage_ids,"layer_id","experiment_id");
+      my %tissue_filter_ids=map{$_=>1} @$tissue_ids;
       
-      ($stage_ids_arrayref,$stage_hashref,$tissue_hashref) = $db_funct->get_image_hash($schema,$filtered_exp_ids);
-      $stage_ids_arrayref = \@selected_stage_ids
+      @tissues = ();
+      my @selected_tissue_ids_sorted;
+      foreach my $tis_id (@selected_tissue_ids) {
+        if ($tissue_filter_ids{$tis_id}) {
+          push(@tissues,$tissues_in_stages{$tis_id});
+          push(@selected_tissue_ids_sorted,$tis_id);
+        }
+      }
+      @selected_tissue_ids = @selected_tissue_ids_sorted;
+      # remove repeated tissue names to avoid errors in cube
+      @tissues = uniq(@tissues);
+    } else {
+      @tissues = @all_tissues_in_selected_stages;
+    }
+    
+    #------------------------------------------------------------------ image hash
+    
+    my @selected_stage_and_tissue_ids = (@selected_stage_ids,@selected_tissue_ids);
+    
+    ($stage_ids_arrayref,$stage_hashref,$tissue_hashref) = $db_funct->get_image_hash($schema,\@selected_stage_and_tissue_ids);
   }
-  
-  
-  
-  
-  
-  
-  
-  # # only organism selected
-  # if (!$stage_filter && !$tissue_filter) {
-  #   my ($organ_arrayref,$stage_arrayref,$tissue_arrayref) = $db_funct->get_input_options($schema,$experiment_rs);
-  #
-  #   @stages = @$stage_arrayref;
-  #   @tissues = @$tissue_arrayref;
-  #   my @exp_ids;
-  #
-  #   while (my $exp_rs = $experiment_rs->next) {
-  #     push(@exp_ids,$exp_rs->experiment_id);
-  #   }
-  #
-  #   ($stage_ids_arrayref,$stage_hashref,$tissue_hashref) = $db_funct->get_image_hash($schema,$experiment_ids);
-  # }
-  #
-  # # if only stage is selected, get all tissues
-  # elsif ($stage_filter && !$tissue_filter) {
-  #
-  #   my $stage_info_ids = $db_funct->get_ids_from_query($schema,"LayerInfo",\@stages,"name","layer_info_id");
-  #   my $stage_ids = $db_funct->get_ids_from_query($schema,"Layer",$stage_info_ids,"layer_info_id","layer_id");
-  #   my $found_exp_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",$stage_ids,"layer_id","experiment_id");
-  #
-  #   my @exp_ids = intersect(@$experiment_ids, @$found_exp_ids);
-  #
-  #   ($stage_ids_arrayref,$stage_hashref,$tissue_hashref) = $db_funct->get_image_hash($schema,$experiment_ids);
-  #
-  #   my $layer_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",\@exp_ids,"experiment_id","layer_id");
-  #   my $tissue_info_ids = $db_funct->filter_layer_type($schema,$layer_ids,"tissue","layer_info_id");
-  #   my $tissue_names = $db_funct->get_ids_from_query($schema,"LayerInfo",$tissue_info_ids,"layer_info_id","name");
-  #
-  #   @tissues = @{$tissue_names};
-  # }
-  #
-  # # if only tissue is selected, get all stages
-  # elsif (!$stage_filter && $tissue_filter) {
-  #
-  #   my $tissue_info_ids = $db_funct->get_ids_from_query($schema,"LayerInfo",\@tissues,"name","layer_info_id");
-  #   my $tissue_ids = $db_funct->get_ids_from_query($schema,"Layer",$tissue_info_ids,"layer_info_id","layer_id");
-  #   my $exp_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",$tissue_ids,"layer_id","experiment_id");
-  #
-  #   my @intersected_layers = intersect(@$experiment_ids,@$exp_ids);
-  #
-  #   ($stage_ids_arrayref,$stage_hashref,$tissue_hashref) = $db_funct->get_image_hash($schema,$experiment_ids);
-  #
-  #   my $layer_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",\@intersected_layers,"experiment_id","layer_id");
-  #   my $stage_info_ids = $db_funct->filter_layer_type($schema,$layer_ids,"stage","layer_info_id");
-  #   my $stage_names = $db_funct->get_ids_from_query($schema,"LayerInfo",$stage_info_ids,"layer_info_id","name");
-  #
-  #   @stages = @{$stage_names};
-  # }
-  # elsif ($stage_filter && $tissue_filter) {
-  #   # stages and tissues selected
-  #
-  #   my $tissue_info_ids = $db_funct->get_ids_from_query($schema,"LayerInfo",\@tissues,"name","layer_info_id");
-  #   my $tissue_ids = $db_funct->get_ids_from_query($schema,"Layer",$tissue_info_ids,"layer_info_id","layer_id");
-  #   my $stage_info_ids = $db_funct->get_ids_from_query($schema,"LayerInfo",\@stages,"name","layer_info_id");
-  #   my $stage_ids = $db_funct->get_ids_from_query($schema,"Layer",$stage_info_ids,"layer_info_id","layer_id");
-  #
-  #   my @intersected_layers = (@$stage_ids,@$tissue_ids);
-  #
-  #   my $exp_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",\@intersected_layers,"layer_id","experiment_id");
-  #
-  #   ($stage_ids_arrayref,$stage_hashref,$tissue_hashref) = $db_funct->get_image_hash($schema,$experiment_ids);
-  #
-  #   my $stage_info_ids = $db_funct->filter_layer_type($schema,\@intersected_layers,"stage","layer_info_id");
-  #   my $stage_names = $db_funct->get_ids_from_query($schema,"LayerInfo",$stage_info_ids,"layer_info_id","name");
-  #   my $tissue_info_ids = $db_funct->filter_layer_type($schema,\@intersected_layers,"tissue","layer_info_id");
-  #   my $tissue_names = $db_funct->get_ids_from_query($schema,"LayerInfo",$tissue_info_ids,"layer_info_id","name");
-  #
-  #   @tissues = @{$tissue_names};
-  #   @stages = @{$stage_names};
-  #
-  # }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   
   
   for (@stages) {
@@ -515,7 +439,6 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   for (@tissues) {
      s/ /_/g;
   }
-
   
 	my $query_gene = "";
 	my @genes;
@@ -587,7 +510,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
     }
 	}
   
-#------------------------------------------------------------------------------------------------------------------
+  #------------------------------------------------------------------------------------------------------------------
 
 	#------------------------------------- Temporal Data
   # my @stages = ("10DPA", "Mature_Green", "Pink");
@@ -657,15 +580,10 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	}
 	
 	$corr_filter = $c->req->param("correlation_filter")||0.65;
-  # $organism_filter = $c->req->param("organism_filter");
-  # $stage_filter = $c->req->param("stage_filter");
-  # $tissue_filter = $c->req->param("tissue_filter");
 	my @output_gene = $c->req->param("input_gene");
-  
   
   # print STDERR "total_corr_genes: $total_corr_genes\n";
   
-	
 	$c->stash->{genes} = \@genes;
 	$c->stash->{stages} = \@stages;
 	$c->stash->{tissues} = \@tissues;
@@ -731,10 +649,6 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
   my $corr_index_path = $corr_path."/".$index_dir_name;
   my $expr_index_path = $expr_path."/".$index_dir_name;
   
-
-
-
-
 
   my $query_gene;
 	my @genes;
@@ -820,66 +734,6 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
     @corr_values = @$corr_values;
 	}
   
-  #   if (!$multiple_genes) {
-  #
-  #     # get correlation filter value (it is 100 higher when it comes from the input slider)
-  #     if ($corr_filter > 1) {
-  #       $corr_filter = $corr_filter/100;
-  #     }
-  #
-  #     #------------------------------------- Get Correlation Data
-  #     # my @genes;
-  #     $corr_values{$query_gene} = 1;
-  #
-  #     my $lucy_corr = Lucy::Simple->new(
-  #         path     => $corr_index_path,
-  #         language => 'en',
-  #     );
-  #
-  #     my $sort_spec = Lucy::Search::SortSpec->new(
-  #          rules => [
-  #          Lucy::Search::SortRule->new( field => 'correlation', reverse => 1,),
-  #          Lucy::Search::SortRule->new( field => 'gene2', reverse => 0,),
-  #          Lucy::Search::SortRule->new( field => 'gene1',),
-  #          ],
-  #     );
-  #
-  #     my $hits = $lucy_corr->search(
-  #       query      => $query_gene,
-  #       sort_spec  => $sort_spec,
-  #       num_wanted => 10000,
-  #     );
-  #
-  #     #------------------------------------- Get data after correlation filter
-  #     if ($corr_filter > 0.65) {
-  #       my $range_query = Lucy::Search::RangeQuery->new(
-  #           field         => 'correlation',
-  #           lower_term    => $corr_filter,
-  #       );
-  #       my $searcher = Lucy::Search::IndexSearcher->new(
-  #           index => $corr_index_path,
-  #       );
-  #       my $qparser  = Lucy::Search::QueryParser->new(
-  #           schema => $searcher->get_schema,
-  #       );
-  #       my $term_query = $qparser->parse($query_gene);
-  #
-  #         my $and_query = Lucy::Search::ANDQuery->new(
-  #             children => [ $range_query, $term_query],
-  #         );
-  #     }
-  #
-  #     #------------------------------------- save data for filtered genes
-  #     while ( my $hit = $lucy_corr->next ) {
-  #       if ($query_gene eq $hit->{gene1} && $hit->{correlation} >= $corr_filter) {
-  #         push(@genes, $hit->{gene2});
-  #         $corr_values{$hit->{gene2}} = $hit->{correlation};
-  #       } elsif ($query_gene eq $hit->{gene2} && $hit->{correlation} >= $corr_filter) {
-  #         push(@genes, $hit->{gene1});
-  #         $corr_values{$hit->{gene1}} = $hit->{correlation};
-  #       }
-  #     }
-  # } # end of !multiple genes
   
 	#------------------------------------- Temporal Data
 	unshift(@genes, $query_gene);

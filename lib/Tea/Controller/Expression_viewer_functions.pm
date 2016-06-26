@@ -287,7 +287,7 @@ Returns: arraryref of stage ids sorted by ordinal, stage images hash and tissue 
 sub get_image_hash {
   my $self = shift;
   my $schema = shift;
-  my $experiment_ids = shift;
+  my $layer_ids = shift;
   
   my %stage_hash;
   my %stage_ordinal_id;
@@ -297,42 +297,40 @@ sub get_image_hash {
   my $stage_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "stage"})->single;
   my $tissue_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "tissue"})->single;
   
-  my $exp_layer_rs = $schema->resultset('ExperimentLayer')->search({experiment_id => $experiment_ids});
+  my $layer_rs = $schema->resultset('Layer')->search({layer_id => $layer_ids});
+  # my $layer_rs = $schema->resultset('Layer')->search({layer_id => $layer_ids}, {order_by => 'ordinal'});
     
-  # print STDERR Dumper($experiment_ids);
   
-  # iterate each one of the experiment layers table
-  while (my $exp_layer = $exp_layer_rs->next) {
-    
-    # get one layer
-    my $layer_rs = $schema->resultset('Layer')->search({layer_id => $exp_layer->layer_id})->single;
+  # iterate each one of the layers
+  while (my $one_layer = $layer_rs->next) {
     
     # if layer is a stage
-    if ($layer_rs->layer_type_id == $stage_layer_type_rs->layer_type_id) {
-      my $layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $layer_rs->layer_info_id})->single;
+    if ($one_layer->layer_type_id == $stage_layer_type_rs->layer_type_id) {
+      
+      my $layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $one_layer->layer_info_id})->single;
       my $stage_name = $layer_info_rs->name;
       $stage_name =~ s/ /_/g;
       
-      $stage_ordinal_id{$layer_rs->layer_id} = $layer_rs->ordinal;
+      $stage_ordinal_id{$one_layer->layer_id} = $one_layer->ordinal;
       
-      $stage_hash{$layer_rs->layer_id}{"image_name"} = $layer_rs->image_file_name;
-      $stage_hash{$layer_rs->layer_id}{"image_width"} = $layer_rs->image_width;
-      $stage_hash{$layer_rs->layer_id}{"image_height"} = $layer_rs->image_height;
-      $stage_hash{$layer_rs->layer_id}{"stage_name"} = $stage_name;
+      $stage_hash{$one_layer->layer_id}{"image_name"} = $one_layer->image_file_name;
+      $stage_hash{$one_layer->layer_id}{"image_width"} = $one_layer->image_width;
+      $stage_hash{$one_layer->layer_id}{"image_height"} = $one_layer->image_height;
+      $stage_hash{$one_layer->layer_id}{"stage_name"} = $stage_name;
     }
 
     # if layer is a tissue
-    if ($layer_rs->layer_type_id == $tissue_layer_type_rs->layer_type_id) {
-  
-      my $layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $layer_rs->layer_info_id})->single;
-      my $parent_layer_rs = $schema->resultset('Layer')->search({layer_id => $layer_rs->parent_id})->single;
+    if ($one_layer->layer_type_id == $tissue_layer_type_rs->layer_type_id) {
+      
+      my $layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $one_layer->layer_info_id})->single;
+      my $parent_layer_rs = $schema->resultset('Layer')->search({layer_id => $one_layer->parent_id})->single;
       my $parent_layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $parent_layer_rs->layer_info_id})->single;
       my $tissue_name = $layer_info_rs->name;
       $tissue_name =~ s/ /_/g;
-    
-      push(@{$tissue_hash{$parent_layer_rs->layer_id}{"image_name"}}, $layer_rs->image_file_name);
-      push(@{$tissue_hash{$parent_layer_rs->layer_id}{"image_width"}}, $layer_rs->image_width);
-      push(@{$tissue_hash{$parent_layer_rs->layer_id}{"image_height"}}, $layer_rs->image_height);
+      
+      push(@{$tissue_hash{$parent_layer_rs->layer_id}{"image_name"}}, $one_layer->image_file_name);
+      push(@{$tissue_hash{$parent_layer_rs->layer_id}{"image_width"}}, $one_layer->image_width);
+      push(@{$tissue_hash{$parent_layer_rs->layer_id}{"image_height"}}, $one_layer->image_height);
       push(@{$tissue_hash{$parent_layer_rs->layer_id}{"tissue_name"}}, $tissue_name);
     }
   
@@ -342,9 +340,6 @@ sub get_image_hash {
   foreach my $id (sort {$stage_ordinal_id{$a} <=> $stage_ordinal_id{$b} } keys %stage_ordinal_id) {
     push(@stage_ids,$id);
   }
-  
-  print "get_image_hash stages_id:\n";
-  print STDERR Dumper(@stage_ids);
   
   return (\@stage_ids,\%stage_hash,\%tissue_hash);
 }

@@ -280,6 +280,8 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   my $this_project_all_layer_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",$experiment_ids,"experiment_id","layer_id");
   my %all_layer_ids_in_project=map{$_=>1} @$this_project_all_layer_ids;
   
+  
+  
   # no filters selected
   if (!$organ_filter && !$stage_filter && !$tissue_filter) {
       my ($organ_arrayref,$stage_arrayref,$tissue_arrayref) = $db_funct->get_input_options($schema,$experiment_rs);
@@ -329,7 +331,9 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
       @organs_in_project_ids = intersect(@$this_project_all_layer_ids,@$organ_ids);
       %organs_in_project=map{$_=>1} @organs_in_project_ids;
     }
-      
+    
+    
+    
     # Get Stage info
     
     # get stage layer type
@@ -376,7 +380,9 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
       @stages = uniq(@all_stages_in_selected_organs);
       %selected_stages = %stage_in_organ;
     }
-      
+    
+    
+    
     # Get Tissue info
     
     # get tissue layer type

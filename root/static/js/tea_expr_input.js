@@ -15,15 +15,14 @@ $(document).ready(function () {
   $('#blast_input_box').click(function () {
     $('#blast_input_dialog').modal();
   });
-	
-
+  
+  //first project selected by default
   $(".organism_col").first().attr("checked", "checked");
   var idSelector = function() { return this.value; };
   var organism_list = jQuery(".organism_col:checked").map(idSelector).get();
   load_wizard(organism_list,null,null,null);
   
   
-  // jQuery('.organism_col').change(function() {
   jQuery('#organism_col').click(function() {
     
     // AJAX communication to get stage, tissue ...
@@ -33,22 +32,27 @@ $(document).ready(function () {
     load_wizard(organism_list,null,null,null);
   });
   
+  // jQuery('.wizard_select').change(function() {
+  //     // AJAX communication to get stage, tissue ...
+  //     var idSelector = function() { return this.value; };
+  //     var organism_list = jQuery(".organism_col:checked").map(idSelector).get();
+  //
+  //     var organ_list = jQuery( '#organ_part_col' ).val();
+  //     var stage_list = jQuery( '#stage_col' ).val();
+  //     var tissue_list = jQuery( '#tissue_col' ).val();
+  //
+  //     load_wizard(organism_list,organ_list,stage_list,tissue_list);
+  //   });
+  
   jQuery('.wizard_select').change(function() {
     // AJAX communication to get stage, tissue ...
     var idSelector = function() { return this.value; };
     var organism_list = jQuery(".organism_col:checked").map(idSelector).get();
-    
-    // var organism_list = jQuery( "input:checked" ).val();
-    // alert("organism_list: "+organism_list);
-    // var organ_list = jQuery( '#organ_col' ).val();
-    var organ_list = jQuery( '#organ_part_col' ).val();
-    var stage_list = jQuery( '#stage_col' ).val();
-    var tissue_list = jQuery( '#tissue_col' ).val();
-    // var tissue_list = jQuery( '#tissue_col' ).children(":selected").attr("id");
-    
-    // alert("tissue_list: "+tissue_list);
-    
-    load_wizard(organism_list,organ_list,stage_list,tissue_list);
+
+    $( '.organism_filter' ).val(organism_list);
+    $( '.organ_filter' ).val( $( '#organ_part_col' ).val());
+    $( '.stage_filter' ).val( $( '#stage_col' ).val());
+    $( '.tissue_filter' ).val( $( '#tissue_col' ).val());
   });
   
   
@@ -58,7 +62,7 @@ $(document).ready(function () {
       url: '/Expression_viewer/get_stages/',
       timeout: 600000,
       method: 'POST',
-      data: { 'organisms': organism_list, 'organs': organ_list, 'stages': stage_list, 'tissues': tissue_list},
+      data: { 'project_id': organism_list[0], 'organs': organ_list, 'stages': stage_list, 'tissues': tissue_list},
       success: function(response) {
         if (response.error) {
           alert("ERROR: "+response.error);
@@ -160,7 +164,7 @@ $(document).ready(function () {
     var stage_list = jQuery( '#stage_col' ).val();
     var tissue_list = jQuery( '#tissue_col' ).val();
     
-    load_wizard(organism_list,organ_list,stage_list,tissue_list);
+    // load_wizard(organism_list,organ_list,stage_list,tissue_list);
   });  
 
   $('.select_none').click(function(event) {
@@ -174,7 +178,7 @@ $(document).ready(function () {
     var stage_list = jQuery( '#stage_col' ).val();
     var tissue_list = jQuery( '#tissue_col' ).val();
     
-    load_wizard(organism_list,organ_list,stage_list,tissue_list);
+    // load_wizard(organism_list,organ_list,stage_list,tissue_list);
   });  
   
   

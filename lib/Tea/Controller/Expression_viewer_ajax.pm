@@ -60,11 +60,13 @@ sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
 
   # get variables from catalyst object
   my $project_id = $c->req->param("project_id");
-
+  
+  # get organ, stage and tissue names
   my @organ_names = $c->req->param("organs[]");
   my @stage_names = $c->req->param("stages[]");
   my @tissue_names = $c->req->param("tissues[]");
   
+  #connect to database
   my $dbname = $c->config->{dbname};
   my $host = $c->config->{dbhost};
   my $username = $c->config->{dbuser};
@@ -72,38 +74,45 @@ sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
 
   my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
   
-  my $organ_options_arrayref;
-  my $stage_options_arrayref;
-  my $tissue_options_arrayref;
+  # variables to save the HTML formatted output
+  # my $organ_options_arrayref;
+  # my $stage_options_arrayref;
+  # my $tissue_options_arrayref;
   
   my $db_funct = Tea::Controller::Expression_viewer_functions->new();
   
   # getting all the experiments from the project
   # my $project_rs = $schema->resultset('Project')->search({project_id => $project_id})->single;
   my $all_experiment_rs = $schema->resultset('Experiment')->search({project_id => $project_id});
+  my ($organ_arrayref,$stage_arrayref,$tissue_arrayref);
   
   if ($organ_names[0] || $stage_names[0] || $tissue_names[0]) {
-    
+ 
     my $filtered_exp_rs = $db_funct->get_layer_options($schema,$all_experiment_rs,\@organ_names,\@stage_names,\@tissue_names);
 
     # get all the layers from the experiment
-    my ($organ_arrayref,$stage_arrayref,$tissue_arrayref) = $db_funct->get_input_options($schema,$filtered_exp_rs);
+    ($organ_arrayref,$stage_arrayref,$tissue_arrayref) = $db_funct->get_input_options($schema,$filtered_exp_rs);
     
-    # format layers to select options
-    $organ_options_arrayref = $db_funct->names_array_to_option($organ_arrayref);
-    $stage_options_arrayref = $db_funct->names_array_to_option($stage_arrayref);
-    $tissue_options_arrayref = $db_funct->names_array_to_option($tissue_arrayref);
+    # # format layers to select options
+    # $organ_options_arrayref = $db_funct->names_array_to_option($organ_arrayref);
+    # $stage_options_arrayref = $db_funct->names_array_to_option($stage_arrayref);
+    # $tissue_options_arrayref = $db_funct->names_array_to_option($tissue_arrayref);
     
   }
   else {
     # only project selected
-    my ($organ_hashref,$stage_hashref,$tissue_hashref) = $db_funct->get_input_options($schema,$all_experiment_rs);
+    ($organ_arrayref,$stage_arrayref,$tissue_arrayref) = $db_funct->get_input_options($schema,$all_experiment_rs);
     
     # format layers to select options
-    $organ_options_arrayref = $db_funct->names_array_to_option($organ_hashref);
-    $stage_options_arrayref = $db_funct->names_array_to_option($stage_hashref);
-    $tissue_options_arrayref = $db_funct->names_array_to_option($tissue_hashref);
+    # $organ_options_arrayref = $db_funct->names_array_to_option($organ_hashref);
+    # $stage_options_arrayref = $db_funct->names_array_to_option($stage_hashref);
+    # $tissue_options_arrayref = $db_funct->names_array_to_option($tissue_hashref);
   }
+  
+  # format layers to select options
+  my $organ_options_arrayref = $db_funct->names_array_to_option($organ_arrayref);
+  my $stage_options_arrayref = $db_funct->names_array_to_option($stage_arrayref);
+  my $tissue_options_arrayref = $db_funct->names_array_to_option($tissue_arrayref);
   
   my $organ_options = join("\n", @$organ_options_arrayref);
   my $stage_options = join("\n", "@$stage_options_arrayref");

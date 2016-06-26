@@ -55,8 +55,7 @@ sub get_ids_from_query {
 
 =head2 get_layer_options
 
-get all organ, stage and tissue names from input page, get their experiment and layer ids
-check all the parents and return selected feature together with their parents
+get all organ, stage and tissue names from input page, and return the experiments available only for the selected items
 
 ARGS: schema, all_experiments_rs, organims_selected, stages_selected, tissues_selected
 Returns: selected_experiments_rs

@@ -58,7 +58,7 @@ my $json = JSON::Any->new;
     
     <div class="col-sm-6 col-md-6 col-lg-6">
       <div style="text-align: center; width=100%">Projects</div>
-      <div id="expr_params" class="panel panel-primary">
+      <div id="expr_params" class="panel panel-primary" style="overflow: scroll;">
         <!-- <div class="panel-heading">Genotypes</div> -->
         
         <div class="panel-body">

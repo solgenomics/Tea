@@ -27,7 +27,8 @@ layer_type: organ
 layer_image: slm82_fruit.png
 image_width: 250
 image_height: 500
-ordinal: 10
+cube_ordinal: 10
+img_ordinal: 10
 # layer - end
 
 #layer
@@ -37,7 +38,8 @@ layer_type:stage
 layer_image: slm82_fruit_5dpa-equatorial_bg.png
 image_width: 250
 image_height: 500
-ordinal: 100
+cube_ordinal: 100
+img_ordinal: 100
 # layer - end
 
 #layer
@@ -47,7 +49,8 @@ layer_type:tissue
 layer_image: slm82_fruit_5dpa-equatorial_pericarp.png
 image_width: 250
 image_height: 500
-ordinal: 1000
+cube_ordinal: 1000
+img_ordinal: 1000
 # layer - end
 
 #layer
@@ -57,7 +60,8 @@ layer_type:tissue
 layer_image: slm82_fruit_5dpa-equatorial_septum.png
 image_width: 250
 image_height: 500
-ordinal: 1010
+cube_ordinal: 1010
+img_ordinal: 1010
 # layer - end
 
 # experiment - end
@@ -75,7 +79,8 @@ layer_type: organ
 layer_image: slm82_fruit.png
 image_width: 250
 image_height: 500
-ordinal: 10
+cube_ordinal: 10
+img_ordinal: 10
 # layer - end
 
 #layer
@@ -85,7 +90,8 @@ layer_type:stage
 layer_image: slm82_fruit_breaker-stem_bg.png
 image_width: 250
 image_height: 500
-ordinal: 110
+cube_ordinal: 110
+img_ordinal: 110
 # layer - end
 
 #layer
@@ -95,7 +101,8 @@ layer_type:tissue
 layer_image: slm82_fruit_breaker-stem_pericarp.png
 image_width: 250
 image_height: 500
-ordinal: 1000
+cube_ordinal: 1000
+img_ordinal: 1000
 # layer - end
 
 #layer
@@ -105,7 +112,8 @@ layer_type:tissue
 layer_image: slm82_fruit_breaker-stem_septum.png
 image_width: 250
 image_height: 500
-ordinal: 1010
+cube_ordinal: 1010
+img_ordinal: 1010
 # layer - end
 
 

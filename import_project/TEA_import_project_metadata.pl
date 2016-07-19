@@ -101,9 +101,9 @@ my $path_to_img = $opt_i;
 my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
 
 my ($organism_species,$organism_variety,$organism_id,$organism_description);
-my ($project_id,$project_name,$project_contact,$project_description,$indexed_dir);
+my ($project_id,$project_name,$project_contact,$project_description,$indexed_dir,$expr_unit);
 my ($experiment_name,$experiment_description,$experiment_id);
-my ($layer_name,$layer_description,$layer_type,$layer_image,$img_width,$img_height,$ordinal,$parent_id);
+my ($layer_name,$layer_description,$layer_type,$layer_image,$img_width,$img_height,$cube_ordinal,$img_ordinal,$parent_id);
 
 
 open (my $info_fh, "<", $input_file) or die("Input file not found");
@@ -177,6 +177,9 @@ try {
       if ($line =~ /^project_description:\s*(.+)\s*$/) {
           $project_description = $1;
       }
+      if ($line =~ /^expr_unit:\s*(.+)\s*$/) {
+          $expr_unit = $1;
+      }
       if ($line =~ /^index_dir_name:\s*(.+)\s*$/) {
           $indexed_dir = $1;
       }
@@ -186,6 +189,7 @@ try {
               name => $project_name,
               contact => $project_contact,
               description => $project_description,
+              expr_unit => $expr_unit,
               organism_id => $organism_id,
               indexed_dir => $indexed_dir,
           });
@@ -216,7 +220,8 @@ try {
           $layer_image = "";
           $img_width = 0;
           $img_height = 0;
-          $ordinal = 0;
+          $cube_ordinal = 0;
+          $img_ordinal = 0;
           $parent_id = 0;
       }
       
@@ -273,8 +278,11 @@ try {
       if ($line =~ /^image_height*:\s*(\d+)\s*$/) {
           $img_height = $1;
       }
-      if ($line =~ /^ordinal*:\s*(\d+)\s*$/) {
-          $ordinal = $1;
+      if ($line =~ /^cube_ordinal*:\s*(\d+)\s*$/) {
+          $cube_ordinal = $1;
+      }
+      if ($line =~ /^img_ordinal*:\s*(\d+)\s*$/) {
+          $img_ordinal = $1;
       }
       if ($line =~ /^\#\s*layer\s*-\s*end/) {
           
@@ -331,7 +339,8 @@ try {
             parent_id => $parent_id,
             image_width => $img_width,
             image_height => $img_height,
-            ordinal => $ordinal,
+            cube_ordinal => $cube_ordinal,
+            img_ordinal => $img_ordinal,
         });
         
         my $layer_all_rs = $schema->resultset('Layer');
@@ -349,7 +358,8 @@ try {
                 parent_id => $parent_id,
                 image_width => $img_width,
                 image_height => $img_height,
-                ordinal => $ordinal,
+                cube_ordinal => $cube_ordinal,
+                img_ordinal => $img_ordinal,
             });
             check_commit($layer_rs,$layer_all_rs,$layer_type);
         }

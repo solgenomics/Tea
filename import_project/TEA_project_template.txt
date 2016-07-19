@@ -27,7 +27,8 @@ layer_type:
 layer_image: 
 image_width: 
 image_height: 
-ordinal: 
+cube_ordinal: 
+img_ordinal: 
 # layer - end
 
 #layer
@@ -37,7 +38,8 @@ layer_type:
 layer_image: 
 image_width: 
 image_height: 
-ordinal: 
+cube_ordinal: 
+img_ordinal: 
 # layer - end
 
 
@@ -56,7 +58,8 @@ layer_type:
 layer_image: 
 image_width: 
 image_height: 
-ordinal: 
+cube_ordinal: 
+img_ordinal: 
 # layer - end
 
 #layer
@@ -66,7 +69,8 @@ layer_type:
 layer_image: 
 image_width: 
 image_height: 
-ordinal: 
+cube_ordinal: 
+img_ordinal: 
 # layer - end
 
 # experiment - end

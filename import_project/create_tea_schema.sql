@@ -11,6 +11,7 @@ CREATE TABLE project (
     contact varchar(80),
     description text,
     indexed_dir varchar(80),
+    expr_unit varchar(80),
     organism_id bigserial references organism(organism_id) NOT NULL
 );
 
@@ -24,6 +25,7 @@ CREATE TABLE experiment (
 CREATE TABLE layer_info (
     layer_info_id bigserial PRIMARY KEY,
     name varchar(80),
+    bg_color varchar(80),
     description text
 );
 
@@ -40,7 +42,8 @@ CREATE TABLE layer (
     parent_id bigserial REFERENCES layer(layer_id),
     image_width integer,
     image_height integer,
-    ordinal integer
+    cube_ordinal integer,
+    img_ordinal integer
 );
 
 CREATE TABLE experiment_layer (

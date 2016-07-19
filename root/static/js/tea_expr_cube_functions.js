@@ -541,7 +541,7 @@
 	}
 
 
-	function add_color_grad_legend(tmp_layer,stage) {
+	function add_color_grad_legend(tmp_layer,stage,expr_unit) {
 	
 		var color = ['rgb(80,0,0)','rgb(255,0,0)','rgb(255,130,0)','rgb(255,195,125)','rgb(255,233,199)','rgb(255,255,120)','rgb(255,255,230)'];
 	  var x_pos = 20; // margin from right
@@ -573,7 +573,7 @@
 		var top_text = new Kinetic.Text({
 			x: x_pos+2,
       y: y_pos,
-			text: "RPKM",
+			text: expr_unit,
 			fontSize: 14,
 			fontFamily: 'Helvetica',
 			fill: "black",
@@ -676,7 +676,7 @@
     });
     var legend_layer = new Kinetic.Layer();
     
-		add_color_grad_legend(legend_layer,legend_canvas)
+		add_color_grad_legend(legend_layer,legend_canvas,expr_unit)
 	}
 
 

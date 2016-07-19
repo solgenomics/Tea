@@ -103,7 +103,7 @@ my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$usernam
 my ($organism_species,$organism_variety,$organism_id,$organism_description);
 my ($project_id,$project_name,$project_contact,$project_description,$indexed_dir,$expr_unit);
 my ($experiment_name,$experiment_description,$experiment_id);
-my ($layer_name,$layer_description,$layer_type,$layer_image,$img_width,$img_height,$cube_ordinal,$img_ordinal,$parent_id);
+my ($layer_name,$layer_description,$bg_color,$layer_type,$layer_image,$img_width,$img_height,$cube_ordinal,$img_ordinal,$parent_id);
 
 
 open (my $info_fh, "<", $input_file) or die("Input file not found");
@@ -216,6 +216,7 @@ try {
           $experiment_id = 0;
           $layer_name = "";
           $layer_description = "";
+          $bg_color = "";
           $layer_type = "";
           $layer_image = "";
           $img_width = 0;
@@ -266,6 +267,9 @@ try {
       if ($line =~ /^layer_description:\s*(.+)\s*$/) {
           $layer_description = $1;
       }
+      if ($line =~ /^bg_color:\s*(.+)\s*$/) {
+          $bg_color = $1;
+      }
       if ($line =~ /^layer_type:\s*(.+)\s*$/) {
           $layer_type = $1;
       }
@@ -313,6 +317,7 @@ try {
         my $layer_info_rs = $schema->resultset('LayerInfo')->find_or_new({
             name => $layer_name,
             description => $layer_description,
+            bg_color => $bg_color,
         });
         
         if ($layer_info_rs->in_storage) {
@@ -323,6 +328,7 @@ try {
           $layer_info_rs = $schema->resultset('LayerInfo')->new({
               name => $layer_name,
               description => $layer_description,
+              bg_color => $bg_color,
           });
           check_commit($layer_info_rs,$layer_info_all_rs,$layer_type);
         }

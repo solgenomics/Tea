@@ -316,6 +316,7 @@ sub get_image_hash {
       $stage_hash{$one_layer->layer_id}{"image_width"} = $one_layer->image_width;
       $stage_hash{$one_layer->layer_id}{"image_height"} = $one_layer->image_height;
       $stage_hash{$one_layer->layer_id}{"stage_name"} = $stage_name;
+      $stage_hash{$one_layer->layer_id}{"bg_color"} = $layer_info_rs->bg_color;
     }
 
     # if layer is a tissue
@@ -331,6 +332,8 @@ sub get_image_hash {
       push(@{$tissue_hash{$parent_layer_rs->layer_id}{"image_width"}}, $one_layer->image_width);
       push(@{$tissue_hash{$parent_layer_rs->layer_id}{"image_height"}}, $one_layer->image_height);
       push(@{$tissue_hash{$parent_layer_rs->layer_id}{"tissue_name"}}, $tissue_name);
+      $tissue_hash{$parent_layer_rs->layer_id}{"bg_color"}{$tissue_name} = $layer_info_rs->bg_color;
+      print STDERR "$tissue_name: ".$layer_info_rs->bg_color."\n";
     }
   
   }

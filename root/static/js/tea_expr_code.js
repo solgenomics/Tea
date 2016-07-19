@@ -126,7 +126,7 @@ $(document).ready(function () {
   }
   
   
-  function setup_cube(canvas_h,canvas_w,cube_x_margin,gene_a,stage_a,tissue_a,AoAoA,locus_id,gene_desc,c_page,pages_number,expr_unit) {
+  function setup_cube(canvas_h,canvas_w,cube_x_margin,gene_a,stage_a,tissue_a,AoAoA,locus_id,gene_desc,c_page,pages_number,expr_unit,bg_color_hash) {
     
     var frame_height = $('#container').css("height");
     var container_height = frame_height.replace("px","");
@@ -158,7 +158,7 @@ $(document).ready(function () {
   	var top_x_start = cube_x_margin + (tissue_a.length*15);
 	
 	
-  	draw_cube(gene_a,stage_a,tissue_a,AoAoA,cube_layer,canvas,top_x_start,y_margin,locus_id,gene_desc,c_page,pages_number,canvas_w,expr_unit);
+  	draw_cube(gene_a,stage_a,tissue_a,AoAoA,cube_layer,canvas,top_x_start,y_margin,locus_id,gene_desc,c_page,pages_number,canvas_w,expr_unit,bg_color_hash);
     
   }
   
@@ -336,8 +336,34 @@ $(document).ready(function () {
   var x_margin = canvas_width -50 - stages.length*20 - tissues.length*15;
   // var x_margin = canvas_width -100 - stages.length*20 - tissues.length*15;
 
+
+  var bg_color_hash = new Object();
+
+  for (var n = 0; n < stage_ids_array.length; n++) {
+    
+    if (stage_hash[stage_ids_array[n]]["bg_color"]) {
+      var stage_name = [stage_ids_array[n]]["stage_name"];
+      bg_color_hash[stage_name] = stage_hash[stage_ids_array[n]]["bg_color"];
+    }
+    
+    for (var i = 0; i<tissue_hash[stage_ids_array[n]]["tissue_name"].length; i++) {
+      var tissue_name = tissue_hash[stage_ids_array[n]]["tissue_name"][i];
+      var tissue_color = tissue_hash[stage_ids_array[n]]["bg_color"][tissue_name];
+      // alert ("tissue_name: "+tissue_name+", tissue_color: "+tissue_color);
+      
+      if (tissue_color) {
+        bg_color_hash[tissue_name] = tissue_color;
+        // alert ("t2 color: "+bg_color_hash[tissue_name]);
+      }
+    }
+  }
+
+
+
+
+
   //print cube
-  setup_cube(canvas_height,canvas_width,x_margin,genes,stages,tissues,aoaoa,gene_locus_id,gene_descriptions,current_page,pages_num,expression_unit);
+  setup_cube(canvas_height,canvas_width,x_margin,genes,stages,tissues,aoaoa,gene_locus_id,gene_descriptions,current_page,pages_num,expression_unit,bg_color_hash);
 
 
   //print Expression images

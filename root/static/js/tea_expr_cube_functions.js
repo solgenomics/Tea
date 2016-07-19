@@ -500,14 +500,32 @@
 	}
 
 
-	function add_tissue_names(x_margin,y_margin,tissue_name,x_margin2,tmp_cube_layer,canvas_tmp) {
+	function add_tissue_names(x_margin,y_margin,tissue_name,x_margin2,tmp_cube_layer,canvas_tmp,bg_color_hash) {
 		
+    var bg_color = bg_color_hash[tissue_name];
 		tissue_name = tissue_name.replace(/_/g, " "); //replace underscores in stage names by spaces
-		
+    
+    if (tissue_name) {
+      if (bg_color) {
+        var text_bg_color = new Kinetic.Rect({
+          x: x_margin-55,
+          y: y_margin-52,
+          width: 180,
+          height: 20,
+          fill: bg_color,
+          rotation: 35
+        });
+      
+    		tmp_cube_layer.add(text_bg_color);
+      }
+    }
+    
 		//Tissue names for the cube
 		var tissue_text = new Kinetic.Text({
-			x: x_margin-65,
-			y: y_margin-37,
+      x: x_margin-55,
+      y: y_margin-52,
+      // x: x_margin-65,
+      // y: y_margin-37,
 			text: tissue_name,
 			width: 180,
 			align: 'right',
@@ -515,7 +533,7 @@
 			fontFamily: 'Helvetica',
 			// fontFamily: 'CondensedLight',
 			fill: 'black',
-			rotation: 30
+			rotation: 35
 		});
 	
 		tmp_cube_layer.add(tissue_text);
@@ -631,7 +649,7 @@
 	}
 
 
-	function draw_cube(genes,stages,tissues,expr_val,tmp_layer,tmp_canvas,top_x_start,y_margin,gene_ids,gene_descriptions,current_page,pages_num,page_width,expr_unit) {
+	function draw_cube(genes,stages,tissues,expr_val,tmp_layer,tmp_canvas,top_x_start,y_margin,gene_ids,gene_descriptions,current_page,pages_num,page_width,expr_unit,bg_color_hash) {
 		tmp_layer.removeChildren();
 		var color_code = $('#color_code').val();
 		var genes_num = genes.length;
@@ -646,7 +664,7 @@
 			var x = top_x_start -75 - i*10;
 			var y = y_margin -18 + i*15;
 			var x2 = top_x_start -650 + i*180;
-			add_tissue_names(x,y,tissues[i],x2,tmp_layer,tmp_canvas);
+			add_tissue_names(x,y,tissues[i],x2,tmp_layer,tmp_canvas,bg_color_hash);
       // add_stage_names(x,y,stages[i],x2,tmp_layer,tmp_canvas);
 		}
 		

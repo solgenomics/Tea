@@ -156,11 +156,11 @@ sub get_input_options {
       }
       if ($layer_rs->layer_type_id == $stage_layer_type_rs->layer_type_id){
         # $stages{$layer_info_rs->name} = 1;
-        $stages{$layer_info_rs->name} = $layer_rs->ordinal
+        $stages{$layer_info_rs->name} = $layer_rs->cube_ordinal
       }
       if ($layer_rs->layer_type_id == $tissue_layer_type_rs->layer_type_id){
         # $tissues{$layer_info_rs->name} = 1;
-        $tissues{$layer_info_rs->name} = $layer_rs->ordinal
+        $tissues{$layer_info_rs->name} = $layer_rs->cube_ordinal
       }
     }
   }
@@ -297,7 +297,7 @@ sub get_image_hash {
   my $tissue_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "tissue"})->single;
   
   my $layer_rs = $schema->resultset('Layer')->search({layer_id => $layer_ids});
-  # my $layer_rs = $schema->resultset('Layer')->search({layer_id => $layer_ids}, {order_by => 'ordinal'});
+  # my $layer_rs = $schema->resultset('Layer')->search({layer_id => $layer_ids}, {order_by => 'img_ordinal'});
     
   
   # iterate each one of the layers
@@ -310,7 +310,7 @@ sub get_image_hash {
       my $stage_name = $layer_info_rs->name;
       $stage_name =~ s/ /_/g;
       
-      $stage_ordinal_id{$one_layer->layer_id} = $one_layer->ordinal;
+      $stage_ordinal_id{$one_layer->layer_id} = $one_layer->img_ordinal;
       
       $stage_hash{$one_layer->layer_id}{"image_name"} = $one_layer->image_file_name;
       $stage_hash{$one_layer->layer_id}{"image_width"} = $one_layer->image_width;

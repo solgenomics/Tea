@@ -49,11 +49,11 @@ sub index :Path('/project_page/') :Args(0) {
     my $stage_ids = _filter_layer_type($schema,$project_layer_ids,"stage","layer_id");
     my $tissue_ids = _filter_layer_type($schema,$project_layer_ids,"tissue","layer_id");
     
-    my ($organ_names,$organ_descriptions,$organ_images,$organ_ordinal) = _get_layer_info($schema,$organ_ids);
-    my ($stage_names,$stage_descriptions,$stage_images,$stage_ordinal) = _get_layer_info($schema,$stage_ids);
-    my ($tissue_names,$tissue_descriptions,$tissue_images,$tissue_ordinal) = _get_layer_info($schema,$tissue_ids);
+    my ($organ_names,$organ_descriptions,$organ_images,$organ_cube_ordinal,$organ_img_ordinal) = _get_layer_info($schema,$organ_ids);
+    my ($stage_names,$stage_descriptions,$stage_images,$stage_cube_ordinal,$stage_img_ordinal) = _get_layer_info($schema,$stage_ids);
+    my ($tissue_names,$tissue_descriptions,$tissue_images,$tissue_cube_ordinal,$tissue_img_ordinal) = _get_layer_info($schema,$tissue_ids);
     
-    my $html_descriptions = _get_html_descriptions($organ_names,$organ_descriptions,$stage_names,$stage_descriptions,$tissue_names,$tissue_descriptions,$organ_ordinal,$stage_ordinal,$tissue_ordinal);
+    my $html_descriptions = _get_html_descriptions($organ_names,$organ_descriptions,$stage_names,$stage_descriptions,$tissue_names,$tissue_descriptions,$organ_cube_ordinal,$stage_cube_ordinal,$tissue_cube_ordinal);
     
     
     my @exp_tables;
@@ -86,12 +86,14 @@ sub _get_layer_info {
   my %layer_names;
   my %layer_descriptions;
   my %layer_images;
-  my %layer_ordinal;
+  my %layer_cube_ordinal;
+  my %layer_img_ordinal;
   
   foreach my $layer_id (@{$layer_ids}) {
     my $layer_rs = $schema->resultset('Layer')->search({layer_id => $layer_id})->single;
     my $image_name = $layer_rs->image_file_name;
-    my $ordinal = $layer_rs->ordinal;
+    my $cube_ordinal = $layer_rs->cube_ordinal;
+    my $img_ordinal = $layer_rs->img_ordinal;
     
     my $layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $layer_rs->layer_info_id})->single;
     my $layer_name = $layer_info_rs->name;
@@ -100,10 +102,11 @@ sub _get_layer_info {
     $layer_names{$layer_id} = $layer_name;
     $layer_descriptions{$layer_id} = $layer_description;
     $layer_images{$layer_id} = $image_name;
-    $layer_ordinal{$ordinal} = $layer_id;
+    $layer_cube_ordinal{$cube_ordinal} = $layer_id;
+    $layer_img_ordinal{$img_ordinal} = $layer_id;
   }
   
-  return (\%layer_names,\%layer_descriptions,\%layer_images,\%layer_ordinal);
+  return (\%layer_names,\%layer_descriptions,\%layer_images,\%layer_cube_ordinal,\%layer_img_ordinal);
 }
 
 
@@ -175,7 +178,7 @@ sub _get_html_table {
   
   foreach my $layer_id (@{$layer_ids}) {
     my $layer_rs = $schema->resultset('Layer')->search({layer_id => $layer_id})->single;
-    $layer_ordinal{$layer_rs->ordinal} = $layer_id;
+    $layer_ordinal{$layer_rs->cube_ordinal} = $layer_id;
     $img_width{$layer_id} = $layer_rs->image_width;
     $img_height{$layer_id} = $layer_rs->image_height;
   }

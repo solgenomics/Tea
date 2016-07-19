@@ -389,7 +389,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
     my $tissue_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "tissue"})->single;
     
     # get all tissue layer obj
-    my $all_tissues_layer_rs = $schema->resultset('Layer')->search({layer_type_id => $tissue_layer_type_rs->layer_type_id},{order_by => 'ordinal'});
+    my $all_tissues_layer_rs = $schema->resultset('Layer')->search({layer_type_id => $tissue_layer_type_rs->layer_type_id},{order_by => 'cube_ordinal'});
     
     # iterate by all tissues
     while (my $t = $all_tissues_layer_rs->next) {

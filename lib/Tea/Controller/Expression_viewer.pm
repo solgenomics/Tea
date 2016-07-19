@@ -611,6 +611,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   $c->stash->{description} = \%descriptions;
 	$c->stash->{project_id} = $project_rs->project_id;
 	$c->stash->{project_name} = $project_rs->name;
+	$c->stash->{project_expr_unit} = $project_rs->expr_unit;
   $c->stash->{locus_ids} = \%locus_ids;
 	
 	$c->stash->{template} = '/Expression_viewer/output.mas';

@@ -1,6 +1,6 @@
 	
   //draw the expression bar graph on dialog
-	function print_bar_chart(t_names,s_names,sxt_values,gene_name,corr_val) {
+	function print_bar_chart(t_names,s_names,sxt_values,gene_name,corr_val,expr_units) {
 		
     for (i in t_names) {
       t_names[i] = t_names[i].replace(/_/g," ");
@@ -75,7 +75,7 @@
 				},
 				yaxis: {
 					pad: 1.5,
-          label: 'RPKM',
+          label: expr_units,
 					min: 0,
 					tickOptions: {
 						angle: 0,
@@ -105,7 +105,7 @@
 	}
 
   //open dialog for expression bar graph
-	function open_bar_graph_dialog(stage_tissue_values, gene_name, corr_val, description, gene_id, stage_names, tissue_names) {
+	function open_bar_graph_dialog(stage_tissue_values, gene_name, corr_val, description, gene_id, stage_names, tissue_names, expr_unit) {
     
     var panel_width = 1200;
     var panel_max = 1200;
@@ -142,10 +142,10 @@
 			if (openDialog) {
 				$("#"+gene_name+"_dialog").dialog({ position: { my: "center", at: "center", of: window },});
 				$("#"+gene_name+"_bar_graph").empty();
-				print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name,corr_val);
+				print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name,corr_val,expr_unit);
 			} else {
 				$("#"+gene_name+"_dialog").dialog( "open" );
-				print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name,corr_val);
+				print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name,corr_val,expr_unit);
 			}
 			
 		} else {
@@ -177,7 +177,7 @@
 				});
 				$('.ui-dialog :button').blur();
         $('.sgn_logo_link').blur();
-				print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name,corr_val);
+				print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name,corr_val,expr_unit);
 			});
       
       var switch_status = $('#'+gene_name+'_dialog');
@@ -195,10 +195,10 @@
           
         if (switch_status.val == "on") {
           switch_status.val = "off";
-    			print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name,corr_val);
+    			print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name,corr_val,expr_unit);
         } else {
           switch_status.val = "on";
-          print_bar_chart(stage_names,tissue_names,new_array,gene_name,corr_val);
+          print_bar_chart(stage_names,tissue_names,new_array,gene_name,corr_val,expr_unit);
         }
       });
 		}

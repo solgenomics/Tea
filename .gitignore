@@ -16,4 +16,4 @@ nytprof.out
 pm_to_blib
 expression_indexes/*
 tea.conf
-!root/static/images/expr_viewer/example*
+

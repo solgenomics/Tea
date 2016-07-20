@@ -639,6 +639,7 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
   
 	#get parameters from form and config file
 	my @query_gene = $c->req->param("input_gene");
+  my $project_id = $c->req->param("organism_filter");
   
 	my $corr_filter = $c->req->param("correlation_filter");
   my $index_dir_name = $c->req->param("index_dir_name");
@@ -651,13 +652,27 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
   my @stages = split(",",$stage_filter);
   my @tissues = split(",",$tissue_filter);
 
+
+  # get the path to the expression and correlation lucy indexes
 	my $expr_path = $c->config->{expression_indexes_path};
 	my $corr_path = $c->config->{correlation_indexes_path};
 	my $loci_and_desc_path = $c->config->{loci_and_description_index_path};
 	
-  # indexed dir name saved in $corr_index_path and $expr_index_path
-  my $corr_index_path = $corr_path."/".$index_dir_name;
-  my $expr_index_path = $expr_path."/".$index_dir_name;
+  # connect to the db
+  my $dbname = $c->config->{dbname};
+  my $host = $c->config->{dbhost};
+  my $username = $c->config->{dbuser};
+  my $password = $c->config->{dbpass};
+
+  my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
+  my $dbh = DBI->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
+  
+  # get DBIx project resultset
+  my $project_rs = $schema->resultset('Project')->search({project_id => $project_id})->single;
+  
+  # set the path to the expression and correlation indexes
+  my $corr_index_path = $corr_path."/".$project_rs->indexed_dir;
+  my $expr_index_path = $expr_path."/".$project_rs->indexed_dir;
   
 
   my $query_gene;

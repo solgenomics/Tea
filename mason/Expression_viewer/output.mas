@@ -121,6 +121,7 @@ my $json = JSON::Any->new;
       <form id="download_data" method="post" action="/download_expression_data/" enctype="multipart/form-data">
         <input name="input_gene" value=<% $json->encode(\@output_gene) %> style="display:none;">
         <input name="correlation_filter" value=<% $correlation_filter %> style="display:none;">
+        <input name="organism_filter" value=<% $project_id %> style="display:none;">
         <input name="stages" value=<% $json->encode(\@stages) %> style="display:none;">
         <input name="tissues" value=<% $json->encode(\@tissues) %> style="display:none;">
       </form>

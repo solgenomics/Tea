@@ -495,7 +495,10 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	$query_gene =~ s/\.\d$//;
 	$query_gene =~ s/\.\d$//;
 	
-	$query_gene =~ s/^s/S/;
+  if ($query_gene =~ /solyc/i) {
+  	$query_gene = lc($query_gene);
+  	$query_gene =~ s/^s/S/;
+  }
   
 	#------------------------------------------------------------------------------------------------------------------
   my $total_corr_genes = 0;

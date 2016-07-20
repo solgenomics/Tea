@@ -229,7 +229,7 @@
 	}
 
 
-	function add_slice(n,gene_names_array,aoa,stage_names,tissue_names,tmp_layer,canvas,x_margin,y_margin,color_code,correlation,gene_descriptions,gene_ids,current_page,pages_num,genes_num,expr_unit) {
+	function add_slice(n,gene_names_array,aoa,stage_names,tissue_names,tmp_layer,canvas,x_margin,y_margin,color_code,correlation,gene_descriptions,gene_ids,current_page,pages_num,genes_num,expr_unit,bg_color_hash) {
 		
     var top_y_margin = y_margin;
 		var sq_size = 20;
@@ -418,10 +418,25 @@
 			
 			
 				if (j == 1 && n == 1) {
-					//add tissue names to top layer
-          // tissue_name = tissue_names[i-1].replace("_", " "); //replace underscores in tissue names by spaces
+					//add stage names to top layer
+          
+          var bg_color = bg_color_hash[stage_names[i-1]];
 					stage_name = stage_names[i-1].replace(/_/g, " "); //replace underscores in tissue names by spaces
-					
+          
+          if (bg_color) {
+            
+            var text_bg_color = new Kinetic.Rect({
+  						x: x_margin +i*20 -12,
+  						y: y_margin+8,
+              width: 180,
+              height: 20,
+              fill: bg_color,
+              rotation: 270
+            });
+    
+        		moving_slice_group.add(text_bg_color);
+          }
+          
           // var tissue_text = new Kinetic.Text({
 					var stage_text = new Kinetic.Text({
 						x: x_margin +i*20 -12,
@@ -503,6 +518,7 @@
 	function add_tissue_names(x_margin,y_margin,tissue_name,x_margin2,tmp_cube_layer,canvas_tmp,bg_color_hash) {
 		
     var bg_color = bg_color_hash[tissue_name];
+    
 		tissue_name = tissue_name.replace(/_/g, " "); //replace underscores in stage names by spaces
     
     if (tissue_name) {
@@ -511,7 +527,7 @@
           x: x_margin-55,
           y: y_margin-52,
           width: 180,
-          height: 20,
+          height: 19,
           fill: bg_color,
           rotation: 35
         });
@@ -655,7 +671,7 @@
 		var genes_num = genes.length;
 		
 		for (var i=genes_num; i>=1; i--) {
-			add_slice(i,genes,expr_val,stages,tissues,tmp_layer,tmp_canvas,top_x_start,y_margin,color_code,corr_values,gene_descriptions,gene_ids,current_page,pages_num,genes_num,expr_unit);
+			add_slice(i,genes,expr_val,stages,tissues,tmp_layer,tmp_canvas,top_x_start,y_margin,color_code,corr_values,gene_descriptions,gene_ids,current_page,pages_num,genes_num,expr_unit,bg_color_hash);
 		}
 	
 		//draw tissue names

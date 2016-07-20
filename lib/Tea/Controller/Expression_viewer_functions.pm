@@ -333,7 +333,6 @@ sub get_image_hash {
       push(@{$tissue_hash{$parent_layer_rs->layer_id}{"image_height"}}, $one_layer->image_height);
       push(@{$tissue_hash{$parent_layer_rs->layer_id}{"tissue_name"}}, $tissue_name);
       $tissue_hash{$parent_layer_rs->layer_id}{"bg_color"}{$tissue_name} = $layer_info_rs->bg_color;
-      print STDERR "$tissue_name: ".$layer_info_rs->bg_color."\n";
     }
   
   }

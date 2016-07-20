@@ -338,24 +338,26 @@ $(document).ready(function () {
 
 
   var bg_color_hash = new Object();
-
+  
   for (var n = 0; n < stage_ids_array.length; n++) {
     
     if (stage_hash[stage_ids_array[n]]["bg_color"]) {
-      var stage_name = [stage_ids_array[n]]["stage_name"];
+      var stage_name = stage_hash[stage_ids_array[n]]["stage_name"];
       bg_color_hash[stage_name] = stage_hash[stage_ids_array[n]]["bg_color"];
     }
     
-    for (var i = 0; i<tissue_hash[stage_ids_array[n]]["tissue_name"].length; i++) {
-      var tissue_name = tissue_hash[stage_ids_array[n]]["tissue_name"][i];
-      var tissue_color = tissue_hash[stage_ids_array[n]]["bg_color"][tissue_name];
-      // alert ("tissue_name: "+tissue_name+", tissue_color: "+tissue_color);
+    if (tissue_hash[stage_ids_array[n]]) {
       
-      if (tissue_color) {
-        bg_color_hash[tissue_name] = tissue_color;
-        // alert ("t2 color: "+bg_color_hash[tissue_name]);
-      }
-    }
+      for (var i = 0; i<tissue_hash[stage_ids_array[n]]["tissue_name"].length; i++) {
+        var tissue_name = tissue_hash[stage_ids_array[n]]["tissue_name"][i];
+        var tissue_color = tissue_hash[stage_ids_array[n]]["bg_color"][tissue_name];
+      
+        if (tissue_color) {
+          bg_color_hash[tissue_name] = tissue_color;
+        }
+      }//end for
+      
+    }//end if
   }
 
 

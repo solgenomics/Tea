@@ -13,7 +13,7 @@ It has several components:
 2. Code, in github https://github.com/solgenomics/Tea
 3. Configuration file
 4. Database
-5. Lucy indexes, one for expression, another for correlation and the last one for sgn_loci_id and description
+5. Lucy indexes
 
 
 
@@ -98,14 +98,17 @@ You will need to edit this file to customize all the paths, so they work on your
 
     expression_indexes_path /home/user/index_files/expression
     correlation_indexes_path /home/user/index_files/correlation
-    description_index_path /home/user/index_files/description
-    locus_index_path /home/user/index_files/locus_link
+    loci_and_description_index_path /home/user/index_files/description
 
     nt_blastdb_path /home/production/blastdbs/tomato_v2.40_cdna.fasta
     prot_blastdb_path /home/production/blastdbs/tomato_v2.40_prots.fasta
     tmp_path /home/production/tea_tmp_files
 
+    default_gene Solyc01g102660
+		
 `web_usr` is the user name with permissions to edit and read the database, if you want to use a different user name you will need to grant permissions to the new user or edit the file `create_tea_schema.sql`
+
+Add the expression images to the folder `Tea/root/static/images/expr_viewer/`
 
 4. Create database
 ------------------
@@ -123,12 +126,13 @@ Use `TEA_project_template.txt` and `TEA_project_template_example.txt` from `impo
 
 Run the script to import your project:
 
-`TEA_import_project_metadata.pl -d my_db -H localhost -u postgres -p 'password' -t your_project_input_template.txt -i path_to_images`
+`perl TEA_import_project_metadata.pl -d my_db -H localhost -u postgres -p 'password' -t your_project_input_template.txt -i path_to_images`
 
 
 5. Lucy indexes:
 ----------------
 
+One for expression, another for correlation and the last one for sgn_loci_id and description.
 To format the expression and correlation data you will need to run the scripts `index_expression_file.pl` and `index_correlation_file.pl` respectively.
 
 The input format for the expression should be gene name, stage, tissue and expression value:

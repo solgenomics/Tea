@@ -255,7 +255,7 @@
         
         var expr_val = aoa[n-1][s_index-1][t_index-1];
         
-        if (expr_val <= 0.000001) {
+        if (expr_val == 0.000001) {
           expr_val = "ND";
         }
         

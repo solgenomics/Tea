@@ -528,6 +528,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	# build data structure
 	unshift(@genes, $query_gene);
 	my %gene_stage_tissue_expr;
+	my %gene_stage_tissue_sem;
 	my %stage;
 	my %tissue;
 	my %descriptions;
@@ -537,6 +538,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 		foreach my $s (@stages) {
 			foreach my $t (@tissues) {
 				$gene_stage_tissue_expr{$g}{$s}{$t} = 0.000001;
+				$gene_stage_tissue_sem{$g}{$s}{$t} = 0.000001;
 			}
 		}
 	}
@@ -565,6 +567,12 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 		while ( my $hit = $lucy->next ) {
 			# all expression values are multiplied by 1 to transform string into integer or float
 			$gene_stage_tissue_expr{$hit->{gene}}{$hit->{stage}}{$hit->{tissue}} = $hit->{expression} * 1;
+      if ($hit->{expression} >0) {
+  			$gene_stage_tissue_sem{$hit->{gene}}{$hit->{stage}}{$hit->{tissue}} = $hit->{sem} / $hit->{expression};
+      }
+      else {
+        $gene_stage_tissue_sem{$hit->{gene}}{$hit->{stage}}{$hit->{tissue}} = 0
+      }
 		}
     
     while ( my $loci_and_desc_hit = $lucy_loci_and_desc->next ) {
@@ -598,6 +606,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	$c->stash->{tissues} = \@tissues;
   
 	$c->stash->{gst_expr_hohoh} = \%gene_stage_tissue_expr;
+	$c->stash->{gst_sem_hohoh} = \%gene_stage_tissue_sem;
 	$c->stash->{stage_ids_array} = $stage_ids_arrayref;
 	$c->stash->{stage_hash} = $stage_hashref;
 	$c->stash->{tissue_hash} = $tissue_hashref;

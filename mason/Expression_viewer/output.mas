@@ -4,6 +4,7 @@
 @tissues => ()
 
 %gst_expr_hohoh => ()
+%gst_sem_hohoh => ()
 @stage_ids_array => ()
 %stage_hash => ()
 %tissue_hash => ()
@@ -39,6 +40,7 @@ my $json = JSON::Any->new;
 	var genes = <% $json->encode(\@genes) %>;
   
 	var gst_expr_hohoh = <% $json->encode(\%gst_expr_hohoh) %>;
+	var gst_sem_hohoh = <% $json->encode(\%gst_sem_hohoh) %>;
 	var stage_ids_array = <% $json->encode(\@stage_ids_array) %>;
 	var stage_hash = <% $json->encode(\%stage_hash) %>;
 	var tissue_hash = <% $json->encode(\%tissue_hash) %>;
@@ -66,7 +68,7 @@ my $json = JSON::Any->new;
 <script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
 <script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
 <script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js"></script>
-<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.barRenderer.js"></script>
+<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.barRenderer2.js"></script>
 <script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.pointLabels.min.js"></script>
 <script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.highlighter.min.js"></script>
 

@@ -126,7 +126,7 @@ $(document).ready(function () {
   }
   
   
-  function setup_cube(canvas_h,canvas_w,cube_x_margin,gene_a,stage_a,tissue_a,AoAoA,locus_id,gene_desc,c_page,pages_number,expr_unit,bg_color_hash) {
+  function setup_cube(canvas_h,canvas_w,cube_x_margin,gene_a,stage_a,tissue_a,AoAoA,locus_id,gene_desc,c_page,pages_number,expr_unit,bg_color_hash,gst_sem_hohoh) {
     
     var frame_height = $('#container').css("height");
     var container_height = frame_height.replace("px","");
@@ -158,7 +158,7 @@ $(document).ready(function () {
   	var top_x_start = cube_x_margin + (tissue_a.length*15);
 	
 	
-  	draw_cube(gene_a,stage_a,tissue_a,AoAoA,cube_layer,canvas,top_x_start,y_margin,locus_id,gene_desc,c_page,pages_number,canvas_w,expr_unit,bg_color_hash);
+  	draw_cube(gene_a,stage_a,tissue_a,AoAoA,cube_layer,canvas,top_x_start,y_margin,locus_id,gene_desc,c_page,pages_number,canvas_w,expr_unit,bg_color_hash,gst_sem_hohoh);
     
   }
   
@@ -365,7 +365,7 @@ $(document).ready(function () {
 
 
   //print cube
-  setup_cube(canvas_height,canvas_width,x_margin,genes,stages,tissues,aoaoa,gene_locus_id,gene_descriptions,current_page,pages_num,expression_unit,bg_color_hash);
+  setup_cube(canvas_height,canvas_width,x_margin,genes,stages,tissues,aoaoa,gene_locus_id,gene_descriptions,current_page,pages_num,expression_unit,bg_color_hash,gst_sem_hohoh);
 
 
   //print Expression images

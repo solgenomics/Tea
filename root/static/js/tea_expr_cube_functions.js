@@ -229,7 +229,7 @@
 	}
 
 
-	function add_slice(n,gene_names_array,aoa,stage_names,tissue_names,tmp_layer,canvas,x_margin,y_margin,color_code,correlation,gene_descriptions,gene_ids,current_page,pages_num,genes_num,expr_unit,bg_color_hash) {
+	function add_slice(n,gene_names_array,aoa,stage_names,tissue_names,tmp_layer,canvas,x_margin,y_margin,color_code,correlation,gene_descriptions,gene_ids,current_page,pages_num,genes_num,expr_unit,bg_color_hash,gst_sem_hohoh) {
 		
     var top_y_margin = y_margin;
 		var sq_size = 20;
@@ -494,7 +494,7 @@
 		});
 	
 		slice_group.on('mousedown', function() {
-			open_bar_graph_dialog(aoa[n-1],gene_names_array[n-1],correlation[n-2], gene_descriptions[gene_names_array[n-1]], gene_ids[gene_names_array[n-1]], stage_names, tissue_names, expr_unit);
+			open_bar_graph_dialog(aoa[n-1],gene_names_array[n-1],correlation[n-2], gene_descriptions[gene_names_array[n-1]], gene_ids[gene_names_array[n-1]], stage_names, tissue_names, expr_unit,gst_sem_hohoh);
       // circle.fill("red");
 			tmp_layer.draw();
 		});
@@ -665,13 +665,13 @@
 	}
 
 
-	function draw_cube(genes,stages,tissues,expr_val,tmp_layer,tmp_canvas,top_x_start,y_margin,gene_ids,gene_descriptions,current_page,pages_num,page_width,expr_unit,bg_color_hash) {
+	function draw_cube(genes,stages,tissues,expr_val,tmp_layer,tmp_canvas,top_x_start,y_margin,gene_ids,gene_descriptions,current_page,pages_num,page_width,expr_unit,bg_color_hash,gst_sem_hohoh) {
 		tmp_layer.removeChildren();
 		var color_code = $('#color_code').val();
 		var genes_num = genes.length;
 		
 		for (var i=genes_num; i>=1; i--) {
-			add_slice(i,genes,expr_val,stages,tissues,tmp_layer,tmp_canvas,top_x_start,y_margin,color_code,corr_values,gene_descriptions,gene_ids,current_page,pages_num,genes_num,expr_unit,bg_color_hash);
+			add_slice(i,genes,expr_val,stages,tissues,tmp_layer,tmp_canvas,top_x_start,y_margin,color_code,corr_values,gene_descriptions,gene_ids,current_page,pages_num,genes_num,expr_unit,bg_color_hash,gst_sem_hohoh);
 		}
 	
 		//draw tissue names

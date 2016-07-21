@@ -113,8 +113,6 @@ $(document).ready(function () {
     
     var project_id = jQuery(".organism_col:checked").map(idSelector).get()[0];
     
-    alert("project_id: "+project_id);
-    
 		if ($('#blast_filter').is(":checked")) {
 			blast_filter = 1;
 		};

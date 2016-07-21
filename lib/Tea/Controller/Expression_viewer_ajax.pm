@@ -117,10 +117,26 @@ sub run_blast :Path('/Expression_viewer/blast/') :Args(0) {
   # get variables from catalyst object
   my $params = $c->req->body_params();
   my $input_seq1 = $c->req->param("input_seq");
+  my $project_id = $c->req->param("project_id");
+  
   my $nt_blastdb_path = $c->config->{nt_blastdb_path};
   my $prot_blastdb_path = $c->config->{prot_blastdb_path};
   my $desc_path = $c->config->{loci_and_description_index_path};
   my $tmp_path = $c->config->{tmp_path};
+  
+  # connect to the db
+  my $dbname = $c->config->{dbname};
+  my $host = $c->config->{dbhost};
+  my $username = $c->config->{dbuser};
+  my $password = $c->config->{dbpass};
+
+  my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
+  my $dbh = DBI->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
+  
+  # get DBIx project resultset
+  my $project_rs = $schema->resultset('Project')->search({project_id => $project_id})->single;
+  
+  $desc_path .= "/".$project_rs->indexed_dir;
   
   my ($input_name,$input_seq,$blast_program) = _parse_blast_input($input_seq1);
   

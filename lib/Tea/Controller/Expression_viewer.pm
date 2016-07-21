@@ -256,6 +256,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   # set the path to the expression and correlation indexes
   my $corr_index_path = $corr_path."/".$project_rs->indexed_dir;
   my $expr_index_path = $expr_path."/".$project_rs->indexed_dir;
+  $loci_and_desc_path .= "/".$project_rs->indexed_dir;
   
   # getting the organs, stages and tissues slected at input page
   my @stages = split(",",$stage_filter);
@@ -682,6 +683,7 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
   # set the path to the expression and correlation indexes
   my $corr_index_path = $corr_path."/".$project_rs->indexed_dir;
   my $expr_index_path = $expr_path."/".$project_rs->indexed_dir;
+  $loci_and_desc_path .= "/".$project_rs->indexed_dir;
   
 
   my $query_gene;

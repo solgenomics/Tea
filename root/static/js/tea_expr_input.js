@@ -110,7 +110,11 @@ $(document).ready(function () {
 		var blast_evalue = $('#blast_eval').val();
 		var blast_alignment = 0;
 		var blast_filter = 0;
-
+    
+    var project_id = jQuery(".organism_col:checked").map(idSelector).get()[0];
+    
+    alert("project_id: "+project_id);
+    
 		if ($('#blast_filter').is(":checked")) {
 			blast_filter = 1;
 		};
@@ -122,7 +126,7 @@ $(document).ready(function () {
 			url: '/Expression_viewer/blast/',
 			timeout: 600000,
 			method: 'POST',
-			data: { 'input_seq': blast_seq, 'blast_hits': blast_hits, 'blast_alignment': blast_alignment, 'blast_evalue': blast_evalue, 'blast_filter': blast_filter },
+			data: { 'input_seq': blast_seq, 'blast_hits': blast_hits, 'blast_alignment': blast_alignment, 'blast_evalue': blast_evalue, 'blast_filter': blast_filter, 'project_id': project_id },
 			beforeSend: function(){
 				// disable_ui();
 			},

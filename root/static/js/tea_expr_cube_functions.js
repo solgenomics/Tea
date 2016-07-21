@@ -400,19 +400,24 @@
 			id: "slice_"+n,
 		});
 		
+    // var gene_test = "Solyc1234g123456789101112131415";
+    
 		var gene_text = new Kinetic.Text({
-      x: x_margin -120 - 10*tissue_names.length,
+      x: x_margin - 10*tissue_names.length,
+      // x: x_margin -120 - 10*tissue_names.length,
       y: y_margin +18 +15*tissue_names.length,
-      // x: x_margin -120 - 10*stage_names.length,
-      // y: y_margin +18 +15*stage_names.length,
 			id: "slice_name_"+n,
-			text: gene_names_array[n-1],
+      // text: gene_test,
+      text: gene_names_array[n-1],
 			fontSize: 16, //20 for CondensedLight
 			fontFamily: 'Helvetica',
 			// fontFamily: 'CondensedLight',
 			fill: "black"
 		});
 		
+    gene_text.x(gene_text.x()-gene_text.width());
+    
+    
 		var gene_popup_layer = new Kinetic.Layer();
 		canvas.add(gene_popup_layer);
 		

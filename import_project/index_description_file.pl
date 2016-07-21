@@ -4,8 +4,6 @@ use strict;
 use warnings;
 
 
-my $expr_file = $ARGV[0];
-
 if (scalar(@ARGV) != 2) {
 	print "Usage: perl index_description_file.pl <description_file.txt> <output_dir_path>\n";
 	exit;

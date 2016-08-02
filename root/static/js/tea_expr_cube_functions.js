@@ -430,6 +430,11 @@
       
 			var gene_description = gene_descriptions[gene_names_array[n-1]];
 			var gene_desc = gene_description;
+      
+      if (!gene_description) {
+        gene_desc = "unknown protein";
+      }
+      
       var desc_font_size = 16;
 
 			var desc_txt = new Kinetic.Text({

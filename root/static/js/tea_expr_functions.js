@@ -10,6 +10,8 @@
       t_names[i] = t_names[i].replace(/_/g," ");
     }
     
+    gene_name = gene_name.replace(/\./g,"");
+    
     var bar_width = null;
     var bar_padding = 0;
     var bar_margin = 1;
@@ -30,6 +32,8 @@
     
     
     var color_array = ['#2e5989','#5f954c','#bb2c32','#6e3f78','#e79f44','#7d807f','#008888','#880088','#5e89b9','#8fc57c','#eb5c62','#9e6fa8','#fccf74','#adb0af','#adb0ff'];
+    
+    var kk = $('#'+gene_name+'_bar_graph');
     
 		var plot1 = $.jqplot(gene_name+'_bar_graph', sxt_values, {
 			title: '',
@@ -120,7 +124,7 @@
 	}
   
   function get_error_bars(gene_name, stage_names, tissue_names, gst_sem_hohoh, transposed) {
-    
+  
     var sem_AoAoh = new Array();
     var sem_AoA_text = new Array();
     
@@ -131,8 +135,7 @@
       
         for (s in stage_names) {
         
-          if (stage_names[s] && tissue_names[t]) {
-            // alert("st: "+stage_names[s]+", t: "+tissue_names[t]+" --> "+gst_sem_hohoh[gene_name][stage_names[s]][tissue_names[t]]);
+          if (stage_names[s] && tissue_names[t] && gst_sem_hohoh[gene_name] && gst_sem_hohoh[gene_name][stage_names[s]] && gst_sem_hohoh[gene_name][stage_names[s]][tissue_names[t]]) {
             var sem_value = gst_sem_hohoh[gene_name][stage_names[s]][tissue_names[t]];
             var sem_s_hash = {min: sem_value, max: sem_value};
             t_sem_a.push(sem_s_hash);
@@ -145,14 +148,17 @@
     } 
     else {
       for (s in stage_names) {
+        
         var t_sem_a = new Array();
         var t_sem_a_text = new Array();
       
         for (t in tissue_names) {
         
-          if (stage_names[s] && tissue_names[t]) {
-            // alert("st: "+stage_names[s]+", t: "+tissue_names[t]+" --> "+gst_sem_hohoh[gene_name][stage_names[s]][tissue_names[t]]);
+          if (stage_names[s] && tissue_names[t] && gst_sem_hohoh[gene_name] && gst_sem_hohoh[gene_name][stage_names[s]] && gst_sem_hohoh[gene_name][stage_names[s]][tissue_names[t]]) {
+
             var sem_value = gst_sem_hohoh[gene_name][stage_names[s]][tissue_names[t]];
+            
+            
             var sem_s_hash = {min: sem_value, max: sem_value};
             t_sem_a.push(sem_s_hash);
             t_sem_a_text.push("");
@@ -174,6 +180,9 @@
     var panel_width = 1200;
     var panel_max = 1200;
     var panel_min = 600;
+    
+    gene_name = gene_name.replace(/\./g,"");
+    
     
     if (stage_names.length*tissue_names.length > 90) {
       panel_width = panel_max;
@@ -201,6 +210,7 @@
 		var dialog_null = document.getElementById(gene_name+"_dialog");
 		
 		if (dialog_null != null) {
+
 			var openDialog = $("#"+gene_name+"_dialog").dialog( "isOpen" );
 			
 			if (openDialog) {
@@ -213,6 +223,7 @@
 			print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name,corr_val,expr_unit,sem_AoAoh,sem_AoA_text,0);
 			
 		} else {
+      
 			//TO DO: paste gene on input box on click
       
 			var dynamicDialog = $('<div id="'+gene_name+'_dialog" value="off">\

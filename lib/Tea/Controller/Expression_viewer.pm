@@ -462,8 +462,10 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 		if ($query_gene =~ /\n/) {
 			
 			$query_gene =~ s/[\n\s,]+/,/g;
-			$query_gene =~ s/\.[12]\.*[12]*//g;
-			
+      if ($query_gene =~ /solyc\d\dg\d{6}/i) {
+  			$query_gene =~ s/\.[12]\.*[12]*$//g;
+			}
+      
 			@genes = split(",", $query_gene);
 			@corr_values = ("list") x scalar(@genes);
 			

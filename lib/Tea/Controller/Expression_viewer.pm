@@ -691,8 +691,8 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
   my $query_gene;
 	my @genes;
 	my $multiple_genes = 1;
-  print STDERR "query_gene: @query_gene\n";
-  print STDERR "array_length = ".scalar(@query_gene)."\n";
+  # print STDERR "query_gene: @query_gene\n";
+  # print STDERR "array_length = ".scalar(@query_gene)."\n";
 	
 	my @corr_values;
   # my $total_corr_genes = 0;
@@ -702,20 +702,23 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
   if (scalar(@query_gene) == 1) {
     $query_gene = shift @query_gene;
     $query_gene =~ s/[\[\]\"]//g;
-    $query_gene =~ s/[\\n\\r]/,/g;
-    print STDERR "query_gene: $query_gene\n";
+    $query_gene =~ s/\\n/,/g;
+    $query_gene =~ s/\\r/,/g;
+    # print STDERR "query_gene: $query_gene\n";
     
 		$multiple_genes = 0;
 		
 		if ($query_gene =~ /\n/ || $query_gene =~ /,/) {
 			
-      print STDERR "query_gene: $query_gene\n";
+      # print STDERR "query_gene: $query_gene\n";
 			
 			$query_gene =~ s/[\n\s,]+/,/g;
-      print STDERR "query_gene: $query_gene\n";
+      # print STDERR "query_gene: $query_gene\n";
 			
-			$query_gene =~ s/\.[12]\.*[12]*//g;
-      print STDERR "query_gene: $query_gene\n";
+      if ($query_gene =~ /solyc\d\dg\d{6}/i) {
+  			$query_gene =~ s/\.[12]\.*[12]*//g;
+        # print STDERR "query_gene: $query_gene\n";
+      }
 			
 			@genes = split(",", $query_gene);
 			@corr_values = ("list") x scalar(@genes);

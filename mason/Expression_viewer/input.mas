@@ -138,6 +138,9 @@ my $json = JSON::Any->new;
 
 <script>
   
+  var input_gene = "<% $input_gene %>";
+  
+  
   $(function() {
     $( "#correlation_slider" ).slider({
       range: "min",

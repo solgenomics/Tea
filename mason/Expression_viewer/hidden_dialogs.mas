@@ -157,7 +157,7 @@ MGTENWSLTAKLCDSCKTSPATVFCRADSAFLCLGCDCKIHAANKLASRHARVWVCEVCEQAPASVTCKADAAALCVTCD
       <div class="modal-body">
 
       	<form id="custom_list_form" method="post" enctype="multipart/form-data">
-        	<label for="custom_list">Paste a list of tomato gene IDs (Eg:Solyc01g102660)</label>
+        	<label for="custom_list">Paste a list of gene IDs (Eg:Solyc01g102660)</label>
 
 <textarea id="custom_list" class="form-control" rows="10" name="input_gene" style="margin-top: 5px;">
 Solyc04g008460

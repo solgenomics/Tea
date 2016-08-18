@@ -6,7 +6,7 @@
     <h2 id="subtitle"><img class="centered_img" src="/static/images/anatomy_small.png"/> Anatomy Viewer</h2>
 </div>
 
-<div id="anatomy_top">
+<div id="anatomy_top" style="overflow: scroll;">
 	<div class="anatomy_title"><ul><li>Stage selection</li><ul></div>
         <div id="anatomy_navi">
             <div id="allStage">

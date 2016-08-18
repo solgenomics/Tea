@@ -138,20 +138,20 @@ sub _get_correlation {
 
 	$total_corr_genes = $hits;
 
-	if (!$total_corr_genes) {
-		push ( @errors , "Gene not found\n");
-    print STDERR "total_corr_genes: $total_corr_genes\n";
-	}
+  # if (!$total_corr_genes) {
+  #   push ( @errors , "No correlated genes found\n");
+  #     print STDERR "total_corr_genes: $total_corr_genes\n";
+  # }
 
 	# Send error message to the web if something is wrong
-	if (scalar (@errors) > 0){
-
-		my $user_errors = join("<br />", @errors);
-		print STDERR "$user_errors\n";
-		$c->stash->{errors} = $user_errors;
-		$c->stash->{template} = '/Expression_viewer/output.mas';
-		return;
-	}
+  # if (scalar (@errors) > 0){
+  #
+  #   my $user_errors = join("<br />", @errors);
+  #   print STDERR "$user_errors\n";
+  #   $c->stash->{errors} = $user_errors;
+  #   $c->stash->{template} = '/Expression_viewer/output.mas';
+  #   return;
+  # }
 
   # print STDERR "corr_filter: $corr_filter\n";
 
@@ -201,7 +201,33 @@ sub _get_correlation {
   return (\@genes,\@corr_values,$total_corr_genes,\%corr_hash);
 }
   
-
+sub _check_gene_exists {
+  my $c = shift;
+  my $lucy_path = shift;
+  my $query_gene = shift;
+  
+  # test gene exist
+	my $lucy = Lucy::Simple->new(
+	    path     => $lucy_path,
+	    language => 'en',
+	);
+	
+  my $gene_found_num = $lucy->search(
+    query      => $query_gene,
+  	num_wanted => 10
+  );
+  
+  # print "gene_found_num: $gene_found_num\n";
+  
+	# Send error message to the web if something is wrong
+	if (!$gene_found_num){
+		$c->stash->{errors} = "Gene not found";
+		$c->stash->{template} = '/Expression_viewer/output.mas';
+		return;
+	}
+  
+  
+}
 
 
 =head2 get_expression
@@ -240,7 +266,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	my $expr_path = $c->config->{expression_indexes_path};
 	my $corr_path = $c->config->{correlation_indexes_path};
 	my $loci_and_desc_path = $c->config->{loci_and_description_index_path};
-	
+
   # connect to the db
   my $dbname = $c->config->{dbname};
   my $host = $c->config->{dbhost};
@@ -257,6 +283,10 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   my $corr_index_path = $corr_path."/".$project_rs->indexed_dir;
   my $expr_index_path = $expr_path."/".$project_rs->indexed_dir;
   $loci_and_desc_path .= "/".$project_rs->indexed_dir;
+  
+  
+  _check_gene_exists($c,$expr_index_path,$query_gene[0]);
+  
   
   # getting the organs, stages and tissues slected at input page
   my @stages = split(",",$stage_filter);

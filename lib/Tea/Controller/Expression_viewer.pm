@@ -139,8 +139,8 @@ sub _get_correlation {
 	$total_corr_genes = $hits;
 
 	if (!$total_corr_genes) {
-		push ( @errors , "Not correlated genes found.\n");
-    # print STDERR "total_corr_genes: $total_corr_genes\n";
+		push ( @errors , "Gene not found\n");
+    print STDERR "total_corr_genes: $total_corr_genes\n";
 	}
 
 	# Send error message to the web if something is wrong
@@ -148,7 +148,7 @@ sub _get_correlation {
 
 		my $user_errors = join("<br />", @errors);
 		print STDERR "$user_errors\n";
-		$c->stash->{error} = $user_errors;
+		$c->stash->{errors} = $user_errors;
 		$c->stash->{template} = '/Expression_viewer/output.mas';
 		return;
 	}

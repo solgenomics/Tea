@@ -29,55 +29,10 @@
   <div class="microscopy_section" style="width:80%">
     <h2 style="text-align: left">Examples</h2>
   
-  	<h3 style="text-align: center; margin-bottom:20px">Pericarp 10 Days Post Anthesis</h3>
-    <div style="margin-bottom:100px;height:350px">
-  		<img src="static/images/anatomy_viewer/microscopy/pericarp_10dpa_photo.jpg" style="float:left; margin-right:10px; display:inline;">
-  		<img src="static/images/anatomy_viewer/microscopy/arrow_img.png" style="float:left; top:120px; position:relative;">
-  		<img src="static/images/anatomy_viewer/microscopy/pericarp_10dpa_draw.png" style="float:left; position: absolute">
-      <!-- <ul id="color_legend">
-        <li><div class="legend_sq" style="background-color:red;"></div>Outer Epidermis</li>
-        <li><div class="legend_sq" style="background-color:#99CCFF;"></div>Collenchyma</li>
-        <li><div class="legend_sq" style="background-color:#FF9900;"></div>Vascular Tissue</li>
-        <li><div class="legend_sq" style="background-color:yellow;"></div>Parenchyma</li>
-        <li><div class="legend_sq" style="background-color:#993366;"></div>Inner Epidermis</li>
-      </ul> -->
+    <div style="margin-bottom: 100px">
+      <img  style="min-width:600px;max-width:1127px;width:90%;display:block;" src="static/images/anatomy_viewer/microscopy/rr_anatomy.png">
+      <img  style="min-width:600px;max-width:1150px;width:90%;display:block;" src="static/images/anatomy_viewer/microscopy/pimpi_ovary_4dpa_anatomy.png">
     </div>
-
-    <!-- <h3 style="text-align: center; margin-bottom:20px">Pericarp Mature Green</h3>
-    <div style="margin-bottom:150px;">
-      <img src="static/images/anatomy_viewer/microscopy/pericarp_mg_photo.jpg" style="float:left;margin-right:10px;width:160px;display:inline;">
-      <img src="static/images/anatomy_viewer/microscopy/arrow_img.png" style="float:left;top:70px;position:relative;">
-      <img src="static/images/anatomy_viewer/microscopy/pericarp_mg_draw.png" style="float:left;height:220px;">
-      <ul id="color_legend2">
-        <li><div class="legend_sq" style="background-color:red;"></div>Outer Epidermis</li>
-        <li><div class="legend_sq" style="background-color:#99CCFF;"></div>Collenchyma</li>
-        <li><div class="legend_sq" style="background-color:#FF9900;"></div>Vascular Tissue</li>
-        <li><div class="legend_sq" style="background-color:yellow;"></div>Parenchyma</li>
-        <li><div class="legend_sq" style="background-color:#993366;"></div>Inner Epidermis</li>
-      </ul>
-    </div> -->
-
-    <!-- <h3 style="text-align: center; margin-bottom:20px">Pericarp Pink</h3>
-    <div style="margin-bottom:120px;">
-      <img src="static/images/anatomy_viewer/microscopy/pericarp_pink_photo.jpg" style="float:left;margin-right:10px;width:160px;display:inline;">
-      <img src="static/images/anatomy_viewer/microscopy/arrow_img.png" style="float:left;top:120px;position:relative;margin-right:10px;">
-      <img src="static/images/anatomy_viewer/microscopy/pericarp_pink_draw.png" style="float:left;height:320px;">
-      <ul id="color_legend">
-        <li><div class="legend_sq" style="background-color:red;"></div>Outer Epidermis</li>
-        <li><div class="legend_sq" style="background-color:#99CCFF;"></div>Collenchyma</li>
-        <li><div class="legend_sq" style="background-color:#FF9900;"></div>Vascular Tissue</li>
-        <li><div class="legend_sq" style="background-color:yellow;"></div>Parenchyma</li>
-        <li><div class="legend_sq" style="background-color:#993366;"></div>Inner Epidermis</li>
-      </ul>
-    </div> -->
-
-  	<h3 style="text-align: center; margin-bottom:20px"><i>S. pimpinellifolium</i> Ovary</h3>
-    <div style="margin-bottom:100px;height:350px">
-  		<img src="static/images/anatomy_viewer/microscopy/ovary_photo.jpg" style="float:left; height:300px; padding-top:25px; margin-right:10px;display:inline;">
-  		<img src="static/images/anatomy_viewer/microscopy/arrow_img.png" style="float:left;top:150px;position:relative;margin-right:10px;">
-  		<img src="static/images/anatomy_viewer/microscopy/ovary_draw.png" style="float:left;height:350px; position: absolute">
-    </div>
-  
   </div>
 </center>
 

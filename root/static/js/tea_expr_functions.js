@@ -31,7 +31,7 @@
     }
     
     
-    var color_array = ['#2e5989','#5f954c','#bb2c32','#6e3f78','#e79f44','#7d807f','#008888','#880088','#5e89b9','#8fc57c','#eb5c62','#9e6fa8','#fccf74','#adb0af','#adb0ff'];
+    var color_array = ['#2e5989','#5f954c','#bb2c32','#6e3f78','#e79f44','#7d807f','#008888','#880088','#5e89b9','#8fc57c','#eb5c62','#9e6fa8','#fccf74','#adb0af','#adb0ff','#0aaeea'];
     
     var kk = $('#'+gene_name+'_bar_graph');
     
@@ -185,7 +185,8 @@
     
     
     if (stage_names.length*tissue_names.length > 90) {
-      panel_width = panel_max;
+      panel_width = stage_names.length*tissue_names.length*6 + 300;
+      // panel_width = panel_max;
     }
     else if (stage_names.length*tissue_names.length > 42 && stage_names.length*tissue_names.length <= 90) {
       panel_width = stage_names.length*tissue_names.length*10+300;
@@ -197,9 +198,9 @@
       panel_width = panel_min;
     }
     
-    if (panel_width > panel_max) {
-      panel_width = panel_max;
-    }
+    // if (panel_width > panel_max) {
+    //   panel_width = panel_max;
+    // }
     if (panel_width < panel_min) {
       panel_width = panel_min;
     }

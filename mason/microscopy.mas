@@ -30,8 +30,8 @@
     <h2 style="text-align: left">Examples</h2>
   
     <div style="margin-bottom: 100px">
-      <img  style="min-width:600px;max-width:1127px;width:90%;display:block;" src="static/images/anatomy_viewer/microscopy/rr_anatomy.png">
-      <img  style="min-width:600px;max-width:1150px;width:90%;display:block;" src="static/images/anatomy_viewer/microscopy/pimpi_ovary_4dpa_anatomy.png">
+      <img  style="min-width:600px;max-width:1127px;width:90%;display:block;" src="/static/images/anatomy_viewer/microscopy/rr_anatomy.png">
+      <img  style="min-width:600px;max-width:1150px;width:90%;display:block;" src="/static/images/anatomy_viewer/microscopy/pimpi_ovary_4dpa_anatomy.png">
     </div>
   </div>
 </center>

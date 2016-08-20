@@ -44,7 +44,7 @@ sub av_menu :Path('/anatomy_viewer/') :Args(0) {
     $c->stash(template => 'anatomy_menu.mas');
 }
 
-sub microscopy :Path('/microscopy/') :Args(0) {
+sub microscopy :Path('/anatomy_viewer/microscopy/') :Args(0) {
     my ( $self, $c ) = @_;
   
     my $dbname = $c->config->{dbname};

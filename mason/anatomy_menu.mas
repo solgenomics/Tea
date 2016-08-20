@@ -4,7 +4,7 @@
   <div style="width:800px;">
     
     <div class="anatomy_section">
-      <a class="anatomy_link" href="/microscopy">
+      <a class="anatomy_link" href="/anatomy_viewer/microscopy">
         <h2 class="anatomy_title">Light Microscopy & Drawings</h2>
       		<img style="width:600px;" src="static/images/anatomy_viewer/menu/drawings.png"><br>
           Browse detailed drawing from light microscopy images of tomato fruit.
@@ -12,7 +12,7 @@
     </div>
 
     <div class="anatomy_section">
-      <a class="anatomy_link" href="/tomography">
+      <a class="anatomy_link" href="/anatomy_viewer/tomography">
         <h2 class="anatomy_title">Computed Tomography images & videos</h2>
       
         <div style="margin-bottom:10px">

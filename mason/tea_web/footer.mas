@@ -1,11 +1,18 @@
 <!-- <br/> -->
 <!-- <br/> -->
-<div id="footer">
+<div id="footer" style="display:inline">
 <!-- <hr/> -->
-<a href="/overview"><img src="/static/images/overview_small.png" height="50" style="float:left;margin-left:25px;"/></a>
-<a href="/Expression_viewer/input"><img src="/static/images/expr_small.png" height="50" style="float:left;margin-left:5px;"/></a>
-<a href="/anatomy_viewer"><img src="/static/images/anatomy_small.png" height="50" style="float:left;margin-left:5px;"/></a>
+  <div style="float:left">
+    <a href="/overview"><img src="/static/images/overview_small.png" height="50" style="margin-left:25px;"/></a>
+    <a href="/Expression_viewer/input"><img src="/static/images/expr_small.png" height="50" style="margin-left:5px;"/></a>
+    <a href="/anatomy_viewer"><img src="/static/images/anatomy_small.png" height="50" style="margin-left:5px;"/></a>
+  </div>
 
-<a href="http://www.nsf.gov" target="_blank"><img src="/static/images/nsf.png" height="50" style="float:right;margin-right:25px;"/></a>
-<a href="http://solgenomics.net/" target="_blank"><img src="/static/images/sgn_logo.png" height="50" style="float:right;margin-right:25px;"/></a>
+
+  <div style="float:right;">
+    <a href="http://www.nsf.gov" target="_blank"><img src="/static/images/nsf.png" height="50" style="margin-right:5px;"/></a>
+    <a href="http://solgenomics.net/" target="_blank"><img src="/static/images/sgn_logo.png" height="50" style="margin-right:25px;"/></a>
+  </div>
+  
+  <div style="text-align:center;color:#666;padding-top:15px">Copyright &copy; 2013 - 2016</div>
 </div>

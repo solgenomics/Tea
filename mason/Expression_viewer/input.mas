@@ -24,7 +24,7 @@ my $json = JSON::Any->new;
     <div class="row">
       
       <div class="col-sm-4 col-md-4 col-lg-4">
-        By Tomato Gene ID <button type="button" class="info_icon" data-toggle="modal" data-target="#gene_id_help">i</button>
+        By Gene ID <button type="button" class="info_icon" data-toggle="modal" data-target="#gene_id_help">i</button>
     		<form id="search_gene" method="post" enctype="multipart/form-data">
   				<input class="form-control col-xs-2 panel-primary" value="<% $input_gene %>" name="input_gene"/>
         

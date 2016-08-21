@@ -109,7 +109,7 @@ $(document).ready(function () {
 		
     <h1 id="project_desc"></h1>
     <br>
-    <a id="back_to_input" href="/Expression_viewer/input?input_gene=<% $genes[0] %>">Go to input page</a>
+    <a id="back_to_input" href="/Expression_viewer/input?input_gene=<% $genes[0] %>">Go back to input page</a>
 		<div id="gene_info" class="well">
 			<span id="gene_name" class="gene_name"></span><br/>
       <span id="gene_desc" class="gene_desc"></span><br/>

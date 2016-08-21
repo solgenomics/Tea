@@ -12,9 +12,17 @@
   			The drawings on this site were derived from light microscopy image, and then traced.
   			The individual tissues are then able to be highlighted to show different expression levels found in each tissue in the expression viewer.
   		</p>
-    
-      <br>
-      <h2 style="text-align: left">Projects</h2>
+      
+      <div class="microscopy_section" style="width:80%">
+        <!-- <h2 style="text-align: left">Examples</h2> -->
+  
+        <div style="margin-bottom: 100px">
+          <img  style="min-width:600px;max-width:1127px;width:90%;display:block; display:none" src="/static/images/anatomy_viewer/microscopy/rr_anatomy.png">
+          <img  style="min-width:600px;max-width:1150px;width:90%;display:block;" src="/static/images/anatomy_viewer/microscopy/pimpi_ovary_4dpa_anatomy.png">
+        </div>
+      </div>
+      
+      <h2 style="text-align: left">View project details</h2>
       <ul class="ul_blue">
         <%perl>
           foreach my $p_ids (@project_ids) {
@@ -26,14 +34,6 @@
 
   <br>
     
-  <div class="microscopy_section" style="width:80%">
-    <h2 style="text-align: left">Examples</h2>
-  
-    <div style="margin-bottom: 100px">
-      <img  style="min-width:600px;max-width:1127px;width:90%;display:block;" src="/static/images/anatomy_viewer/microscopy/rr_anatomy.png">
-      <img  style="min-width:600px;max-width:1150px;width:90%;display:block;" src="/static/images/anatomy_viewer/microscopy/pimpi_ovary_4dpa_anatomy.png">
-    </div>
-  </div>
 </center>
 
 

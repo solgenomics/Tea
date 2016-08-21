@@ -23,11 +23,12 @@ $(document).ready(function () {
   load_wizard(organism_list,null,null,null);
   
   
-  jQuery('#organism_col').click(function() {
+  jQuery('.organism_col').click(function() {
     
     // AJAX communication to get stage, tissue ...
     var idSelector = function() { return this.value; };
     var organism_list = jQuery(".organism_col:checked").map(idSelector).get();
+    // alert("organism selected"+organism_list[0])
     
     load_wizard(organism_list,null,null,null);
   });
@@ -91,7 +92,7 @@ $(document).ready(function () {
           $( '.organ_filter' ).val( $( '#organ_part_col' ).val());
           $( '.stage_filter' ).val( $( '#stage_col' ).val());
           $( '.tissue_filter' ).val( $( '#tissue_col' ).val());
-          
+          // alert("ajax msg"+organism_list)
         }
       },
       error: function(response) {

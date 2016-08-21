@@ -146,7 +146,7 @@ my $json = JSON::Any->new;
       range: "min",
       min: 65,
       max: 99,
-      value: 80,
+      value: 70,
       slide: function( event, ui ) {
         $( ".corr_filter" ).val( ui.value );
         $( "#amount" ).val( ui.value );

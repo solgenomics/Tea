@@ -601,7 +601,11 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 			# all expression values are multiplied by 1 to transform string into integer or float
 			$gene_stage_tissue_expr{$hit->{gene}}{$hit->{stage}}{$hit->{tissue}} = $hit->{expression} * 1;
       if ($hit->{expression} >0) {
-  			$gene_stage_tissue_sem{$hit->{gene}}{$hit->{stage}}{$hit->{tissue}} = $hit->{sem} / $hit->{expression};
+        my $sem_val = 0;
+        if ($hit->{sem} && $hit->{expression}) {
+          $sem_val = $hit->{sem} / $hit->{expression};
+        }
+  			$gene_stage_tissue_sem{$hit->{gene}}{$hit->{stage}}{$hit->{tissue}} = $sem_val;
       }
       else {
         $gene_stage_tissue_sem{$hit->{gene}}{$hit->{stage}}{$hit->{tissue}} = 0
@@ -629,6 +633,23 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 		}
 	}
 	
+  
+  
+  
+  # open a connection to the functions on Expression_r_dendrogram controller
+  my $r_funct = Tea::Controller::Expression_r_dendrogram->new();
+  
+  my $heatmap_html_file = $r_funct->draw_dendrogram($c->config->{tmp_path},\%gene_stage_tissue_expr,\@genes,\@stages,\@tissues);
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 	$corr_filter = $c->req->param("correlation_filter")||0.65;
 	my @output_gene = $c->req->param("input_gene");
   
@@ -658,6 +679,8 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	$c->stash->{project_name} = $project_rs->name;
 	$c->stash->{project_expr_unit} = $project_rs->expr_unit;
   $c->stash->{locus_ids} = \%locus_ids;
+  
+  $c->stash->{heatmap_file} = $heatmap_html_file;
 	
 	$c->stash->{template} = '/Expression_viewer/output.mas';
 }

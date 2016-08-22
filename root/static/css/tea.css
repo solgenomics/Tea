@@ -297,7 +297,7 @@ a:hover {
   border-color: #ddd;
   border-width:0px 1px 1px 1px;
   height:700px;
-  width:1125px;
+  width:1050px;
   overflow:scroll;
 }
 
@@ -311,7 +311,7 @@ a:hover {
   margin-right: 15px;
   min-width:1120px;
 */  
-  width:1120px;
+  width:1050px;
   overflow:scroll;
 }
 
@@ -520,7 +520,7 @@ body .ui-tooltip {
 }
 
 .tabs {
-  width: 1120px;
+  width: 1050px;
 }
 
 .jqplot-table-legend-label {

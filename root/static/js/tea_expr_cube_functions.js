@@ -4,7 +4,7 @@
     
     //x position to start the pagination elements when
     //tea_expr_code.js x_margin = canvas_width -50 - stages.length*20 - tissues.length*15;
-    var x_margin = 955;
+    var x_margin = 835;
     
     //x position to start the pagination elements when
     //tea_expr_code.js x_margin = canvas_width -100 - stages.length*20 - tissues.length*15;

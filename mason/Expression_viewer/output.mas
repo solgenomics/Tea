@@ -105,7 +105,7 @@ $(document).ready(function () {
 </div>
 
 <center>
-	<div style="width:1120px">
+	<div style="width:1050px">
 		
     <h1 id="project_desc"></h1>
     <br>

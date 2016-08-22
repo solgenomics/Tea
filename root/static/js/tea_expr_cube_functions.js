@@ -4,7 +4,7 @@
     
     //x position to start the pagination elements when
     //tea_expr_code.js x_margin = canvas_width -50 - stages.length*20 - tissues.length*15;
-    var x_margin = 835;
+    var x_margin = 860;
     
     //x position to start the pagination elements when
     //tea_expr_code.js x_margin = canvas_width -100 - stages.length*20 - tissues.length*15;
@@ -438,13 +438,13 @@
       var desc_font_size = 16;
 
 			var desc_txt = new Kinetic.Text({
-        x: 15,
+        x: 5,
         // x: x_pos-75,
 				y: y_pos-2,
 				text: gene_desc,
 				fontSize: desc_font_size, //20 for CondensedLight
 				// fontFamily: 'CondensedLight',
-  			width: x_pos-90,
+  			width: x_pos-80,
   			align: 'left',
         // align: 'right',
 				fontFamily: 'Helvetica',
@@ -462,12 +462,12 @@
       // alert(desc_txt.height()+" "+desc_txt.lineHeight());
 
 			var gene_popup = new Kinetic.Rect({
-        x: 10,
+        x: 0,
         // x: x_pos-80,
         y: y_pos-10,
         fill: '#000000',
         opacity: 0.8,
-        width: x_pos-70,
+        width: x_pos-60,
         // width: 450,
         height: desc_height,
         cornerRadius: 5

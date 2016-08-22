@@ -329,7 +329,7 @@ $(document).ready(function () {
   $("#project_desc").html("<a href='/project_page?project_id="+project_id+"' target='_blank'>"+project_name+"</a>");
   
   //set canvas width
-  var canvas_width = 1000;
+  var canvas_width = 1025;
   var canvas_height = 1200;
 
   //set variables

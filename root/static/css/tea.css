@@ -297,8 +297,9 @@ a:hover {
   border-color: #ddd;
   border-width:0px 1px 1px 1px;
   height:700px;
-  width:1050px;
+  width:1060px;
   overflow:scroll;
+  padding-right: 20px;
 }
 
 #container_tissues {
@@ -306,12 +307,12 @@ a:hover {
   border-width: 1px;
   border-color: #ddd;
   border-width:0px 1px 1px 1px;
-  padding-left: 15px;
+  padding-left: 0px;
 /*  margin-left: 15px;
   margin-right: 15px;
   min-width:1120px;
 */  
-  width:1050px;
+  width:1060px;
   overflow:scroll;
 }
 
@@ -520,7 +521,7 @@ body .ui-tooltip {
 }
 
 .tabs {
-  width: 1050px;
+  width: 1060px;
 }
 
 .jqplot-table-legend-label {

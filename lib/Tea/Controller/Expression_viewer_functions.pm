@@ -34,7 +34,7 @@ sub get_ids_from_query {
   
     foreach my $sps (@{$query}) {
       $sps =~ s/_/ /g;
-      # print STDERR "Sps: $sps\n";
+      # print STDERR "Sps: $sps ".$n->$column_name."\n";
       
       if ($n->$column_name eq $sps) {
         $res_ids{$n->$column_id} = 1;

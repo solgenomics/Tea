@@ -20,7 +20,22 @@ my $json = JSON::Any->new;
 
 	<div class="well" style="width:900px;margin-bottom:30px;">
 		
+    <div class="modal fade" id="gene_id_help" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Gene Expression Search</h4>
+          </div>
+          <div class="modal-body">
+            <p>Paste a gene name (Eg: <% $input_gene %>).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
 		<& hidden_dialogs.mas &>
+    
     <div class="row">
       
       <div class="col-sm-4 col-md-4 col-lg-4">

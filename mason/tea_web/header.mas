@@ -69,4 +69,14 @@
 	</body>
 </html>
 
+<style>
 
+.navbar-nav > li > a {
+    font-size: 14px;
+}
+
+.dropdown-menu > li > a {
+    font-size: 14px;
+}
+
+</style>

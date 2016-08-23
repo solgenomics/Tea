@@ -28,8 +28,8 @@ sub draw_dendrogram {
   my $st_arrayref = shift;
   my $ti_arrayref = shift;
   
-  if (scalar(@{$genes_arrayref}) <= 1) {
-    return '<h3 style="margin-top: 200px">The heatmap requires multiple genes. Please make another selection.</h3>';
+  if (scalar(@{$genes_arrayref}) <= 1 || scalar(@{$st_arrayref}) + scalar(@{$ti_arrayref}) <= 1) {
+    return '<h3 style="margin-top: 200px">The heatmap requires multiple conditions (genes, stages, tissues). Please make another selection.</h3>';
   }
   
   # generate temporary file name for the heatmap file.

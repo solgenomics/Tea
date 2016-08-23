@@ -20,7 +20,7 @@ experiment_name: Fruit 5DPA
 experiment_description: 
 # write experiment metadata
 
-#layer: define all stages, tissues, organs and conditions from your project
+#layer: define all stages, tissues, organs and conditions from your project. Do not include underscores (_) on layer_name field
 layer_name: Fruit
 layer_description: Tomato fruit
 layer_type: organ

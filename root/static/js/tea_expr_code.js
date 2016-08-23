@@ -375,12 +375,12 @@ $(document).ready(function () {
     // alert("images: "+expr_imgs_loaded);
     if (!expr_imgs_loaded) {
       
-      // $("#loading_modal").modal("show");
+      $("#loading_modal").modal("show");
 
       draw_expression_images(canvas_height,canvas_width,stage_ids_array,stage_hash,tissue_hash,gst_expr_hohoh,genes,tissues);
       expr_imgs_loaded = 1;
       
-      // $("#loading_modal").modal("hide");
+      setTimeout($("#loading_modal").modal("hide"), 5000);
     }
   });
   

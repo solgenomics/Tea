@@ -342,7 +342,7 @@ try {
             image_file_name => $layer_image,
             layer_type_id => $layer_type_rs->layer_type_id,
             layer_info_id => $layer_info_rs->layer_info_id,
-            parent_id => $parent_id,
+            # parent_id => $parent_id,
             image_width => $img_width,
             image_height => $img_height,
             cube_ordinal => $cube_ordinal,

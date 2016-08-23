@@ -525,10 +525,10 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	# strip gene name
 	$query_gene =~ s/^\s+//;
 	$query_gene =~ s/\s+$//;
-	$query_gene =~ s/\.\d$//;
-	$query_gene =~ s/\.\d$//;
 	
   if ($query_gene =~ /solyc/i) {
+  	$query_gene =~ s/\.\d$//;
+  	$query_gene =~ s/\.\d$//;
   	$query_gene = lc($query_gene);
   	$query_gene =~ s/^s/S/;
   }

@@ -28,6 +28,9 @@ sub draw_dendrogram {
   my $st_arrayref = shift;
   my $ti_arrayref = shift;
   
+  if (scalar(@{$genes_arrayref}) <= 1) {
+    return '<h3 style="margin-top: 200px">It was not posible to generate a heatmap using just one gene</h3>';
+  }
   
   # generate temporary file name for the heatmap file.
   my ($fh, $heatmap_filename) = tempfile("heatmap_tmpXXXXX", DIR=> $tmp_path, SUFFIX => '.html');

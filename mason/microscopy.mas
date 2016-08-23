@@ -4,7 +4,7 @@
 </%args>
 
 <center>
-  <div style="width:80%">
+  <div style="width:80%;max-width:1200px;">
 	
       <h1>Light Microscopy & Drawings</h1>
     
@@ -12,15 +12,6 @@
   			The drawings on this site were derived from light microscopy image, and then traced.
   			The individual tissues are then able to be highlighted to show different expression levels found in each tissue in the expression viewer.
   		</p>
-      
-      <div class="microscopy_section" style="width:80%">
-        <!-- <h2 style="text-align: left">Examples</h2> -->
-  
-        <div style="margin-bottom: 100px">
-          <img  style="min-width:600px;max-width:1127px;width:90%;display:block; display:none" src="/static/images/anatomy_viewer/microscopy/rr_anatomy.png">
-          <img  style="min-width:600px;max-width:1150px;width:90%;display:block;" src="/static/images/anatomy_viewer/microscopy/pimpi_ovary_4dpa_anatomy.png">
-        </div>
-      </div>
       
       <h2 style="text-align: left">View project details</h2>
       <ul class="ul_blue">
@@ -30,6 +21,25 @@
           }
         </%perl>
       </ul>
+      
+      <div class="microscopy_section" style="width:80%">
+        <h2 style="text-align: left">Examples</h2>
+  
+        <div style="margin-bottom: 100px">
+          <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/0DPA_Anatomy.jpg">
+          <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/5DPA_Anatomy.jpg">
+          <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/10DPA_Anatomy.jpg">
+          <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/20DPA_Anatomy.jpg">
+          <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/30DPA_Anatomy.jpg">
+          <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/MG_Anatomy.jpg">
+          <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/Br_anatomy.jpg">
+          <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/Pink_Anatomy.jpg">
+          <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/LR_Anatomy.jpg">
+          <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/RR_Anatomy.jpg">
+          <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/pimpi_ovary_4dpa_anatomy.png">
+        </div>
+      </div>
+      
   </div>
 
   <br>
@@ -101,7 +111,14 @@
   .microscopy_section {
     text-align: left;
     margin-top:50px;
-    width:700px;
+    width:1200px;
+  }
+  
+  .microscopy_img {
+    min-width:600px;
+    max-width:1127px;
+    width:100%;
+    display:block;
   }
   
 </style>

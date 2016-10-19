@@ -216,8 +216,8 @@ try {
           $experiment_id = 0;
           $layer_name = "";
           $layer_description = "";
-          $bg_color = "";
           $layer_type = "";
+          $bg_color = "";
           $layer_image = "";
           $img_width = 0;
           $img_height = 0;
@@ -256,9 +256,6 @@ try {
       
       
       
-      
-      $layer_description = "";
-      
       # lets fill out the layer tables
       my $layer_rs;
       if ($line =~ /^layer_name:\s*(.+)\s*$/) {
@@ -267,11 +264,11 @@ try {
       if ($line =~ /^layer_description:\s*(.+)\s*$/) {
           $layer_description = $1;
       }
-      if ($line =~ /^bg_color:\s*(.+)\s*$/) {
-          $bg_color = $1;
-      }
       if ($line =~ /^layer_type:\s*(.+)\s*$/) {
           $layer_type = $1;
+      }
+      if ($line =~ /^bg_color:\s*(.+)\s*$/) {
+          $bg_color = $1;
       }
       if ($line =~ /^layer_image*:\s*(.+)\s*$/) {
           $layer_image = $1;
@@ -290,7 +287,6 @@ try {
       }
       if ($line =~ /^\#\s*layer\s*-\s*end/) {
           
-              
         # checking the layer type
         my $layer_type_all_rs = $schema->resultset('LayerType');
         my $layer_type_rs = $schema->resultset('LayerType')->single({layer_type => $layer_type});
@@ -342,7 +338,7 @@ try {
             image_file_name => $layer_image,
             layer_type_id => $layer_type_rs->layer_type_id,
             layer_info_id => $layer_info_rs->layer_info_id,
-            # parent_id => $parent_id,
+            parent_id => $parent_id,
             image_width => $img_width,
             image_height => $img_height,
             cube_ordinal => $cube_ordinal,
@@ -403,6 +399,8 @@ try {
             check_commit($experiment_layer_rs,$experiment_layer_all_rs,"ExperimentLayer");
         }
         
+        $layer_description = "";
+        $bg_color = "";
         
       } # layer end
       

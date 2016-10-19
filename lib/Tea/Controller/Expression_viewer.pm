@@ -628,26 +628,10 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 				
 				$AoAoA[$g][$s][$t] = $gene_stage_tissue_expr{$genes[$g]}{$stages[$s]}{$tissues[$t]};
 				
-#        print STDERR "$genes[$g]\t$stages[$s]\t$tissues[$t] = $AoAoA[$g][$s][$t]\n";
 			}
 		}
 	}
 	
-  
-  
-  
-  # open a connection to the functions on Expression_r_dendrogram controller
-  my $r_funct = Tea::Controller::Expression_r_dendrogram->new();
-  
-  my $heatmap_html_file = $r_funct->draw_dendrogram($c->config->{tmp_path},\%gene_stage_tissue_expr,\@genes,\@stages,\@tissues);
-  
-  
-  
-  
-  
-  
-  
-  
   
   
 	$corr_filter = $c->req->param("correlation_filter")||0.65;
@@ -680,8 +664,6 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	$c->stash->{project_expr_unit} = $project_rs->expr_unit;
   $c->stash->{locus_ids} = \%locus_ids;
   
-  $c->stash->{heatmap_file} = $heatmap_html_file;
-	
 	$c->stash->{template} = '/Expression_viewer/output.mas';
 }
 

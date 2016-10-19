@@ -384,10 +384,36 @@ $(document).ready(function () {
     }
   });
   
+  //get d3heatmap html file
+  var d3heatmap_loaded = 0;
+  $("#heatmap_tab").click(function(){
+    
+    if (!d3heatmap_loaded) {
+    
+      $.ajax({
+            url: '/Expression_viewer/d3heatmap/',
+            timeout: 600000,
+            method: 'POST',
+            data: { 'gst_hohoh': gst_expr_hohoh, 'genes_array': genes, 'st_array': stages, 'ti_array': tissues},
+            success: function(response) {
+              if (response.error) {
+                alert("ERROR: "+response.error);
+              } else {
+                $('#container_heatmap').append(response.html_code);
+                window.HTMLWidgets.staticRender();
+              }
+            },
+            error: function(response) {
+              alert("An error occurred. The service may not be available right now.");
+            }
+      });
+      d3heatmap_loaded = 1;
+    }
+  });
+  
   //code to change tabs content
   $("#cube_tab").on('click', function(e)  {
     var currentAttrValue = jQuery(this).attr('href');
-    // alert("cube");
     // Show/Hide Tabs
     $(currentAttrValue).show().siblings().hide();
     // jQuery('.tabs ' + currentAttrValue).show().siblings().hide();

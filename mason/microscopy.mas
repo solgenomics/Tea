@@ -13,32 +13,38 @@
   			The individual tissues are then able to be highlighted to show different expression levels found in each tissue in the expression viewer.
   		</p>
       
-      <h2 style="text-align: left">View project details</h2>
-      <ul class="ul_blue">
-        <%perl>
-          foreach my $p_ids (@project_ids) {
-            print "<li><a href=\"project_page?project_id=$p_ids\"><span class=\"span_black\">$project_names{$p_ids}</span></a></li>";
-          }
-        </%perl>
-      </ul>
-      
+<br>
+
       <div class="microscopy_section" style="width:80%">
-        <h2 style="text-align: left">Examples</h2>
-  
+        <h3><b><i>S. lycopersicum</i> M82 Fruit Development</b></h3>
+
         <div style="margin-bottom: 100px">
           <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/0DPA_Anatomy.jpg">
+<hr>
           <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/5DPA_Anatomy.jpg">
+<hr>
           <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/10DPA_Anatomy.jpg">
+<hr>
           <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/20DPA_Anatomy.jpg">
+<hr>
           <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/30DPA_Anatomy.jpg">
+<hr>
           <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/MG_Anatomy.jpg">
+<hr>
           <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/Br_anatomy.jpg">
+<hr>
           <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/Pink_Anatomy.jpg">
+<hr>
           <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/LR_Anatomy.jpg">
+<hr>
           <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/RR_Anatomy.jpg">
+<hr>
+        </div>
+
+          <h3><b><i>S. pimpinellifolium</i> LA1589 Fruit Development</b></h3>
+        <div class="microscopy_section" style="width:80%">
           <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/pimpi_ovary_4dpa_anatomy.png">
         </div>
-      </div>
       
   </div>
 
@@ -109,7 +115,6 @@
   }
   
   .microscopy_section {
-    text-align: left;
     margin-top:50px;
     width:1200px;
   }

@@ -2,51 +2,32 @@
 <center>
   <div style="width:80%;max-width:1200px;">
 	
-      <h1>Light Microscopy & Drawings</h1>
+    <h1>Light Microscopy & Drawings</h1>
     
-  		<p>
-  			The drawings on this site were derived from light microscopy image, and then traced.
-  			The individual tissues are then able to be highlighted to show different expression levels found in each tissue in the expression viewer.
-  		</p>
+      <p>
+          The individual tissues are highlighted to clearly define each tissue type.  This also allows different gene expression levels found in each tissue to be shown in the expression viewer.
+      </p>
       
-<br>
-
-      <div class="microscopy_section" style="width:80%">
-        <h3><b><i>S. lycopersicum</i> M82 Fruit Development</b></h3>
-
-        <div style="margin-bottom: 100px">
-          <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/0DPA_Anatomy.jpg">
-<hr>
-          <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/5DPA_Anatomy.jpg">
-<hr>
-          <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/10DPA_Anatomy.jpg">
-<hr>
-          <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/20DPA_Anatomy.jpg">
-<hr>
-          <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/30DPA_Anatomy.jpg">
-<hr>
-          <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/MG_Anatomy.jpg">
-<hr>
-          <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/Br_anatomy.jpg">
-<hr>
-          <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/Pink_Anatomy.jpg">
-<hr>
-          <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/LR_Anatomy.jpg">
-<hr>
-          <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/RR_Anatomy.jpg">
-<hr>
-        </div>
-
-          <h3><b><i>S. pimpinellifolium</i> LA1589 Fruit Development</b></h3>
-        <div class="microscopy_section" style="width:80%">
-          <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/pimpi_ovary_4dpa_anatomy.png">
-        </div>
-      
+      <br>
   </div>
-
-  <br>
-    
 </center>
+
+      <div style="margin-left:25%">
+        <h3><b><i>S. lycopersicum</i> M82 Fruit Development</b></h3>
+        <ul class="ul_blue">
+            <li><a href="microscopy/slm82_fruit"><span class="span_black">Whole Fruit</span></a></li>
+            <li><a href="microscopy/slm82_pericarp"><span class="span_black">Pericarp Laser Capture Microdissection</span></a></li>
+        </ul>
+        <br>
+        <h3><b><i>S. pimpinellifolium</i> LA1589 Fruit Development</b></h3>
+        <ul class="ul_blue">
+            <li><a href="microscopy/pimpi_fruit"><span class="span_black">Whole Fruit</span></a></li>
+        </ul>
+
+      </div>
+
+      <br>
+      <br>
 
 
 
@@ -104,6 +85,22 @@
     max-width:1127px;
     width:100%;
     display:block;
+  }
+
+  ul.ul_blue li{
+    text-align: left;
+  	font-size: 24px;
+  	color:#5EA1FF;
+  }
+
+  .span_black {
+    font-size: 20px;
+    color:#000;
+  }
+
+  .span_black:hover {
+    color:#a8a8a8;
+    font-size: 20px;
   }
   
 </style>

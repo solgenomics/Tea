@@ -45,6 +45,21 @@ sub microscopy :Path('/anatomy_viewer/microscopy/') :Args(0) {
     $c->stash(template => 'microscopy.mas');
 }
 
+sub slm82_pericarp :Path('/anatomy_viewer/microscopy/slm82_pericarp') :Args(0) {
+    my ( $self, $c ) = @_;
+    $c->stash(template => 'slm82_pericarp.mas');
+}
+
+sub slm82_fruit :Path('/anatomy_viewer/microscopy/slm82_fruit') :Args(0) {
+    my ( $self, $c ) = @_;
+    $c->stash(template => 'slm82_fruit.mas');
+}
+
+sub pimpi_fruit :Path('/anatomy_viewer/microscopy/pimpi_fruit') :Args(0) {
+    my ( $self, $c ) = @_;
+    $c->stash(template => 'pimpi_fruit.mas');
+}
+
 
 sub av_menu :Path('/anatomy_viewer/') :Args(0) {
     my ( $self, $c ) = @_;

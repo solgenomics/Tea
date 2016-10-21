@@ -1,3 +1,9 @@
+<%args>
+  @project_ids => ()
+  %project_names => ()
+</%args>
+
+
 <center>
   <h1><img src="/static/images/anatomy_small.png" class="centered_img"/> Anatomy Viewer</h1>
   <br>
@@ -21,7 +27,19 @@
         </div>
     		Explore our high resolution CT images and videos of tomato fruit development.
       </a>
-  </div>
+    </div>
+
+    <div class="anatomy_section">
+      <h2  class="anatomy_title">View project details</h2>
+      <ul class="ul_blue">
+        <%perl>
+          foreach my $p_ids (@project_ids) {
+            print "<li><a href=\"anatomy_viewer/project_page?project_id=$p_ids\"><span class=\"span_black\">$project_names{$p_ids}</span></a></li>";
+          }
+        </%perl>
+      </ul>
+    </div>
+    <br>
   
   </div>
 
@@ -30,10 +48,10 @@
 
 
 <style>
-	.centered_img {
-		height:40px;
-		margin-bottom:centered_img10px;
-	}
+  .centered_img {
+    height:40px;
+    margin-bottom:centered_img10px;
+  }
 	
   .anatomy_title {
     margin-bottom:30px;
@@ -64,6 +82,23 @@
   .anatomy_link:hover {
     color:#a8a8a8;
   }
+
+  ul.ul_blue li{
+    text-align: left;
+  	font-size: 24px;
+  	color:#5EA1FF;
+  }
+
+  .span_black {
+    font-size: 20px;
+    color:#000;
+  }
+
+  .span_black:hover {
+    color:#a8a8a8;
+    font-size: 20px;
+  }
+
   
 </style>
 

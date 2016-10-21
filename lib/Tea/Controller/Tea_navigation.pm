@@ -39,12 +39,14 @@ sub contact :Path('/contact/') :Args(0) {
     $c->stash(template => 'contact.mas');
 }
 
-sub av_menu :Path('/anatomy_viewer/') :Args(0) {
-    my ( $self, $c ) = @_;
-    $c->stash(template => 'anatomy_menu.mas');
-}
 
 sub microscopy :Path('/anatomy_viewer/microscopy/') :Args(0) {
+    my ( $self, $c ) = @_;
+    $c->stash(template => 'microscopy.mas');
+}
+
+
+sub av_menu :Path('/anatomy_viewer/') :Args(0) {
     my ( $self, $c ) = @_;
   
     my $dbname = $c->config->{dbname};
@@ -66,7 +68,8 @@ sub microscopy :Path('/anatomy_viewer/microscopy/') :Args(0) {
   
     $c->stash(project_ids => \@project_ids);
     $c->stash(project_names => \%project_names);
-    $c->stash(template => 'microscopy.mas');
+    $c->stash(template => 'anatomy_menu.mas');
+
 }
 
 

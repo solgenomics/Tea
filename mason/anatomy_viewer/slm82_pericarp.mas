@@ -6,14 +6,16 @@
     <h3><b>Pericarp Laser Capture Microdissection</b></h3>
     
     <p>
-        The drawings on this site were derived by converting photographs of cross-sections of the fruit and using photoshop to convert them into anatomically accurate drawings.
+        The drawings on this site were derived by tracing individual cells using Adobe Illustrator to create anatomically accurate drawings.
         This also allows different gene expression levels found in each tissue to be shown in the expression viewer.
     </p>
       
     <br>
 
-      <div class="microscopy_section" style="width:80%">
+      <a href="/anatomy_viewer/microscopy/" class="go_back_link">Go back</a>
 
+      <div class="microscopy_section" style="width:80%">
+        
         <div style="margin-bottom: 100px">
           <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/0DPA_Anatomy.jpg">
           <hr>
@@ -34,11 +36,16 @@
           <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/LR_Anatomy.jpg">
           <hr>
           <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/RR_Anatomy.jpg">
+          <br>
+          
         </div>
+        <a href="/anatomy_viewer/microscopy/" class="go_back_link">Go back</a>
+        <br>
+        <br>
+        
 
   </div>
 
-  <br>
     
 </center>
 
@@ -98,6 +105,20 @@
     max-width:1127px;
     width:100%;
     display:block;
+  }
+  
+  .go_back_link:link {
+    color: #55f;
+    float: left;
+  }
+  
+  .go_back_link:hover {
+    color: #aaa;
+    text-decoration: underline;
+  }
+  
+  .go_back_link:visited {
+    color: #55f;
   }
   
 </style>

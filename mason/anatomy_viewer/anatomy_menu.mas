@@ -29,7 +29,7 @@
       </a>
     </div>
 
-    <div class="anatomy_section">
+    <!-- <div class="anatomy_section">
       <h2  class="anatomy_title">View project details</h2>
       <ul class="ul_blue">
         <%perl>
@@ -38,7 +38,7 @@
           }
         </%perl>
       </ul>
-    </div>
+    </div> -->
     <br>
   
   </div>
@@ -79,10 +79,10 @@
        transform:scale(1.02);
   }
   
-  .anatomy_link:hover {
+/*  .anatomy_link:hover {
     color:#a8a8a8;
   }
-
+*/
   ul.ul_blue li{
     text-align: left;
   	font-size: 24px;

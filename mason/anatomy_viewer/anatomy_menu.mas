@@ -12,7 +12,7 @@
     <div class="anatomy_section">
       <a class="anatomy_link" href="/anatomy_viewer/microscopy">
         <h2 class="anatomy_title">Light Microscopy & Drawings</h2>
-      		<img style="width:600px;" src="static/images/anatomy_viewer/menu/drawings.png"><br>
+      		<img style="width:800px;" src="static/images/anatomy_viewer/menu/RR_Anatomy-no_header.jpg"><br>
           Browse detailed drawing from light microscopy images of tomato fruit.
       </a>
     </div>

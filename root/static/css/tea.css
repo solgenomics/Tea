@@ -19,11 +19,6 @@ body {
 	position:relative;
 }
 
-#header {
-	background:#efefef;
-  padding:5px;
-}
-
 #content {
 	padding-bottom:50px; /* Height of the footer element */
 }

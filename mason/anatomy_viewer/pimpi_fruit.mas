@@ -12,7 +12,9 @@
     <br>
 
     <div class="microscopy_section" style="width:80%">
-        <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/pimpi_ovary_4dpa_anatomy.png">
+        <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/Pimpi_Ovary_0DPA_Anatomy.jpg">
+        <hr>
+        <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/Pimpi_Ovary_4DPA_Anatomy.jpg">
     </div>
       
   </div>

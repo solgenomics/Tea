@@ -30,7 +30,7 @@
                         <td width=130><input type="radio" name="radioStage" value="20DPA" onchange="switchPlaningImages(2)"></td>
                         <td width=120><input type="radio" name="radioStage" value="30DPA" onchange="switchPlaningImages(3)"></td>
                         <td width=160><input type="radio" name="radioStage" value="MG"   onchange="switchPlaningImages(4)"></td>
-			<td width=160><input type="radio" name="radioStage" value="B2" onchange="switchPlaningImages(6)"></td>
+                        <td width=160><input type="radio" name="radioStage" value="B2" onchange="switchPlaningImages(6)"></td>
                         <td width=160><input type="radio" name="radioStage" value="Pink" onchange="switchPlaningImages(5)"></td>
                 </tr></table>
             </div>
@@ -129,8 +129,8 @@ html,body { width:100%; min-height: 100%; _height:100%; margin:0; padding:0; }
 
 
 .anatomy_header {
-        width: 100%;
-        background-color: #FFFFFF;
+  width: 100%;
+  background-color: #FFFFFF;
 }
 
 .anatomy_footer {
@@ -166,13 +166,13 @@ html,body { width:100%; min-height: 100%; _height:100%; margin:0; padding:0; }
 }
 
 #anatomy_white {
-        margin: 0px auto;
-        background-color: #FFFFFF;
+  margin: 0px auto;
+  background-color: #FFFFFF;
 }
 
 #anatomy_middle {
-        width: 100%;
-	background-color: #000;
+  width: 100%;
+  background-color: #000;
 }
 
 #anatomy_bottom {

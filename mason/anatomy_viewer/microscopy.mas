@@ -16,13 +16,13 @@
       <div style="margin-left:25%">
         <h3><b><i>S. lycopersicum</i> M82 Fruit Development</b></h3>
         <ul class="ul_blue">
-            <li><a href="slm82_fruit"><span class="span_black">Whole Fruit</span></a></li>
-            <li><a href="slm82_pericarp"><span class="span_black">Pericarp Laser Capture Microdissection</span></a></li>
+            <li><a href="/anatomy_viewer/microscopy/slm82_fruit"><span class="span_black">Whole Fruit</span></a></li>
+            <li><a href="/anatomy_viewer/microscopy/slm82_pericarp"><span class="span_black">Pericarp Laser Capture Microdissection</span></a></li>
         </ul>
         <br>
         <h3><b><i>S. pimpinellifolium</i> LA1589 Fruit Development</b></h3>
         <ul class="ul_blue">
-            <li><a href="pimpi_fruit"><span class="span_black">Whole Fruit</span></a></li>
+            <li><a href="/anatomy_viewer/microscopy/pimpi_fruit"><span class="span_black">Whole Fruit</span></a></li>
         </ul>
 
       </div>

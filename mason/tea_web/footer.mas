@@ -11,8 +11,9 @@
 
   <div style="float:right;">
     <a href="http://www.nsf.gov" target="_blank"><img src="/static/images/nsf.png" height="50" style="margin-right:5px;"/></a>
-    <a href="http://solgenomics.net/" target="_blank"><img src="/static/images/sgn_logo.png" height="50" style="margin-right:25px;"/></a>
+    <a href="http://bti.cornell.edu/" target="_blank"><img src="/static/images/bti_logo.png" height="50" style="margin-right:25px;"/></a>
   </div>
   
-  <div style="text-align:center;color:#666;padding-top:15px">Copyright &copy; 2013 - 2016</div>
+  <div style="text-align:center;color:#666;padding-top:15px">Hosted at <a href="http://bti.cornell.edu/" target="_blank">BTI</a></div>
+  <!-- <div style="text-align:center;color:#666;padding-top:15px">Copyright &copy; 2013 - 2016</div> -->
 </div>

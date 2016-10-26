@@ -40,8 +40,16 @@ sub draw_dendrogram :Path('/Expression_viewer/d3heatmap/') :Args(0) {
   my $tmp_path = $c->config->{tmp_path};
   
   
-  if (scalar(@genes_array) <= 1 || scalar(@st_array) + scalar(@ti_array) <= 1) {
-    return '<h3 style="margin-top: 200px">The heatmap requires multiple conditions (genes, stages, tissues). Please make another selection.</h3>';
+  if (scalar(@genes_array) <= 1 || scalar(@st_array) + scalar(@ti_array) <= 2) {
+    print STDERR "genes: ".scalar(@genes_array).", stages: ".scalar(@st_array).", tissues: ".scalar(@ti_array)."\n";
+    
+    my $html_text = '<h3 style="margin-top: 200px">The heatmap requires multiple conditions (genes, stages, tissues). Please make another selection.</h3>';
+    
+    $c->stash->{rest} = {
+      html_code => $html_text
+    };
+    
+    return ;
   }
   
   # generate temporary file name for the heatmap file.

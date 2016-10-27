@@ -285,6 +285,9 @@ try {
           my @conditions_array = split(",",$conditions);
           
           foreach my $cond (@conditions_array) {
+            
+            print STDERR "condition: $cond\n\n\n";
+            
             # lets fill out the condition table
             my $condition_all_rs = $schema->resultset('Condition');
             my $condition_rs = $schema->resultset('Condition')->find_or_new({
@@ -292,12 +295,12 @@ try {
                 figure_id => $figure_id,
             });
           
-            if ($figure_rs->in_storage) {
+            if ($condition_rs->in_storage) {
                 print "this condition is already in the database\n";
-                print_one_row($figure_rs);
+                print_one_row($condition_rs);
             }
             else {
-                check_commit($figure_rs,$figure_all_rs,"Condition");
+                check_commit($condition_rs,$condition_all_rs,"Condition");
             }
             
           }
@@ -424,6 +427,7 @@ sub submit_layer {
         name => $layer_name,
         description => $layer_description,
         bg_color => $bg_color,
+        organ => $organ,
     });
     check_commit($layer_info_rs,$layer_info_all_rs,$layer_type);
   }

@@ -65,6 +65,7 @@ sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
   my @organ_names = $c->req->param("organs[]");
   my @stage_names = $c->req->param("stages[]");
   my @tissue_names = $c->req->param("tissues[]");
+  my @condition_names = $c->req->param("conditions[]");
   
   #connect to database
   my $dbname = $c->config->{dbname};
@@ -78,24 +79,29 @@ sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
   
   my $db_funct = Tea::Controller::Expression_viewer_functions->new();
   
-  # getting all the experiments from the project
-  my $all_experiment_rs = $schema->resultset('Experiment')->search({project_id => $project_id});
+  # getting all the figures from the project
+  my $all_figure_rs = $schema->resultset('Figure')->search({project_id => $project_id});
   
-  my ($organ_arrayref,$stage_arrayref,$tissue_arrayref) = $db_funct->get_input_options($schema,$all_experiment_rs);
+  my ($organ_arrayref,$stage_arrayref,$tissue_arrayref,$condition_arrayref) = $db_funct->get_input_options($schema,$all_figure_rs);
   
   # format layers to select options
   my $organ_options_arrayref = $db_funct->names_array_to_option($organ_arrayref);
   my $stage_options_arrayref = $db_funct->names_array_to_option($stage_arrayref);
   my $tissue_options_arrayref = $db_funct->names_array_to_option($tissue_arrayref);
+  my $condition_options_arrayref = $db_funct->names_array_to_option($condition_arrayref);
   
   my $organ_options = join("\n", @$organ_options_arrayref);
   my $stage_options = join("\n", "@$stage_options_arrayref");
   my $tissue_options = join("\n", "@$tissue_options_arrayref");
+  my $condition_options = join("\n", "@$condition_options_arrayref");
+  
+  print STDERR "condition_options: $condition_options\n";
   
   $c->stash->{rest} = {
     organs => $organ_options,
     stages => $stage_options,
     tissues => $tissue_options,
+    conditions => $condition_options,
   };
   
 }

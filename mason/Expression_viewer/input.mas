@@ -1,8 +1,5 @@
 <%args>
-$organism_html => ()
-$organ_html => ()
-$stage_html => ()
-$tissue_html => ()
+$project_html => ()
 $input_gene => ()
 </%args>
 
@@ -48,6 +45,7 @@ my $json = JSON::Any->new;
   				<input class="organ_filter" name="organ_filter" style="display:none;"/>
   				<input class="stage_filter" name="stage_filter" style="display:none;"/>
   				<input class="tissue_filter" name="tissue_filter" style="display:none;"/>
+  				<input class="condition_filter" name="condition_filter" style="display:none;"/>
         </form>
       </div>
       
@@ -78,7 +76,7 @@ my $json = JSON::Any->new;
         
         <div class="panel-body">
           <form role="form" id="organism_col">
-            <% $organism_html %>
+            <% $project_html %>
           </form>
         </div>
       </div>
@@ -131,7 +129,7 @@ my $json = JSON::Any->new;
     <div class="col-sm-3 col-md-3 col-lg-3">
       <div style="text-align: center; width=100%">Treatments</div>
 
-      <select multiple id="organ_col" class="form-control wizard_select" size="10"></select>
+      <select multiple id="condition_col" class="form-control wizard_select" size="10"></select>
       <button class="select_all btn btn-default pull-left">Select All</button>
       <button class="select_none btn btn-default pull-right">Unselect</button>
     </div>

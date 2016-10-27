@@ -64,7 +64,7 @@ sub index :Path('/Expression_viewer/input/') :Args(0) {
   
   # send variables to TEA input view
   $c->stash->{input_gene} = $input_gene;
-  $c->stash->{organism_html} = $projects_html;
+  $c->stash->{project_html} = $projects_html;
   $c->stash(template => 'Expression_viewer/input.mas');
 }
 

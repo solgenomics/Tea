@@ -55,28 +55,28 @@ sub get_ids_from_query {
 
 =head2 get_layer_options
 
-get all organ, stage and tissue names from input page, and return the experiments available only for the selected items
+get all organ, stage and tissue names from input page, and return the figures available only for the selected items
 
-ARGS: schema, all_experiments_rs, organims_selected, stages_selected, tissues_selected
-Returns: selected_experiments_rs
+ARGS: schema, all_figures_rs, organims_selected, stages_selected, tissues_selected
+Returns: selected_figures_rs
 
 =cut
 
 sub get_layer_options {
   my $self = shift;
   my $schema = shift;
-  my $exp_rs = shift;
+  my $fig_rs = shift;
   my $org_names = shift;
   my $stage_names = shift;
   my $tissue_names = shift;
   
   my %project_layer_ids;
   # save all layer ids from the selected project.
-  while(my $exp_obj = $exp_rs->next) {
-    my $exp_layer_rs = $schema->resultset('ExperimentLayer')->search({experiment_id => $exp_obj->experiment_id});
+  while(my $fig_obj = $fig_rs->next) {
+    my $fig_layer_rs = $schema->resultset('FigureLayer')->search({figure_id => $fig_obj->figure_id});
 
-    while(my $exp_layer_obj = $exp_layer_rs->next) {
-      $project_layer_ids{$exp_layer_obj->layer_id} = 1;
+    while(my $fig_layer_obj = $fig_layer_rs->next) {
+      $project_layer_ids{$fig_layer_obj->layer_id} = 1;
     }
   }
   
@@ -104,73 +104,81 @@ sub get_layer_options {
     }
   }
   
-  # get the experiment resultsets from the layers
+  # get the figure resultsets from the layers
   my @layer_ids = keys %layer_ids_found;
-  my %exp_ids;
-  my $exp_layer_rs = $schema->resultset('ExperimentLayer')->search({layer_id => \@layer_ids});
+  my %fig_ids;
+  my $fig_layer_rs = $schema->resultset('FigureLayer')->search({layer_id => \@layer_ids});
 
-  while (my $exp_layer_obj = $exp_layer_rs->next) {
-    $exp_ids{$exp_layer_obj->experiment_id} = 1;
-    # print STDERR "exp id: ".$exp_layer_obj->experiment_id."\n";
+  while (my $fig_layer_obj = $fig_layer_rs->next) {
+    $fig_ids{$fig_layer_obj->figure_id} = 1;
+    # print STDERR "fig id: ".$fig_layer_obj->figure_id."\n";
   }
   
-  my @experiment_ids = keys %exp_ids;
-  my $filtered_exp_rs = $schema->resultset('Experiment')->search({experiment_id => \@experiment_ids});
+  my @figure_ids = keys %fig_ids;
+  my $filtered_fig_rs = $schema->resultset('Figure')->search({figure_id => \@figure_ids});
   
-  return $filtered_exp_rs;
+  return $filtered_fig_rs;
 }
 
 
 =head2 get_input_options
 
-get experiment_rs objs and save them in
+get figure_rs objs and save them in
 organ, stage and tissue name arrays sorted by ordinal
 
-ARGS: schema, experiments_rs
-Returns: organ, stage and tissue name arrays sorted by ordinal
+ARGS: schema, figures_rs
+Returns: organ, stage, tissue and treatment name arrays sorted by ordinal
 
 =cut
 
 sub get_input_options {
   my $self = shift;
   my $schema = shift;
-  my $all_exp_rs = shift;
+  my $all_fig_rs = shift;
   
   my %organs;
   my %stages;
   my %tissues;
-  my $organ_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "organ"})->single;
+  my %conditions;
+  
   my $stage_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "stage"})->single;
   my $tissue_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "tissue"})->single;
   
-  while (my $n = $all_exp_rs->next) {
+  while (my $n = $all_fig_rs->next) {
     
-    my $exp_layer_rs = $schema->resultset('ExperimentLayer')->search({experiment_id => $n->experiment_id});
+    my $fig_layer_rs = $schema->resultset('FigureLayer')->search({figure_id => $n->figure_id});
+    my $condition_rs = $schema->resultset('Condition')->search({figure_id => $n->figure_id});
     
-    while(my $m = $exp_layer_rs->next) {
+    while(my $m = $fig_layer_rs->next) {
       my $layer_rs = $schema->resultset('Layer')->search({layer_id => $m->layer_id})->single;
       my $layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $layer_rs->layer_info_id})->single;
       
-      if ($layer_rs->layer_type_id == $organ_layer_type_rs->layer_type_id){
-        $organs{$layer_info_rs->name} = 1;
-      }
+      $organs{$layer_info_rs->organ} = 1;
+      
       if ($layer_rs->layer_type_id == $stage_layer_type_rs->layer_type_id){
-        # $stages{$layer_info_rs->name} = 1;
-        $stages{$layer_info_rs->name} = $layer_rs->cube_ordinal
+        $stages{$layer_info_rs->name} = $layer_rs->cube_ordinal;
       }
       if ($layer_rs->layer_type_id == $tissue_layer_type_rs->layer_type_id){
-        # $tissues{$layer_info_rs->name} = 1;
-        $tissues{$layer_info_rs->name} = $layer_rs->cube_ordinal
+        $tissues{$layer_info_rs->name} = $layer_rs->cube_ordinal;
       }
+    }
+    
+    while (my $cond_rs = $condition_rs->next) {
+      $conditions{$cond_rs->name} = 1;
+      
+      print STDERR "treatment: ".$cond_rs->name." \n";
     }
   }
   my @organs = sort keys %organs;
   my @stages = sort { $stages{$a} <=> $stages{$b} } keys %stages;
   my @tissues = sort { $tissues{$a} <=> $tissues{$b} } keys %tissues;
+  my @conditions = sort keys %conditions;
   
-  # print STDERR Dumper(%stages);
+  print STDERR Dumper(%conditions);
+  print STDERR Dumper(@conditions);
   
-  return (\@organs,\@stages,\@tissues);
+  return (\@organs,\@stages,\@tissues,\@conditions);
+  # return (\@organs,\@stages,\@tissues);
   # return (\%organs,\%stages,\%tissues);
   
 }
@@ -274,11 +282,11 @@ sub array_to_option {
 
 =head2 get_image_hash
 
-From an array of experiment ids return an array of ids sorted by ordinal, 
+From an array of figure ids return an array of ids sorted by ordinal, 
 a HoH for stages and a HoHoA for tissues. The HoH has as first keys the layer ids and as a second key image_name, image_width, image_height and stage 
 or tissue name in the case of the HoHoA, that have as values the list of image names, width, height or tissue names
 
-ARGS: schema, arrayref of experiment ids
+ARGS: schema, arrayref of figure ids
 Returns: arraryref of stage ids sorted by ordinal, stage images hash and tissue images hash
 
 =cut

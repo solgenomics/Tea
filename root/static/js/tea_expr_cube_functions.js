@@ -150,7 +150,7 @@
     var ranking_text = new Kinetic.Text({
       x: x_margin - 50,
       y: page_y + 40,
-      text: "Ranking "+current_page+"/"+pages_num,
+      text: "Page Ranking "+current_page+"/"+pages_num,
       fontFamily: 'Helvetica',
       fontSize: '16',
       fontVariant: 'small-caps',

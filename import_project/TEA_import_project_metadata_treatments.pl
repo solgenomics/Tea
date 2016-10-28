@@ -105,7 +105,7 @@ my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$usernam
 
 my ($organism_species,$organism_variety,$organism_id,$organism_description);
 my ($project_id,$project_name,$project_contact,$project_description,$indexed_dir,$expr_unit);
-my ($cube_stage_name,$figure_id,$conditions);
+my ($figure_name,$cube_stage_name,$figure_id,$conditions);
 my ($layer_name,$layer_description,$bg_color,$layer_type,$layer_image,$img_width,$img_height,$cube_ordinal,$img_ordinal,$organ);
 
 # my $organism_species;
@@ -243,6 +243,7 @@ try {
       #START FIGURE OPEN
       if ($line =~ /^\#\s*figure/i) {
           $cube_stage_name = "";
+          $figure_name = "";
           $figure_id = 0;
           $layer_name = "";
           $layer_description = "";
@@ -255,10 +256,12 @@ try {
           $img_ordinal = 0;
       }
       
+      if ($line =~ /^figure_name:\s*(.+)\s*$/) {
+          $figure_name = $1;
+      }
       if ($line =~ /^cube_stage_name:\s*(.+)\s*$/) {
           $cube_stage_name = $1;
       }
-      
       if ($line =~ /^conditions:\s*(.+)\s*$/) {
           $conditions = $1;
       }
@@ -268,6 +271,7 @@ try {
           # lets fill out the figure table
           my $figure_all_rs = $schema->resultset('Figure');
           my $figure_rs = $schema->resultset('Figure')->find_or_new({
+              figure_name => $figure_name,
               cube_stage_name => $cube_stage_name,
               project_id => $project_id,
           });

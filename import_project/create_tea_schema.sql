@@ -17,6 +17,7 @@ CREATE TABLE project (
 
 CREATE TABLE figure (
     figure_id bigserial PRIMARY KEY,
+    figure_name varchar(80),
     cube_stage_name varchar(80),
     project_id bigserial references project(project_id) NOT NULL
 );

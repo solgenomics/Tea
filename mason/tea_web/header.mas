@@ -45,20 +45,24 @@
               <li><a href="/overview">Overview</a></li>
               <li><a href="/Expression_viewer/input">Expression Viewer</a></li>
               <li><a href="/anatomy_viewer">Anatomy Viewer</a></li>
-              <li class="dropdown"><a class="menu_click_dropdown dropdown-toggle" data-toggle="dropdown" href="/about/">About</a>
+              
+              
+              <!-- <li class="dropdown"><a class="menu_click_dropdown dropdown-toggle" data-toggle="dropdown" href="/about/">About</a>
                 <ul class="dropdown-menu">
-                  
+
                   <li><a href="https://solgenomics.net/about" target="_blank">About</a></li>
                   <li><a href="https://solgenomics.net/contact/form" target="_blank">Contact</a></li>
                   <li><a href="https://solgenomics.net/help/index.pl" target="_blank">Cite SGN</a></li>
-    
+
                   <li role="separator" class="divider"></li>
-    
+
                   <li><a href="http://www.slideshare.net/solgenomics" target="_blank">SlideShare</a></li>
                   <li><a href="https://twitter.com/solgenomics" target="_blank">Twitter</a></li>
                   <li><a href="https://www.facebook.com/solgenomics" target="_blank">Facebook</a></li>
                 </ul>
-              </li>
+              </li> -->
+
+              
             </ul>
           </div>
         

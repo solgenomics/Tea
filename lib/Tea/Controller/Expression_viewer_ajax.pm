@@ -95,7 +95,7 @@ sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
   my $tissue_options = join("\n", "@$tissue_options_arrayref");
   my $condition_options = join("\n", "@$condition_options_arrayref");
   
-  print STDERR "condition_options: $condition_options\n";
+  # print STDERR "condition_options: $condition_options\n";
   
   $c->stash->{rest} = {
     organs => $organ_options,

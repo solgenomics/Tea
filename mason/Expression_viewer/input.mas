@@ -141,7 +141,7 @@ my $json = JSON::Any->new;
 
 <center>
   <div style="width:850px;">
-    <button class="btn btn-primary pull-right" type="submit" form="search_gene" formaction="/Expression_viewer/output" formmethod="post" formenctype="multipart/form-data">Get Expression</button>
+    <button class="btn btn-primary pull-right" type="submit" form="search_gene" formaction="/expression_viewer/output" formmethod="post" formenctype="multipart/form-data">Get Expression</button>
   </div>
 </center>
 <br/>

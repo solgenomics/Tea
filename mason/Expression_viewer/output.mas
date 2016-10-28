@@ -4,6 +4,7 @@
 @genes => ()
 @stages => ()
 @tissues => ()
+@conditions => ()
 
 %gst_expr_hohoh => ()
 %gst_sem_hohoh => ()
@@ -50,6 +51,7 @@ $(document).ready(function () {
 	var tissues = <% $json->encode(\@tissues) %>;
 	var stages = <% $json->encode(\@stages) %>;
 	var genes = <% $json->encode(\@genes) %>;
+	var conditions = <% $json->encode(\@conditions) %>;
   
 	var gst_expr_hohoh = <% $json->encode(\%gst_expr_hohoh) %>;
 	var gst_sem_hohoh = <% $json->encode(\%gst_sem_hohoh) %>;
@@ -145,7 +147,7 @@ $(document).ready(function () {
       <span id="gene_desc" class="gene_desc"></span><br/>
 		</div>
   
-      <form id="search_gene" class="form-inline" role="form" method="post" action="/Expression_viewer/output" name="tea_form" enctype="multipart/form-data">
+      <form id="search_gene" class="form-inline" role="form" method="post" action="/expression_viewer/output" name="tea_form" enctype="multipart/form-data">
 
         <input id="page_num" name="current_page" value="1" style="display:none;">
         <input id="total_pages" name="all_pages" value="1" style="display:none;">
@@ -153,6 +155,7 @@ $(document).ready(function () {
         <input class="organism_filter" name="organism_filter" style="display:none;" value=<% $organism_filter %> >
         <input class="stage_filter" name="stage_filter" style="display:none;" value=<% $stage_filter %> >
         <input class="tissue_filter" name="tissue_filter" style="display:none;" value=<% $tissue_filter %> >
+        <input class="condition_filter" name="condition_filter" style="display:none;" value=<% $tissue_filter %> >
         
         <label for="gene">Select a gene:</label>
         <div class="form-group">
@@ -167,6 +170,7 @@ $(document).ready(function () {
         <input name="organism_filter" value=<% $project_id %> style="display:none;">
         <input name="stages" value=<% $json->encode(\@stages) %> style="display:none;">
         <input name="tissues" value=<% $json->encode(\@tissues) %> style="display:none;">
+        <input name="conditions" value=<% $json->encode(\@conditions) %> style="display:none;">
       </form>
 
 	</div>

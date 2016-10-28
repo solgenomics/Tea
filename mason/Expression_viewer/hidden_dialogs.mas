@@ -118,7 +118,7 @@ MGTENWSLTAKLCDSCKTSPATVFCRADSAFLCLGCDCKIHAANKLASRHARVWVCEVCEQAPASVTCKADAAALCVTCD
           <input class="stage_filter" name="stage_filter" style="display:none;"/>
           <input class="tissue_filter" name="tissue_filter" style="display:none;"/>
       		<br>
-      		<button class="btn btn-primary pull-right" type="submit" form="blast_form" formaction="/Expression_viewer/output" formmethod="post" formenctype="multipart/form-data">Get Expression</button>
+      		<button class="btn btn-primary pull-right" type="submit" form="blast_form" formaction="/expression_viewer/output" formmethod="post" formenctype="multipart/form-data">Get Expression</button>
       	</form>
       	<br>
       	<br>
@@ -161,7 +161,7 @@ Solyc01g102660
       		<input class="tissue_filter" name="tissue_filter" style="display:none;"/>
           
           <br>
-      		<button id="custom_list_button" class="btn btn-primary pull-right" type="submit" form="custom_list_form" formaction="/Expression_viewer/output" formmethod="post" formenctype="multipart/form-data">Get Expression</button>
+      		<button id="custom_list_button" class="btn btn-primary pull-right" type="submit" form="custom_list_form" formaction="/expression_viewer/output" formmethod="post" formenctype="multipart/form-data">Get Expression</button>
       		<br>
       		<br>
       	</form>

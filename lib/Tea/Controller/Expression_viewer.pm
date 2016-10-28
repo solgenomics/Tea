@@ -245,7 +245,7 @@ and hash of locus id (to link to SGN)
 =cut
 
 
-sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
+sub get_expression :Path('/expression_viewer/output/') :Args(0) {
   my ($self, $c) = @_;
   
   my $cube_gene_number = 15;
@@ -258,6 +258,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   my $organ_filter = $c->req->param("organ_filter");
   my $stage_filter = $c->req->param("stage_filter");
   my $tissue_filter = $c->req->param("tissue_filter");
+  my $condition_filter = $c->req->param("condition_filter");
   
 	my $current_page = $c->req->param("current_page") || 1;
 	my $pages_num = $c->req->param("all_pages") || 1;
@@ -288,10 +289,11 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   _check_gene_exists($c,$expr_index_path,$query_gene[0]);
   
   
-  # getting the organs, stages and tissues slected at input page
+  # getting the organs, stages tissues and treatments selected at input page
   my @stages = split(",",$stage_filter);
   my @tissues = split(",",$tissue_filter);
   my @organs = split(",",$organ_filter);
+  my @conditions = split(",",$condition_filter);
   
   # variables to store values needed for the Expression images
   my $stage_ids_arrayref;
@@ -301,26 +303,34 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
   # open a connection to the functions on Expression_viewer_function controller
   my $db_funct = Tea::Controller::Expression_viewer_functions->new();
   
-  # get the experiment ids for the selected project
-  my $experiment_ids = $db_funct->get_ids_from_query($schema,"Experiment",[$project_id],"project_id","experiment_id");
+  # get the figure ids for the selected project
+  my $figure_ids = $db_funct->get_ids_from_query($schema,"Figure",[$project_id],"project_id","figure_id");
   
-  # get the experiment resultsets for the selected project
-  my $experiment_rs = $schema->resultset('Experiment')->search({project_id => $project_rs->project_id});
+  # get the figure resultset for the selected project
+  my $figure_rs = $schema->resultset('Figure')->search({project_id => $project_rs->project_id});
+  my $figure_rs2 = $schema->resultset('Figure')->search({project_id => $project_rs->project_id});
   
-  # save all the layer ids from the experiments of the project in arrayref and hash
-  my $this_project_all_layer_ids = $db_funct->get_ids_from_query($schema,"ExperimentLayer",$experiment_ids,"experiment_id","layer_id");
+  # save all the layer ids from the figures of the project in arrayref and hash
+  my $this_project_all_layer_ids = $db_funct->get_ids_from_query($schema,"FigureLayer",$figure_ids,"figure_id","layer_id");
   my %all_layer_ids_in_project=map{$_=>1} @$this_project_all_layer_ids;
   
   
-  
   # no filters selected
-  if (!$organ_filter && !$stage_filter && !$tissue_filter) {
-      my ($organ_arrayref,$stage_arrayref,$tissue_arrayref) = $db_funct->get_input_options($schema,$experiment_rs);
-
-      @stages = @$stage_arrayref;
-      @tissues = @$tissue_arrayref;
-
+  if (!$organ_filter && !$stage_filter && !$tissue_filter && !$condition_filter) {
+      
+      while (my $fig = $figure_rs->next) {
+        
+        my $cube_stage_name = $fig->cube_stage_name;
+        push(@stages, $cube_stage_name);
+      }
+      
       ($stage_ids_arrayref,$stage_hashref,$tissue_hashref) = $db_funct->get_image_hash($schema,$this_project_all_layer_ids);
+      
+      
+      my ($organ_arrayref,$stage_arrayref,$tissue_arrayref,$condition_arrayref) = $db_funct->get_input_options($schema,$figure_rs2);
+      
+      @tissues = @$tissue_arrayref;
+      @stages = uniq(@stages);
   }
   # organs, stages and/or tissues selected
   else {
@@ -467,7 +477,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
     my @selected_stage_and_tissue_ids = (@selected_stage_ids,@selected_tissue_ids);
     
     ($stage_ids_arrayref,$stage_hashref,$tissue_hashref) = $db_funct->get_image_hash($schema,\@selected_stage_and_tissue_ids);
-  }
+  } # end of organs, stages and/or tissues selected
   
   
   for (@stages) {
@@ -599,7 +609,10 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
     
 		while ( my $hit = $lucy->next ) {
 			# all expression values are multiplied by 1 to transform string into integer or float
+      # print STDERR "".$hit->{gene}."\t".$hit->{stage}."\t".$hit->{tissue}."\t".$hit->{expression}."\n";
+      
 			$gene_stage_tissue_expr{$hit->{gene}}{$hit->{stage}}{$hit->{tissue}} = $hit->{expression} * 1;
+      
       if ($hit->{expression} >0) {
         my $sem_val = 0;
         if ($hit->{sem} && $hit->{expression}) {
@@ -627,6 +640,8 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 			for (my $t=0; $t<scalar(@tissues); $t++) {
 				
 				$AoAoA[$g][$s][$t] = $gene_stage_tissue_expr{$genes[$g]}{$stages[$s]}{$tissues[$t]};
+        
+        # print STDERR "$genes[$g]\t$stages[$s]\t$tissues[$t]\t".$gene_stage_tissue_expr{$genes[$g]}{$stages[$s]}{$tissues[$t]}."\n";
 				
 			}
 		}
@@ -638,10 +653,12 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 	my @output_gene = $c->req->param("input_gene");
   
   # print STDERR "total_corr_genes: $total_corr_genes\n";
+  print Dumper $stage_ids_arrayref;
   
 	$c->stash->{genes} = \@genes;
 	$c->stash->{stages} = \@stages;
 	$c->stash->{tissues} = \@tissues;
+	$c->stash->{conditions} = \@conditions;
   
 	$c->stash->{gst_expr_hohoh} = \%gene_stage_tissue_expr;
 	$c->stash->{gst_sem_hohoh} = \%gene_stage_tissue_sem;
@@ -670,7 +687,7 @@ sub get_expression :Path('/Expression_viewer/output/') :Args(0) {
 
 =head2 download_expression_data
 
-Get expression and correlation values for the selected experiment and save results in a file
+Get expression and correlation values for the selected samples and save results in a file
 
 ARGV: query gene, correlation filter, selection of stage and tissue, path to expression and correlation index
 

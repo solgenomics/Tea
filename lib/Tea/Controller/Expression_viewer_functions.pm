@@ -166,7 +166,7 @@ sub get_input_options {
     while (my $cond_rs = $condition_rs->next) {
       $conditions{$cond_rs->name} = 1;
       
-      print STDERR "treatment: ".$cond_rs->name." \n";
+      # print STDERR "treatment: ".$cond_rs->name." \n";
     }
   }
   my @organs = sort keys %organs;
@@ -174,8 +174,8 @@ sub get_input_options {
   my @tissues = sort { $tissues{$a} <=> $tissues{$b} } keys %tissues;
   my @conditions = sort keys %conditions;
   
-  print STDERR Dumper(%conditions);
-  print STDERR Dumper(@conditions);
+  # print STDERR Dumper(%conditions);
+  # print STDERR Dumper(@conditions);
   
   return (\@organs,\@stages,\@tissues,\@conditions);
   # return (\@organs,\@stages,\@tissues);
@@ -301,6 +301,8 @@ sub get_image_hash {
   my @stage_ids;
   my %tissue_hash;
 
+  my $parent_layer_rs;
+
   my $stage_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "stage"})->single;
   my $tissue_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "tissue"})->single;
   
@@ -314,8 +316,17 @@ sub get_image_hash {
     # if layer is a stage
     if ($one_layer->layer_type_id == $stage_layer_type_rs->layer_type_id) {
       
+      
+      my $figure_layer_rs = $schema->resultset('FigureLayer')->search({layer_id => $one_layer->layer_id})->single;
+      # get all figure layer resultset for current figure
+      my $figure_rs = $schema->resultset('Figure')->search({figure_id => $figure_layer_rs->figure_id})->single;
+      
+      
+      
+      
       my $layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $one_layer->layer_info_id})->single;
-      my $stage_name = $layer_info_rs->name;
+      # my $stage_name = $layer_info_rs->name;
+      my $stage_name = $figure_rs->cube_stage_name;
       $stage_name =~ s/ /_/g;
       
       $stage_ordinal_id{$one_layer->layer_id} = $one_layer->img_ordinal;
@@ -329,10 +340,35 @@ sub get_image_hash {
 
     # if layer is a tissue
     if ($one_layer->layer_type_id == $tissue_layer_type_rs->layer_type_id) {
+      print STDERR "one_layer_id: ".$one_layer->layer_id."\n";
       
       my $layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $one_layer->layer_info_id})->single;
-      my $parent_layer_rs = $schema->resultset('Layer')->search({layer_id => $one_layer->parent_id})->single;
-      my $parent_layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $parent_layer_rs->layer_info_id})->single;
+      
+      # get figure layer resultset
+      my $figure_layer_rs = $schema->resultset('FigureLayer')->search({layer_id => $one_layer->layer_id})->single;
+      # print STDERR "layer_id fl: ".$figure_layer_rs->layer_id."\n";
+      
+      # get all figure layer resultset for current figure
+      my $parent_fig_layer_rs = $schema->resultset('FigureLayer')->search({figure_id => $figure_layer_rs->figure_id});
+      
+      while (my $fig_layer = $parent_fig_layer_rs->next) {
+        print STDERR "fig_layer_id: ".$fig_layer->figure_layer_id."\n";
+        
+        my $layer_p = $schema->resultset('Layer')->search({layer_id => $fig_layer->layer_id})->single;
+        # print STDERR "layer_id: ".$layer_p->layer_id."\n";
+        
+        
+        if ($layer_p->layer_type_id == $stage_layer_type_rs->layer_type_id) {
+          $parent_layer_rs = $layer_p;
+          # print STDERR "layer_p st: ".$layer_p->image_file_name."\n";
+          # next;
+        }
+        
+      }
+      # my $parent_layer_rs = $schema->resultset('Layer')->search({layer_id => $one_layer->parent_id})->single;
+      
+      
+      
       my $tissue_name = $layer_info_rs->name;
       $tissue_name =~ s/ /_/g;
       
@@ -349,6 +385,8 @@ sub get_image_hash {
   foreach my $id (sort {$stage_ordinal_id{$a} <=> $stage_ordinal_id{$b} } keys %stage_ordinal_id) {
     push(@stage_ids,$id);
   }
+  
+  print Dumper %tissue_hash;
   
   return (\@stage_ids,\%stage_hash,\%tissue_hash);
 }

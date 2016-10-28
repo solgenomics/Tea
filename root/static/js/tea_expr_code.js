@@ -169,7 +169,7 @@ $(document).ready(function () {
     var img_width = stage_h[stage_ids_a[n]]["image_width"]*1;
     var img_height = stage_h[stage_ids_a[n]]["image_height"]*1;
     var stage_name = stage_h[stage_ids_a[n]]["stage_name"];
-  
+    
     //cluster the images by stage name. Remove stem, equatorial and stylar for short names
     var stage_short_name = get_stage_short_name(stage_name.replace(/_/g," "));
   
@@ -219,7 +219,8 @@ $(document).ready(function () {
     
     var x_offset = 0;
     var y_offset = 0;
-
+    
+    
     //set canvas height
     // var height_and_col = get_canvas_height(stages,canvas_w,canvas_h);
     var height_and_col = get_canvas_height(stage_ids_a,stage_h,canvas_w,canvas_h);
@@ -242,6 +243,8 @@ $(document).ready(function () {
     var j_index = 0;
 
     // print the tissue colored images ----------------------
+    
+    
     
     //iterate by image and load all stage images
     for (var m = 0; m < stage_ids_a.length; m++) { 
@@ -267,8 +270,9 @@ $(document).ready(function () {
     next_stage = "";
     next_short_name = "";
     j_index = 0;
-
-    //scond round to draw only tissue layer over the stage images from the first round (output more reliable?)
+    
+    
+    //second round to draw only tissue layer over the stage images from the first round (output more reliable?)
     for (var n = 0; n < stage_ids_a.length; n++) {
       
       if (!tissue_h[stage_ids_a[n]]) {
@@ -280,8 +284,10 @@ $(document).ready(function () {
       //display overlapping tissue imgs and group them
       var tissue_img_group = new Kinetic.Group();
       for (var i = 0; i<tissue_h[stage_ids_a[n]]["image_name"].length; i++) {
-
+        
+        
         var tisue_name = tissue_h[stage_ids_a[n]]["tissue_name"][i];
+        
         var expr_val = gst_expr_hhh[gene_a[0]][stage_name][tisue_name];
 
         var rgb_color_array = get_expr_color(expr_val);
@@ -291,7 +297,7 @@ $(document).ready(function () {
         var b = rgb_color_array[2];
 
         var image_name = tissue_h[stage_ids_a[n]]["image_name"][i];
-
+        
         img_width = tissue_h[stage_ids_a[n]]["image_width"][i]*1;
         img_height = tissue_h[stage_ids_a[n]]["image_height"][i]*1;
 
@@ -376,7 +382,7 @@ $(document).ready(function () {
     if (!expr_imgs_loaded) {
       
       $("#loading_modal").modal("show");
-
+      
       draw_expression_images(canvas_height,canvas_width,stage_ids_array,stage_hash,tissue_hash,gst_expr_hohoh,genes,tissues);
       expr_imgs_loaded = 1;
       

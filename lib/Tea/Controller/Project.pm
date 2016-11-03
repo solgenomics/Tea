@@ -42,27 +42,30 @@ sub index :Path('/anatomy_viewer/project_page/') :Args(0) {
     
     # print "NAME: ".$project_rs->name."\n";
     
-    my $experiment_ids = _get_ids_from_query($schema,"Experiment",[$project_id],"project_id","experiment_id");
-    my $project_layer_ids = _get_ids_from_query($schema,"ExperimentLayer",$experiment_ids,"experiment_id","layer_id");
+    my $experiment_ids = _get_ids_from_query($schema,"Figure",[$project_id],"project_id","figure_id");
+    my $project_layer_ids = _get_ids_from_query($schema,"FigureLayer",$experiment_ids,"figure_id","layer_id");
     
-    my $organ_ids = _filter_layer_type($schema,$project_layer_ids,"organ","layer_id");
+    # my $organ_ids = _filter_layer_type($schema,$project_layer_ids,"organ","layer_id");
     my $stage_ids = _filter_layer_type($schema,$project_layer_ids,"stage","layer_id");
     my $tissue_ids = _filter_layer_type($schema,$project_layer_ids,"tissue","layer_id");
     
-    my ($organ_names,$organ_descriptions,$organ_images,$organ_cube_ordinal,$organ_img_ordinal) = _get_layer_info($schema,$organ_ids);
+    # my ($organ_names,$organ_descriptions,$organ_images,$organ_cube_ordinal,$organ_img_ordinal) = _get_layer_info($schema,$organ_ids);
     my ($stage_names,$stage_descriptions,$stage_images,$stage_cube_ordinal,$stage_img_ordinal) = _get_layer_info($schema,$stage_ids);
     my ($tissue_names,$tissue_descriptions,$tissue_images,$tissue_cube_ordinal,$tissue_img_ordinal) = _get_layer_info($schema,$tissue_ids);
     
-    my $html_descriptions = _get_html_descriptions($organ_names,$organ_descriptions,$stage_names,$stage_descriptions,$tissue_names,$tissue_descriptions,$organ_cube_ordinal,$stage_cube_ordinal,$tissue_cube_ordinal);
+    my $html_descriptions;
+    # my $html_descriptions = _get_html_descriptions($stage_names,$stage_descriptions,$tissue_names,$tissue_descriptions,$stage_cube_ordinal,$tissue_cube_ordinal);
+    # my $html_descriptions = _get_html_descriptions($organ_names,$organ_descriptions,$stage_names,$stage_descriptions,$tissue_names,$tissue_descriptions,$organ_cube_ordinal,$stage_cube_ordinal,$tissue_cube_ordinal);
     
     
     my @exp_tables;
     my $counter = 0;
     foreach my $exp_ids (@{$experiment_ids}) {
     
-      my $layer_ids = _get_ids_from_query($schema,"ExperimentLayer",[$exp_ids],"experiment_id","layer_id");
+      my $layer_ids = _get_ids_from_query($schema,"FigureLayer",[$exp_ids],"figure_id","layer_id");
       
-      my $html_exp_table = _get_html_table($layer_ids,$organ_names,$organ_images,$stage_names,$stage_images,$tissue_names,$tissue_images,$schema,$counter);
+      my $html_exp_table = _get_html_table($layer_ids,$stage_names,$stage_images,$tissue_names,$tissue_images,$schema,$counter);
+      # my $html_exp_table = _get_html_table($layer_ids,$organ_names,$organ_images,$stage_names,$stage_images,$tissue_names,$tissue_images,$schema,$counter);
       push(@exp_tables,$html_exp_table);
       
       $counter++;
@@ -111,26 +114,26 @@ sub _get_layer_info {
 
 
 sub _get_html_descriptions {
-  my $organ_names = shift;
-  my $organ_descriptions = shift;
+  # my $organ_names = shift;
+  # my $organ_descriptions = shift;
   my $stage_names = shift;
   my $stage_descriptions = shift;
   my $tissue_names = shift;
   my $tissue_descriptions = shift;
-  my $organ_ordinal = shift;
+  # my $organ_ordinal = shift;
   my $stage_ordinal = shift;
   my $tissue_ordinal = shift;
   
   my @html;
   
-  push (@html,"<table style=\"width:100%;\"><tr><th>Organ</th></tr>");
-  foreach my $ordinal (sort keys %{$organ_ordinal}) {
-    my $name = $organ_names->{$organ_ordinal->{$ordinal}};
-    my $description = $organ_descriptions->{$organ_ordinal->{$ordinal}};
-    if ($name) {
-      push (@html,"<tr><td>".$name."</td><td>".$description."</td></tr>");
-    }
-  }
+  # push (@html,"<table style=\"width:100%;\"><tr><th>Organ</th></tr>");
+  # foreach my $ordinal (sort keys %{$organ_ordinal}) {
+  #   my $name = $organ_names->{$organ_ordinal->{$ordinal}};
+  #   my $description = $organ_descriptions->{$organ_ordinal->{$ordinal}};
+  #   if ($name) {
+  #     push (@html,"<tr><td>".$name."</td><td>".$description."</td></tr>");
+  #   }
+  # }
   
   push (@html,"<tr><td>&nbsp;</td></tr><tr><th>Stages</th></tr>");
   foreach my $ordinal (sort keys %{$stage_ordinal}) {
@@ -158,8 +161,8 @@ sub _get_html_descriptions {
 
 sub _get_html_table {
   my $layer_ids = shift;
-  my $organ_names = shift;
-  my $organ_images = shift;
+  # my $organ_names = shift;
+  # my $organ_images = shift;
   my $stage_names = shift;
   my $stage_images = shift;
   my $tissue_names = shift;

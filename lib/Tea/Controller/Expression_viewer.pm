@@ -497,8 +497,6 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
     
     @stages = @$stage_names;
     
-    my @selected_tissue_ids;
-    
     # get tissue layer type
     my $tissue_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "tissue"})->single;
     

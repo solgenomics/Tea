@@ -61,7 +61,7 @@ $(document).ready(function () {
   function load_wizard(organism_list,organ_list,stage_list,tissue_list,condition_list){
     
     $.ajax({
-      url: '/Expression_viewer/get_stages/',
+      url: '/expression_viewer/get_stages/',
       timeout: 600000,
       method: 'POST',
       data: { 'project_id': organism_list[0], 'organs': organ_list, 'stages': stage_list, 'tissues': tissue_list, 'conditions': condition_list},
@@ -129,7 +129,7 @@ $(document).ready(function () {
 		};
 		
 		$.ajax({
-			url: '/Expression_viewer/blast/',
+			url: '/expression_viewer/blast/',
 			timeout: 600000,
 			method: 'POST',
 			data: { 'input_seq': blast_seq, 'blast_hits': blast_hits, 'blast_alignment': blast_alignment, 'blast_evalue': blast_evalue, 'blast_filter': blast_filter, 'project_id': project_id },

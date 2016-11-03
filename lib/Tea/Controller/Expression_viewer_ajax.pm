@@ -50,7 +50,7 @@ Returns: organ, stage and tissue HTML options
 
 =cut
 
-sub get_stages :Path('/Expression_viewer/get_stages/') :Args(0) {
+sub get_stages :Path('/expression_viewer/get_stages/') :Args(0) {
   my ($self, $c) = @_;
   
   # my $start = time();
@@ -114,7 +114,7 @@ Returns: BLAST results
 
 =cut
 
-sub run_blast :Path('/Expression_viewer/blast/') :Args(0) {
+sub run_blast :Path('/expression_viewer/blast/') :Args(0) {
   my ($self, $c) = @_;
   
   # to store erros as they may happen

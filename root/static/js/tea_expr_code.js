@@ -348,7 +348,7 @@ $(document).ready(function () {
     if (!d3heatmap_loaded) {
     
       $.ajax({
-            url: '/Expression_viewer/d3heatmap/',
+            url: '/expression_viewer/d3heatmap/',
             timeout: 600000,
             method: 'POST',
             data: { 'gst_hohoh': gst_expr_hohoh, 'genes_array': genes, 'st_array': stages, 'ti_array': tissues},

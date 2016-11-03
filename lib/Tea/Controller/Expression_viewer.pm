@@ -35,7 +35,7 @@ and send to Expression_viewer/input.mas the project list formatted in HTML
 
 =cut
 
-sub index :Path('/Expression_viewer/input/') :Args(0) {
+sub index :Path('/expression_viewer/input/') :Args(0) {
   my ( $self, $c ) = @_;
   
   my $default_gene = $c->config->{default_gene};

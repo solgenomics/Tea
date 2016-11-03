@@ -9,7 +9,7 @@
 				<a href="overview" title="Overview of the Tomato Expression Atlas, the tools and query options, and the datasets that are available"><img src="/static/images/overview_logo.png" height="150" class="index_logo"/>Overview</a>
 			</td>
 			<td class="td_index">
-				<a href="Expression_viewer/input" title="Observe the expression of your genes of interest"><img src="/static/images/expr_logo.png" height="150" class="index_logo"/>Expression Viewer</a>
+				<a href="expression_viewer/input" title="Observe the expression of your genes of interest"><img src="/static/images/expr_logo.png" height="150" class="index_logo"/>Expression Viewer</a>
 			</td>
 			<td class="td_index">
 				<a href="anatomy_viewer" title="Visual material from the organs, tissues and cell types corresponding to the expression data"><img src="/static/images/anatomy_logo.png" height="150" data-toggle="tooltip" data-placement="top" class="tt index_logo"/>Anatomy Viewer</a>

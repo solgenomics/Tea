@@ -7,10 +7,10 @@
     </h3> -->
 
 	<div class="overview_section">
-    <a href="Expression_viewer/input">
+    <a href="expression_viewer/input">
       <h2 class="overview_title"><img class="centered_img" src="/static/images/expr_small.png"/> Expression Viewer</h2>
     </a>
-    <a href="Expression_viewer/input">
+    <a href="expression_viewer/input">
       <ul class="ul_blue">
         <li><span class="span_black">View the expression of a specific tomato gene or genes of interest</span></li>
         <li><span class="span_black">Identify tomato genes by BLAST search using a gene or genes of interest from another species</span></li>

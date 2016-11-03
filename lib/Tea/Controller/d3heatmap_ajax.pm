@@ -28,7 +28,7 @@ Returns: sorted array of ids matching for the query
 
 =cut
 
-sub draw_dendrogram :Path('/Expression_viewer/d3heatmap/') :Args(0) {
+sub draw_dendrogram :Path('/expression_viewer/d3heatmap/') :Args(0) {
   my ($self, $c) = @_;
   
   

@@ -4,7 +4,7 @@
 <!-- <hr/> -->
   <div style="float:left">
     <a href="/overview"><img src="/static/images/overview_small.png" height="50" style="margin-left:25px;"/></a>
-    <a href="/Expression_viewer/input"><img src="/static/images/expr_small.png" height="50" style="margin-left:5px;"/></a>
+    <a href="/expression_viewer/input"><img src="/static/images/expr_small.png" height="50" style="margin-left:5px;"/></a>
     <a href="/anatomy_viewer"><img src="/static/images/anatomy_small.png" height="50" style="margin-left:5px;"/></a>
   </div>
 

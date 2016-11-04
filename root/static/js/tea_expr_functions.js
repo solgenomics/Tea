@@ -9,8 +9,11 @@
     for (i in t_names) {
       t_names[i] = t_names[i].replace(/_/g," ");
     }
+
+    // gene_name = gene_name.replace(/\./g,"");
+    var div_gene_name = gene_name.replace(/[-,]/g,"");
     
-    gene_name = gene_name.replace(/\./g,"");
+    // alert("s_names: "+s_names+", t_names: "+t_names+", gene_name: "+gene_name+", sxt_values: "+sxt_values);
     
     var bar_width = null;
     var bar_padding = 0;
@@ -33,9 +36,9 @@
     
     var color_array = ['#2e5989','#5f954c','#bb2c32','#6e3f78','#e79f44','#7d807f','#008888','#880088','#5e89b9','#8fc57c','#eb5c62','#9e6fa8','#fccf74','#adb0af','#adb0ff','#0aaeea'];
     
-    var kk = $('#'+gene_name+'_bar_graph');
+    // var kk = $('#'+gene_name+'_bar_graph');
     
-		var plot1 = $.jqplot(gene_name+'_bar_graph', sxt_values, {
+		var plot1 = $.jqplot(div_gene_name+'_bar_graph', sxt_values, {
 			title: '',
 			animate: true,
 			seriesDefaults:{
@@ -182,7 +185,7 @@
     var panel_min = 600;
     
     gene_name = gene_name.replace(/\./g,"");
-    
+    var div_gene_name = gene_name.replace(/[-,]/g,"");
     
     if (stage_names.length*tissue_names.length > 90) {
       panel_width = stage_names.length*tissue_names.length*6 + 300;
@@ -208,26 +211,27 @@
     // var tissue_names = ["Inner epidermis","Parenchyma","Vascular tissue","Collenchyma","Outer epidermis"];
     // var stage_names = ["10DPA", "Mature green", "Pink"];
 		
-		var dialog_null = document.getElementById(gene_name+"_dialog");
+		var dialog_null = document.getElementById(div_gene_name+"_dialog");
 		
 		if (dialog_null != null) {
 
-			var openDialog = $("#"+gene_name+"_dialog").dialog( "isOpen" );
+			var openDialog = $("#"+div_gene_name+"_dialog").dialog( "isOpen" );
 			
 			if (openDialog) {
-				$("#"+gene_name+"_dialog").dialog({ position: { my: "center", at: "center", of: window },});
-				$("#"+gene_name+"_bar_graph").empty();
+				$("#"+div_gene_name+"_dialog").dialog({ position: { my: "center", at: "center", of: window },});
+				$("#"+div_gene_name+"_bar_graph").empty();
 			} else {
-				$("#"+gene_name+"_dialog").dialog( "open" );
+				$("#"+div_gene_name+"_dialog").dialog( "open" );
 			}
       [sem_AoAoh,sem_AoA_text] = get_error_bars(gene_name, stage_names, tissue_names, gst_sem_hohoh)
+      
 			print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name,corr_val,expr_unit,sem_AoAoh,sem_AoA_text,0);
 			
 		} else {
       
 			//TO DO: paste gene on input box on click
       
-			var dynamicDialog = $('<div id="'+gene_name+'_dialog" value="off">\
+			var dynamicDialog = $('<div id="'+div_gene_name+'_dialog" value="off">\
 			<center>\
       <table width="90%"><tr id="dialog_top_info">\
 				<td><a href="http://solgenomics.net/locus/'+gene_id+'/view" target="_blank">\
@@ -235,11 +239,11 @@
         </a></td>\
 				<td><a id="paste_gene"><b>'+gene_name+'</b></a></td>\
 				<td><b> Correlation val: </b>'+corr_val+'</td>\
-        <td><span id="tr_barplot'+gene_name+'" class="blue_link">transpose</span></td>\
+        <td><span id="tr_barplot'+div_gene_name+'" class="blue_link">transpose</span></td>\
 				</tr></table>\
 				<span>'+description+'</span><br>\
 			</center>\
-			<div id="'+gene_name+'_bar_graph"></div>\
+			<div id="'+div_gene_name+'_bar_graph"></div>\
 			</div>');
 			
 			$(function() {
@@ -255,10 +259,10 @@
 				print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name,corr_val,expr_unit,sem_AoAoh,sem_AoA_text);
 			});
       
-      var switch_status = $('#'+gene_name+'_dialog');
+      var switch_status = $('#'+div_gene_name+'_dialog');
       var transpose_switch = $('#tr_barplot'+gene_name);
       
-      $('#tr_barplot'+gene_name).click(function () {
+      $('#tr_barplot'+div_gene_name).click(function () {
         // alert("HI");
         var new_array = stage_tissue_values[0].map(function(col, i) {
           return stage_tissue_values.map(function(row) {
@@ -266,7 +270,7 @@
           })
         });
         
-        $("#"+gene_name+"_bar_graph").empty();
+        $("#"+div_gene_name+"_bar_graph").empty();
           
         if (switch_status.val == "on") {
           switch_status.val = "off";

@@ -326,31 +326,47 @@ sub get_image_hash {
     # if layer is a tissue
     if ($one_layer->layer_type_id == $tissue_layer_type_rs->layer_type_id) {
       
+      
+      
+      
+      
+      
+      # TO DO need to join tables to find all the parent stages from a tissue
+      
+      
+      
+      
+      
       my $layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $one_layer->layer_info_id})->single;
       
       # get figure layer resultset
-      my $figure_layer_rs = $schema->resultset('FigureLayer')->search({layer_id => $one_layer->layer_id})->single;
+      # my $figure_layer_rs = $schema->resultset('FigureLayer')->search({layer_id => $one_layer->layer_id})->single;
+      my $figure_layer_rs = $schema->resultset('FigureLayer')->search({layer_id => $one_layer->layer_id});
       
       # get all figure layer resultset for current figure
-      my $parent_fig_layer_rs = $schema->resultset('FigureLayer')->search({figure_id => $figure_layer_rs->figure_id});
+      while (my $fig_layer1 = $figure_layer_rs->next) {
+        my $parent_fig_layer_rs = $schema->resultset('FigureLayer')->search({figure_id => $fig_layer1->figure_id});
       
-      while (my $fig_layer = $parent_fig_layer_rs->next) {
+        while (my $fig_layer = $parent_fig_layer_rs->next) {
         
-        my $layer_p = $schema->resultset('Layer')->search({layer_id => $fig_layer->layer_id})->single;
+          my $layer_p = $schema->resultset('Layer')->search({layer_id => $fig_layer->layer_id})->single;
         
-        if ($layer_p->layer_type_id == $stage_layer_type_rs->layer_type_id) {
-          $parent_layer_rs = $layer_p;
+          if ($layer_p->layer_type_id == $stage_layer_type_rs->layer_type_id) {
+            $parent_layer_rs = $layer_p;
+          }
         }
+        
+        my $tissue_name = $layer_info_rs->name;
+        # $tissue_name =~ s/ /_/g;
+      
+        push(@{$tissue_hash{$parent_layer_rs->layer_id}{"image_name"}}, $one_layer->image_file_name);
+        push(@{$tissue_hash{$parent_layer_rs->layer_id}{"image_width"}}, $one_layer->image_width);
+        push(@{$tissue_hash{$parent_layer_rs->layer_id}{"image_height"}}, $one_layer->image_height);
+        push(@{$tissue_hash{$parent_layer_rs->layer_id}{"tissue_name"}}, $tissue_name);
+        $tissue_hash{$parent_layer_rs->layer_id}{"bg_color"}{$tissue_name} = $layer_info_rs->bg_color;
+        
       }
       
-      my $tissue_name = $layer_info_rs->name;
-      $tissue_name =~ s/ /_/g;
-      
-      push(@{$tissue_hash{$parent_layer_rs->layer_id}{"image_name"}}, $one_layer->image_file_name);
-      push(@{$tissue_hash{$parent_layer_rs->layer_id}{"image_width"}}, $one_layer->image_width);
-      push(@{$tissue_hash{$parent_layer_rs->layer_id}{"image_height"}}, $one_layer->image_height);
-      push(@{$tissue_hash{$parent_layer_rs->layer_id}{"tissue_name"}}, $tissue_name);
-      $tissue_hash{$parent_layer_rs->layer_id}{"bg_color"}{$tissue_name} = $layer_info_rs->bg_color;
     }
   
   }

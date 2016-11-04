@@ -94,6 +94,7 @@ sub _get_correlation {
 	my $total_corr_genes = 0;
   my %corr_hash;
   
+  
   # to store erros as they may happen
   my @errors; 
   
@@ -134,7 +135,7 @@ sub _get_correlation {
   }
 
 	$total_corr_genes = $hits;
-
+  
 	# Get page number after correlation filtering
 	if ($corr_filter > 0.65) {
 		my $range_query = Lucy::Search::RangeQuery->new(
@@ -162,6 +163,7 @@ sub _get_correlation {
   $corr_hash{$query_gene} = 1;
   
 	while ( my $hit = $lucy_corr->next ) {
+    
 		if ($query_gene eq $hit->{gene1} && $hit->{correlation} >= $corr_filter) {
 			push(@genes, $hit->{gene2});
 			$corr_hash{$hit->{gene2}} = $hit->{correlation};
@@ -169,8 +171,12 @@ sub _get_correlation {
 			push(@genes, $hit->{gene1});
 			$corr_hash{$hit->{gene1}} = $hit->{correlation};
 		}
+    else {
+      # print STDERR "gene: $query_gene, hit1: ".$hit->{gene1}.", hit2: ".$hit->{gene2}.", correlation: ".$hit->{correlation}."\n";
+    }
 		push(@corr_values, $hit->{correlation})
 	}
+  
   
   return (\@genes,\@corr_values,$total_corr_genes,\%corr_hash);
 }
@@ -596,6 +602,7 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
       @genes = @$genes;
       @corr_values = @$corr_values;
     }
+    
 	}
   
   #------------------------------------------------------------------------------------------------------------------
@@ -676,6 +683,7 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
 		}
 	}
 	
+
 	$corr_filter = $c->req->param("correlation_filter")||0.65;
 	my @output_gene = $c->req->param("input_gene");
   
@@ -699,6 +707,8 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
 	$c->stash->{organism_filter} = $project_id;
 	$c->stash->{stage_filter} = $stage_filter;
 	$c->stash->{tissue_filter} = $tissue_filter;
+	$c->stash->{condition_filter} = $condition_filter;
+	$c->stash->{organ_filter} = $organ_filter;
   $c->stash->{description} = \%descriptions;
 	$c->stash->{project_id} = $project_rs->project_id;
 	$c->stash->{project_name} = $project_rs->name;

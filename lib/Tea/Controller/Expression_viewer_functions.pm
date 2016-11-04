@@ -357,7 +357,7 @@ sub get_image_hash {
         }
         
         my $tissue_name = $layer_info_rs->name;
-        # $tissue_name =~ s/ /_/g;
+        $tissue_name =~ s/ /_/g;
       
         push(@{$tissue_hash{$parent_layer_rs->layer_id}{"image_name"}}, $one_layer->image_file_name);
         push(@{$tissue_hash{$parent_layer_rs->layer_id}{"image_width"}}, $one_layer->image_width);
@@ -377,6 +377,15 @@ sub get_image_hash {
       push(@stage_ids,$id);
     }
   }
+  
+  # print STDERR "stage ids:\n";
+  # print Dumper @stage_ids;
+  #
+  # print STDERR "stage hash:\n";
+  # print Dumper %stage_hash;
+  #
+  # print STDERR "tissue hash:\n";
+  # print Dumper %tissue_hash;
   
   return (\@stage_ids,\%stage_hash,\%tissue_hash);
 }

@@ -240,7 +240,10 @@ $(document).ready(function () {
           var tisue_name = tissue_h[stage_ids_a[n]]["tissue_name"][i];
         
           var expr_val = gst_expr_hhh[gene_a[0]][stage_name][tisue_name];
-
+          
+          // alert("gst_expr_hhh: "+gst_expr_hhh[gene_a[0]]);
+          // alert("expr_val: "+expr_val+", gene: "+gene_a[0]+", stage_name: "+stage_name+", tisue_name: "+tisue_name);
+          
           var rgb_color_array = get_expr_color(expr_val);
 
           var r = rgb_color_array[0];
@@ -252,6 +255,8 @@ $(document).ready(function () {
           img_width = tissue_h[stage_ids_a[n]]["image_width"][i]*1;
           img_height = tissue_h[stage_ids_a[n]]["image_height"][i]*1;
 
+          // alert("x_offset: "+x_offset+", y_offset: "+y_offset+", r: "+r+", g: "+g+", b: "+b+", img_width: "+img_width+", img_height: "+img_height+", image_name: "+image_name);
+          
           load_tissue_image(x_offset,y_offset,r,g,b,tissue_layer,img_canvas,img_width,img_height,tissue_img_group,image_name);
           tissue_layer.draw();
         } //for tissues end

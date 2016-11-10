@@ -45,31 +45,33 @@ sub help {
 
     Usage:
        
-       TEA_import_project_metadata.pl -d <db_name> -H <host> -u <user_name> -t <template_file>
+       TEA_import_project_metadata.pl -d <db_name> -H <host> -u <user_name> -p <password> -t <template_file>
 
     Mandatory options:
 
       -d <db_name>                 Database name
       -H <host>                    Database host
       -u <user_name>               Database user
+      -p <password>               Database user password
       -t <template_file>           TEA metadata template TEA_project_input_template.txt
     
     Other options:
       
       -h                           Print this help
+      -n                           Non-interactively run this script
       
       
     Example:
       
-      TEA_import_project_metadata.pl -d expression_db -H localhost -u postgres -t TEA_project_input_template.txt
+      TEA_import_project_metadata.pl -d expression_db -H localhost -u postgres -p postgres -t TEA_project_input_template.txt
 
 
 EOF
 exit (1);
 }
 
-our ($opt_d, $opt_u, $opt_t, $opt_H, $opt_h);
-getopts("d:u:t:H:h");
+our ($opt_d, $opt_u, $opt_t, $opt_H, $opt_h, $opt_p, $opt_n);
+getopts("d:u:t:H:hp:n");
 
 if (!$opt_t) {
     print "Input data missing:\n";
@@ -77,27 +79,28 @@ if (!$opt_t) {
     print "the SGN TEA template file\n\n";
     help();
 }
-if (!$opt_d || !$opt_u || !$opt_H) {
+if (!$opt_d || !$opt_u || !$opt_H || !$opt_p) {
     print "Database info missing:\n";
     print "To import the metadata to the database you must provide\n";
-    print "database name, host and user\n\n";
+    print "database name, host, user, and password\n\n";
     help();
 }
 if ($opt_h) {
     help();
 }
 
-system "stty -echo";
-print "Please enter password: ";
-my $password = <STDIN>;
-chomp($password);
-print "\n";
-system "stty echo";
+#system "stty -echo";
+#print "Please enter password: ";
+#my $password = <STDIN>;
+#chomp($password);
+#print "\n";
+#system "stty echo";
 
 
 my $dbname = $opt_d;
 my $host = $opt_H;
 my $username = $opt_u;
+my $password = $opt_p;
 
 my $input_file = $opt_t;
 
@@ -172,10 +175,16 @@ try {
           });
           
           if (!$organism_rs || !$organism_rs->species) {
-            print "Organism $organism_species $organism_variety DOES NOT EXIST on the database!\n\n";
-            print "Create? [Y|n]> ";
 
-            if (<STDIN> !~ m/no*/i) {
+            my $skip_organism;
+            if (!$opt_n) {
+              print "Organism $organism_species $organism_variety DOES NOT EXIST on the database!\n\n";
+              print "Create? [Y|n]> ";
+              if (<STDIN> =~ m/no*/i) {
+                $skip_organism = 1;
+              }
+            }
+            if (!$skip_organism) {
               $organism_rs = $schema->resultset('Organism')->find_or_new({
                   species => $organism_species,
                   variety => $organism_variety,
@@ -397,10 +406,15 @@ sub submit_layer {
   my $layer_type_rs = $schema->resultset('LayerType')->single({layer_type => $layer_type});
 
   if (!$layer_type_rs || !$layer_type_rs->layer_type_id) {
+    my $skip_layer;
+    if (!$opt_n) {
       print "Layer type $layer_type DOES NOT EXIST on the database!\n\n";
       print "Create? [Y|n]> ";
-
-      if (<STDIN> !~ m/no*/i) {
+      if (<STDIN> =~ m/no*/i) {
+        $skip_layer = 1;
+      }
+    }
+    if (!$skip_layer) {
           $layer_type_rs = $schema->resultset('LayerType')->new({
               layer_type => $layer_type,
           });
@@ -527,9 +541,14 @@ sub check_commit {
     print "\nyour new $data_type:\n";
     print_one_row($rs);
     
-    print "Commit? [Y|n]> ";
-  
-    if (<STDIN> !~ m/no*/i) {
+    my $skip_commit;
+    if (!$opt_n) {
+      print "Commit? [Y|n]> ";
+      if (<STDIN> =~ m/no*/i) {
+        $skip_commit = 1;
+      }
+    }
+    if (!$skip_commit) {
         $rs->insert();
     
         print "commited.\n\n\n\n\n";

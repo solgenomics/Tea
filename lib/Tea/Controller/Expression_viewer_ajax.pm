@@ -410,6 +410,7 @@ sub cassbase_transfer :Path('/cassava_expression_atlas/cassbase_transfer') :Args
     my $trial_name = $c->req->param('trial_name');
     $trial_name =~ s/ //g;
     $trial_name =~ s/\s//g;
+    $c->response->headers->header( "Access-Control-Allow-Origin" => '*' );
 
     my $dbname = $c->config->{dbname};
     my $host = $c->config->{dbhost};

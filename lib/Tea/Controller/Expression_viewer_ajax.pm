@@ -403,6 +403,28 @@ sub _run_blast_cmd {
 	# return \@res;
 }
 
+sub cassbase_transfer :Path('/cassava_expression_atlas/cassbase_transfer') :Args(1) {
+    my $self = shift;
+    my $c = shift;
+    my $trial_id = shift;
+    my $trial_name = $c->req->param('trial_name');
+    $trial_name =~ s/ //g;
+    $trial_name =~ s/\s//g;
+
+    my $dbname = $c->config->{dbname};
+    my $host = $c->config->{dbhost};
+    my $username = $c->config->{dbuser};
+    my $password = $c->config->{dbpass};
+
+    my @args = ('/home/production/cassbase/bin/cea_load.sh', 'http://cassbase.org', $trial_id, '/home/production', '/home/production/cea_tmp', 'false', 'true', $host, $dbname, $username, $password, "cass_index_$trial_name");
+    #my @args = ('/home/vagrant/cxgn/cassbase/bin/cea_load.sh', 'http://cassbase.org', $trial_id, '/home/vagrant/cxgn', '/home/vagrant/cxgn/cassbase/bin', 'false', 'true', $host, $dbname, $username, $password, "cass_index_$trial_name");
+    print STDERR Dumper \@args;
+    system('sh', @args) == 0
+        or die "system @args failed: $?";
+
+    $c->stash->{rest} = { success => 1 };
+}
+
 
 
 1;

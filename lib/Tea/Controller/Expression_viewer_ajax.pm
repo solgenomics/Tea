@@ -418,8 +418,8 @@ sub cassbase_transfer :Path('/cassava_expression_atlas/cassbase_transfer') :Args
 
     my @args = ('/home/production/cassbase/bin/cea_load.sh', 'http://cassbase.org', $trial_id, '/home/production', '/home/production/cea_tmp', 'false', 'true', $host, $dbname, $username, $password, "cass_index_$trial_name");
     #my @args = ('/home/vagrant/cxgn/cassbase/bin/cea_load.sh', 'http://cassbase.org', $trial_id, '/home/vagrant/cxgn', '/home/vagrant/cxgn/cassbase/bin', 'false', 'true', $host, $dbname, $username, $password, "cass_index_$trial_name");
-    print STDERR Dumper \@args;
-    system('sh', @args) == 0
+    #print STDERR Dumper \@args;
+    system('bash', @args) == 0
         or die "system @args failed: $?";
 
     $c->stash->{rest} = { success => 1 };

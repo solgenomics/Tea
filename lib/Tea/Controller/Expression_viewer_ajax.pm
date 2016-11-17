@@ -85,15 +85,15 @@ sub get_stages :Path('/expression_viewer/get_stages/') :Args(0) {
   my ($organ_arrayref,$stage_arrayref,$tissue_arrayref,$condition_arrayref) = $db_funct->get_input_options($schema,$all_figure_rs);
   
   # format layers to select options
-  my $organ_options_arrayref = $db_funct->names_array_to_option($organ_arrayref);
-  my $stage_options_arrayref = $db_funct->names_array_to_option($stage_arrayref);
-  my $tissue_options_arrayref = $db_funct->names_array_to_option($tissue_arrayref);
-  my $condition_options_arrayref = $db_funct->names_array_to_option($condition_arrayref);
+  my @organ_options_array = sort @{$db_funct->names_array_to_option($organ_arrayref)};
+  my @stage_options_array = sort @{$db_funct->names_array_to_option($stage_arrayref)};
+  my @tissue_options_array = sort @{$db_funct->names_array_to_option($tissue_arrayref)};
+  my @condition_options_array = sort @{$db_funct->names_array_to_option($condition_arrayref)};
   
-  my $organ_options = join("\n", @$organ_options_arrayref);
-  my $stage_options = join("\n", "@$stage_options_arrayref");
-  my $tissue_options = join("\n", "@$tissue_options_arrayref");
-  my $condition_options = join("\n", "@$condition_options_arrayref");
+  my $organ_options = join("\n", @organ_options_array);
+  my $stage_options = join("\n", "@stage_options_array");
+  my $tissue_options = join("\n", "@tissue_options_array");
+  my $condition_options = join("\n", "@condition_options_array");
   
   # print STDERR "condition_options: $condition_options\n";
   
@@ -418,7 +418,8 @@ sub cassbase_transfer :Path('/cassava_expression_atlas/cassbase_transfer') :Args
     my $password = $c->config->{dbpass};
 
     my @args = ('/home/production/cassbase/bin/cea_load.sh', 'http://cassbase.org', $trial_id, '/home/production', '/home/production/cea_tmp', 'false', 'true', $host, $dbname, $username, $password, "cass_index_$trial_name");
-    #my @args = ('/home/vagrant/cxgn/cassbase/bin/cea_load.sh', 'http://cassbase.org', $trial_id, '/home/vagrant/cxgn', '/home/vagrant/cxgn/cassbase/bin', 'false', 'true', $host, $dbname, $username, $password, "cass_index_$trial_name");
+    #my @args = ('/home/vagrant/cxgn/cassbase/bin/cea_load.sh', 'http://0:3030', $trial_id, '/home/vagrant/cxgn', '/home/vagrant/cxgn/cassbase/bin', 'true', 'true', $host, $dbname, 'postgres', 'postgres', "cass_index_$trial_name");
+    #my @args = ('/home/vagrant/cxgn/cassbase/bin/cea_load.sh', 'http://0:3030', $trial_id, '/home/vagrant/cxgn', '/home/vagrant/cxgn/cassbase/bin', 'false', 'true', $host, $dbname, $username, $password, "cass_index_$trial_name");
     #print STDERR Dumper \@args;
     system('bash', @args) == 0
         or die "system @args failed: $?";

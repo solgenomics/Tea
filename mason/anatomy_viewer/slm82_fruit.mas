@@ -3,8 +3,9 @@
   <div style="width:80%;max-width:1200px;">
 	
     <h1><i>S. lycopersicum</i> M82 Fruit Development</h1>
-        <h3><b>Whole Fruit</b></h3>
-        
+        <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/M82_developmental_series.jpeg">
+
+        <h3><b>Whole Fruit</b></h3>        
       <p>
         The drawings on this site were derived by taking fruit cross-section photographs and using Adobe Photoshop to convert them into anatomically accurate drawings.
         This also allows different gene expression levels found in each tissue to be shown in the expression viewer.

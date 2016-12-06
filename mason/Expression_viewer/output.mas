@@ -175,8 +175,11 @@ $(document).ready(function () {
 </center>
 <br>
 <center>
-  <button id="dwl_cube" class="btn btn-primary"><span class="glyphicon glyphicon-download-alt"></span> Cube as img</button>
-  <a id="dwl_cube_link" href="#" download="expression_cube.png" style="display:none"></a>
+  
+  <div style="width:1060px">
+    <button id="dwl_cube" class="btn btn-primary save-canvas-btn pull-right"><span class="glyphicon glyphicon-download-alt"></span> Save as img</button>
+    <a id="dwl_cube_link" href="#" download="expression_cube.png" style="display:none"></a>
+  </div>
   
   <div class="tabs">
     <ul class="nav nav-tabs">
@@ -200,4 +203,13 @@ $(document).ready(function () {
 </center>
 <br>
 
-
+<style>
+  
+.save-canvas-btn {
+  
+  
+  
+}
+  
+  
+</style>

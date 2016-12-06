@@ -11,9 +11,9 @@
     
     <div class="anatomy_section">
       <a class="anatomy_link" href="/anatomy_viewer/microscopy">
-        <h2 class="anatomy_title">Light Microscopy & Drawings</h2>
+        <h2 class="anatomy_title">Project information and figures</h2>
       		<img style="width:800px;" src="static/images/anatomy_viewer/menu/RR_Anatomy-no_header.jpg"><br>
-          Browse detailed drawing from light microscopy images of tomato fruit.
+          Learn more about the samples from each project on the Tomato Expression Atlas and browse detailed drawings from photographies and light microscopy images of tomato fruit development.
       </a>
     </div>
 

@@ -72,7 +72,7 @@ my $json = JSON::Any->new;
   <div class="row">
     
     <div class="col-sm-6 col-md-6 col-lg-6">
-      <div style="text-align: center; width=100%">Projects</div>
+      <div style="text-align: center; width=100%">Projects <a href="/anatomy_viewer/microscopy" target="blank" style="float:right">more info</a></div>
       <div id="expr_params" class="panel panel-primary" style="overflow: scroll;">
         <!-- <div class="panel-heading">Genotypes</div> -->
         

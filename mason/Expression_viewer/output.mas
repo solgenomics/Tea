@@ -45,6 +45,7 @@ $(document).ready(function () {
     //alert("errors: "+errors);
     $('#error_modal').modal();
   }
+  
 })
   
 	var tissues = <% $json->encode(\@tissues) %>;
@@ -174,6 +175,8 @@ $(document).ready(function () {
 </center>
 <br>
 <center>
+  <button id="dwl_cube" class="btn btn-primary"><span class="glyphicon glyphicon-download-alt"></span> Cube as img</button>
+  <a id="dwl_cube_link" href="#" download="expression_cube.png" style="display:none"></a>
   
   <div class="tabs">
     <ul class="nav nav-tabs">

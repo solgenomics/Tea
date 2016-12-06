@@ -126,7 +126,7 @@ $(document).ready(function () {
   }
   
   
-  function setup_cube(canvas_h,canvas_w,cube_x_margin,gene_a,stage_a,tissue_a,AoAoA,locus_id,gene_desc,c_page,pages_number,expr_unit,bg_color_hash,gst_sem_hohoh) {
+  function setup_cube(setup_cube,canvas_h,canvas_w,cube_x_margin,gene_a,stage_a,tissue_a,AoAoA,locus_id,gene_desc,c_page,pages_number,expr_unit,bg_color_hash,gst_sem_hohoh) {
     
     var frame_height = $('#container').css("height");
     var container_height = frame_height.replace("px","");
@@ -135,12 +135,12 @@ $(document).ready(function () {
       $('#container').css("height",canvas_h+"px");
     }
   
-    //define the cube canvas
-    var canvas = new Kinetic.Stage({
-      container: "container",
-      width: canvas_w,
-      height: canvas_h
-    });
+    // //define the cube canvas
+    // var canvas = new Kinetic.Stage({
+    //   container: "container",
+    //   width: canvas_w,
+    //   height: canvas_h
+    // });
   
     //for y_margin (top margin) for the cube, to have space for the stages names
     var longest_stage = 0;
@@ -362,11 +362,17 @@ $(document).ready(function () {
   }
 
 
+  //define the cube canvas
+  var canvas = new Kinetic.Stage({
+    container: "container",
+    width: canvas_width,
+    height: canvas_height
+  });
 
 
 
   //print cube
-  setup_cube(canvas_height,canvas_width,x_margin,genes,stages,tissues,aoaoa,gene_locus_id,gene_descriptions,current_page,pages_num,expression_unit,bg_color_hash,gst_sem_hohoh);
+  setup_cube(canvas,canvas_height,canvas_width,x_margin,genes,stages,tissues,aoaoa,gene_locus_id,gene_descriptions,current_page,pages_num,expression_unit,bg_color_hash,gst_sem_hohoh);
 
 
   //print Expression images
@@ -377,7 +383,15 @@ $(document).ready(function () {
     if (!expr_imgs_loaded) {
       
       $("#loading_modal").modal("show");
-
+      
+      //define canvas for Expression Images
+      // var img_canvas = new Kinetic.Stage({
+        // container: "container_tissues",
+        // width: canvas_w,
+        // height: images_total_height
+      // });
+      
+      
       draw_expression_images(canvas_height,canvas_width,stage_ids_array,stage_hash,tissue_hash,gst_expr_hohoh,genes,tissues);
       expr_imgs_loaded = 1;
       
@@ -411,6 +425,28 @@ $(document).ready(function () {
       d3heatmap_loaded = 1;
     }
   });
+  
+  
+  
+  
+  
+  $("#dwl_cube").click(function(){
+
+    canvas.toDataURL({
+      
+      callback: function(imageURL) {
+         var a = $("#dwl_cube_link")
+             .attr("href", imageURL)
+             .appendTo("body");
+         a[0].click();
+       }
+
+    });
+  });
+  
+  
+  
+  
   
   //code to change tabs content
   $("#cube_tab").on('click', function(e)  {

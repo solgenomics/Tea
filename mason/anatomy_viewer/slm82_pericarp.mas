@@ -6,7 +6,17 @@
     <h3><b>Pericarp Laser Capture Microdissection</b></h3>
     
     <p>
-        The drawings on this site were derived by tracing individual cells using Adobe Illustrator to create anatomically accurate drawings.
+      Laser-capture microdissection (LCM) was used to dissect <i>S. lycopersicum</i> (cv M82) fruits 5 days immediately before fruit initiation (5 DPA; five DPA days post-anthesis),
+      phases of rapid expansion (10 and 20 DPA), maturation (Mature Green [MG]), and ripening (Breaker [Br], Pink [Pk], Light Red [LR] and Red Ripe [RR])
+      based on the tomato color chart “USDA Visual Aid TM-L-1” (Agricultural Marketing Service, 1991).
+      Five fruit pericarp cell/tissue-types were collected from fresh fruits by cryosections by LCM.
+      The collected pericarp cell/tissue-types comprised the outer epidermis, collenchyma, parenchyma, vascular tissue and inner epidermis.
+      Three or four biological replicates of each cell/tissue-type were collected for the production of RNA-seq libraries.
+      Read counts per gene were expressed as reads per million mapped reads (RPM).
+    </p>
+    
+    <p>
+        The drawings on this site were derived by tracing individual cells using <a href="http://www.adobe.com/products/illustrator.html" target="blank">Adobe Illustrator</a> to create anatomically accurate drawings.
         This also allows different gene expression levels found in each tissue to be shown in the expression viewer.
     </p>
       

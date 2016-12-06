@@ -98,17 +98,8 @@
   }
   
   .go_back_link:link {
-    color: #55f;
+    font-size: 20px;
     float: left;
-  }
-  
-  .go_back_link:hover {
-    color: #aaa;
-    text-decoration: underline;
-  }
-  
-  .go_back_link:visited {
-    color: #55f;
   }
   
 </style>

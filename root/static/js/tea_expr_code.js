@@ -215,7 +215,7 @@ $(document).ready(function () {
     return [x_offset,y_offset,j_index,stage_name,img_name,img_width,img_height,stage_short_name];
   }
   
-  function draw_expression_images(canvas_h,canvas_w,stage_ids_a,stage_h,tissue_h,gst_expr_hhh,gene_a,tissue_a) {
+  function draw_expression_images(img_canvas,canvas_h,canvas_w,stage_ids_a,stage_h,tissue_h,gst_expr_hhh,gene_a,tissue_a) {
     
     var x_offset = 0;
     var y_offset = 0;
@@ -225,13 +225,9 @@ $(document).ready(function () {
     var height_and_col = get_canvas_height(stage_ids_a,stage_h,canvas_w,canvas_h);
     var images_total_height = height_and_col[0];
     var col_num = height_and_col[1];
-
-    //define canvas for Expression Images
-    var img_canvas = new Kinetic.Stage({
-      container: "container_tissues",
-      width: canvas_w,
-      height: images_total_height
-    });
+    
+    img_canvas.width(canvas_w);
+    img_canvas.height(images_total_height);
     
     var tissue_layer = new Kinetic.Layer();
 
@@ -377,6 +373,7 @@ $(document).ready(function () {
 
   //print Expression images
   var expr_imgs_loaded = 0;
+  var img_canvas;
   
   $("#expr_imgs_tab").click(function(){
     // alert("images: "+expr_imgs_loaded);
@@ -385,14 +382,14 @@ $(document).ready(function () {
       $("#loading_modal").modal("show");
       
       //define canvas for Expression Images
-      // var img_canvas = new Kinetic.Stage({
-        // container: "container_tissues",
-        // width: canvas_w,
-        // height: images_total_height
-      // });
+      img_canvas = new Kinetic.Stage({
+        container: "container_tissues",
+        width: 1025,
+        height: 1200
+      });
       
       
-      draw_expression_images(canvas_height,canvas_width,stage_ids_array,stage_hash,tissue_hash,gst_expr_hohoh,genes,tissues);
+      draw_expression_images(img_canvas,canvas_height,canvas_width,stage_ids_array,stage_hash,tissue_hash,gst_expr_hohoh,genes,tissues);
       expr_imgs_loaded = 1;
       
       setTimeout($("#loading_modal").modal("hide"), 5000);
@@ -416,6 +413,9 @@ $(document).ready(function () {
               } else {
                 $('#container_heatmap').append(response.html_code);
                 window.HTMLWidgets.staticRender();
+                
+                // alert("hi: "+response.heatmap_file);
+                heatmap_filename = response.heatmap_file;
               }
             },
             error: function(response) {
@@ -431,17 +431,40 @@ $(document).ready(function () {
   
   
   $("#dwl_cube").click(function(){
-
-    canvas.toDataURL({
+    
+    // download canvas as image when Expression Cube tab is active
+    if ($("#cube_tab").hasClass('active')) {
+      canvas.toDataURL({
+        callback: function(imageURL) {
+           var a = $("#dwl_cube_link")
+               .attr("href", imageURL)
+               .appendTo("body");
+           a[0].click();
+         }
+      });
+    }
+    
+    // download canvas as image when Expression images tab is active
+    if ($("#expr_imgs_tab").hasClass('active')) {
+      img_canvas.toDataURL({
+        callback: function(imageURL) {
+           var a = $("#dwl_cube_link")
+               .attr("href", imageURL)
+               .appendTo("body");
+           a[0].click();
+         }
+      });
+    }
+    
+    // download canvas as image when Heatmap tab is active
+    if ($("#heatmap_tab").hasClass('active')) {
       
-      callback: function(imageURL) {
-         var a = $("#dwl_cube_link")
-             .attr("href", imageURL)
-             .appendTo("body");
-         a[0].click();
-       }
-
-    });
+      alert("This heatmap is not available for downloading");
+      // alert("heatmap: "+heatmap_filename);
+      
+      // document.getElementById('my_iframe').src = heatmap_filename;
+    }
+    
   });
   
   

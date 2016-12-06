@@ -243,10 +243,10 @@ hr {
 #back_to_input {
   color: #2222f0;
   font-size:14px;
-  margin-left:5px;
   float:left;
-  margin-top: 5px;
+  bottom: 75px;
   text-decoration: underline;
+  position: relative;
 }
 
 #download_expr_table {

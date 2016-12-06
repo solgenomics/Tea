@@ -140,10 +140,10 @@ $(document).ready(function () {
 		
     <h1 id="project_desc"></h1>
     <br>
-    <a id="back_to_input" href="/Expression_viewer/input?input_gene=<% $genes[0] %>">Go back to input page</a>
 		<div id="gene_info" class="well">
-			<span id="gene_name" class="gene_name"></span><br/>
-      <span id="gene_desc" class="gene_desc"></span><br/>
+			<span id="gene_name"></span><br/>
+      <span id="gene_desc"></span><br/>
+      <a id="back_to_input" href="/Expression_viewer/input?input_gene=<% $genes[0] %>">Go back to input page</a>
 		</div>
   
       <form id="search_gene" class="form-inline" role="form" method="post" action="/Expression_viewer/output" name="tea_form" enctype="multipart/form-data">
@@ -177,7 +177,7 @@ $(document).ready(function () {
 <center>
   
   <div style="width:1060px">
-    <button id="dwl_cube" class="btn btn-primary save-canvas-btn pull-right"><span class="glyphicon glyphicon-download-alt"></span> Save as img</button>
+    <button id="dwl_cube" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-download-alt"></span> Save as img</button>
     <a id="dwl_cube_link" href="#" download="expression_cube.png" style="display:none"></a>
   </div>
   
@@ -203,13 +203,3 @@ $(document).ready(function () {
 </center>
 <br>
 
-<style>
-  
-.save-canvas-btn {
-  
-  
-  
-}
-  
-  
-</style>

@@ -12,7 +12,7 @@
       a time point immediately before fruit initiation, as well as fruits during fruit set (5 DPA), phases of rapid expansion (10, 20, and 30 DPA),
       maturation (Mature Green [MG]), and ripening (Breaker [Br], Pink [Pk], Light Red [LR] and Red Ripe [RR])
       based on the tomato color chart “USDA Visual Aid TM-L-1” (Agricultural Marketing Service, 1991).
-      Six fruit tissues were collected from fresh fruits: pericarp, ovules/seeds, locular material, septum, placenta and columella.
+      Six fruit tissues were collected from fresh fruits or cryosections: pericarp, ovules/seeds, locular material, septum, placenta and columella.
       These tissues were also collected from fruits undergoing maturation and early ripening (MG, Br and Pk) at three latitudinal sections (equatorial region, stem-side, and stylar-side) of fruits.
       Three or four biological replicates of each tissue-type were collected for the production of RNA-seq libraries.
       Read counts per gene were expressed as reads per million mapped reads (RPM).

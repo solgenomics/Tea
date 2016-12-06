@@ -2,9 +2,20 @@
 <center>
   <div style="width:80%;max-width:1200px;">
 	
-    <h1><i>S. pimpinellifolium</i> LA1589 Fruit Development</h1>
-    <h3><b>Whole Fruit</b></h3>
+    <h1><i>S. pimpinellifolium</i> LA1589</h1>
+    <h3><b>Microdissected Ovary and Fruit Tissues</b></h3>
     
+    <p>
+      Laser-capture microdissection (LCM) was used to dissect S. pimpinellifolium ovaries at anthesis (0 DPA), a time point immediately before fruit initiation, and fruit at 4 DPA.
+      A total of 11 samples were dissected from cryosections, which allow efficient preservation and extraction of RNA from tomato fruit tissues following LCM.
+      Samples from the 0-DPA ovary comprised the ovules, placenta, septum, and pericarp.
+      The equivalent tissues of placenta, septum, and pericarp were collected from 4-DPA fruits, together with the embryo, endosperm, seed coat, and funiculus from the developing seed.
+      Three biological replicates of each tissue type were collected for the production of RNA-seq libraries.
+      Read counts per gene were expressed as reads per million mapped reads (RPM).
+      More information about this dataset is available at <a href="http://www.plantphysiol.org/content/168/4/1684.full" target="blank">Pattison et al. 2015</a>.<br>
+      <br>
+      Raw reads are available at <a href="https://www.ncbi.nlm.nih.gov/sra/?term=SRP048699" target="blank">The Sequence Read Archive (SRA)</a>.
+    </p>
     <p>
         The drawings on this site were derived by tracing individual cells using Adobe Illustrator to create anatomically accurate drawings.
         This also allows different gene expression levels found in each tissue to be shown in the expression viewer.
@@ -83,6 +94,19 @@
     max-width:1127px;
     width:100%;
     display:block;
+  }
+  
+  a {
+    color: #337ab7;
+  }
+  
+  a:hover {
+    color: #337ab7;
+    text-decoration: underline;
+  }
+  
+  a:visited {
+    color: #337ab7;
   }
   
   .go_back_link:link {

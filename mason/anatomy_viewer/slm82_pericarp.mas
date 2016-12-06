@@ -6,11 +6,11 @@
     <h3><b>Pericarp Laser Capture Microdissection</b></h3>
     
     <p>
-      Laser-capture microdissection (LCM) was used to dissect <i>S. lycopersicum</i> (cv M82) fruits 5 days immediately before fruit initiation (5 DPA; five DPA days post-anthesis),
+      Laser-capture microdissection (LCM) was used to dissect <i>S. lycopersicum</i> (cv M82) fruits during fruit set (5 DPA; days post-anthesis),
       phases of rapid expansion (10 and 20 DPA), maturation (Mature Green [MG]), and ripening (Breaker [Br], Pink [Pk], Light Red [LR] and Red Ripe [RR]).
       Maturity and ripeness stages were defined based on the tomato color chart “USDA Visual Aid TM-L-1” (USDA Agricultural Marketing Service, 1975).
       Five fruit pericarp cell/tissue-types were collected from cryosections by LCM: outer epidermis, collenchyma, parenchyma, vascular tissue and inner epidermis.
-      Three or four biological replicates of each cell/tissue-type were collected for the production of RNA-seq libraries.
+      Three biological replicates of each cell/tissue-type were collected for the production of RNA-seq libraries.
       Read counts per gene were expressed as reads per million mapped reads (RPM).
     </p>
     
@@ -20,7 +20,7 @@
       <tr><td>Mature Green (MG)</td><td>Fully expanded and the surface of the tomato is completely green in color.</td></tr>
       <tr><td>Breaker (Br)</td><td>There is a definite break in color from green to tannish-yellow, pink or red on not more than 10% of the surface.</td></tr>
       <tr><td>Pink (Pk)</td><td>More than 30% but not more than 60% of the surface, in the aggregate, shows pink or red color.</td></tr>
-      <tr><td>Light Red (LR)</td><td>More than 60% but not more than 90% of the surface, in the aggregate, shows pinkish-red or red</td></tr>
+      <tr><td>Light Red (LR)</td><td>More than 60% but not more than 90% of the surface, in the aggregate, shows pinkish-red or red.</td></tr>
       <tr><td>Red Ripe (RR)</td><td>More than 90% of the surface, in the aggregate, shows red color.</td></tr>
     </table>
     

@@ -7,12 +7,31 @@
     
     <p>
       Laser-capture microdissection (LCM) was used to dissect <i>S. lycopersicum</i> (cv M82) fruits 5 days immediately before fruit initiation (5 DPA; five DPA days post-anthesis),
-      phases of rapid expansion (10 and 20 DPA), maturation (Mature Green [MG]), and ripening (Breaker [Br], Pink [Pk], Light Red [LR] and Red Ripe [RR])
-      based on the tomato color chart “USDA Visual Aid TM-L-1” (Agricultural Marketing Service, 1991).
+      phases of rapid expansion (10 and 20 DPA), maturation (Mature Green [MG]), and ripening (Breaker [Br], Pink [Pk], Light Red [LR] and Red Ripe [RR]).
+      Maturity and ripeness stages were defined based on the tomato color chart “USDA Visual Aid TM-L-1” (USDA Agricultural Marketing Service, 1975).
       Five fruit pericarp cell/tissue-types were collected from cryosections by LCM: outer epidermis, collenchyma, parenchyma, vascular tissue and inner epidermis.
       Three or four biological replicates of each cell/tissue-type were collected for the production of RNA-seq libraries.
       Read counts per gene were expressed as reads per million mapped reads (RPM).
     </p>
+    
+    <br>
+    <table class="table">
+      <tr><th>Maturity and ripeness stage</th><th>Description</th></tr>
+      <tr><td>Mature Green (MG)</td><td>Fully expanded and the surface of the tomato is completely green in color.</td></tr>
+      <tr><td>Breaker (Br)</td><td>There is a definite break in color from green to tannish-yellow, pink or red on not more than 10% of the surface.</td></tr>
+      <tr><td>Pink (Pk)</td><td>More than 30% but not more than 60% of the surface, in the aggregate, shows pink or red color.</td></tr>
+      <tr><td>Light Red (LR)</td><td>More than 60% but not more than 90% of the surface, in the aggregate, shows pinkish-red or red</td></tr>
+      <tr><td>Red Ripe (RR)</td><td>More than 90% of the surface, in the aggregate, shows red color.</td></tr>
+    </table>
+    
+    <p>
+      REFRENCES<br>
+      USDA Agricultural Marketing Service (1975) Color classification requirements in United States Standards for grades of fresh tomatoes. USDA Visual Aid TM-L-1. The John Henry Company, Lansing, MI.
+    </p>
+    
+    <a href="/anatomy_viewer/microscopy/" class="go_back_link">Go back</a>
+    <br>
+    <br>
     
     <p>
         The drawings on this site were derived by tracing individual cells using <a href="http://www.adobe.com/products/illustrator.html" target="blank">Adobe Illustrator</a> to create anatomically accurate drawings.
@@ -21,7 +40,6 @@
       
     <br>
 
-      <a href="/anatomy_viewer/microscopy/" class="go_back_link">Go back</a>
 
       <div class="microscopy_section" style="width:80%">
         

@@ -13,10 +13,11 @@
         and the conditions to display in <a href="/help/output" target="blank">expression viewer output</a> (<a href="#params_fig1">Figure 1</a>).
       </p>
       
-      
-      <img id="params_fig1" src="/static/images/help_imgs/exp_parameters.png" style="width:100%;max-width:1000px;"><br>
-      Figure 1. Eligible options for the Expression Viewer.<br><br>
-      
+      <center>
+        <img id="params_fig1" src="/static/images/help_imgs/exp_parameters.png" style="width:100%;max-width:1000px;"><br>
+        Figure 1. Eligible options for the Expression Viewer.<br><br><br>
+      </center>
+        
       <h4><b>1. Projects</b></h4>
       
       <p>
@@ -30,9 +31,11 @@
         that will open a new page where the user can find information, figures, articles and links from each one of the projects.
       </p>
       
-      <img id="params_fig2" src="/static/images/help_imgs/pimpi_input.png" style="width:100%;max-width:1000px;"><br>
-      Figure 2. <i>S.pimpinellifolium</i> Fruit Development project selection.<br><br>
-      
+      <center>
+        <img id="params_fig2" src="/static/images/help_imgs/pimpi_input.png" style="width:100%;max-width:1000px;"><br>
+        Figure 2. <i>S.pimpinellifolium</i> Fruit Development project selection.<br><br><br>
+      </center>
+        
       <h4><b>2. Correlation filter</b></h4>
       
       <p>
@@ -40,9 +43,11 @@
         the minimum correlation value (0.65 - 1.0) to display co-expressed genes with similar expression profiles to the query gene.
       </p>
       
-      <img id="params_fig3" src="/static/images/help_imgs/cor_slider.png" style="width:50%;max-width:500px;"><br>
-      Figure 3. Correlation filter slider.<br><br>
-      
+      <center>
+        <img id="params_fig3" src="/static/images/help_imgs/cor_slider.png" style="width:50%;max-width:500px;"><br>
+        Figure 3. Correlation filter slider.<br><br><br>
+      </center>
+        
       <h4><b>3. Selection of the conditions</b></h4>
       
       <p>
@@ -58,19 +63,21 @@
         will add this item to the selection. Clicking again on the same item will remove it from the selection.
       </p>
       
-      
-      <img id="params_fig4" src="/static/images/help_imgs/multi_select.png" style="width:100%;max-width:1000px;"><br>
-      Figure 4. Multiple selection of conditions.<br><br>
-      
+      <center>
+        <img id="params_fig4" src="/static/images/help_imgs/multi_select.png" style="width:100%;max-width:1000px;"><br>
+        Figure 4. Multiple selection of conditions.<br><br><br>
+      </center>
+        
       <p>
         Different selections on the stage, organ, tissue and treatment selection boxes will produce different <a href="/help/output" target="blank">outputs</a>.
         For example, when selecting different items from the selection boxes the shape of the expression cube will adapt to the selected conditions (<a href="#params_fig4">figure 5</a>).
         The figures on the expression images and the heatmap will adapt also to the selected conditions.
       </p>
       
-      <img id="params_fig5" src="/static/images/help_imgs/cube_shapes.png" style="width:100%;max-width:1000px;"><br>
-      Figure 5. Example of different shapes of the Expression Cube.<br><br>
-      
+      <center>
+        <img id="params_fig5" src="/static/images/help_imgs/cube_shapes.png" style="width:100%;max-width:1000px;"><br>
+        Figure 5. Example of different shapes of the Expression Cube.<br><br><br>
+      </center>
       <br><br>
       
       

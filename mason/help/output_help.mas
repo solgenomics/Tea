@@ -1,5 +1,5 @@
 <center>
-  <h2 style="margin-top:0px">Expression Viewer Output </h2>
+  <h2 style="margin-top:0px">Expression Viewer Output</h2>
 </center>
 
 
@@ -7,6 +7,100 @@
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <a href="/help">Go back</a><br><br>
+      
+      <p>
+        The output of the expression atlas (<a href="#output_fig1">figure 1</a>) offers 4 ways to visualize the expression data and 2 ways to download the results:
+      </p>
+      
+      <ol>
+        <li><a href="#exp_cube">Expression Cube</a></li>
+        <li><a href="#exp_bar">Expression bar graphs</a></li>
+        <li><a href="#exp_img">Expression images</a></li>
+        <li><a href="#exp_heatmap">Heatmap</a></li>
+        <li><a href="#exp_download">Downloading the results</a></li>
+      </ol>
+      
+      <p>
+        On top of the output page a box with gray background displays query gene in blue next to the Sol Genomics Network (SGN) logo (<a href="#output_fig1">figure 1</a>). 
+        These elements link to the SGN locus page where is possible to find all the information associated to the query gene.
+        Below the query gene, its functional description is displayed.<br>
+        Under the query gene information there is an input box to change the input gene and 
+        to get the expression results again using the same conditions selected for the current result.
+      </p>
+      
+      <center>
+        <img id="output_fig1" src="/static/images/help_imgs/exp_output.png" style="width:100%;max-width:1000px;"><br>
+        Figure 1. Expression Cube output.<br><br><br>
+      </center>
+      
+      <h4 id="exp_cube"><b>1. Expression Cube</b></h4>
+      
+      <p>
+        This output consist on a 3D cube where the top layer displays the expression data for the query gene (in blue)
+        and the layers below are for the genes with the most similar expression profiles (<a href="#output_fig1">figure 1</a>).
+        Looking in detail the top layer of the expression cube (<a href="#output_fig2">figure 2</a>), 
+        we will observe on top the developmental stages sorted in time from left to right. The stages Mature Green, Breaker and Pink
+        have a colored background to group the samples from the three sections of tomato fruit: stem, equatorial and stylar.<br>
+        On the left of the layer the tissues are listed from top to bottom, showing the tissues from the tomato fruit from outside to inside.
+        On gray background are shown the celular types from the pericarp obtained by Laser Capture Microdissection (LCM).
+      </p>
+      
+      <center>
+        <img id="output_fig2" src="/static/images/help_imgs/cube_top.png" style="width:60%;max-width:600px;"><br>
+        Figure 2. Top layer of the Expression Cube.<br><br><br>
+      </center>
+      
+      <p>
+        The expression Cube is very interactive. Moving the mouse over the gene names, 
+        the gene description and correlation value (in reference to the query gene) will be displayed (<a href="#output_fig3">figure 3</a>).
+        Clicking on the gene names will split the cube to show the expression layer for that gene (<a href="#output_fig3">figure 3</a>).
+        Clicking again on the gene name will collapse back the cube. 
+        Many gene layer can be displayed simultaneously, so the expression of several genes can be compared.<br>
+        On mouse over the tile of the cube is possible to visualize the expression vale for that stage/tissue intersection.
+      </p>
+      
+      <center>
+        <img id="output_fig3" src="/static/images/help_imgs/exp_output2.png" style="width:100%;max-width:1000px;"><br>
+        Figure 3. Expression Cube split in two showing description and correlation for a gene.<br><br><br>
+      </center>
+      
+      <h4 id="exp_bar"><b>2. Expression bar graphs</b></h4>
+      
+      <p>
+        Clicking on the gene layer a bar graph will pop up to show the expression values for that gene (<a href="#output_fig4">figure 4</a>).
+        Bar plots can be opened for many genes simultaneously to compare their expression. 
+        By default tissues are shown on X axis and stages are shown as bars of different colors. 
+        However, clicking on the transpose button it is possible to visualize the stages on the X axis and the tissues as colored bars (<a href="#output_fig5">figure 5</a>).
+      </p>
+      
+      <center>
+        <img id="output_fig4" src="/static/images/help_imgs/barplot1.png" style="width:100%;max-width:800px;"><br>
+        Figure 4. Expression bar graph.<br><br><br>
+      </center>
+      <center>
+        <img id="output_fig5" src="/static/images/help_imgs/barplot2.png" style="width:100%;max-width:800px;"><br>
+        Figure 5. Expression bar graph with tissues and stages transposed.<br><br><br>
+      </center>
+      
+      <h4 id="exp_img"><b>3. Expression images</b></h4>
+      
+      <p>
+        
+      </p>
+      
+      <center>
+        <img id="output_fig6" src="/static/images/help_imgs/exp_images.png" style="width:100%;max-width:1000px;"><br>
+        Figure 6. Three available input options on the Expression viewer.<br><br><br>
+      </center>
+      
+      <h4 id="exp_heatmap"><b>4. Heatmap</b></h4>
+      
+      <center>
+        <img id="output_fig7" src="/static/images/help_imgs/exp_heatmap.png" style="width:100%;max-width:1000px;"><br>
+        Figure 7. Three available input options on the Expression viewer.<br><br><br>
+      </center>
+      
+      <h4 id="exp_download"><b>5. Downloading the results</b></h4>
       
     </div>
   </div>

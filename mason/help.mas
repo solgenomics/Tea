@@ -5,14 +5,49 @@
 <br>
 <div class="container" style="width:80%;max-width:1200px;">
   <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <ul>
-        <li><a href="help/input">Three ways to explore gene expression</a></li>
-        <li><a href="help/input_params">Designing the conditions of the experiment</a></li>
-        <li><a href="help/output">Expression viewer output options</a></li>
+    <div id="tab_of_content" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <ol>
+        
+        <li>
+          <a href="help/input">Three ways to explore gene expression.</a>
+          <ol>
+            <li><a href="help/input/#geneid">Search gene expression by gene ID.</a></li>
+            <li><a href="help/input/#blast">Search gene expression using BLAST.</a></li>
+            <li><a href="help/input/#custom">Search gene expression for a custom list.</a></li>
+          </ol>
+        </li>
+        
+        <li>
+          <a href="help/input_params">Designing the conditions of the experiment.</a>
+          <ol>
+            <li><a href="help/input_params/#projects">Projects.</a></li>
+            <li><a href="help/input_params/#cor_filter">Correlation filter.</a></li>
+            <li><a href="help/input_params/#cond_sel">Selection of the conditions.</a></li>
+          </ol>
+        </li>
+        
+        <li>
+          <a href="help/output">Expression viewer output options.</a>
+          <ol>
+            <li><a href="help/output/#exp_cube">Expression Cube.</a></li>
+            <li><a href="help/output/#exp_bar">Expression bar graphs.</a></li>
+            <li><a href="help/output/#exp_img">Expression images.</a></li>
+            <li><a href="help/output/#exp_heatmap">Heatmap.</a></li>
+            <li><a href="help/output/#exp_download">Downloading the results.</a></li>
+          </ol>
+        </li>
+        
+        
         <li><a href="help/output">Identification of new genes of interest</a></li>
-      </ul>
+      </ol>
       
     </div>
   </div>
 </div>
+
+<style>
+  #tab_of_content ol { counter-reset: item }
+  #tab_of_content li { display: block }
+  #tab_of_content li:before { content: counters(item, ".") " "; counter-increment: item }
+</style>
+

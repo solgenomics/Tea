@@ -12,13 +12,13 @@
         The output of the expression atlas (<a href="#output_fig1">figure 1</a>) offers 4 ways to visualize the expression data and 2 ways to download the results:
       </p>
       
-      <ol>
-        <li><a href="#exp_cube">Expression Cube</a></li>
-        <li><a href="#exp_bar">Expression bar graphs</a></li>
-        <li><a href="#exp_img">Expression images</a></li>
-        <li><a href="#exp_heatmap">Heatmap</a></li>
-        <li><a href="#exp_download">Downloading the results</a></li>
-      </ol>
+      <ul>
+        <li><a href="#exp_cube">3.1 Expression Cube</a></li>
+        <li><a href="#exp_bar">3.2 Expression bar graphs</a></li>
+        <li><a href="#exp_img">3.3 Expression images</a></li>
+        <li><a href="#exp_heatmap">3.4 Heatmap</a></li>
+        <li><a href="#exp_download">3.5 Downloading the results</a></li>
+      </ul>
       
       <p>
         On top of the output page a box with gray background displays query gene in blue next to the Sol Genomics Network (SGN) logo (<a href="#output_fig1">figure 1</a>). 
@@ -33,7 +33,7 @@
         Figure 1. Expression Cube output.<br><br><br>
       </center>
       
-      <h4 id="exp_cube"><b>1. Expression Cube</b></h4>
+      <h4 id="exp_cube"><b>3.1 Expression Cube</b></h4>
       
       <p>
         This output consist on a 3D cube where the top layer displays the expression data for the query gene (in blue)
@@ -65,7 +65,7 @@
         Figure 3. Expression Cube split in two showing description and correlation for a gene.<br><br><br>
       </center>
       
-      <h4 id="exp_bar"><b>2. Expression bar graphs</b></h4>
+      <h4 id="exp_bar"><b>3.2 Expression bar graphs</b></h4>
       
       <p>
         Clicking on the gene layer a bar graph will pop up to show the expression values for that gene (<a href="#output_fig4">figure 4</a>).
@@ -83,7 +83,7 @@
         Figure 5. Expression bar graph with tissues and stages transposed.<br><br><br>
       </center>
       
-      <h4 id="exp_img"><b>3. Expression images</b></h4>
+      <h4 id="exp_img"><b>3.3 Expression images</b></h4>
       
       <p>
         The second tab on the expression viewer output shows the expression values from the query gene in a more classic way,
@@ -98,7 +98,7 @@
         Figure 6. Expression images output<br><br><br>
       </center>
       
-      <h4 id="exp_heatmap"><b>4. Heatmap</b></h4>
+      <h4 id="exp_heatmap"><b>3.4 Heatmap</b></h4>
       
       <p>
         The heatmap clusters the genes and conditions using a distance tree. It is very interactive. 
@@ -114,7 +114,7 @@
         Figure 7. Heatmap<br><br><br>
       </center>
       
-      <h4 id="exp_download"><b>5. Downloading the results</b></h4>
+      <h4 id="exp_download"><b>3.5 Downloading the results</b></h4>
       
       <p>
         There are two ways to download the results from the expression atlas. 

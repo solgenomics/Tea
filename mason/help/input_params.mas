@@ -18,7 +18,7 @@
         Figure 1. Eligible options for the Expression Viewer.<br><br><br>
       </center>
         
-      <h4><b>1. Projects</b></h4>
+      <h4 id="projects"><b>2.1 Projects</b></h4>
       
       <p>
         In the Project section is possible to find the list of projects available at the expression atlas.
@@ -36,7 +36,7 @@
         Figure 2. <i>S.pimpinellifolium</i> Fruit Development project selection.<br><br><br>
       </center>
         
-      <h4><b>2. Correlation filter</b></h4>
+      <h4 id="cor_filter"><b>2.2 Correlation filter</b></h4>
       
       <p>
         A slider (<a href="#params_fig3">Figure 3</a>) allows to set
@@ -48,7 +48,7 @@
         Figure 3. Correlation filter slider.<br><br><br>
       </center>
         
-      <h4><b>3. Selection of the conditions</b></h4>
+      <h4 id="cond_sel"><b>2.3 Selection of the conditions</b></h4>
       
       <p>
         Once the project and the correlation filter are selected, it is possible to choose the stages, organs or tissues we want to visualize the expression for.

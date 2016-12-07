@@ -9,8 +9,8 @@
       <a href="/help">Go back</a><br><br>
       
       <p>
-        Because of the genes on the <a href="/help/output/#exp_cube" target="blank">expression cube</a> are sorted by the correlation of their expression profiles,
-        it is possible to identify new genes of interest related to the query gene by guilt by association.
+        Because the genes on the <a href="/help/output/#exp_cube" target="blank">expression cube</a> are grouped by their co-expression,
+        it is possible to identify new genes of interest possibly involved in similar processes as the query gene.
         To access the expression values from our query gene and possible candidates with related function,
         we just have to paste the gene ID into the input box named <a href="/help/input" target="blank">By Gene ID</a> and click on <kbd>Get Expression</kbd>.
       </p>
@@ -20,46 +20,55 @@
       
       <p>
         As an example, we will use the gene Solyc04g080940, with the description "Noduline-like protein". 
-        This gene is not related with nodulation but it is similar in sequence to a <i>Medicago truncatula</i> nodulin 21, 
+        This gene is not related with nodulation but it is similar in sequence to a <i>Medicago truncatula</i> gene "nodulin 21", 
         originally shown to be upregulated in <i>Rhizobium</i>-induced <i>Medicago</i> nodules (<a href="#refs">Ranocha et al. 2013</a>).
       </p>
       
     </div>
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
       <p>
-        Solyc04g080940 is a homolog for <i>Arabidopsis thaliana</i> gene AT1G75500, Walls are thin 1 (WAT1). 
+        Solyc04g080940 is a homolog for an <i>Arabidopsis thaliana</i> gene AT1G75500, "Walls are thin 1" (WAT1). 
         WAT1 encodes a plant-specific, predicted integral membrane protein, 
         and is a member of the plant drug/metabolite exporter (P-DME) family (transporter classification number: TC 2.A.7.3).
-        Although WAT1 is ubiquitously expressed throughout the plant, its expression is preferentially associated with vascular tissues, 
+        Although WAT1 is ubiquitously expressed throughout the plant,
+        its expression is preferentially associated with vascular tissues,
         including developing xylem vessels and fibers (<a href="#refs">Ranocha et al. 2010</a>).
         <br>
         <br>
         WAT1 mutants revealed a defect in cell elongation, resulting in a dwarfed habit and little to no secondary cell walls in stem fibers.
         Unexpectedly, these experiments also revealed a modification in tryptophan (Trp) and auxin metabolism that might contribute to the wat1 phenotype.
         (<a href="#refs">Ranocha et al. 2010</a>).
-        <br>
-        <br>
         Later, <a href="#refs">Ranocha et al. (2013)</a> demonstrated that WAT1 facilitates auxin export.
         Local auxin application onto wat1 mutant stems show the restoration of fibre cell wall thickness.
         <br>
         <br>
-        Looking for the expression of Solyc04g080940 on the expression viewer (<a href="#noduline_fig1">figure 1</a>)
-        is possible to identify genes with similar profile of expression. 
-        If we want to find genes with functions related to cell walls or hormone/amino acids transport we can take a fast look to the descriptions from the co-expressed genes in the cube.
-        First thing we can see is two genes also with description <i>Noduline-like protein</i> (<a href="#noduline_tab1">table 1, in yellow</a>): Solyc01g100920 and Solyc03g005480.
+        Observing the expression of Solyc04g080940 on the cube (<a href="#noduline_fig1">figure 1</a>)
+        there is a high expression on the pericarp vascular tissue in the elongation stages (<a href="/anatomy_viewer/microscopy/slm82_fruit" target="blank">from 5DPA to mature green</a>), 
+        when the tomato fruit is growing. This observation agrees with the described above for WAT1.
+        <br>
+        <br>
+        To find genes with functions related to WAT1 such as vascular tissue development (xylem/phloem) or hormone/amino acids transport,
+        a fast look to the descriptions from the co-expressed genes in the cube will suggest some possible candidates.
+        
+        The most evident findings are two genes also with description "Noduline-like protein" (<a href="#noduline_tab1">table 1, in yellow</a>): Solyc01g100920 and Solyc03g005480.
         These two genes are homologs of arabidopsis genes encoding amino acids transporters 
         (<a href="https://www.arabidopsis.org/servlets/TairObject?id=31447&type=locus" target="blank">TAIR</a>).
+        This could be related with the observations in wat1 mutants which had an alteration on tryptophan metabolism.
         <br>
         <br>
         Studying one by one the top genes from the expression cube is possible to identify more genes possibly involved in the same processes as the query gene,
         such as, transcription factors that may regulate the query gene or related genes.
-        Likely, genes of unknown function will be identified that are co-expressed in similar conditions as the query gene. They could be good candidates
+        Likely, genes of unknown function co-expressed in similar conditions as the query gene could be good candidates
         for further research.
         <br>
         <br>
-        One example of genes with related function to our query gene, Solyc04g080940 (WAT1), 
-        we could support with scientific studies is the case of the genes Solyc03g111810, Solyc05g013850 and Solyc05g013870 (<a href="#noduline_tab1">table 1, in gray</a>).
+        One example of genes involved on vascular tissue development (xylem/phloem) supported by scientific studies
+        is the case of the genes Solyc03g111810, Solyc05g013850 and Solyc05g013870 (<a href="#noduline_tab1">table 1, in gray</a>).
         These genes are homolog to AT3G01680, which encodes for a phloem filament protein required for filament formation (<a href="#refs">Anstead et al. 2012, Ruping et al. 2010</a>).
+        <br>
+        <br>
+        Of course, the identification of genes possibly related to the query gene is just a suggestion
+        of candidates of interest. These genes should be always studied in the lab to confirm their function.
       </p>
     </div>
     

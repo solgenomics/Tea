@@ -4,7 +4,7 @@
 
 
 <br>
-<div class="container" style="width:80%;max-width:1200px;">
+<div class="container" style="width:80%;max-width:1000px;">
   <div class="row">
     <div id="tab_of_content" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       
@@ -12,37 +12,47 @@
       <p>
         The Tomato Expression Atlas is an interactive visualization tool including 
         high resolution expression data for the tomato fruit development. 
-        It allows several ways to query the expression data and several ways to visualize the results, 
+        In these help pages we will learn several ways to query the expression data and several ways to visualize the results,
         making possible the comparison of the expression profiles of several genes simultaneously.
-        Genes are group by co-expression to facilitate the identification of genes of interest.
-        <br>
-        This atlas allows to download the expression data in a format easy to export to spreadsheet software and figures 
+        One of the sections focuses on how to download the expression data in a format easy to export to spreadsheet software and figures 
         ready for presentations or publications.
+        <br>
+        <br>
+        As in the expression cube genes are grouped by co-expression, 
+        we include a use case to learn how it can facilitate the identification of possible new genes of interest.
       </p>
       
+      <br>
+      <br>
       
       <ol>
         
         <li>
           <a href="help/input">Three ways to explore gene expression.</a>
+          <br>
+          <br>
           <ol>
             <li><a href="help/input/#geneid">Search gene expression by gene ID.</a></li>
             <li><a href="help/input/#blast">Search gene expression using BLAST.</a></li>
             <li><a href="help/input/#custom">Search gene expression for a custom list.</a></li>
           </ol>
         </li>
-        
+        <br>
         <li>
           <a href="help/input_params">Designing the conditions of the experiment.</a>
+          <br>
+          <br>
           <ol>
             <li><a href="help/input_params/#projects">Projects.</a></li>
             <li><a href="help/input_params/#cor_filter">Correlation filter.</a></li>
             <li><a href="help/input_params/#cond_sel">Selection of the conditions.</a></li>
           </ol>
         </li>
-        
+        <br>
         <li>
           <a href="help/output">Expression viewer output options.</a>
+          <br>
+          <br>
           <ol>
             <li><a href="help/output/#exp_cube">Expression Cube.</a></li>
             <li><a href="help/output/#exp_bar">Expression bar graphs.</a></li>
@@ -51,8 +61,7 @@
             <li><a href="help/output/#exp_download">Downloading the results.</a></li>
           </ol>
         </li>
-        
-        
+        <br>
         <li><a href="help/find_genes">How to find putative genes of interest.</a></li>
       </ol>
       

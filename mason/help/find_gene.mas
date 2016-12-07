@@ -9,16 +9,12 @@
       <a href="/help">Go back</a><br><br>
       
       <p>
-        Because of the genes at the <a href="help/output/#exp_cube">expression cube</a> are sorted by the correlation of their expression profiles,
+        Because of the genes at the <a href="/help/output/#exp_cube" target="blank">expression cube</a> are sorted by the correlation of their expression profiles,
         it is possible to find new genes of interest related to the query gene function.
         To access to the expression values from our query gene and possible candidates with related function,
-        we just have to paste the gene ID into the input box named <a href="help/input/#geneid">By Gene ID</a> and click on <kbd>Get Expression</kbd>.
+        we just have to paste the gene ID into the input box named <a href="/help/input/#geneid" target="blank">By Gene ID</a> and click on <kbd>Get Expression</kbd>.
       </p>
       <br>
-      <!-- <ul>
-        <li><a href="#usecase1">4.1 Use case 1: Noduline-like proteins expressed on vascular tissues.</a></li>
-        <li><a href="#usecase2">4.2 Use case 2: Cell division enhanced on first stages of fruit development.</a></li>
-      </ul> -->
       
       <h4 id="usecase1"><b>4.1 Noduline-like proteins expressed on vascular tissues</b></h4>
       
@@ -104,14 +100,6 @@
           <tr class="yellow_bg"><td>Solyc03g005480</td><td>Nodulin-like protein</td><td>0.88</td><td>AT2G39510</td><td>UMAMIT14</td></tr>
         </table>
       </center>
-      <!-- <center>
-        <img id="noduline_fig2" src="/static/images/help_imgs/noduline2.png" style="width:100%;max-width:1000px;"><br>
-        Figure 2. Expression Cube output.<br><br><br>
-      </center> -->
-      <!-- <center>
-        <img id="noduline_fig3" src="/static/images/help_imgs/noduline3.png" style="width:100%;max-width:1000px;"><br>
-        Figure 3. Expression Cube output.<br><br><br>
-      </center> -->
       <br>
       <h4 id="refs"><b>References</b></h4>
       <br>

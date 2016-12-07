@@ -138,6 +138,7 @@ sub draw_dendrogram :Path('/Expression_viewer/d3heatmap/') :Args(0) {
   
   $c->stash->{rest} = {
     html_code => $html_text
+    # heatmap_file => $heatmap_filename
   };
   
 }

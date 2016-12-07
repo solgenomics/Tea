@@ -2,10 +2,25 @@
   <h2 style="margin-top:0px">Expression Viewer Help</h2>
 </center>
 
+
 <br>
 <div class="container" style="width:80%;max-width:1200px;">
   <div class="row">
     <div id="tab_of_content" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      
+      <br>
+      <p>
+        The Tomato Expression Atlas is an interactive visualization tool including 
+        high resolution expression data for the tomato fruit development. 
+        It allows several ways to query the expression data and several ways to visualize the results, 
+        making possible the comparison of the expression profiles of several genes simultaneously.
+        Genes are group by co-expression to facilitate the identification of genes of interest.
+        <br>
+        This atlas allows to download the expression data in a format easy to export to spreadsheet software and figures 
+        ready for presentations or publications.
+      </p>
+      
+      
       <ol>
         
         <li>
@@ -38,7 +53,7 @@
         </li>
         
         
-        <li><a href="help/output">Identification of new genes of interest</a></li>
+        <li><a href="help/find_genes">How to find putative genes of interest.</a></li>
       </ol>
       
     </div>

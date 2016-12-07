@@ -44,6 +44,11 @@ sub help_output :Path('/help/output') :Args(0) {
     $c->stash(template => 'help/output_help.mas');
 }
 
+sub find_genes :Path('/help/find_genes') :Args(0) {
+    my ( $self, $c ) = @_;
+    $c->stash(template => 'help/find_gene.mas');
+}
+
 
 
 

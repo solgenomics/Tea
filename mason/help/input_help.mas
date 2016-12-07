@@ -26,7 +26,7 @@
       <h4 id="geneid"><b>1.1 Search gene expression by gene ID</b></h4>
       
       <p>
-        The most basic search on the expression viewer consist just in writing or pasting a gene name in the input box under the title <i>By Gene ID</i>.
+        The most basic search on the expression viewer consists just in writing or pasting a gene name in the input box under the title <i>By Gene ID</i>.
         This will return the expression <a href="/help/output" target="blank">output</a> for this gene and the genes with the most similar expression profiles.
       </p>
       <br>
@@ -34,7 +34,7 @@
       <h4 id="blast"><b>1.2 Search gene expression using BLAST</b></h4>
 
       <p>
-        A second search option consist in running a BLAST search to find the most similar genes to your query gene.
+        A second search option consists in running a BLAST search to find the most similar genes to your query gene.
         Clicking on the input box under the title <i>By BLAST Search</i> a dialog will pop up to introduce the BLAST input (<a href="#input_fig2">Figure 2</a>).
         The BLAST input box allows to paste a gene name or a nucleotide or amino acids sequence. 
         Then is possible to filter the output based on the <i>e</i> value, low complexity filter and the number of hits.

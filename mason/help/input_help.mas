@@ -9,7 +9,7 @@
       <a href="/help">Go back</a><br><br>
       
       <p>
-        There are three possible ways to look for gene expression in the expression viewer (<a href="#input_fig1">Figure 1</a>):
+        There are three ways to look for gene expression in the expression viewer (<a href="#input_fig1">Figure 1</a>):
       </p>
       
       <ul>
@@ -26,7 +26,7 @@
       <h4 id="geneid"><b>1.1 Search gene expression by gene ID</b></h4>
       
       <p>
-        The easiest way to query the expression viewer consists just in writing or pasting a gene name in the input box under the title <i>By Gene ID</i>.
+        The easiest way to query the expression viewer consists in writing or pasting a gene name in the input box under the title <i>By Gene ID</i>.
         Clicking on the <kbd>Get Expression</kbd> button will return the <a href="/help/output" target="blank">expression output</a> for this gene and the genes with the most similar expression profiles.
       </p>
       <br>
@@ -49,10 +49,10 @@
   
       <p>
         The BLAST results dialog (<a href="#input_fig3">Figure 3</a>) contains two sections: 
-        a table on top with the subject genes which matched your query gene and, a frame with the sequence alignments on bottom.
+        a table on top with the subject genes which matched your query gene and, a section with the sequence alignments on bottom.
         The result table includes the <i>e</i> value, score and description for each one of the matched genes.
         On the left of the table there are check boxes for each one of the matched genes to select the ones that will be displayed on the <a href="/help/output" target="blank">expression viewer output</a>.
-        On top of the table, there is also the possibility to click the check box called <kbd>Select all</kbd> to select or unselect all genes at once.<br>
+        On top of the table, there is a check box called <kbd>Select all</kbd> to select or unselect all genes at once.<br>
       </p>
       
       <br>

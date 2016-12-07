@@ -12,9 +12,9 @@
       <p>
         The Tomato Expression Atlas is an interactive visualization tool including 
         high resolution expression data for the tomato fruit development. 
-        In these help pages we will learn several ways to query the expression data and several ways to visualize the results,
-        making possible the comparison of the expression profiles of several genes simultaneously.
-        One of the sections focuses on how to download the expression data in a format easy to export to spreadsheet software and figures 
+        These help pages explain several ways to query the expression data and several ways to visualize the results,
+        enabling the comparison of the expression profiles of several genes simultaneously.
+        One section describe how to download the expression data in a format easy to export to spreadsheet software and figures 
         ready for presentations or publications.
         <br>
         <br>
@@ -39,7 +39,7 @@
         </li>
         <br>
         <li>
-          <a href="help/input_params">Designing the conditions of the experiment.</a>
+          <a href="help/input_params">Selecting the conditions of the experiment.</a>
           <br>
           <br>
           <ol>

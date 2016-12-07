@@ -9,9 +9,9 @@
       <a href="/help">Go back</a><br><br>
       
       <p>
-        Because of the genes at the <a href="/help/output/#exp_cube" target="blank">expression cube</a> are sorted by the correlation of their expression profiles,
-        it is possible to find new genes of interest related to the query gene function.
-        To access to the expression values from our query gene and possible candidates with related function,
+        Because of the genes on the <a href="/help/output/#exp_cube" target="blank">expression cube</a> are sorted by the correlation of their expression profiles,
+        it is possible to identify new genes of interest related to the query gene by guilt by association.
+        To access the expression values from our query gene and possible candidates with related function,
         we just have to paste the gene ID into the input box named <a href="/help/input" target="blank">By Gene ID</a> and click on <kbd>Get Expression</kbd>.
       </p>
       <br>
@@ -19,7 +19,7 @@
       <h4 id="usecase1"><b>4.1 Noduline-like proteins expressed on vascular tissues</b></h4>
       
       <p>
-        As an example, we will use the gene Solyc04g080940, with description Noduline-like protein. 
+        As an example, we will use the gene Solyc04g080940, with the description "Noduline-like protein". 
         This gene is not related with nodulation but it is similar in sequence to a <i>Medicago truncatula</i> nodulin 21, 
         originally shown to be upregulated in <i>Rhizobium</i>-induced <i>Medicago</i> nodules (<a href="#refs">Ranocha et al. 2013</a>).
       </p>
@@ -44,16 +44,16 @@
         <br>
         <br>
         Looking for the expression of Solyc04g080940 on the expression viewer (<a href="#noduline_fig1">figure 1</a>)
-        is posible to identify genes with similar profile of expression. 
+        is possible to identify genes with similar profile of expression. 
         If we want to find genes with functions related to cell walls or hormone/amino acids transport we can take a fast look to the descriptions from the co-expressed genes in the cube.
         First thing we can see is two genes also with description <i>Noduline-like protein</i> (<a href="#noduline_tab1">table 1, in yellow</a>): Solyc01g100920 and Solyc03g005480.
         These two genes are homologs of arabidopsis genes encoding amino acids transporters 
         (<a href="https://www.arabidopsis.org/servlets/TairObject?id=31447&type=locus" target="blank">TAIR</a>).
         <br>
         <br>
-        If we study one by one the top genes from the expression cube we might find more genes with related function to our query gene.
-        For example, transcription factors that might regulate the query gene or genes with related function.
-        We will probably find genes of unknown function expressed on similar conditions as the query gene that could be good candidates
+        Studying one by one the top genes from the expression cube is possible to identify more genes possibly involved in the same processes as the query gene,
+        such as, transcription factors that may regulate the query gene or related genes.
+        Likely, genes of unknown function will be identified that are co-expressed in similar conditions as the query gene. They could be good candidates
         for further research.
         <br>
         <br>
@@ -70,13 +70,13 @@
         Figure 1. Expression Cube output for Solyc04g080940.<br><br><br>
       </center>
     </div>
-    <br>
-    <br>
-    <br>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <br>
+      <br>
+      <br>
       
       <center>
-        Table 1. Genes with expression profiles similar to Solyc04g080940.
+        Table 1. Genes co-expressed with Solyc04g080940 on the expression cube.
       
         <table id="noduline_tab1" class=table>
           <tr><th>Gene ID</th><th>Description</th><th>Correlation val.</th><th>Ath Homolog</th><th>Ath Gene Name</th></tr>

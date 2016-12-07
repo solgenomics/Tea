@@ -21,9 +21,9 @@
       </ul>
       
       <p>
-        On top of the output page (<a href="#output_fig1">figure 1</a>) a box with gray background displays query gene in blue next to the Sol Genomics Network (SGN) logo. 
+        On top of the output page (<a href="#output_fig1">figure 1</a>) is the query gene name and its functional description.
         These elements link to the SGN locus page where is possible to find all the information associated to the query gene.
-        Below the query gene, its functional description is displayed.<br>
+        <br>
         Under the query gene information there is an input box to change the input gene and 
         to get the expression results again using the same conditions selected for the current result.
       </p>
@@ -36,15 +36,15 @@
       <h4 id="exp_cube"><b>3.1 Expression Cube</b></h4>
       
       <p>
-        This output consist on a 3D cube where the top layer displays the expression data for the query gene (in blue)
+        This output consists of a 3D cube where the top layer displays the expression data for the query gene (in blue)
         and the layers below are for the genes with the most similar expression profiles (<a href="#output_fig1">figure 1</a>). 
         At the bottom of the cube there is a page menu to visualize more genes.
-        On the right of <a href="#output_fig1">figure 1</a> a legend shows the expression values for the artificial colors displayed on the the cube tiles.
-        Looking at the top layer of the expression cube (<a href="#output_fig2">figure 2</a>) in detail, 
-        we will observe the developmental stages on top, sorted in time from left to right. The stages Mature Green, Breaker and Pink
+        On the right of <a href="#output_fig1">figure 1</a> a legend shows the expression values for the color scale.
+        On the top of the expression cube (<a href="#output_fig2">figure 2</a>) are the developmental stages,
+        sorted in time from left to right. The stages Mature Green, Breaker and Pink
         have colored backgrounds to group the samples from the three sections of tomato fruit: stem, equatorial and stylar.<br>
-        On the left of the cube layer the tissues are listed from top to bottom, showing the tissues from the tomato fruit from outside to inside.
-        On gray background are shown the celular types from the pericarp obtained by Laser Capture Microdissection (LCM).
+        On the left of the cube top layer the tissues are listed from top to bottom, showing the tissues from the tomato fruit from outside to inside.
+        The celular types from the pericarp obtained by Laser Capture Microdissection (LCM) are shown with a gray background.
       </p>
       
       <center>
@@ -53,12 +53,12 @@
       </center>
       
       <p>
-        The expression Cube is very interactive. Moving the mouse over the gene names, 
+        The expression Cube is interactive. Moving the mouse over the gene names, 
         the gene description and correlation value (based on the co-expression with the query gene) will be displayed (<a href="#output_fig3">figure 3</a>).
         Clicking on the gene names will split the cube to show the expression layer for that gene (<a href="#output_fig3">figure 3</a>).
-        Clicking again on the gene name will collapse back the cube. 
-        Many gene layer can be displayed simultaneously, so the expression of several genes can be compared.<br>
-        On mouse over the tile of the cube is possible to visualize the expression vale for that stage/tissue intersection.
+        Clicking again on the gene name will collapse the cube again. 
+        Many gene layers can be displayed simultaneously, so the expression of several genes can be compared.<br>
+        On mouse over the tiles of the cube is possible to visualize the expression value for that stage/tissue intersection.
       </p>
       
       <center>
@@ -71,7 +71,7 @@
       <p>
         Clicking on any tile from the expression cube will open a bar graph to show the expression values for that gene (<a href="#output_fig4">figure 4</a>).
         Bar plots can be opened for many genes simultaneously to compare their expression. 
-        By default tissues are shown on X axis and stages are shown as bars of different colors. 
+        By default, tissues are shown on X axis and stages are shown as bars of different colors. 
         However, clicking on the <kbd>transpose</kbd> button it is possible to visualize the stages on the X axis and the tissues as colored bars (<a href="#output_fig5">figure 5</a>).
       </p>
       <br>
@@ -87,9 +87,9 @@
       <h4 id="exp_img"><b>3.3 Expression images</b></h4>
       
       <p>
-        The second tab on the expression viewer output shows the expression values from the query gene in a more classic way,
-        using artificial colors to display the expression on drawings that represent the stages and tissues from the tomato fruit (<a href="#output_fig6">figure 6</a>).
-        These drawings are based on real photographies and microscope images
+        The second tab on the expression viewer output shows the expression values from the query gene in their biological context,
+        using a color scale to display the expression on drawings that represent the stages and tissues from the tomato fruit (<a href="#output_fig6">figure 6</a>).
+        These drawings are based on photographs and microscope images
         (<a href="/anatomy_viewer/microscopy/" target="blank">See the anatomy viewer for more information</a>).
         Moving the mouse over the images will show a popup window with the numeric expression value for each one of the tissues.
       </p>
@@ -102,10 +102,10 @@
       <h4 id="exp_heatmap"><b>3.4 Heatmap</b></h4>
       
       <p>
-        The heatmap clusters the genes and conditions using a distance tree. It is very interactive. 
-        Moving the mouse over the tiles will show conditions and expression value for that gene.
+        An interactive heatmap clusters the genes and conditions using a distance tree.
+        Moving the mouse over the tiles will show conditions and expression values for that gene.
         Selecting a region of the heatmap using the mouse will zoom in to that region.
-        Clicking again on any tile it will zoom out to display again the whole heatmap.
+        Clicking again on any tile will zoom out to display the whole heatmap again.
         Clicking on a gene or condition will highlight it on the heatmap.<br>
         This heatmap was implemented using the library <a href="https://cran.r-project.org/web/packages/d3heatmap/index.html" target="blank">d3heatmap</a>.
       </p>
@@ -119,14 +119,14 @@
       
       <p>
         There are two ways to download the results from the expression atlas. 
-        First, we could download the expression cube and the expression images clicking on the <kbd>save as img</kbd> button on the right
+        First, the expression cube and the expression images can be downloaded clicking the <kbd>save as img</kbd> button on the right
         of the tabs <i>Expression Cube, Expression images</i> and <i>Heatmap</i> (<a href="#output_fig1">figure 1</a>). 
-        This button will download the images from the active tab in the state they are when clicking on the button.
-        The downloaded images have transparent background maker easier its utilization on slides and publications.<br>
+        This button will download the images from the active tab exactly in the state they are displayed when clicking the button.
+        The downloaded images have a transparent background making them easy to be included on slides and in publications.<br>
         Another way to download the expression data for the selected conditions is clicking on the <kbd>Download expression data</kbd> 
         button under the expression cube (<a href="#output_fig1">figure 1</a>).
         It will download a tab delimited text file with the expression and correlation values and descriptions for each gene.
-        This file is easy to import to any spreadsheet program.
+        This file can be easily imported to any spreadsheet program.
       </p>
       <br><br>
     </div>

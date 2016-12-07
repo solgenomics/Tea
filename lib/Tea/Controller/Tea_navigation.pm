@@ -22,21 +22,21 @@ Catalyst Controller.
 =cut
 
 
-sub about :Path('/about/') :Args(0) {
+sub about :Path('/help/') :Args(0) {
     my ( $self, $c ) = @_;
-    $c->stash(template => 'about.mas');
+    $c->stash(template => 'help.mas');
 }
 
 
-sub links :Path('/links/') :Args(0) {
+sub links :Path('/help/input') :Args(0) {
     my ( $self, $c ) = @_;
-    $c->stash(template => 'links.mas');
+    $c->stash(template => 'input_help.mas');
 }
 
 
-sub contact :Path('/contact/') :Args(0) {
+sub contact :Path('/help/output') :Args(0) {
     my ( $self, $c ) = @_;
-    $c->stash(template => 'contact.mas');
+    $c->stash(template => 'output_help.mas');
 }
 
 

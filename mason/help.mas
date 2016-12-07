@@ -1,0 +1,17 @@
+<center>
+  <h1>Help</h1>
+</center>
+
+
+<div class="container" style="width:80%;max-width:1200px;">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <ul>
+        <li><a href="help/input">Expression viewer input options</a></li>
+        <li><a href="help/output">Expression viewer output options</a></li>
+        <li><a href="help/output">Identification of new genes of interest</a></li>
+      </ul>
+      
+    </div>
+  </div>
+</div>

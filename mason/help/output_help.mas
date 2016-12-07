@@ -9,7 +9,7 @@
       <a href="/help">Go back</a><br><br>
       
       <p>
-        The output of the expression atlas (<a href="#output_fig1">figure 1</a>) offers 4 ways to visualize the expression data and 2 ways to download the results:
+        The output of the expression atlas offers 4 ways to visualize the expression data and 2 ways to download the results:
       </p>
       
       <ul>
@@ -21,7 +21,7 @@
       </ul>
       
       <p>
-        On top of the output page a box with gray background displays query gene in blue next to the Sol Genomics Network (SGN) logo (<a href="#output_fig1">figure 1</a>). 
+        On top of the output page (<a href="#output_fig1">figure 1</a>) a box with gray background displays query gene in blue next to the Sol Genomics Network (SGN) logo. 
         These elements link to the SGN locus page where is possible to find all the information associated to the query gene.
         Below the query gene, its functional description is displayed.<br>
         Under the query gene information there is an input box to change the input gene and 
@@ -38,11 +38,12 @@
       <p>
         This output consist on a 3D cube where the top layer displays the expression data for the query gene (in blue)
         and the layers below are for the genes with the most similar expression profiles (<a href="#output_fig1">figure 1</a>). 
-        On the right of <a href="#output_fig1">figure 1</a> a legend shows the expression values for the artificial colors represented on the the cube tiles.
-        Looking in detail the top layer of the expression cube (<a href="#output_fig2">figure 2</a>), 
-        we will observe on top the developmental stages sorted in time from left to right. The stages Mature Green, Breaker and Pink
-        have a colored background to group the samples from the three sections of tomato fruit: stem, equatorial and stylar.<br>
-        On the left of the layer the tissues are listed from top to bottom, showing the tissues from the tomato fruit from outside to inside.
+        At the bottom of the cube there is a page menu to visualize more genes.
+        On the right of <a href="#output_fig1">figure 1</a> a legend shows the expression values for the artificial colors displayed on the the cube tiles.
+        Looking at the top layer of the expression cube (<a href="#output_fig2">figure 2</a>) in detail, 
+        we will observe the developmental stages on top, sorted in time from left to right. The stages Mature Green, Breaker and Pink
+        have colored backgrounds to group the samples from the three sections of tomato fruit: stem, equatorial and stylar.<br>
+        On the left of the cube layer the tissues are listed from top to bottom, showing the tissues from the tomato fruit from outside to inside.
         On gray background are shown the celular types from the pericarp obtained by Laser Capture Microdissection (LCM).
       </p>
       
@@ -53,7 +54,7 @@
       
       <p>
         The expression Cube is very interactive. Moving the mouse over the gene names, 
-        the gene description and correlation value (in reference to the query gene) will be displayed (<a href="#output_fig3">figure 3</a>).
+        the gene description and correlation value (based on the co-expression with the query gene) will be displayed (<a href="#output_fig3">figure 3</a>).
         Clicking on the gene names will split the cube to show the expression layer for that gene (<a href="#output_fig3">figure 3</a>).
         Clicking again on the gene name will collapse back the cube. 
         Many gene layer can be displayed simultaneously, so the expression of several genes can be compared.<br>
@@ -68,12 +69,12 @@
       <h4 id="exp_bar"><b>3.2 Expression bar graphs</b></h4>
       
       <p>
-        Clicking on the gene layer a bar graph will pop up to show the expression values for that gene (<a href="#output_fig4">figure 4</a>).
+        Clicking on any tile from the expression cube will open a bar graph to show the expression values for that gene (<a href="#output_fig4">figure 4</a>).
         Bar plots can be opened for many genes simultaneously to compare their expression. 
         By default tissues are shown on X axis and stages are shown as bars of different colors. 
-        However, clicking on the transpose button it is possible to visualize the stages on the X axis and the tissues as colored bars (<a href="#output_fig5">figure 5</a>).
+        However, clicking on the <kbd>transpose</kbd> button it is possible to visualize the stages on the X axis and the tissues as colored bars (<a href="#output_fig5">figure 5</a>).
       </p>
-      
+      <br>
       <center>
         <img id="output_fig4" src="/static/images/help_imgs/barplot1.png" style="width:100%;max-width:800px;"><br>
         Figure 4. Expression bar graph.<br><br><br>
@@ -90,9 +91,9 @@
         using artificial colors to display the expression on drawings that represent the stages and tissues from the tomato fruit (<a href="#output_fig6">figure 6</a>).
         These drawings are based on real photographies and microscope images
         (<a href="/anatomy_viewer/microscopy/" target="blank">See the anatomy viewer for more information</a>).
-        Moving the mouse over the images will show a popup windows with the numeric values for each one of the tissues.
+        Moving the mouse over the images will show a popup window with the numeric expression value for each one of the tissues.
       </p>
-      
+      <br>
       <center>
         <img id="output_fig6" src="/static/images/help_imgs/exp_images.png" style="width:100%;max-width:1000px;"><br>
         Figure 6. Expression images output<br><br><br>
@@ -106,7 +107,7 @@
         Selecting a region of the heatmap using the mouse will zoom in to that region.
         Clicking again on any tile it will zoom out to display again the whole heatmap.
         Clicking on a gene or condition will highlight it on the heatmap.<br>
-        This heatmap was implemented using the library <a href="https://cran.r-project.org/web/packages/d3heatmap/index.html">d3heatmap</a>.
+        This heatmap was implemented using the library <a href="https://cran.r-project.org/web/packages/d3heatmap/index.html" target="blank">d3heatmap</a>.
       </p>
       
       <center>
@@ -121,8 +122,9 @@
         First, we could download the expression cube and the expression images clicking on the <kbd>save as img</kbd> button on the right
         of the tabs <i>Expression Cube, Expression images</i> and <i>Heatmap</i> (<a href="#output_fig1">figure 1</a>). 
         This button will download the images from the active tab in the state they are when clicking on the button.
-        The downloaded images have transparent background for and easy utilization on slides and publications.<br>
-        Another way to download the expression data for the selected conditions is clicking on the <kbd>Download expression data</kbd> (<a href="#output_fig1">figure 1</a>).
+        The downloaded images have transparent background maker easier its utilization on slides and publications.<br>
+        Another way to download the expression data for the selected conditions is clicking on the <kbd>Download expression data</kbd> 
+        button under the expression cube (<a href="#output_fig1">figure 1</a>).
         It will download a tab delimited text file with the expression and correlation values and descriptions for each gene.
         This file is easy to import to any spreadsheet program.
       </p>

@@ -12,7 +12,7 @@
         Because of the genes at the <a href="/help/output/#exp_cube" target="blank">expression cube</a> are sorted by the correlation of their expression profiles,
         it is possible to find new genes of interest related to the query gene function.
         To access to the expression values from our query gene and possible candidates with related function,
-        we just have to paste the gene ID into the input box named <a href="/help/input/#geneid" target="blank">By Gene ID</a> and click on <kbd>Get Expression</kbd>.
+        we just have to paste the gene ID into the input box named <a href="/help/input" target="blank">By Gene ID</a> and click on <kbd>Get Expression</kbd>.
       </p>
       <br>
       
@@ -20,14 +20,14 @@
       
       <p>
         As an example, we will use the gene Solyc04g080940, with description Noduline-like protein. 
-        This gene is not related with nodulation but it is similar in sequence to a Medicago truncatula nodulin 21, 
-        originally shown to be upregulated in Rhizobium-induced Medicago nodules (<a href="#refs">Ranocha et al. 2013</a>).
+        This gene is not related with nodulation but it is similar in sequence to a <i>Medicago truncatula</i> nodulin 21, 
+        originally shown to be upregulated in <i>Rhizobium</i>-induced <i>Medicago</i> nodules (<a href="#refs">Ranocha et al. 2013</a>).
       </p>
       
     </div>
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
       <p>
-        Solyc04g080940 is a homolog for <i>Arabidopsis thaliana</i> Walls are thin 1 (WAT1). 
+        Solyc04g080940 is a homolog for <i>Arabidopsis thaliana</i> gene AT1G75500, Walls are thin 1 (WAT1). 
         WAT1 encodes a plant-specific, predicted integral membrane protein, 
         and is a member of the plant drug/metabolite exporter (P-DME) family (transporter classification number: TC 2.A.7.3).
         Although WAT1 is ubiquitously expressed throughout the plant, its expression is preferentially associated with vascular tissues, 
@@ -44,19 +44,21 @@
         <br>
         <br>
         Looking for the expression of Solyc04g080940 on the expression viewer (<a href="#noduline_fig1">figure 1</a>)
-        is posible to identify genes with similar profile of expression. A fast look to the genes in the cube
-        will show another two genes with description <i>Noduline-like protein</i> (<a href="#noduline_tab1">table 1, in yellow</a>): Solyc01g100920 and Solyc03g005480.
-        These two genes are homologs of arabidopsis genes encoding amino acids transporters (<a href="https://www.arabidopsis.org/servlets/TairObject?id=31447&type=locus" target="blank">TAIR</a>).
+        is posible to identify genes with similar profile of expression. 
+        If we want to find genes with functions related to cell walls or hormone/amino acids transport we can take a fast look to the descriptions from the co-expressed genes in the cube.
+        First thing we can see is two genes also with description <i>Noduline-like protein</i> (<a href="#noduline_tab1">table 1, in yellow</a>): Solyc01g100920 and Solyc03g005480.
+        These two genes are homologs of arabidopsis genes encoding amino acids transporters 
+        (<a href="https://www.arabidopsis.org/servlets/TairObject?id=31447&type=locus" target="blank">TAIR</a>).
         <br>
         <br>
-        If we study one by one the top genes from the expression cube we might find genes with related function to our query gene.
-        For example, transcription factors that might regulate processes where our query gene is involved. 
-        We will probably will find genes of unknown function that could be good candidates to be expressed
-        on similar conditions like our query gene.
+        If we study one by one the top genes from the expression cube we might find more genes with related function to our query gene.
+        For example, transcription factors that might regulate the query gene or genes with related function.
+        We will probably find genes of unknown function expressed on similar conditions as the query gene that could be good candidates
+        for further research.
         <br>
         <br>
         One example of genes with related function to our query gene, Solyc04g080940 (WAT1), 
-        we could support with scientific studies is the case of the genes Solyc03g111810, Solyc05g013850 and Solyc05g013870.
+        we could support with scientific studies is the case of the genes Solyc03g111810, Solyc05g013850 and Solyc05g013870 (<a href="#noduline_tab1">table 1, in gray</a>).
         These genes are homolog to AT3G01680, which encodes for a phloem filament protein required for filament formation (<a href="#refs">Anstead et al. 2012, Ruping et al. 2010</a>).
       </p>
     </div>
@@ -69,6 +71,8 @@
       </center>
     </div>
     <br>
+    <br>
+    <br>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       
       <center>
@@ -80,11 +84,11 @@
           <tr><td>Solyc02g061990</td><td>Basic leucine zipper transcription factor</td><td>0.91</td><td>AT2G17770</td><td>ATBZIP27</td></tr>
           <tr><td>Solyc01g066860</td><td>Unknown Protein</td><td>0.9</td><td>AT1G63310</td><td></td></tr>
           <tr><td>Solyc03g095490</td><td>Receptor like kinase, RLK</td><td>0.9</td><td>AT5G58300</td><td></td></tr>
-          <tr class="yellow_bg"><td>Solyc03g111810</td><td>Sieve element-occluding protein 3</td><td>0.9</td><td>AT3G01680</td><td>AtSEOR1</td></tr>
+          <tr class="gray_bg"><td>Solyc03g111810</td><td>Sieve element-occluding protein 3</td><td>0.9</td><td>AT3G01680</td><td>AtSEOR1</td></tr>
           <tr><td>Solyc04g072030</td><td>Interferon-induced GTP-binding protein Mx</td><td>0.9</td><td>AT1G60500</td><td>DRP4C</td></tr>
           <tr><td>Solyc05g006830</td><td>Thioredoxin H</td><td>0.9</td><td>AT5G39950</td><td>ATTRX2</td></tr>
-          <tr class="yellow_bg"><td>Solyc05g013850</td><td>Sieve element-occluding protein 3</td><td>0.9</td><td>AT3G01680</td><td>AtSEOR1</td></tr>
-          <tr class="yellow_bg"><td>Solyc05g013870</td><td>Sieve element-occluding protein 3</td><td>0.9</td><td>AT3G01680</td><td>AtSEOR1</td></tr>
+          <tr class="gray_bg"><td>Solyc05g013850</td><td>Sieve element-occluding protein 3</td><td>0.9</td><td>AT3G01680</td><td>AtSEOR1</td></tr>
+          <tr class="gray_bg"><td>Solyc05g013870</td><td>Sieve element-occluding protein 3</td><td>0.9</td><td>AT3G01680</td><td>AtSEOR1</td></tr>
           <tr><td>Solyc06g083080</td><td>Unknown Protein</td><td>0.9</td><td>AT5G48500</td><td></td></tr>
           <tr><td>Solyc11g011890</td><td>Zinc finger protein 7</td><td>0.9</td><td>AT1G66140</td><td>ZFP4</td></tr>
           <tr class="yellow_bg"><td>Solyc01g100920</td><td>Nodulin-like protein</td><td>0.89</td><td>AT1G09380</td><td>UMAMIT25</td></tr>
@@ -104,10 +108,10 @@
       <h4 id="refs"><b>References</b></h4>
       <br>
       <table>
-        <tr><td class="w_200"><a href="https://academic.oup.com/pcp/article-lookup/doi/10.1093/pcp/pcs046">Anstead et al. 2012</a></td><td>Arabidopsis P-Protein Filament Formation Requires Both AtSEOR1 and AtSEOR2</td></tr>
-        <tr><td class="w_200"><a href="http://onlinelibrary.wiley.com/doi/10.1111/j.1365-313X.2010.04256.x/abstract;jsessionid=87095B95D594EE528BFE9228CF9BC576.f02t03">Ranocha et al. 2010</a></td><td>Walls are thin 1 (WAT1), an <i>Arabidopsis</i> homolog of <i>Medicago truncatula</i> NODULIN21, is a tonoplast-localized protein required for secondary wall formation in fibers</td></tr>
-        <tr><td class="w_200"><a href="http://www.nature.com/articles/ncomms3625">Ranocha et al. 2013</a></td><td><i>Arabidopsis</i> WAT1 is a vacuolar auxin transport facilitator required for auxin homoeostasis</td></tr>
-        <tr><td class="w_200"><a href="http://bmcplantbiol.biomedcentral.com/articles/10.1186/1471-2229-10-219">Ruping et al. 2010</a></td><td>Molecular and phylogenetic characterization of the sieve element occlusion gene family in <i>Fabaceae</i> and <i>non-Fabaceae</i> plants</td></tr>
+        <tr><td class="w_200"><a href="https://academic.oup.com/pcp/article-lookup/doi/10.1093/pcp/pcs046" target="blank">Anstead et al. 2012</a></td><td>Arabidopsis P-Protein Filament Formation Requires Both AtSEOR1 and AtSEOR2</td></tr>
+        <tr><td class="w_200"><a href="http://onlinelibrary.wiley.com/doi/10.1111/j.1365-313X.2010.04256.x/abstract;jsessionid=87095B95D594EE528BFE9228CF9BC576.f02t03" target="blank">Ranocha et al. 2010</a></td><td>Walls are thin 1 (WAT1), an <i>Arabidopsis</i> homolog of <i>Medicago truncatula</i> NODULIN21, is a tonoplast-localized protein required for secondary wall formation in fibers</td></tr>
+        <tr><td class="w_200"><a href="http://www.nature.com/articles/ncomms3625" target="blank">Ranocha et al. 2013</a></td><td><i>Arabidopsis</i> WAT1 is a vacuolar auxin transport facilitator required for auxin homoeostasis</td></tr>
+        <tr><td class="w_200"><a href="http://bmcplantbiol.biomedcentral.com/articles/10.1186/1471-2229-10-219" target="blank">Ruping et al. 2010</a></td><td>Molecular and phylogenetic characterization of the sieve element occlusion gene family in <i>Fabaceae</i> and <i>non-Fabaceae</i> plants</td></tr>
       </table>
       
       <br><br>
@@ -121,6 +125,10 @@
 
 .yellow_bg {
   background-color: #ffff00;
+}
+
+.gray_bg {
+  background-color: #eee;
 }
 
 .w_200 {

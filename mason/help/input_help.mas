@@ -9,7 +9,7 @@
       <a href="/help">Go back</a><br><br>
       
       <p>
-        There are three possible ways to look for gene expression in the expression viewer (Figure 1):
+        There are three possible ways to look for gene expression in the expression viewer (<a href="#input_fig1">Figure 1</a>):
       </p>
       
       <ol>
@@ -18,14 +18,14 @@
         <li>By Custom List</li>
       </ol>
       
-      <img src="/static/images/help_imgs/input.png" style="width:100%;max-width:1000px;"><br>
+      <img id="input_fig1" src="/static/images/help_imgs/input.png" style="width:100%;max-width:1000px;"><br>
       Figure 1. Three available input options on the Expression viewer.<br><br>
       
       <h4><b>1. Search gene expression by gene ID</b></h4>
       
       <p>
         The most basic search on the expression viewer consist just in writing or pasting a gene name in the input box under the title <i>By Gene ID</i>.
-        This will return the expression <a href="/help/output">output</a> for this gene and the genes with the most similar expression profiles.
+        This will return the expression <a href="/help/output" target="blank">output</a> for this gene and the genes with the most similar expression profiles.
       </p>
       <br>
       
@@ -33,38 +33,38 @@
 
       <p>
         A second search option consist in running a BLAST search to find the most similar genes to your query gene.
-        Clicking on the input box under the title <i>By BLAST Search</i> a dialog will pop up to introduce the BLAST input (Figure 2).
+        Clicking on the input box under the title <i>By BLAST Search</i> a dialog will pop up to introduce the BLAST input (<a href="#input_fig2">Figure 2</a>).
         The BLAST input box allows to paste a gene name or a nucleotide or amino acids sequence. 
         Then is possible to filter the output based on the <i>e</i> value, low complexity filter and the number of hits.
         Clicking on the button BLAST will run the program.
       </p>
       
       <br>
-      <img src="/static/images/help_imgs/blast_in.png" style="width:100%;max-width:1000px;"><br>
+      <img id="input_fig2" src="/static/images/help_imgs/blast_in.png" style="width:100%;max-width:1000px;"><br>
       Figure 2. BLAST search input dialog.<br><br>
 
       <p>
-        The BLAST results dialog (Figure 3) shows a table on top with the subject genes which matched to your query sequence. 
+        The BLAST results dialog (<a href="#input_fig3">Figure 3</a>) shows a table on top with the subject genes which matched to your query sequence. 
         It also includes the <i>e</i> value, score and description for each one of the matched genes.
-        On the left of the table there are check boxes for each one of the matched genes to select the ones that will be displayed on the <a href="/help/output">expression viewer output</a>.
+        On the left of the table there are check boxes for each one of the matched genes to select the ones that will be displayed on the <a href="/help/output" target="blank">expression viewer output</a>.
         On top of the table, there is also the possibility to click the check box called <i>Select all</i> to select or unselect all genes at once.<br>
-        At the bottom of the BLAST output (Figure 3) there is a section to visualize the alignment between your query sequence and the sequences from the matched genes.
+        At the bottom of the BLAST output (<a href="#input_fig3">Figure 3</a>) there is a section to visualize the alignment between your query sequence and the sequences from the matched genes.
       </p>
       
       <br>
-      <img src="/static/images/help_imgs/blast_out.png" style="width:100%;max-width:1000px;"><br>
+      <img id="input_fig3" src="/static/images/help_imgs/blast_out.png" style="width:100%;max-width:1000px;"><br>
       Figure 3. BLAST search output dialog.<br><br>
 
       <h4><b>3. Search gene expression for a custom list</b></h4>
       
       <p>
         The last option to use the expression viewer consist in using a list of genes of interest for the user.
-        Clicking on the input box under the title <i>By Custom List</i> a dialog will pop up to paste the gene list (Figure 4).
-        The genes from the list will be displayed on the <a href="/help/output">expression viewer output</a>.
+        Clicking on the input box under the title <i>By Custom List</i> a dialog will pop up to paste the gene list (<a href="#input_fig4">Figure 4</a>).
+        The genes from the list will be displayed on the <a href="/help/output" target="blank">expression viewer output</a>.
       </p>
       
       <br>
-      <img src="/static/images/help_imgs/custom_list.png" style="width:100%;max-width:1000px;"><br>
+      <img id="input_fig4" src="/static/images/help_imgs/custom_list.png" style="width:100%;max-width:1000px;"><br>
       Figure 4. Custom list search input dialog.<br><br>
       <br><br>
       

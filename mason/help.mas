@@ -8,7 +8,7 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <ul>
         <li><a href="help/input">Three ways to explore gene expression</a></li>
-        <li><a href="help/input_params">Designing the expression cube</a></li>
+        <li><a href="help/input_params">Designing the conditions of the experiment</a></li>
         <li><a href="help/output">Expression viewer output options</a></li>
         <li><a href="help/output">Identification of new genes of interest</a></li>
       </ul>

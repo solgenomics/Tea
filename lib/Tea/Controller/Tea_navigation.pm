@@ -30,13 +30,18 @@ sub about :Path('/help/') :Args(0) {
 
 sub links :Path('/help/input') :Args(0) {
     my ( $self, $c ) = @_;
-    $c->stash(template => 'input_help.mas');
+    $c->stash(template => 'help/input_help.mas');
+}
+
+sub links :Path('/help/input_params') :Args(0) {
+    my ( $self, $c ) = @_;
+    $c->stash(template => 'help/input_params.mas');
 }
 
 
 sub contact :Path('/help/output') :Args(0) {
     my ( $self, $c ) = @_;
-    $c->stash(template => 'output_help.mas');
+    $c->stash(template => 'help/output_help.mas');
 }
 
 

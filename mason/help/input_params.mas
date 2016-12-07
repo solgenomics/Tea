@@ -1,0 +1,43 @@
+<center>
+  <h2 style="margin-top:0px">Designing the expression cube</h2>
+</center>
+<br>
+
+<div class="container" style="width:80%;max-width:1000px;">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <a href="/help">Go back</a><br><br>
+      
+      <p>
+        Before searching for the gene expression let choose the project, the correlation filter value
+        and the conditions to display in <a href="/help/output">expression viewer output</a> (Figure 1).
+      </p>
+      
+      
+      <img src="/static/images/help_imgs/exp_parameters.png" style="width:100%;max-width:1000px;"><br>
+      Figure 1. Eligible options for the Expression Viewer.<br><br>
+      
+      <h4><b>1. Projects</b></h4>
+      
+      <p>
+      </p>
+      <img src="/static/images/help_imgs/pimpi_input.png" style="width:100%;max-width:1000px;"><br>
+      Figure 2. <i>S.pimpinellifolium</i> Fruit Development project selection.<br><br>
+      
+      <h4><b>2. Correlation filter</b></h4>
+      <h4><b>3. Selection of the conditions</b></h4>
+      
+      
+      
+      <img src="/static/images/help_imgs/multi_select.png" style="width:100%;max-width:1000px;"><br>
+      Figure 3. Multiple selection of conditions.<br><br>
+      
+      <img src="/static/images/help_imgs/cube_shapes.png" style="width:100%;max-width:1000px;"><br>
+      Figure 4. Example of different shapes of the Expression Cube.<br><br>
+      
+      <br><br>
+      
+      
+    </div>
+  </div>
+</div>

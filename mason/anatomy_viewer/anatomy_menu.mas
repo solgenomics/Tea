@@ -78,11 +78,16 @@
       -o-transform:scale(1.02); /* Opera */
        transform:scale(1.02);
   }
-  
-/*  .anatomy_link:hover {
-    color:#a8a8a8;
+
+  .anatomy_link {
+    color:#000;
   }
-*/
+  
+  .anatomy_link:hover {
+    color:#a8a8a8;
+    text-decoration: none;
+  }
+
   ul.ul_blue li{
     text-align: left;
   	font-size: 24px;

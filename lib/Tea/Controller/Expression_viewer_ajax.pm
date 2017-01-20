@@ -408,6 +408,7 @@ sub cassbase_transfer :Path('/cassava_expression_atlas/cassbase_transfer') :Args
     my $c = shift;
     my $trial_id = shift;
     my $trial_name = $c->req->param('trial_name');
+    my $export_type = $c->req->param('type');
     $trial_name =~ s/ //g;
     $trial_name =~ s/\s//g;
     $c->response->headers->header( "Access-Control-Allow-Origin" => '*' );
@@ -417,9 +418,9 @@ sub cassbase_transfer :Path('/cassava_expression_atlas/cassbase_transfer') :Args
     my $username = $c->config->{dbuser};
     my $password = $c->config->{dbpass};
 
-    my @args = ('/home/production/cassbase/bin/cea_load.sh', 'http://cassbase.org', $trial_id, '/home/production', '/home/production/cea_tmp', 'false', 'true', $host, $dbname, $username, $password, "cass_index_$trial_name");
-    #my @args = ('/home/vagrant/cxgn/cassbase/bin/cea_load.sh', 'http://0:3030', $trial_id, '/home/vagrant/cxgn', '/home/vagrant/cxgn/cassbase/bin', 'true', 'true', $host, $dbname, 'postgres', 'postgres', "cass_index_$trial_name");
-    #my @args = ('/home/vagrant/cxgn/cassbase/bin/cea_load.sh', 'http://0:3030', $trial_id, '/home/vagrant/cxgn', '/home/vagrant/cxgn/cassbase/bin', 'false', 'true', $host, $dbname, $username, $password, "cass_index_$trial_name");
+    my @args = ('/home/production/cassbase/bin/cea_load.sh', 'http://cassbase.org', $trial_id, '/home/production', '/home/production/cea_tmp', 'false', 'true', $host, $dbname, $username, $password, "cass_index_$trial_name", $export_type);
+    #my @args = ('/home/vagrant/cxgn/cassbase/bin/cea_load.sh', 'http://0:3030', $trial_id, '/home/vagrant/cxgn', '/home/vagrant/cxgn/cassbase/bin', 'true', 'true', $host, $dbname, 'postgres', 'postgres', "cass_index_$trial_name", $export_type);
+    #my @args = ('/home/vagrant/cxgn/cassbase/bin/cea_load.sh', 'http://0:3030', $trial_id, '/home/vagrant/cxgn', '/home/vagrant/cxgn/cassbase/bin', 'false', 'true', $host, $dbname, $username, $password, "cass_index_$trial_name", $export_type);
     #print STDERR Dumper \@args;
     system('bash', @args) == 0
         or die "system @args failed: $?";

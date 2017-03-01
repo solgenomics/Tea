@@ -16,7 +16,7 @@
       </p>
       <br>
       
-      <h4 id="usecase1"><b>4.1 Noduline-like proteins expressed on vascular tissues</b></h4>
+      <h4 id="usecase1"><b>4.1 Identification of co-expressed genes to a Noduline-like gene preferentially expressed on vascular tissues in expanding fruits</b></h4>
       
       <p>
         As an example, we will use the gene Solyc04g080940, with the description "Noduline-like protein". 
@@ -27,11 +27,11 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
       <p>
-        Solyc04g080940 is a homolog for an <i>Arabidopsis thaliana</i> gene AT1G75500, "Walls are thin 1" (WAT1). 
+        Solyc04g080940 is a homolog of an <i>Arabidopsis thaliana</i> gene AT1G75500, "Walls are thin 1" (WAT1). 
         WAT1 encodes a plant-specific, predicted integral membrane protein, 
         and is a member of the plant drug/metabolite exporter (P-DME) family (transporter classification number: TC 2.A.7.3).
         Although WAT1 is ubiquitously expressed throughout the plant,
-        its expression is preferentially associated with vascular tissues,
+        its expression in stem is preferentially associated with vascular tissues,
         including developing xylem vessels and fibers (<a href="#refs">Ranocha et al. 2010</a>).
         <br>
         <br>
@@ -43,8 +43,8 @@
         <br>
         <br>
         Observing the expression of Solyc04g080940 on the cube (<a href="#noduline_fig1">figure 1</a>)
-        there is a high expression on the pericarp vascular tissue in the elongation stages (<a href="/anatomy_viewer/microscopy/slm82_fruit" target="blank">from 5DPA to mature green</a>), 
-        when the tomato fruit is growing. This observation agrees with the described above for WAT1.
+        there is a high expression on the pericarp vascular tissue during the fruit expanding stages (<a href="/anatomy_viewer/microscopy/slm82_fruit" target="blank">from 5DPA to mature green</a>), 
+        when the vasculature develops throughout the fruit. This observation agrees with the described above for WAT1.
         <br>
         <br>
         To find genes with functions related to WAT1 such as vascular tissue development (xylem/phloem) or hormone/amino acids transport,
@@ -62,7 +62,7 @@
         for further research.
         <br>
         <br>
-        One example of genes involved on vascular tissue development (xylem/phloem) supported by scientific studies
+        One example of genes involved in vascular tissue development (xylem/phloem) supported by scientific studies
         is the case of the genes Solyc03g111810, Solyc05g013850 and Solyc05g013870 (<a href="#noduline_tab1">table 1, in gray</a>).
         These genes are homolog to AT3G01680, which encodes for a phloem filament protein required for filament formation (<a href="#refs">Anstead et al. 2012, Ruping et al. 2010</a>).
         <br>

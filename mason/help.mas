@@ -10,16 +10,14 @@
       
       <br>
       <p>
-        The Tomato Expression Atlas is an interactive visualization tool including 
-        high resolution expression data for the tomato fruit development. 
-        These help pages explain several ways to query the expression data and several ways to visualize the results,
-        enabling the comparison of the expression profiles of several genes simultaneously.
-        One section describe how to download the expression data in a format easy to export to spreadsheet software and figures 
-        ready for presentations or publications.
+        The Tomato Expression Atlas (TEA) is an interactive tool to visualize high resolution gene expression data 
+        associated with tomato fruit development. These help pages explain several ways to query the expression data 
+        and to visualize the results, enabling the comparison of the expression profiles of several genes simultaneously, 
+        as well as to visualize co-expression information. One section describes how to download the expression data
+        in a format that is easy to export to spreadsheet software and to generate figures that are ready for presentations or publications.
         <br>
         <br>
-        As in the expression cube genes are grouped by co-expression, 
-        we include a use case to learn how it can facilitate the identification of possible new genes of interest.
+        A case study is included here to illustrate how to use the TEA to identify genes of interest that are coexpressed with a candidate gene. 
       </p>
       
       <br>
@@ -32,7 +30,7 @@
           <br>
           <br>
           <ol>
-            <li><a href="help/input/#geneid">Search gene expression by gene ID.</a></li>
+            <li><a href="help/input/#geneid">Search gene expression using tomato gene ID.</a></li>
             <li><a href="help/input/#blast">Search gene expression using BLAST.</a></li>
             <li><a href="help/input/#custom">Search gene expression for a custom list.</a></li>
           </ol>

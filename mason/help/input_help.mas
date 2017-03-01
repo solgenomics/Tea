@@ -1,0 +1,82 @@
+<center>
+  <h2 style="margin-top:0px">Three ways to explore gene expression</h2>
+</center>
+<br>
+
+<div class="container" style="width:80%;max-width:1000px;">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <a href="/help">Go back</a><br><br>
+      
+      <p>
+        There are three ways to look for gene expression in the expression viewer (<a href="#input_fig1">Figure 1</a>):
+      </p>
+      
+      <ul>
+        <li><a href="#geneid">1.1 By Gene ID</a></li>
+        <li><a href="#blast">1.2 By BLAST Search</a></li>
+        <li><a href="#custom">1.3 By Custom List</a></li>
+      </ul>
+      
+      <center>
+        <img id="input_fig1" src="/static/images/help_imgs/input.png" style="width:100%;max-width:900px;"><br>
+        Figure 1. Three available input options on the Expression viewer.<br><br><br>
+      </center>
+      
+      <h4 id="geneid"><b>1.1 Search gene expression by gene ID</b></h4>
+      
+      <p>
+        The easiest way to query the expression viewer consists in writing or pasting a gene name in the input box under the title <i>By Gene ID</i>.
+        Clicking on the <kbd>Get Expression</kbd> button will return the <a href="/help/output" target="blank">expression output</a> for this gene and the genes with the most similar expression profiles.
+      </p>
+      <br>
+      
+      <h4 id="blast"><b>1.2 Search gene expression using BLAST</b></h4>
+
+      <p>
+        A second search option consists in running a BLAST search to find the most similar genes to your query gene.
+        Clicking on the input box under the title <a href="#input_fig1"><i>By BLAST Search</i></a>, a dialog will pop up to introduce the BLAST input (<a href="#input_fig2">Figure 2</a>).
+        The BLAST input box allows to paste a gene name or a nucleotide or amino acids sequence. 
+        Then, it is possible to filter the analysis based on the <i>e</i> value, low complexity filter and the number of hits.
+        Clicking on the <kbd>BLAST</kbd> button will run the BLAST analysis.
+      </p>
+      
+      <br>
+      <center>
+        <img id="input_fig2" src="/static/images/help_imgs/blast_in.png" style="width:100%;max-width:1000px;"><br>
+        Figure 2. BLAST search input dialog.<br><br><br>
+      </center>
+  
+      <p>
+        The BLAST results dialog (<a href="#input_fig3">Figure 3</a>) contains two sections: 
+        a table on top with the subject genes which matched your query gene and, a section with the sequence alignments on bottom.
+        The result table includes the <i>e</i> value, score and description for each one of the matched genes.
+        On the left of the table there are check boxes for each one of the matched genes to select the ones that will be displayed on the <a href="/help/output" target="blank">expression viewer output</a>.
+        On top of the table, there is a check box called <kbd>Select all</kbd> to select or unselect all genes at once.<br>
+      </p>
+      
+      <br>
+      <center>
+        <img id="input_fig3" src="/static/images/help_imgs/blast_out.png" style="width:100%;max-width:1000px;"><br>
+        Figure 3. BLAST search output dialog.<br><br><br>
+      </center>
+        
+      <h4 id="custom"><b>1.3 Search gene expression for a custom list</b></h4>
+      
+      <p>
+        The last option to use the expression viewer consist in using a list of genes of interest for the user.
+        Clicking on the input box under the title <i>By Custom List</i> a dialog will pop up to paste the gene list (<a href="#input_fig4">Figure 4</a>).
+        Clicking on the <kbd>Get Expression</kbd> button the genes from the list will be displayed on the <a href="/help/output" target="blank">expression viewer output</a>.
+      </p>
+      
+      <br>
+      <center>
+        <img id="input_fig4" src="/static/images/help_imgs/custom_list.png" style="width:100%;max-width:1000px;"><br>
+        Figure 4. Custom list search input dialog.<br><br><br>
+      </center>
+      <br><br>
+      
+      
+    </div>
+  </div>
+</div>

@@ -45,6 +45,7 @@
               <li><a href="/overview">Overview</a></li>
               <li><a href="/expression_viewer/input">Expression Viewer</a></li>
               <li><a href="/anatomy_viewer">Anatomy Viewer</a></li>
+              <li><a href="/help">Help</a></li>
               
               
               <!-- <li class="dropdown"><a class="menu_click_dropdown dropdown-toggle" data-toggle="dropdown" href="/about/">About</a>

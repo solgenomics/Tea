@@ -1,0 +1,148 @@
+<center>
+  <h2 style="margin-top:0px">How to find putative genes of interest</h2>
+</center>
+
+
+<div class="container" style="width:80%;max-width:1200px;">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <a href="/help">Go back</a><br><br>
+      
+      <p>
+        Because the genes on the <a href="/help/output/#exp_cube" target="blank">expression cube</a> are grouped by their co-expression,
+        it is possible to identify new genes of interest possibly involved in similar processes as the query gene.
+        To access the expression values from our query gene and possible candidates with related function,
+        we just have to paste the gene ID into the input box named <a href="/help/input" target="blank">By Gene ID</a> and click on <kbd>Get Expression</kbd>.
+      </p>
+      <br>
+      
+      <h4 id="usecase1"><b>4.1 Noduline-like proteins expressed on vascular tissues</b></h4>
+      
+      <p>
+        As an example, we will use the gene Solyc04g080940, with the description "Noduline-like protein". 
+        This gene is similar in sequence to a <i>Medicago truncatula</i> gene "nodulin 21", 
+        originally shown to be upregulated in <i>Rhizobium</i>-induced <i>Medicago</i> nodules (<a href="#refs">Ranocha et al. 2013</a>).
+      </p>
+      
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <p>
+        Solyc04g080940 is a homolog for an <i>Arabidopsis thaliana</i> gene AT1G75500, "Walls are thin 1" (WAT1). 
+        WAT1 encodes a plant-specific, predicted integral membrane protein, 
+        and is a member of the plant drug/metabolite exporter (P-DME) family (transporter classification number: TC 2.A.7.3).
+        Although WAT1 is ubiquitously expressed throughout the plant,
+        its expression is preferentially associated with vascular tissues,
+        including developing xylem vessels and fibers (<a href="#refs">Ranocha et al. 2010</a>).
+        <br>
+        <br>
+        WAT1 mutants revealed a defect in cell elongation, resulting in a dwarfed habit and little to no secondary cell walls in stem fibers.
+        Unexpectedly, these experiments also revealed a modification in tryptophan (Trp) and auxin metabolism that might contribute to the wat1 phenotype.
+        (<a href="#refs">Ranocha et al. 2010</a>).
+        Later, <a href="#refs">Ranocha et al. (2013)</a> demonstrated that WAT1 facilitates auxin export.
+        Local auxin application onto wat1 mutant stems show the restoration of fibre cell wall thickness.
+        <br>
+        <br>
+        Observing the expression of Solyc04g080940 on the cube (<a href="#noduline_fig1">figure 1</a>)
+        there is a high expression on the pericarp vascular tissue in the elongation stages (<a href="/anatomy_viewer/microscopy/slm82_fruit" target="blank">from 5DPA to mature green</a>), 
+        when the tomato fruit is growing. This observation agrees with the described above for WAT1.
+        <br>
+        <br>
+        To find genes with functions related to WAT1 such as vascular tissue development (xylem/phloem) or hormone/amino acids transport,
+        a fast look to the descriptions from the co-expressed genes in the cube will suggest some possible candidates.
+        
+        The most evident findings are two genes also with description "Noduline-like protein" (<a href="#noduline_tab1">table 1, in yellow</a>): Solyc01g100920 and Solyc03g005480.
+        These two genes are homologs of arabidopsis genes encoding amino acids transporters 
+        (<a href="https://www.arabidopsis.org/servlets/TairObject?id=31447&type=locus" target="blank">TAIR</a>).
+        This could be related with the observations in wat1 mutants which had an alteration on tryptophan metabolism.
+        <br>
+        <br>
+        Studying one by one the top genes from the expression cube is possible to identify more genes possibly involved in the same processes as the query gene,
+        such as, transcription factors that may regulate the query gene or related genes.
+        Likely, genes of unknown function co-expressed in similar conditions as the query gene could be good candidates
+        for further research.
+        <br>
+        <br>
+        One example of genes involved on vascular tissue development (xylem/phloem) supported by scientific studies
+        is the case of the genes Solyc03g111810, Solyc05g013850 and Solyc05g013870 (<a href="#noduline_tab1">table 1, in gray</a>).
+        These genes are homolog to AT3G01680, which encodes for a phloem filament protein required for filament formation (<a href="#refs">Anstead et al. 2012, Ruping et al. 2010</a>).
+        <br>
+        <br>
+        Of course, the identification of genes possibly related to the query gene is just a suggestion
+        of candidates of interest. These genes should be always studied in the lab to confirm their function.
+      </p>
+    </div>
+    
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+    
+      <center>
+        <img id="noduline_fig1" src="/static/images/help_imgs/noduline1.png" style="width:100%;max-width:600px;"><br>
+        Figure 1. Expression Cube output for Solyc04g080940.<br><br><br>
+      </center>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <br>
+      <br>
+      <br>
+      
+      <center>
+        Table 1. Genes co-expressed with Solyc04g080940 on the expression cube.
+      
+        <table id="noduline_tab1" class=table>
+          <tr><th>Gene ID</th><th>Description</th><th>Correlation val.</th><th>Ath Homolog</th><th>Ath Gene Name</th></tr>
+          <tr class="yellow_bg"><td>Solyc04g080940</td><td>Nodulin-like protein</td><td>1</td><td>AT1G75500</td><td>WAT1/UMAMIT5</td></tr>
+          <tr><td>Solyc02g061990</td><td>Basic leucine zipper transcription factor</td><td>0.91</td><td>AT2G17770</td><td>ATBZIP27</td></tr>
+          <tr><td>Solyc01g066860</td><td>Unknown Protein</td><td>0.9</td><td>AT1G63310</td><td></td></tr>
+          <tr><td>Solyc03g095490</td><td>Receptor like kinase, RLK</td><td>0.9</td><td>AT5G58300</td><td></td></tr>
+          <tr class="gray_bg"><td>Solyc03g111810</td><td>Sieve element-occluding protein 3</td><td>0.9</td><td>AT3G01680</td><td>AtSEOR1</td></tr>
+          <tr><td>Solyc04g072030</td><td>Interferon-induced GTP-binding protein Mx</td><td>0.9</td><td>AT1G60500</td><td>DRP4C</td></tr>
+          <tr><td>Solyc05g006830</td><td>Thioredoxin H</td><td>0.9</td><td>AT5G39950</td><td>ATTRX2</td></tr>
+          <tr class="gray_bg"><td>Solyc05g013850</td><td>Sieve element-occluding protein 3</td><td>0.9</td><td>AT3G01680</td><td>AtSEOR1</td></tr>
+          <tr class="gray_bg"><td>Solyc05g013870</td><td>Sieve element-occluding protein 3</td><td>0.9</td><td>AT3G01680</td><td>AtSEOR1</td></tr>
+          <tr><td>Solyc06g083080</td><td>Unknown Protein</td><td>0.9</td><td>AT5G48500</td><td></td></tr>
+          <tr><td>Solyc11g011890</td><td>Zinc finger protein 7</td><td>0.9</td><td>AT1G66140</td><td>ZFP4</td></tr>
+          <tr class="yellow_bg"><td>Solyc01g100920</td><td>Nodulin-like protein</td><td>0.89</td><td>AT1G09380</td><td>UMAMIT25</td></tr>
+          <tr><td>Solyc05g010400</td><td>Receptor like kinase, RLK</td><td>0.89</td><td>AT5G16000</td><td>ATNIK1</td></tr>
+          <tr><td>Solyc08g066490</td><td>Receptor like kinase, RLK</td><td>0.89</td><td>AT2G25790</td><td>SKM1</td></tr>
+          <tr><td>Solyc08g075880</td><td>Metal ion binding protein</td><td>0.89</td><td>AT2G18196</td><td></td></tr>
+          <tr><td>Solyc09g009830</td><td>Carbonic anhydrase (Carbonate dehydratase)</td><td>0.89</td><td></td><td></td></tr>
+          <tr><td>Solyc11g011920</td><td>Glutamate decarboxylase</td><td>0.89</td><td></td><td></td></tr>
+          <tr><td>Solyc11g069570</td><td>Cytokinin riboside 5&apos;-monophosphate phosphoribohydrolase LOG</td><td>0.89</td><td></td><td></td></tr>
+          <tr><td>Solyc01g101120</td><td>Glucan endo-1 3-beta-glucosidase 1</td><td>0.88</td><td></td><td></td></tr>
+          <tr><td>Solyc02g076690</td><td>Cathepsin B-like cysteine proteinase</td><td>0.88</td><td></td><td></td></tr>
+          <tr><td>Solyc02g080900</td><td>Genomic DNA chromosome 5 TAC clone K6A12</td><td>0.88</td><td></td><td></td></tr>
+          <tr class="yellow_bg"><td>Solyc03g005480</td><td>Nodulin-like protein</td><td>0.88</td><td>AT2G39510</td><td>UMAMIT14</td></tr>
+        </table>
+      </center>
+      <br>
+      <h4 id="refs"><b>References</b></h4>
+      <br>
+      <table>
+        <tr><td class="w_200"><a href="https://academic.oup.com/pcp/article-lookup/doi/10.1093/pcp/pcs046" target="blank">Anstead et al. 2012</a></td><td>Arabidopsis P-Protein Filament Formation Requires Both AtSEOR1 and AtSEOR2</td></tr>
+        <tr><td class="w_200"><a href="http://onlinelibrary.wiley.com/doi/10.1111/j.1365-313X.2010.04256.x/abstract;jsessionid=87095B95D594EE528BFE9228CF9BC576.f02t03" target="blank">Ranocha et al. 2010</a></td><td>Walls are thin 1 (WAT1), an <i>Arabidopsis</i> homolog of <i>Medicago truncatula</i> NODULIN21, is a tonoplast-localized protein required for secondary wall formation in fibers</td></tr>
+        <tr><td class="w_200"><a href="http://www.nature.com/articles/ncomms3625" target="blank">Ranocha et al. 2013</a></td><td><i>Arabidopsis</i> WAT1 is a vacuolar auxin transport facilitator required for auxin homoeostasis</td></tr>
+        <tr><td class="w_200"><a href="http://bmcplantbiol.biomedcentral.com/articles/10.1186/1471-2229-10-219" target="blank">Ruping et al. 2010</a></td><td>Molecular and phylogenetic characterization of the sieve element occlusion gene family in <i>Fabaceae</i> and <i>non-Fabaceae</i> plants</td></tr>
+      </table>
+      
+      <br><br>
+      <!-- <h4 id="usecase2"><b>4.2 Use case 2: Cell division enhanced on first stages of fruit development.</b></h4> -->
+      
+    </div>
+  </div>
+</div>
+
+<style>
+
+.yellow_bg {
+  background-color: #ffff00;
+}
+
+.gray_bg {
+  background-color: #eee;
+}
+
+.w_200 {
+  width: 180px;
+  vertical-align: top;
+}
+
+</style>

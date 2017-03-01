@@ -43,6 +43,22 @@
 
 <style>
   
+  a:link {
+    font-size:20px;
+    color:rgb(0,0,0);
+    text-decoration:none;
+  }
+
+  a:visited {
+    color:rgb(0,0,0);
+    text-decoration:none;
+  }
+
+  a:hover {
+    color:rgb(50,50,50);
+    text-decoration:none;
+  }
+  
   .td_index img {
       -webkit-transition: all 0.5s ease; /* Safari and Chrome */
       -moz-transition: all 0.5s ease; /* Firefox */

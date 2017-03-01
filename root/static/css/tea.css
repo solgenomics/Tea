@@ -49,21 +49,6 @@ hr {
 	width:95%;
 }
 
-a:link {
-	font-size:20px;
-	color:rgb(0,0,0);
-	text-decoration:none;
-}
-
-a:visited {
-	color:rgb(0,0,0);
-	text-decoration:none;
-}
-
-a:hover {
-	color:rgb(50,50,50);
-	text-decoration:none;
-}
 
 #tea_menu {
 	font-size:24px;
@@ -258,10 +243,10 @@ a:hover {
 #back_to_input {
   color: #2222f0;
   font-size:14px;
-  margin-left:5px;
   float:left;
-  margin-top: 5px;
+  bottom: 75px;
   text-decoration: underline;
+  position: relative;
 }
 
 #download_expr_table {

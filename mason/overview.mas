@@ -1,20 +1,11 @@
 
 <center>
 	<h1><img src="/static/images/overview_small.png" height="40" style="margin-bottom: 10px;"/> Overview</h1>
-    <!-- <h3 style="width:80%;">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-    </h3> -->
 
 	<div class="overview_section">
     <a href="expression_viewer/input">
       <h2 class="overview_title"><img class="centered_img" src="/static/images/expr_small.png"/> Expression Viewer</h2>
     </a>
-<!-- <<<<<<< HEAD -->
-    <!-- <a href="expression_viewer/input"> -->
-<!-- ======= -->
-    
-<!-- >>>>>>> master -->
       <ul class="ul_blue">
         <a href="expression_viewer/input"><li>View the expression of a specific tomato gene or genes of interest</li></a>
         <a href="expression_viewer/input"><li>Identify tomato genes by BLAST search using a gene or genes of interest from another species</li></a>

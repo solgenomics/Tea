@@ -344,9 +344,6 @@ $(document).ready(function () {
       
       $("#loading_modal").modal("show");
       
-// <<<<<<< HEAD
-      // draw_expression_images(canvas_height,canvas_width,stage_ids_array,stage_hash,tissue_hash,gst_expr_hohoh,genes,tissues);
-// =======
       //define canvas for Expression Images
       img_canvas = new Kinetic.Stage({
         container: "container_tissues",
@@ -356,7 +353,6 @@ $(document).ready(function () {
       
       
       draw_expression_images(img_canvas,canvas_height,canvas_width,stage_ids_array,stage_hash,tissue_hash,gst_expr_hohoh,genes,tissues);
-// >>>>>>> master
       expr_imgs_loaded = 1;
       
       setTimeout($("#loading_modal").modal("hide"), 5000);

@@ -201,7 +201,7 @@ $(document).ready(function () {
     
     var x_offset = 0;
     var y_offset = 0;
-    var label_y_offset = 50;
+    var label_y_offset = 70;
     
     //set canvas height
     var height_and_col = get_canvas_height(stage_ids_a,stage_h,canvas_w,canvas_h,label_y_offset);

@@ -181,13 +181,13 @@ $(document).ready(function () {
     else if (stage_short_name == next_short_name || j_index > col_num) {
       x_offset = 0;
       j_index = 1;
-      y_offset = y_offset + img_height + title_y_offset;
+      y_offset = y_offset + img_height;
     }
     //new line -- if not belong to a set of stages
     else if (stage_short_name != prev_stage && prev_stage2 && prev_stage == prev_stage2) {
       x_offset = 0;
       j_index = 1;
-      y_offset = y_offset + img_height + title_y_offset;
+      y_offset = y_offset + img_height;
     }
     //same line
     else {

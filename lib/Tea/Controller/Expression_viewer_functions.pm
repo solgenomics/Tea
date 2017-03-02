@@ -194,6 +194,8 @@ sub names_array_to_option {
   foreach my $e (@$layers_arrayref) {
     my $option_id = $e;
     $option_id =~ s/ /_/g;
+    $e =~ s/_/ /g;
+    
     push(@layer_options,"<option id=\"$option_id\" value=\"$option_id\">".$e."</option>");
   }
   
@@ -264,6 +266,7 @@ sub array_to_option {
     
     my $option_id = $name;
     $option_id =~ s/ /_/g;
+    $name =~ s/_/ /g;
     
     push(@res,"<option id=\"$option_id\" value=\"$option_id\">".$name."</option>");
   }

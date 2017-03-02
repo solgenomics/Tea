@@ -240,14 +240,6 @@ hr {
 }
 
 /* Expression Viewer output page */
-#back_to_input {
-  color: #2222f0;
-  font-size:14px;
-  float:left;
-  bottom: 75px;
-  text-decoration: underline;
-  position: relative;
-}
 
 #download_expr_table {
   float:right;

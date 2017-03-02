@@ -7,3 +7,25 @@ $input_gene => ()
   <span id="gene_desc"></span><br/>
   <a id="back_to_input" href="/expression_viewer/input?input_gene=<% $input_gene %>">Go back to input page</a>
 </div>
+
+<script>
+//display link to SGN and query gene description
+$("#gene_name").html("<a href='http://solgenomics.net/locus/"+gene_locus_id[genes[0]]+"/view' target='_blank'><img src='/static/images/sgn_logo.png' height='30' style='margin-bottom: 10px;' title='Connect to SGN for metadata associated with this gene'/> "+genes[0]+"</a>");
+$("#gene_desc").html(gene_descriptions[genes[0]]);
+$("#project_desc").html(project_name);
+</script>
+
+<style>
+#back_to_input {
+  color: #2222f0;
+  font-size:14px;
+  float:left;
+  bottom: 75px;
+  text-decoration: underline;
+  position: relative;
+}
+
+#gene_info {
+  height: 100px;
+}
+</style>

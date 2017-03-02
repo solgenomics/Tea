@@ -283,11 +283,6 @@ $(document).ready(function () {
 	//set correlation filter value
 	$('#correlation_filter').val(correlation_filter);
   
-	//display link to SGN and query gene description
-	$("#gene_name").html("<a href='http://solgenomics.net/locus/"+gene_locus_id[genes[0]]+"/view' target='_blank'><img src='/static/images/sgn_logo.png' height='30' style='margin-bottom: 10px;' title='Connect to SGN for metadata associated with this gene'/> "+genes[0]+"</a>");
-	$("#gene_desc").html(gene_descriptions[genes[0]]);
-  $("#project_desc").html(project_name);
-  // $("#project_desc").html("<a href='/project_page?project_id="+project_id+"' target='_blank'>"+project_name+"</a>");
   
   //set canvas width
   var canvas_width = 1025;

@@ -63,7 +63,8 @@ $(document).ready(function () {
       var stage_name = stage_hash[stage_ids_array[j]]["stage_name"].replace(/_/g," ");
       var stage_short_name = get_stage_short_name(stage_name);
     
-      if (stages[j+1]) {
+      // if (stages[j+1]) {
+      if (stage_hash[stage_ids_array[j+1]]) {
         next_stage = stage_hash[stage_ids_array[j+1]]["stage_name"].replace(/_/g," ");
         next_short_name = get_stage_short_name(next_stage);
       }
@@ -227,6 +228,7 @@ $(document).ready(function () {
         
         [x_offset,y_offset,j_index,stage_name,img_name,img_width,img_height,stage_short_name] = iterate_by_stage(n,stage_h,stage_ids_a,j_index,x_offset,y_offset,next_stage,next_short_name,prev_stage,prev_stage2,col_num);
       
+        // draw_stage_name(x_offset,y_offset,tissue_layer,img_canvas,stage_name,img_width);
         load_stage_image(x_offset,y_offset,tissue_layer,img_canvas,img_name,img_width,img_height);
       
         //display overlapping tissue imgs and group them

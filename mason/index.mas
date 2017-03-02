@@ -15,11 +15,6 @@
 				<a href="anatomy_viewer" title="Visual material from the organs, tissues and cell types corresponding to the expression data"><img src="/static/images/anatomy_logo.png" height="150" data-toggle="tooltip" data-placement="top" class="tt index_logo"/>Anatomy Viewer</a>
 			</td>
 		</tr>
-    <!-- <tr>
-      <td class="td_index"><a href="overview">Overview</a></td>
-      <td class="td_index"><a href="Expression_viewer/input">Expression Viewer</a></td>
-      <td class="td_index"><a href="anatomy_viewer">Anatomy Viewer</a></td>
-    </tr> -->
 	</table>
 </center>
 <br/>
@@ -42,6 +37,22 @@
 </script>
 
 <style>
+  
+  a:link {
+    font-size:20px;
+    color:rgb(0,0,0);
+    text-decoration:none;
+  }
+
+  a:visited {
+    color:rgb(0,0,0);
+    text-decoration:none;
+  }
+
+  a:hover {
+    color:rgb(50,50,50);
+    text-decoration:none;
+  }
   
   .td_index img {
       -webkit-transition: all 0.5s ease; /* Safari and Chrome */

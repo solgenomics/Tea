@@ -46,6 +46,7 @@ $(document).ready(function () {
     //alert("errors: "+errors);
     $('#error_modal').modal();
   }
+  
 })
   
 	var tissues = <% $json->encode(\@tissues) %>;
@@ -70,6 +71,7 @@ $(document).ready(function () {
   var expression_unit = "<% $project_expr_unit %>";
   var correlation_filter = <% $correlation_filter %>;
 	
+  // var heatmap_filename = "not found";
 </script>
 
 <link rel="stylesheet" href="/static/css/jqplot.css" type="text/css" />
@@ -92,7 +94,6 @@ $(document).ready(function () {
 <script type="text/javascript" src="/static/js/d3heatmap_libs/d3heatmapcore-0.0.0/heatmapcore.js"></script>
 <script type="text/javascript" src="/static/js/d3heatmap_libs/d3-tip-0.6.6/index.js"></script>
 <script type="text/javascript" src="/static/js/d3heatmap_libs/d3heatmap-binding-0.6.1.1/d3heatmap.js"></script>
-
 
 <!-- working wheel modal -->
 <div class="modal fade" id="loading_modal" role="dialog">
@@ -141,10 +142,10 @@ $(document).ready(function () {
 		
     <h1 id="project_desc"></h1>
     <br>
-    <a id="back_to_input" href="/expression_viewer/input?input_gene=<% $genes[0] %>">Go back to input page</a>
 		<div id="gene_info" class="well">
-			<span id="gene_name" class="gene_name"></span><br/>
-      <span id="gene_desc" class="gene_desc"></span><br/>
+			<span id="gene_name"></span><br/>
+      <span id="gene_desc"></span><br/>
+      <a id="back_to_input" href="/expression_viewer/input?input_gene=<% $genes[0] %>">Go back to input page</a>
 		</div>
   
       <form id="search_gene" class="form-inline" role="form" method="post" action="/expression_viewer/output" name="tea_form" enctype="multipart/form-data">
@@ -179,6 +180,11 @@ $(document).ready(function () {
 <br>
 <center>
   
+  <div style="width:1060px">
+    <button id="dwl_cube" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-download-alt"></span> Save as img</button>
+    <a id="dwl_cube_link" href="#" download="expression_cube.png" style="display:none"></a>
+  </div>
+  
   <div class="tabs">
     <ul class="nav nav-tabs">
         <li id="cube_tab" class="active"><a data-toggle="tab" href="#container"><img src="/static/images/ico2.png" height="24"/> Expression Cube</a></li>
@@ -200,5 +206,4 @@ $(document).ready(function () {
     
 </center>
 <br>
-
 

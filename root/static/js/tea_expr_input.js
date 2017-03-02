@@ -33,17 +33,6 @@ $(document).ready(function () {
     load_wizard(organism_list,null,null,null,null);
   });
   
-  // jQuery('.wizard_select').change(function() {
-  //     // AJAX communication to get stage, tissue ...
-  //     var idSelector = function() { return this.value; };
-  //     var organism_list = jQuery(".organism_col:checked").map(idSelector).get();
-  //
-  //     var organ_list = jQuery( '#organ_part_col' ).val();
-  //     var stage_list = jQuery( '#stage_col' ).val();
-  //     var tissue_list = jQuery( '#tissue_col' ).val();
-  //
-  //     load_wizard(organism_list,organ_list,stage_list,tissue_list);
-  //   });
   
   jQuery('.wizard_select').change(function() {
     // AJAX communication to get stage, tissue ...

@@ -150,9 +150,9 @@ Solyc04g008460
 Solyc01g102660
 </textarea>
           
-          <div class="checkbox pull-left">
-        		<label class="text-muted"><input type="checkbox" name="hotspot" disabled> Show cumulative expression</label>
-          </div>
+          <!-- <div class="checkbox pull-left">
+            <label class="text-muted"><input type="checkbox" name="hotspot" disabled> Show cumulative expression</label>
+          </div> -->
         
       		<input class="corr_filter" name="correlation_filter" style="display:none;"/>
       		<input class="organism_filter" name="organism_filter" style="display:none;"/>

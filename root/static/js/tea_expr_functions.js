@@ -505,26 +505,45 @@
   
   
   //load the bg image for each stage. This will be the bg for the tissue layers
-  function load_stage_image(x_offset,y_offset,one_tissue_layer,canvas,image_name,img_width,img_height) {
-    canvas.add(one_tissue_layer);
-    
-    var tmp_imgObj = new Image();
-    
-    tmp_imgObj.onload = function() {
-      
-      var tmp_stage = new Kinetic.Image({
+  // function load_stage_image(x_offset,y_offset,one_tissue_layer,canvas,image_name,img_width,img_height) {
+  //   canvas.add(one_tissue_layer);
+  //
+  //   var tmp_imgObj = new Image();
+  //
+  //   tmp_imgObj.onload = function() {
+  //
+  //     var tmp_stage = new Kinetic.Image({
+  //       x: x_offset,
+  //       y: y_offset,
+  //       image: tmp_imgObj,
+  //       width: img_width,
+  //       height: img_height
+  //     });
+  //     one_tissue_layer.add(tmp_stage);
+  //     canvas.add(one_tissue_layer);
+  //   };
+  //
+  //   tmp_imgObj.src = '/static/images/expr_viewer/'+image_name;
+  // }
+  //draw the stage name.
+  function draw_stage_name(x_offset,y_offset,one_tissue_layer,canvas,img_width,stg_label) {
+    stg_name = stg_label.replace(/_/g," ");
+
+      var stage_img_text = new Kinetic.Text({
         x: x_offset,
-        y: y_offset,
-        image: tmp_imgObj,
-        width: img_width,
-        height: img_height
+        y: y_offset+20,
+        align: "center",
+        text: stg_name,
+        fontSize: 20,
+        fontFamily: 'Helvetica',
+        fill: 'black',
+        width: img_width-10,
       });
-      one_tissue_layer.add(tmp_stage);
+      one_tissue_layer.add(stage_img_text);
       canvas.add(one_tissue_layer);
-    };
-    
-    tmp_imgObj.src = '/static/images/expr_viewer/'+image_name;
   }
+
+
 
 
   // get array with the gene names from the project for the autocomplete function

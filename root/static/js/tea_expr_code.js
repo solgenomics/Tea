@@ -151,6 +151,7 @@ $(document).ready(function () {
     var img_width = stage_h[stage_ids_a[n]]["image_width"]*1;
     var img_height = stage_h[stage_ids_a[n]]["image_height"]*1;
     var stage_name = stage_h[stage_ids_a[n]]["stage_name"];
+    var stage_top_label = stage_h[stage_ids_a[n]]["stage_top_label"];
     
     //cluster the images by stage name. Remove stem, equatorial and stylar for short names
     var stage_short_name = get_stage_short_name(stage_name.replace(/_/g," "));
@@ -194,7 +195,7 @@ $(document).ready(function () {
         x_offset = x_offset + img_width;
     }
     
-    return [x_offset,y_offset,j_index,stage_name,img_name,img_width,img_height,stage_short_name];
+    return [x_offset,y_offset,j_index,stage_name,img_name,img_width,img_height,stage_short_name,stage_top_label];
   }
   
   function draw_expression_images(img_canvas,canvas_h,canvas_w,stage_ids_a,stage_h,tissue_h,gst_expr_hhh,gene_a,tissue_a) {
@@ -226,10 +227,10 @@ $(document).ready(function () {
       
       if (tissue_h[stage_ids_a[n]]) {
         
-        [x_offset,y_offset,j_index,stage_name,img_name,img_width,img_height,stage_short_name] = iterate_by_stage(n,stage_h,stage_ids_a,j_index,x_offset,y_offset,next_stage,next_short_name,prev_stage,prev_stage2,col_num);
+        [x_offset,y_offset,j_index,stage_name,img_name,img_width,img_height,stage_short_name,stage_top_label_l] = iterate_by_stage(n,stage_h,stage_ids_a,j_index,x_offset,y_offset,next_stage,next_short_name,prev_stage,prev_stage2,col_num);
       
-        // draw_stage_name(x_offset,y_offset,tissue_layer,img_canvas,stage_name,img_width);
-        load_stage_image(x_offset,y_offset,tissue_layer,img_canvas,img_name,img_width,img_height);
+        draw_stage_name(x_offset,y_offset,tissue_layer,img_canvas,img_width,stage_top_label_l);
+        // load_stage_image(x_offset,y_offset,tissue_layer,img_canvas,img_name,img_width,img_height);
       
         //display overlapping tissue imgs and group them
         var tissue_img_group = new Kinetic.Group();

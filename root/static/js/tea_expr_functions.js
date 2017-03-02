@@ -526,12 +526,12 @@
   //   tmp_imgObj.src = '/static/images/expr_viewer/'+image_name;
   // }
   //draw the stage name.
-  function draw_stage_name(x_offset,y_offset,one_tissue_layer,canvas,img_width,stg_label) {
+  function draw_stage_name(x_offset,y_offset,one_tissue_layer,canvas,img_width,stg_label,title_y_offset) {
     stg_name = stg_label.replace(/_/g," ");
 
       var stage_img_text = new Kinetic.Text({
         x: x_offset,
-        y: y_offset + 20,
+        y: y_offset + 20 - title_y_offset,
         align: "center",
         text: stg_name,
         fontSize: 20,

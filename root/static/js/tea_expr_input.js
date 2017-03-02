@@ -1,5 +1,18 @@
 $(document).ready(function () {
-
+  
+  //check input gene before send form
+  $('#search_gene').submit(function() {
+    var gene_id = $('#gene_id_input').val();
+    
+    if (gene_id) {
+      return true;
+    } else {
+      $('#no_gene_modal').modal();
+      return false;
+    }
+  });
+  
+  
   //open BLAST info dialog
   $('#blast_i2').click(function () {
     $('#blast_help').modal();

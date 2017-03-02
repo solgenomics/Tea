@@ -181,7 +181,20 @@ Solyc01g102660
         <h4 class="modal-title">Parameters and Filters</h4>
       </div>
       <div class="modal-body">
-        <p>Choose any filter for your query.</p>
+        <ul class="text-left">
+          <li>
+            Select the data set (Project) you want to query.
+          </li>
+          <li>
+            Set the minimum correlation value (0.65 - 1.0) to display co-expressed genes with similar expression profiles.<br>
+            <a href="/help/input_params/#cor_filter" target="blank">Read help page</a> for more information.
+          </li>
+          <li>
+            Filter the conditions to display: Stage, tissues, treatments, etc. 
+            Note that when no conditions are selected for filtering all the samples from the data set will be display.<br>
+            <a href="/help/input_params/#cond_sel" target="blank">Read help page</a> for more information.
+          </li>
+        </p>
       </div>
     </div>
   </div>

@@ -3,13 +3,13 @@ $project_html => ()
 $input_gene => ()
 </%args>
 
-<%perl>
-use strict;
+<style>
 
-use JSON::Any;
-my $json = JSON::Any->new;
+.input_width {
+  width: 900px;
+}
 
-</%perl>
+</style>
 
 
 <center>
@@ -34,10 +34,3 @@ my $json = JSON::Any->new;
 <script type="text/javascript" src="/static/js/tea_expr_input.js"></script>
 <script type="text/javascript" src="/static/js/tea_expr_functions.js"></script>
 
-<style>
-
-.input_width {
-  width: 900px;
-}
-
-</style>

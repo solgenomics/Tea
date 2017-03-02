@@ -198,7 +198,7 @@ sub _get_html_table {
   # my $margin_bottom = $exp_count*10;
   my $color_deg = 140;
   # my $color_deg = 230;
-  push (@html,"<div class=\"images_div\" ><h3>".$img_figure_name{$$layer_ids[0]}."</h3>");
+  push (@html,"<div class=\"images_div\" style=\"height:".$img_height{$$layer_ids[0]}."px\"><h3 class=\"figure_title\">".$img_figure_name{$$layer_ids[0]}."</h3>");
   
   foreach my $layer_id (@{$layer_ids}) {
     if ($stage_images->{$layer_id}) {
@@ -210,7 +210,7 @@ sub _get_html_table {
     my $layer_id = $layer_ordinal{$ordinal};
     if ($tissue_images->{$layer_id}) {
       $bg_width = $img_width{$layer_id};
-      push (@html, "<img src=\"/static/images/expr_viewer/".$tissue_images->{$layer_id}."\" width=\"$bg_width\" style=\"float:left; position:absolute; -webkit-filter : brightness(45%) sepia(1) hue-rotate(".$color_deg."deg) saturate(300%); filter : brightness(35%) sepia(1) hue-rotate(".$color_deg."deg) saturate(600%);\">\n");
+      push (@html, "<img class=\"project_img\" src=\"/static/images/expr_viewer/".$tissue_images->{$layer_id}."\" width=\"$bg_width\" style=\"float:left; position:absolute; -webkit-filter : brightness(45%) sepia(1) hue-rotate(".$color_deg."deg) saturate(300%); filter : brightness(35%) sepia(1) hue-rotate(".$color_deg."deg) saturate(600%);\">\n");
       $color_deg += 45;
       # $color_deg += 60;
     }

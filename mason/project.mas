@@ -39,7 +39,11 @@ $exp_tables => ()
 
 .images_div {
   display: block;
-  margin-bottom: 75px;
+  margin-bottom:100px;
+}
+
+.figure_title {
+  text-align: center;
 }
 
 #color_legend {

@@ -234,10 +234,7 @@
 			var dynamicDialog = $('<div id="'+div_gene_name+'_dialog" value="off">\
 			<center>\
       <table width="90%"><tr id="dialog_top_info">\
-				<td><a href="http://solgenomics.net/locus/'+gene_id+'/view" target="_blank">\
-          <img src="/static/images/sgn_logo.png" height="25" title="Connect to SGN for metadata associated with this gene"/>\
-        </a></td>\
-				<td><a id="paste_gene"><b>'+gene_name+'</b></a></td>\
+				<td><a href="http://solgenomics.net/locus/'+gene_id+'/view" target="blank"><b>'+gene_name+'</b></a></td>\
 				<td><b> Correlation val: </b>'+corr_val+'</td>\
         <td><span id="tr_barplot'+div_gene_name+'" class="blue_link">transpose</span></td>\
 				</tr></table>\

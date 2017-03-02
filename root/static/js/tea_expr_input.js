@@ -20,7 +20,12 @@ $(document).ready(function () {
   $(".organism_col").first().attr("checked", "checked");
   var idSelector = function() { return this.value; };
   var organism_list = jQuery(".organism_col:checked").map(idSelector).get();
+  
+  //get default project stages, tissues, etc
   load_wizard(organism_list,null,null,null,null);
+  
+  //get default project gene names for autocomplete function
+  get_project_genes(organism_list);
   
   
   jQuery('.organism_col').click(function() {
@@ -31,6 +36,7 @@ $(document).ready(function () {
     // alert("organism selected"+organism_list[0])
     
     load_wizard(organism_list,null,null,null,null);
+    get_project_genes(organism_list);
   });
   
   

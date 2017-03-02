@@ -1,3 +1,22 @@
+<%args>
+$input_gene => ()
+</%args>
+
+<div class="modal fade" id="gene_id_help" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Gene Expression Search</h4>
+      </div>
+      <div class="modal-body">
+        <p>Paste a gene name (Eg: <% $input_gene %>).</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div class="modal fade" id="blast_help" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">

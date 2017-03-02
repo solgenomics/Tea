@@ -13,134 +13,16 @@ my $json = JSON::Any->new;
 
 
 <center>
-	<h1><img src="/static/images/expr_small.png" height="40" style="margin-bottom:10px;"/> Expression Viewer</h1>
-
-	<div class="well" style="width:900px;margin-bottom:30px;">
-		
-    <div class="modal fade" id="gene_id_help" role="dialog">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Gene Expression Search</h4>
-          </div>
-          <div class="modal-body">
-            <p>Paste a gene name (Eg: <% $input_gene %>).</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-		<& hidden_dialogs.mas &>
-    
-    <div class="row">
-      
-      <div class="col-sm-4 col-md-4 col-lg-4">
-        By Gene ID <button type="button" class="info_icon" data-toggle="modal" data-target="#gene_id_help">i</button>
-    		<form id="search_gene" method="post" enctype="multipart/form-data">
-  				<input class="gene_autocomplete form-control col-xs-2 panel-primary" value="<% $input_gene %>" name="input_gene"/>
-        
-  				<input class="corr_filter" name="correlation_filter" style="display:none;"/>
-  				<input class="organism_filter" name="organism_filter" style="display:none;"/>
-  				<input class="organ_filter" name="organ_filter" style="display:none;"/>
-  				<input class="stage_filter" name="stage_filter" style="display:none;"/>
-  				<input class="tissue_filter" name="tissue_filter" style="display:none;"/>
-  				<input class="condition_filter" name="condition_filter" style="display:none;"/>
-        </form>
-      </div>
-      
-      <div class="col-sm-4 col-md-4 col-lg-4">
-        By BLAST Search <button type="button" class="info_icon" data-toggle="modal" data-target="#blast_help">i</button>
-				<input id="blast_input_box" class="form-control col-xs-2" value="Click here" style="color: #ccc;"/>
-      </div>
-      
-      <div class="col-sm-4 col-md-4 col-lg-4">
-        By Custom List <button type="button" class="info_icon" data-toggle="modal" data-target="#custom_list_help">i</button>
-				<input id="custom_input_box" class="form-control col-xs-2" value="Click here"  style="color: #ccc;"/>
-      </div>
-      
-    </div>
-      
-	</div>
-  
-  <h3>Define Expression Parameters <button type="button" class="info_icon" data-toggle="modal" data-target="#parameters_help">i</button></h3>
+	<& hidden_dialogs.mas, input_gene => $input_gene &>
+	<& input_title.mas &>
+	<& input_options.mas, input_gene => $input_gene &>
 </center>
 
-<div class="well" style="width:900px;margin:0 auto;clear:both;">
-  <div class="row">
-    
-    <div class="col-sm-6 col-md-6 col-lg-6">
-      <div style="text-align: center; width=100%">Projects <a href="/anatomy_viewer/microscopy" target="blank" style="float:right">more info</a></div>
-      <div id="expr_params" class="panel panel-primary" style="overflow: scroll;">
-        <!-- <div class="panel-heading">Genotypes</div> -->
-        
-        <div class="panel-body">
-          <form role="form" id="organism_col">
-            <% $project_html %>
-          </form>
-        </div>
-      </div>
-    </div>
-      
-    <div class="col-sm-6 col-md-6 col-lg-6">
-       <div id="expr_params" class="panel" style="margin-top: 25px;">
-          <!-- <div class="panel-heading"> -->
-            <!-- Correlation filter: 0.<input type="text" id="amount" readonly style="border:0;font-size:18px;background-color: #f5f5f5;" size="4"> -->
-          <!-- </div> -->
-          <div class="panel-body">
-            Correlation filter: 0.<input type="text" id="amount" readonly style="border:0;font-size:18px;background-color: #fff;" size="4">
-            <br>
-            <br>
-            <div id="correlation_slider"></div>
-          </div>
-      </div>
-      
-    </div>
-    
-  </div>
-  
-  <br/>
-  <div class="row">
-    
-    <div class="col-sm-3 col-md-3 col-lg-3">
-      <div style="text-align: center; width=100%">Developmental Stages</div>
-
-      <select multiple id="stage_col" class="form-control wizard_select" size="10"></select>
-      <button class="select_all btn btn-default">Select All</button>
-      <button class="select_none btn btn-default pull-right">Unselect</button>
-    </div>
-    
-    <div class="col-sm-3 col-md-3 col-lg-3">
-      <div style="text-align: center; width=100%">Organs</div>
-      
-      <select multiple id="organ_part_col" class="form-control wizard_select" size="10"></select>
-      <button class="select_all btn btn-default">Select All</button>
-      <button class="select_none btn btn-default pull-right">Unselect</button>
-    </div>
-      
-    <div class="col-sm-3 col-md-3 col-lg-3">
-      <div style="text-align: center; width=100%">Tissues/Cell types</div>
-
-      <select multiple id="tissue_col" class="form-control wizard_select" size="10"></select>
-      <button class="select_all btn btn-default">Select All</button>
-      <button class="select_none btn btn-default pull-right">Unselect</button>
-    </div>
-      
-    <div class="col-sm-3 col-md-3 col-lg-3">
-      <div style="text-align: center; width=100%">Treatments</div>
-
-      <select multiple id="condition_col" class="form-control wizard_select" size="10"></select>
-      <button class="select_all btn btn-default pull-left">Select All</button>
-      <button class="select_none btn btn-default pull-right">Unselect</button>
-    </div>
-    
-  </div>
-  
-</div>
+	<& input_filters.mas, project_html => $project_html &>
 <br/>
 
 <center>
-  <div style="width:850px;">
+  <div class="input_width">
     <button class="btn btn-primary pull-right" type="submit" form="search_gene" formaction="/expression_viewer/output" formmethod="post" formenctype="multipart/form-data">Get Expression</button>
   </div>
 </center>
@@ -149,28 +31,13 @@ my $json = JSON::Any->new;
 <br/>
 
 
-<script>
-  
-  var input_gene = "<% $input_gene %>";
-  var project_genes;
-  
-  
-  $(function() {
-    $( "#correlation_slider" ).slider({
-      range: "min",
-      min: 65,
-      max: 99,
-      value: 70,
-      slide: function( event, ui ) {
-        $( ".corr_filter" ).val( ui.value );
-        $( "#amount" ).val( ui.value );
-      }
-    });
-    $( "#amount" ).val( $( "#correlation_slider" ).slider( "value" ) );
-    $( ".corr_filter" ).val( $( "#correlation_slider" ).slider( "value" ) );
-  });
-
-</script>
 <script type="text/javascript" src="/static/js/tea_expr_input.js"></script>
 <script type="text/javascript" src="/static/js/tea_expr_functions.js"></script>
 
+<style>
+
+.input_width {
+  width: 900px;
+}
+
+</style>

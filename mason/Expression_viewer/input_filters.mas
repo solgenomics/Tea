@@ -1,0 +1,99 @@
+<%args>
+$project_html => ()
+</%args>
+
+<center>
+  <h3>Define Expression Parameters <button type="button" class="info_icon" data-toggle="modal" data-target="#parameters_help">i</button></h3>
+</center>
+
+
+<div class="well input_width" style="margin:0 auto;clear:both;">
+  <div class="row">
+    
+    <div class="col-sm-6 col-md-6 col-lg-6">
+      <div style="text-align: center; width=100%">Projects <a href="/anatomy_viewer/microscopy" target="blank" style="float:right">more info</a></div>
+      <div id="expr_params" class="panel panel-primary" style="overflow: scroll;">
+        
+        <div class="panel-body">
+          <form role="form" id="organism_col">
+            <% $project_html %>
+          </form>
+        </div>
+      </div>
+    </div>
+      
+    <div class="col-sm-6 col-md-6 col-lg-6">
+       <div id="expr_params" class="panel" style="margin-top: 25px;">
+          <div class="panel-body">
+            Correlation filter: 0.<input type="text" id="amount" readonly style="border:0;font-size:18px;background-color: #fff;" size="4">
+            <br>
+            <br>
+            <div id="correlation_slider"></div>
+          </div>
+      </div>
+      
+    </div>
+    
+  </div>
+  
+  <br/>
+  <div class="row">
+    
+    <div class="col-sm-3 col-md-3 col-lg-3">
+      <div style="text-align: center; width=100%">Developmental Stages</div>
+
+      <select multiple id="stage_col" class="form-control wizard_select" size="10"></select>
+      <button class="select_all btn btn-default">Select All</button>
+      <button class="select_none btn btn-default pull-right">Unselect</button>
+    </div>
+    
+    <div class="col-sm-3 col-md-3 col-lg-3">
+      <div style="text-align: center; width=100%">Organs</div>
+      
+      <select multiple id="organ_part_col" class="form-control wizard_select" size="10"></select>
+      <button class="select_all btn btn-default">Select All</button>
+      <button class="select_none btn btn-default pull-right">Unselect</button>
+    </div>
+      
+    <div class="col-sm-3 col-md-3 col-lg-3">
+      <div style="text-align: center; width=100%">Tissues/Cell types</div>
+
+      <select multiple id="tissue_col" class="form-control wizard_select" size="10"></select>
+      <button class="select_all btn btn-default">Select All</button>
+      <button class="select_none btn btn-default pull-right">Unselect</button>
+    </div>
+      
+    <div class="col-sm-3 col-md-3 col-lg-3">
+      <div style="text-align: center; width=100%">Treatments</div>
+
+      <select multiple id="condition_col" class="form-control wizard_select" size="10"></select>
+      <button class="select_all btn btn-default pull-left">Select All</button>
+      <button class="select_none btn btn-default pull-right">Unselect</button>
+    </div>
+    
+  </div>
+  
+</div>
+
+
+<script>
+  
+  // function to control the correlation slider
+  $(function() {
+    $( "#correlation_slider" ).slider({
+      range: "min",
+      min: 65,
+      max: 99,
+      value: 70,
+      slide: function( event, ui ) {
+        $( ".corr_filter" ).val( ui.value );
+        $( "#amount" ).val( ui.value );
+      }
+    });
+    $( "#amount" ).val( $( "#correlation_slider" ).slider( "value" ) );
+    $( ".corr_filter" ).val( $( "#correlation_slider" ).slider( "value" ) );
+  });
+
+</script>
+
+

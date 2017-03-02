@@ -531,7 +531,7 @@
 
       var stage_img_text = new Kinetic.Text({
         x: x_offset,
-        y: y_offset+20,
+        y: y_offset + 20,
         align: "center",
         text: stg_name,
         fontSize: 20,

@@ -97,7 +97,7 @@ $(document).ready(function () {
       prev_stage = stage_short_name;
     }
     
-    var img_total_height = (one_img_height+title_y*2)*row_num;
+    var img_total_height = (one_img_height+title_y)*row_num;
     
     if (img_total_height < canvas_fix_height) {
       img_total_height = canvas_fix_height;
@@ -181,13 +181,13 @@ $(document).ready(function () {
     else if (stage_short_name == next_short_name || j_index > col_num) {
       x_offset = 0;
       j_index = 1;
-      y_offset = y_offset + img_height + title_y_offset*2;
+      y_offset = y_offset + img_height + title_y_offset;
     }
     //new line -- if not belong to a set of stages
     else if (stage_short_name != prev_stage && prev_stage2 && prev_stage == prev_stage2) {
       x_offset = 0;
       j_index = 1;
-      y_offset = y_offset + img_height + title_y_offset*2;
+      y_offset = y_offset + img_height + title_y_offset;
     }
     //same line
     else {

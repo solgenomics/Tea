@@ -50,6 +50,62 @@ Returns: organ, stage and tissue HTML options
 
 =cut
 
+sub get_genes :Path('/expression_viewer/get_genes/') :Args(0) {
+  my ($self, $c) = @_;
+  
+  # get variables from catalyst object
+  my $project_id = $c->req->param("project_id");
+  
+  #connect to database
+  my $dbname = $c->config->{dbname};
+  my $host = $c->config->{dbhost};
+  my $username = $c->config->{dbuser};
+  my $password = $c->config->{dbpass};
+
+  my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
+  
+  # get DBIx project resultset
+  my $project_rs = $schema->resultset('Project')->search({project_id => $project_id})->single;
+  
+  my $loci_and_desc_path = $c->config->{loci_and_description_index_path};
+  $loci_and_desc_path .= "/".$project_rs->indexed_dir;
+  
+  my @genes_array;
+  
+  my $searcher = Lucy::Search::IndexSearcher->new(
+      index => $loci_and_desc_path
+  );
+
+  my $all_genes = $searcher->hits(
+      query => Lucy::Search::MatchAllQuery->new,
+      num_wanted => 200000,
+  );
+  
+  # my $counter = 0;
+  while ( my $hit = $all_genes->next ) {
+    push(@genes_array,$hit->{gene});
+    
+    # print $hit->{gene}."\n";
+    # $counter++;
+  }
+  
+  # print "$counter\n";
+  
+  $c->stash->{rest} = {
+      project_genes => \@genes_array
+  };
+  
+}
+
+=head2 get_stages
+
+get selected info on input and return parent-children info back to input
+
+ARGS: selected project, organ, stage and tissue
+Returns: organ, stage and tissue HTML options
+
+=cut
+
 sub get_stages :Path('/expression_viewer/get_stages/') :Args(0) {
   my ($self, $c) = @_;
   

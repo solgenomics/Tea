@@ -6,11 +6,14 @@
     <h3><b>Microdissected Ovary and Fruit Tissues</b></h3>
     
     <p>
-      Laser-capture microdissection (LCM) was used to dissect <i>S. pimpinellifolium</i> ovaries at anthesis (0 DPA), a time point immediately before fruit initiation, and fruit at 4 DPA.
-      A total of 11 samples were dissected from cryosections, which allow efficient preservation and extraction of RNA from tomato fruit tissues following LCM.
+      Laser-capture microdissection (LCM) was used to dissect <i>S. pimpinellifolium</i> ovaries at anthesis (0 DPA) and fruit at 4 DPA.
+      Cryosections were used to dissect a total of 11 samples.
+      <!-- A total of 11 samples were dissected from cryosections, which allow efficient preservation and extraction of RNA from tomato fruit tissues following LCM. -->
       Samples from the 0-DPA ovary comprised the ovules, placenta, septum, and pericarp.
-      The equivalent tissues of placenta, septum, and pericarp were collected from 4-DPA fruits, together with the embryo, endosperm, seed coat, and funiculus from the developing seed.
-      Three biological replicates of each tissue type were collected for the production of RNA-seq libraries.
+      Samples from 4-DPA fruit included placenta, septum, and pericarp, plus the embryo, endosperm, seed coat, and funiculus from the developing seed.
+      <!-- The equivalent tissues of placenta, septum, and pericarp were collected from 4-DPA fruits, together with the embryo, endosperm, seed coat, and funiculus from the developing seed. -->
+      RNAseq analysis was performed on three biological replicates of each tissue type.
+      <!-- Three biological replicates of each tissue type were collected for the production of RNA-seq libraries. -->
       Read counts per gene were expressed as reads per million mapped reads (RPM).
       More information about this dataset and the associated protocols are available at <a href="http://www.plantphysiol.org/content/168/4/1684.full" target="blank">Pattison et al. 2015</a>.<br>
       <br>

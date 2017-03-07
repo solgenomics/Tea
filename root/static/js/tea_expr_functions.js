@@ -529,3 +529,38 @@
     tmp_imgObj.src = '/static/images/expr_viewer/'+image_name;
   }
 
+
+  // get array with the gene names from the project for the autocomplete function
+  function get_project_genes(organism_list){
+    
+    $.ajax({
+      url: '/expression_viewer/get_genes/',
+      timeout: 600000,
+      method: 'POST',
+      data: { 'project_id': organism_list[0]},
+      success: function(response) {
+        if (response.error) {
+          alert("ERROR: "+response.error);
+          // enable_ui();
+        } else {
+          project_genes = response.project_genes;
+          
+          $( ".gene_autocomplete" ).autocomplete({
+              source: function(request, response) {
+                  var results = $.ui.autocomplete.filter(project_genes, request.term);
+
+                  response(results.slice(0, 15));
+              }
+          });
+          
+          // alert("project_genes: "+project_genes[0]);
+        }
+      },
+      error: function(response) {
+        alert("An error occurred. The service may not be available right now.");
+        // enable_ui();
+      }
+    });
+    
+  }
+

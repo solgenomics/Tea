@@ -52,18 +52,17 @@ sub help {
       -d <db_name>                 Database name
       -H <host>                    Database host
       -u <user_name>               Database user
-      -p <password>               Database user password
       -t <template_file>           TEA metadata template TEA_project_input_template.txt
     
     Other options:
       
       -h                           Print this help
       -n                           Non-interactively run this script
-      
+      -p <password>                Database user password. Required if -n is used.
       
     Example:
       
-      TEA_import_project_metadata.pl -d expression_db -H localhost -u postgres -p postgres -t TEA_project_input_template.txt
+      TEA_import_project_metadata.pl -d expression_db -H localhost -u postgres -t TEA_project_input_template.txt
 
 
 EOF
@@ -79,7 +78,7 @@ if (!$opt_t) {
     print "the SGN TEA template file\n\n";
     help();
 }
-if (!$opt_d || !$opt_u || !$opt_H || !$opt_p) {
+if (!$opt_d || !$opt_u || !$opt_H) {
     print "Database info missing:\n";
     print "To import the metadata to the database you must provide\n";
     print "database name, host, user, and password\n\n";
@@ -89,18 +88,25 @@ if ($opt_h) {
     help();
 }
 
-#system "stty -echo";
-#print "Please enter password: ";
-#my $password = <STDIN>;
-#chomp($password);
-#print "\n";
-#system "stty echo";
-
+my $password;
+if (!$opt_n){
+    system "stty -echo";
+    print "Please enter password: ";
+    $password = <STDIN>;
+    chomp($password);
+    print "\n";
+    system "stty echo";
+} else {
+    if (!$opt_p){
+        print "To run this script non-interactively, you need to to supply the database password using -p\n\n";
+        help();
+    }
+    $password = $opt_p;
+}
 
 my $dbname = $opt_d;
 my $host = $opt_H;
 my $username = $opt_u;
-my $password = $opt_p;
 
 my $input_file = $opt_t;
 

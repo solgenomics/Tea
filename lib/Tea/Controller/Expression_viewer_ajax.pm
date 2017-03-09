@@ -141,15 +141,15 @@ sub get_stages :Path('/expression_viewer/get_stages/') :Args(0) {
   my ($organ_arrayref,$stage_arrayref,$tissue_arrayref,$condition_arrayref) = $db_funct->get_input_options($schema,$all_figure_rs);
   
   # format layers to select options
-  my @organ_options_array = sort @{$db_funct->names_array_to_option($organ_arrayref)};
-  my @stage_options_array = sort @{$db_funct->names_array_to_option($stage_arrayref)};
-  my @tissue_options_array = sort @{$db_funct->names_array_to_option($tissue_arrayref)};
-  my @condition_options_array = sort @{$db_funct->names_array_to_option($condition_arrayref)};
-  
-  my $organ_options = join("\n", @organ_options_array);
-  my $stage_options = join("\n", "@stage_options_array");
-  my $tissue_options = join("\n", "@tissue_options_array");
-  my $condition_options = join("\n", "@condition_options_array");
+  my $organ_options_arrayref = $db_funct->names_array_to_option($organ_arrayref);
+  my $stage_options_arrayref = $db_funct->names_array_to_option($stage_arrayref);
+  my $tissue_options_arrayref = $db_funct->names_array_to_option($tissue_arrayref);
+  my $condition_options_arrayref = $db_funct->names_array_to_option($condition_arrayref);
+
+  my $organ_options = join("\n", @$organ_options_arrayref);
+  my $stage_options = join("\n", "@$stage_options_arrayref");
+  my $tissue_options = join("\n", "@$tissue_options_arrayref");
+  my $condition_options = join("\n", "@$condition_options_arrayref");
   
   # print STDERR "condition_options: $condition_options\n";
   

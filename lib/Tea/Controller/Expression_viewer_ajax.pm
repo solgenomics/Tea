@@ -469,6 +469,16 @@ sub external_data_transfer :Path('/external_data_transfer') :Args(2) {
     $trial_name =~ s/ //g;
     $trial_name =~ s/\s//g;
 
+    my $dbname = $c->config->{dbname};
+    my $host = $c->config->{dbhost};
+    my $username = $c->config->{dbuser};
+    my $password = $c->config->{dbpass};
+    my $base_path = $c->config->{base_path};
+    my $temp_path = $c->config->{temp_path};
+    my $correlation_index_dir = $c->config->{correlation_indexes_path};
+    my $expression_index_dir = $c->config->{expression_indexes_path};
+    my $description_index_dir = $c->config->{loci_and_description_index_path};
+
     my $data_source_url;
     my $data_loading_script;
     if ($data_source eq 'localhost'){
@@ -479,16 +489,6 @@ sub external_data_transfer :Path('/external_data_transfer') :Args(2) {
         $data_loading_script = "$base_path/cassbase/bin/cea_load.sh";
     }
     $c->response->headers->header( "Access-Control-Allow-Origin" => $data_source_url );
-
-    my $dbname = $c->config->{dbname};
-    my $host = $c->config->{dbhost};
-    my $username = $c->config->{dbuser};
-    my $password = $c->config->{dbpass};
-    my $base_path = $c->config->{base_path};
-    my $temp_path = $c->config->{temp_path};
-    my $correlation_index_dir = $c->config->{correlation_indexes_path};
-    my $expression_index_dir = $c->config->{expression_indexes_path};
-    my $description_index_dir = $c->config->{loci_and_description_index_path};
 
     my @args = ($data_loading_script, $data_source_url, $trial_id, $base_path, $correlation_index_dir, $expression_index_dir, $description_index_dir, $temp_path, 'false', 'true', $host, $dbname, $username, $password, "cass_index_$trial_name", $export_type, $trial_name);
     #print STDERR Dumper \@args;

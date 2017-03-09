@@ -474,7 +474,7 @@ sub external_data_transfer :Path('/external_data_transfer') :Args(2) {
     my $username = $c->config->{dbuser};
     my $password = $c->config->{dbpass};
     my $base_path = $c->config->{base_path};
-    my $temp_path = $c->config->{temp_path};
+    my $temp_path = $c->config->{tmp_path};
     my $correlation_index_dir = $c->config->{correlation_indexes_path};
     my $expression_index_dir = $c->config->{expression_indexes_path};
     my $description_index_dir = $c->config->{loci_and_description_index_path};

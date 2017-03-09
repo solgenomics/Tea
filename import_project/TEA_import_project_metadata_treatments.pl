@@ -45,7 +45,7 @@ sub help {
 
     Usage:
        
-       TEA_import_project_metadata.pl -d <db_name> -H <host> -u <user_name> -p <password> -t <template_file>
+       TEA_import_project_metadata.pl -d <db_name> -H <host> -u <user_name> -t <template_file>
 
     Mandatory options:
 
@@ -81,7 +81,7 @@ if (!$opt_t) {
 if (!$opt_d || !$opt_u || !$opt_H) {
     print "Database info missing:\n";
     print "To import the metadata to the database you must provide\n";
-    print "database name, host, user, and password\n\n";
+    print "database name, host and user\n\n";
     help();
 }
 if ($opt_h) {

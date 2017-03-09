@@ -459,24 +459,38 @@ sub _run_blast_cmd {
 	# return \@res;
 }
 
-sub cassbase_transfer :Path('/cassava_expression_atlas/cassbase_transfer') :Args(1) {
+sub external_data_transfer :Path('/external_data_transfer') :Args(2) {
     my $self = shift;
     my $c = shift;
+    my $data_source = shift;
     my $trial_id = shift;
     my $trial_name = $c->req->param('trial_name');
     my $export_type = $c->req->param('type');
     $trial_name =~ s/ //g;
     $trial_name =~ s/\s//g;
-    $c->response->headers->header( "Access-Control-Allow-Origin" => '*' );
+
+    my $data_source_url;
+    my $data_loading_script;
+    if ($data_source eq 'localhost'){
+        $data_source_url = 'http://0:3030';
+        $data_loading_script = "$base_path/cassbase/bin/cea_load.sh";
+    } elsif ($data_source eq 'cassbase'){
+        $data_source_url = 'https://cassbase.org';
+        $data_loading_script = "$base_path/cassbase/bin/cea_load.sh";
+    }
+    $c->response->headers->header( "Access-Control-Allow-Origin" => $data_source_url );
 
     my $dbname = $c->config->{dbname};
     my $host = $c->config->{dbhost};
     my $username = $c->config->{dbuser};
     my $password = $c->config->{dbpass};
+    my $base_path = $c->config->{base_path};
+    my $temp_path = $c->config->{temp_path};
+    my $correlation_index_dir = $c->config->{correlation_indexes_path};
+    my $expression_index_dir = $c->config->{expression_indexes_path};
+    my $description_index_dir = $c->config->{loci_and_description_index_path};
 
-    my @args = ('/home/production/cassbase/bin/cea_load.sh', 'http://cassbase.org', $trial_id, '/home/production', '/home/production/cea_tmp', 'false', 'true', $host, $dbname, $username, $password, "cass_index_$trial_name", $export_type, $trial_name);
-    #my @args = ('/home/vagrant/cxgn/cassbase/bin/cea_load.sh', 'http://0:3030', $trial_id, '/home/vagrant/cxgn', '/home/vagrant/cxgn/cassbase/bin', 'true', 'true', $host, $dbname, 'postgres', 'postgres', "cass_index_$trial_name", $export_type, $trial_name);
-    #my @args = ('/home/vagrant/cxgn/cassbase/bin/cea_load.sh', 'http://0:3030', $trial_id, '/home/vagrant/cxgn', '/home/vagrant/cxgn/cassbase/bin', 'false', 'true', $host, $dbname, $username, $password, "cass_index_$trial_name", $export_type, $trial_name);
+    my @args = ($data_loading_script, $data_source_url, $trial_id, $base_path, $correlation_index_dir, $expression_index_dir, $description_index_dir, $temp_path, 'false', 'true', $host, $dbname, $username, $password, "cass_index_$trial_name", $export_type, $trial_name);
     #print STDERR Dumper \@args;
     system('bash', @args) == 0
         or die "system @args failed: $?";

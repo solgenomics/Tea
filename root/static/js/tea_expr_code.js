@@ -33,7 +33,7 @@ $(document).ready(function () {
     return short_name;
   }
   
-  function get_canvas_height(stage_ids_array,stage_hash,canvas_fix_width,canvas_fix_height) {
+  function get_canvas_height(stage_ids_array,stage_hash,canvas_fix_width,canvas_fix_height,title_y) {
     
     var img_total_width = 0;
     var one_img_width = stage_hash[stage_ids_array[0]]["image_width"]*1;
@@ -97,7 +97,7 @@ $(document).ready(function () {
       prev_stage = stage_short_name;
     }
     
-    var img_total_height = one_img_height*row_num;
+    var img_total_height = (one_img_height+title_y*2)*row_num;
     
     if (img_total_height < canvas_fix_height) {
       img_total_height = canvas_fix_height;
@@ -145,7 +145,7 @@ $(document).ready(function () {
   }
   
   
-  function iterate_by_stage(n,stage_h,stage_ids_a,j_index,x_offset,y_offset,next_stage,next_short_name,prev_stage,prev_stage2,col_num) {
+  function iterate_by_stage(n,stage_h,stage_ids_a,j_index,x_offset,y_offset,next_stage,next_short_name,prev_stage,prev_stage2,col_num,title_y_offset) {
     
     var img_name = stage_h[stage_ids_a[n]]["image_name"];
     var img_width = stage_h[stage_ids_a[n]]["image_width"]*1;
@@ -171,7 +171,7 @@ $(document).ready(function () {
     //first stage
     if (n == 0) {
       x_offset = 0;
-      y_offset = 0;
+      y_offset = 0 + title_y_offset;
     }
     //same line -- if same stage and not over limit
     else if (stage_short_name == prev_stage && j_index <= col_num) {
@@ -181,13 +181,13 @@ $(document).ready(function () {
     else if (stage_short_name == next_short_name || j_index > col_num) {
       x_offset = 0;
       j_index = 1;
-      y_offset = y_offset + img_height;
+      y_offset = y_offset + img_height + title_y_offset*2;
     }
     //new line -- if not belong to a set of stages
     else if (stage_short_name != prev_stage && prev_stage2 && prev_stage == prev_stage2) {
       x_offset = 0;
       j_index = 1;
-      y_offset = y_offset + img_height;
+      y_offset = y_offset + img_height + title_y_offset*2;
     }
     //same line
     else {
@@ -201,9 +201,10 @@ $(document).ready(function () {
     
     var x_offset = 0;
     var y_offset = 0;
+    var label_y_offset = 50;
     
     //set canvas height
-    var height_and_col = get_canvas_height(stage_ids_a,stage_h,canvas_w,canvas_h);
+    var height_and_col = get_canvas_height(stage_ids_a,stage_h,canvas_w,canvas_h,label_y_offset);
     var images_total_height = height_and_col[0];
     var col_num = height_and_col[1];
     
@@ -226,11 +227,14 @@ $(document).ready(function () {
       
       if (tissue_h[stage_ids_a[n]]) {
         
-        [x_offset,y_offset,j_index,stage_name,img_name,img_width,img_height,stage_short_name] = iterate_by_stage(n,stage_h,stage_ids_a,j_index,x_offset,y_offset,next_stage,next_short_name,prev_stage,prev_stage2,col_num);
-      
-        // draw_stage_name(x_offset,y_offset,tissue_layer,img_canvas,stage_name,img_width);
-        load_stage_image(x_offset,y_offset,tissue_layer,img_canvas,img_name,img_width,img_height);
-      
+        
+        [x_offset,y_offset,j_index,stage_name,img_name,img_width,img_height,stage_short_name] = iterate_by_stage(n,stage_h,stage_ids_a,j_index,x_offset,y_offset,next_stage,next_short_name,prev_stage,prev_stage2,col_num,label_y_offset);
+        
+        var stage_top_label = stage_h[stage_ids_a[n]]["stage_top_label"];
+        
+        draw_stage_name(x_offset,y_offset,tissue_layer,img_canvas,img_width,stage_top_label,label_y_offset);
+        // load_stage_image(x_offset,y_offset,tissue_layer,img_canvas,img_name,img_width,img_height);
+        
         //display overlapping tissue imgs and group them
         var tissue_img_group = new Kinetic.Group();
         for (var i = 0; i<tissue_h[stage_ids_a[n]]["image_name"].length; i++) {

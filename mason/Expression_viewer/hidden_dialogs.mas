@@ -1,3 +1,22 @@
+<%args>
+$input_gene => ()
+</%args>
+
+<div class="modal fade" id="gene_id_help" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Gene Expression Search</h4>
+      </div>
+      <div class="modal-body">
+        <p>Paste a gene name (Eg: <% $input_gene %>).</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div class="modal fade" id="blast_help" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -181,11 +200,46 @@ Solyc01g102660
         <h4 class="modal-title">Parameters and Filters</h4>
       </div>
       <div class="modal-body">
-        <p>Choose any filter for your query.</p>
+        <ul class="text-left">
+          <li>
+            Select the data set (Project) you want to query.
+          </li>
+          <li>
+            Set the minimum correlation value (0.65 - 1.0) to display co-expressed genes with similar expression profiles.<br>
+            <a href="/help/input_params/#cor_filter" target="blank">Read help page</a> for more information.
+          </li>
+          <li>
+            Filter the conditions to display: Stage, tissues, treatments, etc. 
+            Note that when no conditions are selected for filtering all the samples from the data set will be display.<br>
+            <a href="/help/input_params/#cond_sel" target="blank">Read help page</a> for more information.
+          </li>
+        </p>
       </div>
     </div>
   </div>
 </div>
 
+<!-- output dialogs -->
+<!-- working wheel modal -->
+<div class="modal fade" id="loading_modal" role="dialog">
+  <div class="modal-dialog">
+    
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" style="text-align: center;">Loading ...</h4>
+      </div>
+      <div class="modal-body">
+        <div style="text-align: center;">
+          <p>The images are now downloading. This may take a minute.</p>
+          <img src=/static/images/wheel.gif>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    
+  </div>
+</div>
 
 

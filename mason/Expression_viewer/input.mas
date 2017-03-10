@@ -23,7 +23,7 @@ $input_gene => ()
 
 <center>
   <div class="input_width">
-    <button class="btn btn-primary pull-right" type="submit" form="search_gene" formaction="/expression_viewer/output" formmethod="post" formenctype="multipart/form-data">Get Expression</button>
+    <button id="get_expression_btn" class="btn btn-primary pull-right" type="submit" form="search_gene" formaction="/expression_viewer/output" formmethod="post" formenctype="multipart/form-data">Get Expression</button>
   </div>
 </center>
 <br/>

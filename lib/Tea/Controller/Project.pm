@@ -22,7 +22,7 @@ Catalyst Controller.
 =cut
 
 
-sub index :Path('/anatomy_viewer/project_page/') :Args(0) {
+sub index :Path('/project_page/') :Args(0) {
     my ( $self, $c ) = @_;
     
     my $project_id = $c->req->param('project_id');
@@ -175,6 +175,7 @@ sub _get_html_table {
   my %layer_ordinal;
   my %img_width;
   my %img_height;
+  my %img_figure_name;
   
   my $bg_width;
   my $bg_height;
@@ -184,16 +185,23 @@ sub _get_html_table {
     $layer_ordinal{$layer_rs->cube_ordinal} = $layer_id;
     $img_width{$layer_id} = $layer_rs->image_width;
     $img_height{$layer_id} = $layer_rs->image_height;
+    
+    my $figure_layer_rs = $schema->resultset('FigureLayer')->search({layer_id => $layer_id})->single;
+    my $figure_rs = $schema->resultset('Figure')->search({figure_id => $figure_layer_rs->figure_id})->single;
+    
+    my $figure_name = $figure_rs->figure_name;
+    $figure_name =~ s/_/ /g;
+    
+    $img_figure_name{$layer_id} = $figure_name;
   }
   
   # my $margin_bottom = $exp_count*10;
   my $color_deg = 140;
   # my $color_deg = 230;
-  push (@html,"<div class=\"images_div\" >");
+  push (@html,"<div class=\"images_div\" ><h3>".$img_figure_name{$$layer_ids[0]}."</h3>");
   
   foreach my $layer_id (@{$layer_ids}) {
     if ($stage_images->{$layer_id}) {
-      $bg_width = $img_width{$layer_id};
       push (@html, "<img src=\"/static/images/expr_viewer/".$stage_images->{$layer_id}."\" width=\"$bg_width\" style=\"float:left; position:absolute;\">\n");
     }
   }
@@ -201,6 +209,7 @@ sub _get_html_table {
   foreach my $ordinal (sort keys %layer_ordinal) {
     my $layer_id = $layer_ordinal{$ordinal};
     if ($tissue_images->{$layer_id}) {
+      $bg_width = $img_width{$layer_id};
       push (@html, "<img src=\"/static/images/expr_viewer/".$tissue_images->{$layer_id}."\" width=\"$bg_width\" style=\"float:left; position:absolute; -webkit-filter : brightness(45%) sepia(1) hue-rotate(".$color_deg."deg) saturate(300%); filter : brightness(35%) sepia(1) hue-rotate(".$color_deg."deg) saturate(600%);\">\n");
       $color_deg += 45;
       # $color_deg += 60;
@@ -214,7 +223,10 @@ sub _get_html_table {
   foreach my $ordinal (sort keys %layer_ordinal) {
       my $layer_id = $layer_ordinal{$ordinal};
       if ($tissue_names->{$layer_id}) {
-        push (@html, "<li><div class=\"legend_sq\" style=\"background-color:white; -webkit-filter : brightness(45%) sepia(1) hue-rotate(".$color_deg."deg) saturate(300%); filter : brightness(35%) sepia(1) hue-rotate(".$color_deg."deg) saturate(600%);\"></div> ".$tissue_names->{$layer_id}."</li>\n");
+        my $layer_name = $tissue_names->{$layer_id};
+        $layer_name =~ s/_/ /g;
+        
+        push (@html, "<li><div class=\"legend_sq\" style=\"background-color:white; -webkit-filter : brightness(45%) sepia(1) hue-rotate(".$color_deg."deg) saturate(300%); filter : brightness(35%) sepia(1) hue-rotate(".$color_deg."deg) saturate(600%);\"></div> ".$layer_name."</li>\n");
         $color_deg += 45;
         # $color_deg += 60;
       }

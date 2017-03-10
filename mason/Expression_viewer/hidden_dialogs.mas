@@ -219,6 +219,28 @@ Solyc01g102660
   </div>
 </div>
 
+<!--  no input gene modal -->
+<div class="modal fade" id="no_gene_modal" role="dialog">
+  <div class="modal-dialog modal-sm">
+    
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" style="text-align: center;">ERROR</h4>
+      </div>
+      <div class="modal-body">
+        <div style="text-align: center;">
+          <p>No Input Gene</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+
 <!-- output dialogs -->
 <!-- working wheel modal -->
 <div class="modal fade" id="loading_modal" role="dialog">

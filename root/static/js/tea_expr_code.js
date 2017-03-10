@@ -145,12 +145,16 @@ $(document).ready(function () {
   }
   
   
-  function iterate_by_stage(n,stage_h,stage_ids_a,j_index,x_offset,y_offset,next_stage,next_short_name,prev_stage,prev_stage2,col_num,title_y_offset) {
+  function iterate_by_stage(n,stage_h,stage_ids_a,j_index,x_offset,y_offset,next_stage,next_short_name,prev_stage,prev_stage2,col_num,title_y_offset,highest_row) {
     
     var img_name = stage_h[stage_ids_a[n]]["image_name"];
     var img_width = stage_h[stage_ids_a[n]]["image_width"]*1;
     var img_height = stage_h[stage_ids_a[n]]["image_height"]*1;
     var stage_name = stage_h[stage_ids_a[n]]["stage_name"];
+    
+    if (img_height > highest_row) {
+      highest_row = img_height;
+    }
     
     //cluster the images by stage name. Remove stem, equatorial and stylar for short names
     var stage_short_name = get_stage_short_name(stage_name.replace(/_/g," "));
@@ -181,27 +185,32 @@ $(document).ready(function () {
     else if (stage_short_name == next_short_name || j_index > col_num) {
       x_offset = 0;
       j_index = 1;
-      y_offset = y_offset + img_height + title_y_offset*2;
+      y_offset = y_offset + highest_row + title_y_offset*2;
+      highest_row = 0;
     }
     //new line -- if not belong to a set of stages
     else if (stage_short_name != prev_stage && prev_stage2 && prev_stage == prev_stage2) {
       x_offset = 0;
       j_index = 1;
-      y_offset = y_offset + img_height + title_y_offset*2;
+      y_offset = y_offset + highest_row + title_y_offset*2;
+      highest_row = 0;
     }
     //same line
     else {
         x_offset = x_offset + img_width;
     }
     
-    return [x_offset,y_offset,j_index,stage_name,img_name,img_width,img_height,stage_short_name];
+    // alert("img_height: "+img_height+", y_offset: "+y_offset);
+    
+    return [x_offset,y_offset,j_index,stage_name,img_name,img_width,img_height,stage_short_name,highest_row];
   }
   
   function draw_expression_images(img_canvas,canvas_h,canvas_w,stage_ids_a,stage_h,tissue_h,gst_expr_hhh,gene_a,tissue_a) {
     
     var x_offset = 0;
     var y_offset = 0;
-    var label_y_offset = 50;
+    var label_y_offset = 70;
+    var highest_in_row = 0;
     
     //set canvas height
     var height_and_col = get_canvas_height(stage_ids_a,stage_h,canvas_w,canvas_h,label_y_offset);
@@ -213,8 +222,6 @@ $(document).ready(function () {
     
     var tissue_layer = new Kinetic.Layer();
     
-    x_offset = 0;
-    y_offset = 0;
     prev_stage = "";
     prev_stage2 = "";
     next_stage = "";
@@ -228,7 +235,7 @@ $(document).ready(function () {
       if (tissue_h[stage_ids_a[n]]) {
         
         
-        [x_offset,y_offset,j_index,stage_name,img_name,img_width,img_height,stage_short_name] = iterate_by_stage(n,stage_h,stage_ids_a,j_index,x_offset,y_offset,next_stage,next_short_name,prev_stage,prev_stage2,col_num,label_y_offset);
+        [x_offset,y_offset,j_index,stage_name,img_name,img_width,img_height,stage_short_name,highest_in_row] = iterate_by_stage(n,stage_h,stage_ids_a,j_index,x_offset,y_offset,next_stage,next_short_name,prev_stage,prev_stage2,col_num,label_y_offset,highest_in_row);
         
         var stage_top_label = stage_h[stage_ids_a[n]]["stage_top_label"];
         

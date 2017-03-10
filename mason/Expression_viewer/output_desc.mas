@@ -5,7 +5,7 @@ $input_gene => ()
 <div id="gene_info" class="well">
 	<span id="gene_name"></span><br/>
   <span id="gene_desc"></span><br/>
-  <a id="back_to_input" href="/expression_viewer/input?input_gene=<% $input_gene %>">Go back to input page</a>
+  <a id="back_to_input" href="/expression_viewer/input?input_gene=<% $input_gene %>">Rendering Output ...</a>
 </div>
 
 <script>
@@ -13,6 +13,7 @@ $input_gene => ()
 $("#gene_name").html("<a href='http://solgenomics.net/locus/"+gene_locus_id[genes[0]]+"/view' target='_blank'><img src='/static/images/sgn_logo.png' height='30' style='margin-bottom: 10px;' title='Connect to SGN for metadata associated with this gene'/> "+genes[0]+"</a>");
 $("#gene_desc").html(gene_descriptions[genes[0]]);
 $("#project_desc").html(project_name);
+$("#back_to_input").html("Go back to input page");
 </script>
 
 <style>

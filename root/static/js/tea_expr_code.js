@@ -240,7 +240,9 @@ $(document).ready(function () {
         var stage_top_label = stage_h[stage_ids_a[n]]["stage_top_label"];
         
         draw_stage_name(x_offset,y_offset,tissue_layer,img_canvas,img_width,stage_top_label,label_y_offset);
-        // load_stage_image(x_offset,y_offset,tissue_layer,img_canvas,img_name,img_width,img_height);
+        if (img_name) {
+          load_stage_image(x_offset,y_offset,tissue_layer,img_canvas,img_name,img_width,img_height);
+        }
         
         //display overlapping tissue imgs and group them
         var tissue_img_group = new Kinetic.Group();

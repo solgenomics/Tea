@@ -404,14 +404,12 @@
     
 		var gene_text = new Kinetic.Text({
       x: x_margin - 10*tissue_names.length,
-      // x: x_margin -120 - 10*tissue_names.length,
       y: y_margin +18 +15*tissue_names.length,
 			id: "slice_name_"+n,
       // text: gene_test,
       text: gene_names_array[n-1],
-			fontSize: 16, //20 for CondensedLight
+			fontSize: 16,
 			fontFamily: 'Helvetica',
-			// fontFamily: 'CondensedLight',
 			fill: "black"
 		});
 		
@@ -424,8 +422,6 @@
 		gene_text.on('mouseover', function() {
       var x_pos = this.getAbsolutePosition().x;
       var y_pos = this.getAbsolutePosition().y;
-      // var x_pos = this.getAbsolutePosition().x-510;
-      // var y_pos = this.getAbsolutePosition().y-10;
       document.body.style.cursor = 'pointer';
       
 			var gene_description = gene_descriptions[gene_names_array[n-1]];

@@ -357,7 +357,7 @@
           if (bg_color) {
             
             var text_bg_color = new Kinetic.Rect({
-  						x: x_margin +s_index*20 -12,
+  						x: x_margin +s_index*20 -15,
   						y: y_margin+10,
               width: y_margin,
               height: 20,
@@ -368,21 +368,17 @@
         		moving_slice_group.add(text_bg_color);
           }
           
-          // var tissue_text = new Kinetic.Text({
 					var stage_text = new Kinetic.Text({
 						x: x_margin +s_index*20 -12,
 						y: y_margin+8,
-            // text: tissue_name,
 						text: stage_name,
-						fontSize: 16, //20 for CondensedLight
+						fontSize: 16,
 						fontFamily: 'Helvetica',
-						// fontFamily: 'CondensedLight',
 						fill: 'black',
 						rotation: 270
 					});
 					
 					moving_slice_group.add(stage_text);
-          // moving_slice_group.add(tissue_text);
 				}
     
     
@@ -597,12 +593,15 @@
     if (tissue_name) {
       if (bg_color) {
         var text_bg_color = new Kinetic.Rect({
-          x: x_margin-55,
-          y: y_margin-52,
-          width: 180,
+          // x: x_margin-55,
+          // y: y_margin-52,
+          x: x_margin+84,
+          y: y_margin+66,
+          width: tissue_name.length*9,
+          // width: 250,
           height: 19,
           fill: bg_color,
-          rotation: 35
+          rotation: 215
         });
       
     		tmp_cube_layer.add(text_bg_color);
@@ -611,16 +610,15 @@
     
 		//Tissue names for the cube
 		var tissue_text = new Kinetic.Text({
-      x: x_margin-55,
-      y: y_margin-52,
-      // x: x_margin-65,
-      // y: y_margin-37,
+      // x: x_margin-55,
+      // y: y_margin-52,
+      x: x_margin-112,
+      y: y_margin-92,
 			text: tissue_name,
-			width: 180,
+      width: 250,
 			align: 'right',
-			fontSize: 16, //20 for CondensedLight
+			fontSize: 16,
 			fontFamily: 'Helvetica',
-			// fontFamily: 'CondensedLight',
 			fill: 'black',
 			rotation: 35
 		});

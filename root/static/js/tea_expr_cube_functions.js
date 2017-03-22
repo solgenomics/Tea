@@ -602,23 +602,6 @@
     
 		tissue_name = tissue_name.replace(/_/g, " "); //replace underscores in stage names by spaces
     
-    if (tissue_name) {
-      if (bg_color) {
-        var text_bg_color = new Kinetic.Rect({
-          // x: x_margin-55,
-          // y: y_margin-52,
-          x: x_margin+84,
-          y: y_margin+66,
-          width: tissue_name.length*9,
-          // width: 250,
-          height: 19,
-          fill: bg_color,
-          rotation: 215
-        });
-      
-    		tmp_cube_layer.add(text_bg_color);
-      }
-    }
     
 		//Tissue names for the cube
 		var tissue_text = new Kinetic.Text({
@@ -634,7 +617,26 @@
 			fill: 'black',
 			rotation: 35
 		});
-	
+	  
+    if (tissue_name) {
+      if (bg_color) {
+        var text_bg_color = new Kinetic.Rect({
+          // x: x_margin-55,
+          // y: y_margin-52,
+          x: x_margin+84,
+          y: y_margin+66,
+          width: tissue_text.width(),
+          // width: tissue_name.length*9,
+          // width: 250,
+          height: 19,
+          fill: bg_color,
+          rotation: 215
+        });
+      
+    		tmp_cube_layer.add(text_bg_color);
+      }
+    }
+    
 		tmp_cube_layer.add(tissue_text);
 		canvas_tmp.add(tmp_cube_layer);
 	}

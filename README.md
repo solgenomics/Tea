@@ -132,8 +132,7 @@ Use `TEA_project_template.txt` and `TEA_project_template_example.txt` from `impo
     
     # figure --- All info needed for a cluster of images (usually includes a stage and all its tissues). Copy this block as many times as you need (including as many tissue layer blocks as you need).
     figure_name: 10DPA Total Pericarp
-    cube_stage_name: 10DPA
-    conditions: 
+    conditions: condition 1, condition 2
     # write figure metadata
     
     #stage layer
@@ -150,7 +149,7 @@ Use `TEA_project_template.txt` and `TEA_project_template_example.txt` from `impo
     # layer - end
     
     #tissue layer
-    layer_name: Total Pericarp
+    layer_name: Total_Pericarp
     layer_description: 
     layer_type: tissue
     bg_color:
@@ -165,7 +164,7 @@ Use `TEA_project_template.txt` and `TEA_project_template_example.txt` from `impo
     # figure - end
 
 
-The `cube_stage_name` will be displayed on the top of the cube. It is recommended to use the stage name followed by the conditions for that stage. For example: `10DPA drought`.
+The `figure_name` will be displayed on the top of the expression figures. It is recommended to use the stage name followed by the conditions for that stage. For example: `10DPA drought`.
 
 The `bg_color` defines the background color for the stages and tissues labels on the cube.
 
@@ -177,7 +176,7 @@ The `img_ordinal` from the stage layer defines the order of the figure for the E
 
 The `cube_ordinal` from the tissue layer defines the order of the tissue rows on the cube (from top to bottom).
 
-The tissue names on the cube are defined by the field `layer_name` on the tissue layer block.
+The stage and tissue names on the cube are defined by the field `layer_name` on the tissue layer block. WHITE SPACES ARE NOT ALLOWED IN THIS FIELD. Please, replace them by underscores (_).
 
 
 Run the script to import your project:
@@ -191,7 +190,7 @@ Run the script to import your project:
 Three Lucy indexes are needed. One for expression, another for correlation and the last one for sgn_loci_id and the gene descriptions.
 To format the expression and correlation data you will need to run the scripts `index_expression_file.pl` and `index_correlation_file.pl` respectively.
 
-The input format for the expression should be gene name, `cube_stage_name` (like in the TEA project template), tissue (like the tissue-layer `layer_name` from the TEA project template), the expression value, the standard error and the replicates separated by commas:
+The input format for the expression should be gene name, stage `layer_name` (like the stage-layer in the TEA project template), tissue (like the tissue-layer `layer_name` from the TEA project template).WHITE SPACES ARE NOT ALLOWED IN THESE FIELDS. Then, the expression value, the standard error and the replicates separated by commas:
 
     Solyc00g005040	Anthesis	Columella	1.36	0.27	0.86,1.8,1.41
     Solyc00g005040	Anthesis	Locular_Material	0.09	0.09	0,0,0.28

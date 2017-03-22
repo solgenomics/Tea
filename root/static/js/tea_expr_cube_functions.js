@@ -358,8 +358,8 @@
             
             var text_bg_color = new Kinetic.Rect({
   						x: x_margin +s_index*20 -12,
-  						y: y_margin+8,
-              width: 180,
+  						y: y_margin+10,
+              width: y_margin,
               height: 20,
               fill: bg_color,
               rotation: 270

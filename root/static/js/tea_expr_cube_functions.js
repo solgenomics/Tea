@@ -1,14 +1,9 @@
 
   // pagination code
-  function draw_pagination(page_y,current_page,pages_num,moving_slice_group) {
+  function draw_pagination(page_x_margin,page_y,current_page,pages_num,moving_slice_group) {
     
-    //x position to start the pagination elements when
-    //tea_expr_code.js x_margin = canvas_width -50 - stages.length*20 - tissues.length*15;
-    var x_margin = 860;
-    
-    //x position to start the pagination elements when
-    //tea_expr_code.js x_margin = canvas_width -100 - stages.length*20 - tissues.length*15;
-    // var x_margin = 905;
+    //x position to start the pagination elements
+    var x_margin = page_x_margin+405;
     
   	var pages_group = new Kinetic.Group();
 
@@ -530,7 +525,7 @@
     
     //draw the pagination on bottom of the cube
     if (n == genes_num) {
-      draw_pagination(page_y,current_page,pages_num,moving_slice_group);
+      draw_pagination(x_margin,page_y,current_page,pages_num,moving_slice_group);
     }
 		
 		

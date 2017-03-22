@@ -304,8 +304,16 @@ $(document).ready(function () {
   var canvas_height = 1200;
 
   //set variables
-  var x_margin = canvas_width -50 - stages.length*20 - tissues.length*15;
-
+  var cube_width = stages.length*20 + tissues.length*15;
+  var x_margin = canvas_width -40 - cube_width;
+  
+  //increase canvas width when cube is too large
+  if (cube_width + 500 > canvas_width) {
+    canvas_width = cube_width + 500;
+    x_margin = canvas_width -40 - cube_width;
+    var container_width = canvas_width + 35;
+    $('.output_width').css("width",container_width+"px");
+  }
 
   var bg_color_hash = new Object();
   

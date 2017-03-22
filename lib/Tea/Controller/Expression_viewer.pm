@@ -254,14 +254,14 @@ sub _get_filtered_layers {
                 # save layer id and name in arrays
                 push(@selected_layer_ids,$s->layer_id);
               
-                if ($layer_type eq "stage") {
-                  if ($$cube_layer_name_hash{$st_figure_id}) {
-                    push(@layer_cube_names,$$cube_layer_name_hash{$st_figure_id});
-                  }
-                }
-                if ($layer_type eq "tissue") {
+                # if ($layer_type eq "stage") {
+                  # if ($$cube_layer_name_hash{$st_figure_id}) {
+                    # push(@layer_cube_names,$$cube_layer_name_hash{$st_figure_id});
+                  # }
+                # }
+                # if ($layer_type eq "tissue") {
                   push(@layer_cube_names,$layer_info_name);
-                }
+                # }
               }
             
             }
@@ -269,14 +269,14 @@ sub _get_filtered_layers {
               # save layer id and name in arrays
               push(@selected_layer_ids,$s->layer_id);
             
-              if ($layer_type eq "stage") {
-                if ($$cube_layer_name_hash{$st_figure_id}) {
-                  push(@layer_cube_names,$$cube_layer_name_hash{$st_figure_id});
-                }
-              }
-              if ($layer_type eq "tissue") {
+              # if ($layer_type eq "stage") {
+                # if ($$cube_layer_name_hash{$st_figure_id}) {
+                  # push(@layer_cube_names,$$cube_layer_name_hash{$st_figure_id});
+                # }
+              # }
+              # if ($layer_type eq "tissue") {
                 push(@layer_cube_names,$layer_info_name);
-              }
+              # }
             }
           
           }
@@ -288,14 +288,14 @@ sub _get_filtered_layers {
             if ($$layer_names{$layer_info_name}) {
               push(@selected_layer_ids,$s->layer_id);
             
-              if ($layer_type eq "stage") {
-                if ($$cube_layer_name_hash{$st_figure_id}) {
-                  push(@layer_cube_names,$$cube_layer_name_hash{$st_figure_id});
-                }
-              }
-              if ($layer_type eq "tissue") {
+              # if ($layer_type eq "stage") {
+                # if ($$cube_layer_name_hash{$st_figure_id}) {
+                  # push(@layer_cube_names,$$cube_layer_name_hash{$st_figure_id});
+                # }
+              # }
+              # if ($layer_type eq "tissue") {
                 push(@layer_cube_names,$layer_info_name);
-              }
+              # }
             }
           
           }
@@ -303,14 +303,14 @@ sub _get_filtered_layers {
             # save layer id and name in arrays
             push(@selected_layer_ids,$s->layer_id);
           
-            if ($layer_type eq "stage") {
-              if ($$cube_layer_name_hash{$st_figure_id}) {
-                push(@layer_cube_names,$$cube_layer_name_hash{$st_figure_id});
-              }
-            }
-            if ($layer_type eq "tissue") {
+            # if ($layer_type eq "stage") {
+              # if ($$cube_layer_name_hash{$st_figure_id}) {
+                # push(@layer_cube_names,$$cube_layer_name_hash{$st_figure_id});
+              # }
+            # }
+            # if ($layer_type eq "tissue") {
               push(@layer_cube_names,$layer_info_name);
-            }
+            # }
           }
         
         } # organ filter end 
@@ -423,16 +423,17 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
     
     my ($organ_arrayref,$stage_arrayref,$tissue_arrayref,$condition_arrayref) = $db_funct->get_input_options($schema,$figure_rs);
     @tissues = @$tissue_arrayref;
+    @stages = @$stage_arrayref;
     
-    $figure_rs = $schema->resultset('Figure')->search({project_id => $project_rs->project_id});
-    
-    while (my $fig = $figure_rs->next) {
-        
-      my $cube_stage_name = $fig->cube_stage_name;
-      push(@stages, $cube_stage_name);
-    }
-    @stages = uniq(@stages);
-    
+    # $figure_rs = $schema->resultset('Figure')->search({project_id => $project_rs->project_id});
+    #
+    # while (my $fig = $figure_rs->next) {
+    #
+    #   my $cube_stage_name = $fig->cube_stage_name;
+    #   push(@stages, $cube_stage_name);
+    # }
+    # @stages = uniq(@stages);
+
     ($stage_ids_arrayref,$stage_hashref,$tissue_hashref) = $db_funct->get_image_hash($schema,$this_project_all_layer_ids);
   }
   # organs, stages and/or tissues selected
@@ -501,11 +502,12 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
     my $stage_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "stage"})->single;
     
     # get all stage layer obj
-    my $all_stages_layer_rs = $schema->resultset('Layer')->search({layer_type_id => $stage_layer_type_rs->layer_type_id});
+    my $all_stages_layer_rs = $schema->resultset('Layer')->search({layer_type_id => $stage_layer_type_rs->layer_type_id},{order_by => 'cube_ordinal'});
+    # my $all_stages_layer_rs = $schema->resultset('Layer')->search({layer_type_id => $stage_layer_type_rs->layer_type_id});
     
     my ($selected_stage_ids,$stage_names,$selected_tissue_ids,$tissue_names);
     
-    print Dumper %stage_names;
+    # print Dumper %stage_names;
     
     ($selected_stage_ids,$stage_names) = _get_filtered_layers($all_stages_layer_rs,\%cond_layer_ids,$schema,$organ_filter,$stage_filter,\%organ_names,\%stage_names,\%fig_stage_name,"stage");
     
@@ -514,6 +516,7 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
     }
     
     @stages = @$stage_names;
+    # print Dumper @stages;
     
     # get tissue layer type
     my $tissue_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "tissue"})->single;
@@ -521,7 +524,7 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
     # get all tissue layer obj
     my $all_tissues_layer_rs = $schema->resultset('Layer')->search({layer_type_id => $tissue_layer_type_rs->layer_type_id},{order_by => 'cube_ordinal'});
     
-    print Dumper %tissue_names;
+    # print Dumper %tissue_names;
     
     ($selected_tissue_ids,$tissue_names) = _get_filtered_layers($all_tissues_layer_rs,\%cond_layer_ids,$schema,$organ_filter,$tissue_filter,\%organ_names,\%tissue_names,\%tissue_names,"tissue");
     

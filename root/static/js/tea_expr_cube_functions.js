@@ -1,9 +1,9 @@
 
   // pagination code
-  function draw_pagination(page_x_margin,page_y,current_page,pages_num,moving_slice_group) {
+  function draw_pagination(total_width,page_y,current_page,pages_num,moving_slice_group) {
     
     //x position to start the pagination elements
-    var x_margin = page_x_margin+405;
+    var x_margin = total_width-155;
     
   	var pages_group = new Kinetic.Group();
 
@@ -525,7 +525,8 @@
     
     //draw the pagination on bottom of the cube
     if (n == genes_num) {
-      draw_pagination(x_margin,page_y,current_page,pages_num,moving_slice_group);
+      var canvas_width = canvas.width();
+      draw_pagination(canvas_width,page_y,current_page,pages_num,moving_slice_group);
     }
 		
 		

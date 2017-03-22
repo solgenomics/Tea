@@ -177,7 +177,7 @@ The `img_ordinal` from the stage layer defines the order of the figure for the E
 The `cube_ordinal` from the tissue layer defines the order of the tissue rows on the cube (from top to bottom).
 
 The stage and tissue names on the cube are defined by the field `layer_name` on the tissue layer block. WHITE SPACES ARE NOT ALLOWED IN THIS FIELD. Please, replace them by underscores (_).
-
+Try to avoid special characters like commas on `layer_name`, `organ` and `conditions`.
 
 Run the script to import your project:
 

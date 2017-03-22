@@ -17,12 +17,12 @@ index_dir_name: example1
 
 
 # figure --- All info needed for a cluster of images (usually includes a stage and all its tissues). Copy this block as many times as you need (including as many tissue layer blocks as you need).
-figure_name: figure3
-conditions: condition1, condition2
+figure_name: figure 3
+conditions: condition 1, condition 2
 # write figure metadata
 
 #stage layer
-layer_name: stage3
+layer_name: stage_3
 layer_description: 
 layer_type: stage
 bg_color: #bbffff
@@ -31,11 +31,11 @@ image_width: 250
 image_height: 300
 cube_ordinal: 300
 img_ordinal: 300
-organ: organ1
+organ: organ_1
 # layer - end
 
 #tissue layer
-layer_name: tissue1
+layer_name: tissue_1
 layer_description: 
 layer_type: tissue
 bg_color: #e9f2ea
@@ -44,11 +44,11 @@ image_width: 250
 image_height: 300
 cube_ordinal: 1000
 img_ordinal: 1000
-organ: organ1
+organ: organ_1
 # layer - end
 
 #tissue layer
-layer_name: tissue2
+layer_name: tissue_2
 layer_description: 
 layer_type: tissue
 bg_color:
@@ -57,11 +57,11 @@ image_width: 250
 image_height: 300
 cube_ordinal: 1010
 img_ordinal: 1010
-organ: organ1
+organ: organ_1
 # layer - end
 
 #tissue layer
-layer_name: tissue3
+layer_name: tissue_3
 layer_description: 
 layer_type: tissue
 bg_color: #e9f2ea
@@ -70,11 +70,11 @@ image_width: 250
 image_height: 300
 cube_ordinal: 1020
 img_ordinal: 1020
-organ: organ1
+organ: organ_1
 # layer - end
 
 #tissue layer
-layer_name: tissue4
+layer_name: tissue_4
 layer_description: 
 layer_type: tissue
 bg_color: #e9d9ff
@@ -83,19 +83,19 @@ image_width: 250
 image_height: 300
 cube_ordinal: 1030
 img_ordinal: 1030
-organ: organ1
+organ: organ_1
 # layer - end
 
 # figure - end
 
 
 # figure --- All info needed for a cluster of images (usually includes a stage and all its tissues). Copy this block as many times as you need (including as many tissue layer blocks as you need).
-figure_name: figure2
-conditions: condition2
+figure_name: figure 2
+conditions: condition 2
 # write figure metadata
 
 #stage layer
-layer_name: stage2
+layer_name: stage_2
 layer_description: 
 layer_type: stage
 bg_color:
@@ -104,11 +104,11 @@ image_width: 250
 image_height: 300
 cube_ordinal: 200
 img_ordinal: 200
-organ: organ2
+organ: organ_2
 # layer - end
 
 #tissue layer
-layer_name: tissue1
+layer_name: tissue_1
 layer_description: 
 layer_type: tissue
 bg_color: #e9f2ea
@@ -117,11 +117,11 @@ image_width: 250
 image_height: 300
 cube_ordinal: 1000
 img_ordinal: 1000
-organ: organ2
+organ: organ_2
 # layer - end
 
 #tissue layer
-layer_name: tissue2
+layer_name: tissue_2
 layer_description: 
 layer_type: tissue
 bg_color:
@@ -130,11 +130,11 @@ image_width: 250
 image_height: 300
 cube_ordinal: 1010
 img_ordinal: 1010
-organ: organ2
+organ: organ_2
 # layer - end
 
 #tissue layer
-layer_name: tissue3
+layer_name: tissue_3
 layer_description: 
 layer_type: tissue
 bg_color: #e9f2ea
@@ -143,19 +143,19 @@ image_width: 250
 image_height: 300
 cube_ordinal: 1020
 img_ordinal: 1020
-organ: organ2
+organ: organ_2
 # layer - end
 
 # figure - end
 
 
 # figure --- All info needed for a cluster of images (usually includes a stage and all its tissues). Copy this block as many times as you need (including as many tissue layer blocks as you need).
-figure_name: figure1
-conditions: condition1, condition3
+figure_name: figure 1
+conditions: condition 1, condition 3
 # write figure metadata
 
 #stage layer
-layer_name: stage1
+layer_name: stage_1
 layer_description: 
 layer_type: stage
 bg_color: #ffffbb
@@ -164,11 +164,11 @@ image_width: 250
 image_height: 300
 cube_ordinal: 100
 img_ordinal: 100
-organ: organ1
+organ: organ_1
 # layer - end
 
 #tissue layer
-layer_name: tissue1
+layer_name: tissue_1
 layer_description: 
 layer_type: tissue
 bg_color: #e9f2ea
@@ -177,11 +177,11 @@ image_width: 250
 image_height: 300
 cube_ordinal: 1000
 img_ordinal: 1000
-organ: organ1
+organ: organ_1
 # layer - end
 
 #tissue layer
-layer_name: tissue2
+layer_name: tissue_2
 layer_description: 
 layer_type: tissue
 bg_color:
@@ -190,11 +190,11 @@ image_width: 250
 image_height: 300
 cube_ordinal: 1010
 img_ordinal: 1010
-organ: organ1
+organ: organ_1
 # layer - end
 
 #tissue layer
-layer_name: tissue3
+layer_name: tissue_3
 layer_description: 
 layer_type: tissue
 bg_color: #e9f2ea
@@ -203,7 +203,7 @@ image_width: 250
 image_height: 300
 cube_ordinal: 1020
 img_ordinal: 1020
-organ: organ1
+organ: organ_1
 # layer - end
 
 # figure - end

@@ -225,14 +225,24 @@
 
 
 
-  function add_tiles_and_stage_name(n,s_index,t_index,x_margin,y_margin,aoa,sq_size,slice_group,stage_names,tissue_names,bg_color_hash,moving_slice_group,tile_popup_layer) {
+  function add_tiles_and_stage_name(n,s_index,t_index,x_margin,y_margin,aoa,sq_size,slice_group,stage_names,tissue_names,bg_color_hash,tile_popup_layer) {
         
         var x_start = x_margin - t_index*15; //move left next stage row
 				var ny = y_margin + t_index*15;
-			
-				var rgb_color_array = get_expr_color(aoa[n-1][s_index-1][t_index-1]);
-				var sqr_color = 'rgb('+rgb_color_array[0]+','+rgb_color_array[1]+','+rgb_color_array[2]+')';
-				
+			  
+        var expr_val = aoa[n-1][s_index-1][t_index-1];
+        
+        if (expr_val == 0.000001) {
+          expr_val = "ND";
+        }
+        
+        var sqr_color = 'rgb(210,210,210)';
+
+        if (expr_val != "ND") {
+          var rgb_array = get_expr_color(expr_val);
+          sqr_color = 'rgb('+rgb_array[0]+','+rgb_array[1]+','+rgb_array[2]+')';
+        }
+        
         var nx = x_start -15  +s_index*sq_size + (t_index-1)*5;
         var top_tile_id = "top_"+n+"_"+(t_index-1)+"_"+(s_index-1);
         
@@ -248,28 +258,19 @@
 					closed: true
 				});
         
-        var expr_val = aoa[n-1][s_index-1][t_index-1];
-        
-        if (expr_val == 0.000001) {
-          expr_val = "ND";
-        }
         
         top_tile.on('mouseover', function() {
           var top_tile_y = this.getAbsolutePosition().y+ny;
           
           top_tile.fill("#529dfb");
-          // top_tile.stroke("#f00");
           top_tile.draw();
           
           var tile_txt = new Kinetic.Text({
             x: nx,
-            // x: nx-330,
             y: top_tile_y + 7 - sq_size*2,
             text: stage_name+" - "+tissue_name+": "+expr_val,
             fontSize: 16,
             align: 'right',
-            // width: 400,
-            // width: 370,
             fontFamily: 'Helvetica',
             fill: "black"
           });
@@ -278,13 +279,10 @@
           
           var tile_popup = new Kinetic.Rect({
             x: tile_txt.x()-5,
-            // x: nx-335,
             y: top_tile_y - sq_size*2,
             fill: '#fff',
             opacity: 0.9,
-            // width: 370,
             width: tile_txt.width()+10,
-            // width: 400,
             height: 30,
             cornerRadius: 5,
 						stroke: 'rgb(100,100,100)',
@@ -300,8 +298,6 @@
 
         top_tile.on('mouseout', function() {
           top_tile.fill(sqr_color);
-          // top_tile.stroke('rgb(50,50,50)');
-          // top_tile.strokeWidth(1);
           top_tile.draw();
           
           tile_popup_layer.removeChildren();
@@ -344,10 +340,9 @@
 			
 			
 				if (t_index == 1 && n == 1) {
-					//add stage names to top layer
+					//add stage names to top
           
           var bg_color = bg_color_hash[stage_names[s_index-1]];
-					stage_name = stage_names[s_index-1].replace(/_/g, " "); //replace underscores in tissue names by spaces
           
           if (bg_color) {
             
@@ -360,7 +355,7 @@
               rotation: 270
             });
     
-        		moving_slice_group.add(text_bg_color);
+        		slice_group.add(text_bg_color);
           }
           
 					var stage_text = new Kinetic.Text({
@@ -373,7 +368,7 @@
 						rotation: 270
 					});
 					
-					moving_slice_group.add(stage_text);
+					slice_group.add(stage_text);
 				}
     
     
@@ -513,7 +508,7 @@
 
     for (var j=1; j<=tissue_names.length; j++) {
       for (var i=stage_names.length; i>=1; i--) {
-        add_tiles_and_stage_name(n,i,j,x_margin,y_margin,aoa,sq_size,slice_group,stage_names,tissue_names,bg_color_hash,moving_slice_group,gene_popup_layer);
+        add_tiles_and_stage_name(n,i,j,x_margin,y_margin,aoa,sq_size,slice_group,stage_names,tissue_names,bg_color_hash,gene_popup_layer);
       }
     }
     

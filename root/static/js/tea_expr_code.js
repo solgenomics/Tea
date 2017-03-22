@@ -256,11 +256,17 @@ $(document).ready(function () {
           // alert("gst_expr_hhh: "+gst_expr_hhh[gene_a[0]]);
           // alert("expr_val: "+expr_val+", gene: "+gene_a[0]+", stage_name: "+stage_name+", tisue_name: "+tisue_name);
           
-          var rgb_color_array = get_expr_color(expr_val);
+          var r = 210;
+          var g = 210;
+          var b = 210;
+          
+          if (expr_val != 0.000001) {
+            var rgb_color_array = get_expr_color(expr_val);
 
-          var r = rgb_color_array[0];
-          var g = rgb_color_array[1];
-          var b = rgb_color_array[2];
+            r = rgb_color_array[0];
+            g = rgb_color_array[1];
+            b = rgb_color_array[2];
+          }
 
           var image_name = tissue_h[stage_ids_a[n]]["image_name"][i];
         

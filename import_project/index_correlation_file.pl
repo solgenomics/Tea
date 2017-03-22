@@ -15,6 +15,9 @@ if (scalar(@ARGV) != 2) {
 
 my ($corr_file,$output_path) = @ARGV;
 
+if (!-e $output_path) {
+  `mkdir $output_path`;
+}
 
 my $schema = Lucy::Plan::Schema->new;
 

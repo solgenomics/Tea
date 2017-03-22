@@ -1,0 +1,3 @@
+gene1	gene2	0.90
+gene1	gene3	0.89
+gene2	gene3	0.85

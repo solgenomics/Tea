@@ -115,31 +115,28 @@
 				placement: 'outsideGrid'
 			}
 		});
-		
-    
-    for (i in s_names) {
-      s_names[i] = s_names[i].replace(/ /g,"_");
-    }
-    for (i in t_names) {
-      t_names[i] = t_names[i].replace(/ /g,"_");
-    }
     
 	}
   
-  function get_error_bars(gene_name, stage_names, tissue_names, gst_sem_hohoh, transposed) {
+  function get_error_bars(gene, stage_array, tissue_array, is_transposed) {
   
     var sem_AoAoh = new Array();
     var sem_AoA_text = new Array();
     
-    if (transposed) {
-      for (t in tissue_names) {
+    if (is_transposed) {
+      
+      for (t in tissue_array) {
         var t_sem_a = new Array();
         var t_sem_a_text = new Array();
       
-        for (s in stage_names) {
-        
-          if (stage_names[s] && tissue_names[t] && gst_sem_hohoh[gene_name] && gst_sem_hohoh[gene_name][stage_names[s]] && gst_sem_hohoh[gene_name][stage_names[s]][tissue_names[t]]) {
-            var sem_value = gst_sem_hohoh[gene_name][stage_names[s]][tissue_names[t]];
+        for (s in stage_array) {
+          var my_key = gene+"_"+stage_array[s].replace(/ /g,"_")+"_"+tissue_array[t].replace(/ /g,"_");
+          
+          if (gst_sem_hohoh[my_key]) {
+          // if (stage_array[s] && tissue_array[t] && gst_sem_hohoh[gene] && gst_sem_hohoh[gene][stage_array[s]] && gst_sem_hohoh[gene][stage_array[s]][tissue_array[t]]) {
+            // var sem_value = gst_sem_hohoh[gene][stage_array[s]][tissue_array[t]];
+            
+            var sem_value = gst_sem_hohoh[my_key];
             var sem_s_hash = {min: sem_value, max: sem_value};
             t_sem_a.push(sem_s_hash);
             t_sem_a_text.push("");
@@ -150,23 +147,25 @@
       }
     } 
     else {
-      for (s in stage_names) {
+      for (s in stage_array) {
         
         var t_sem_a = new Array();
         var t_sem_a_text = new Array();
-      
-        for (t in tissue_names) {
         
-          if (stage_names[s] && tissue_names[t] && gst_sem_hohoh[gene_name] && gst_sem_hohoh[gene_name][stage_names[s]] && gst_sem_hohoh[gene_name][stage_names[s]][tissue_names[t]]) {
-
-            var sem_value = gst_sem_hohoh[gene_name][stage_names[s]][tissue_names[t]];
+        for (t in tissue_array) {
+          var my_key = gene+"_"+stage_array[s].replace(/ /g,"_")+"_"+tissue_array[t].replace(/ /g,"_");
+          
+          if (gst_sem_hohoh[my_key]) {
+          // if (stage_array[s] && tissue_array[t] && gst_sem_hohoh[gene] && gst_sem_hohoh[gene][stage_array[s]] && gst_sem_hohoh[gene][stage_array[s]][tissue_array[t]]) {
+            // var sem_value = gst_sem_hohoh[gene][stage_array[s]][tissue_array[t]];
             
-            
+            var sem_value = gst_sem_hohoh[my_key];
             var sem_s_hash = {min: sem_value, max: sem_value};
             t_sem_a.push(sem_s_hash);
             t_sem_a_text.push("");
           }
         }
+        
         sem_AoAoh.push(t_sem_a);
         sem_AoA_text.push(t_sem_a_text);
       }
@@ -178,18 +177,21 @@
   
   
   //open dialog for expression bar graph
-	function open_bar_graph_dialog(stage_tissue_values, gene_name, corr_val, description, gene_id, stage_names, tissue_names, expr_unit,gst_sem_hohoh) {
+	function open_bar_graph_dialog(stage_tissue_values, gene_name, corr_val, description, gene_id, stage_names, tissue_names, expr_unit) {
     
     var panel_width = 1200;
     var panel_max = 1200;
     var panel_min = 600;
     
-    gene_name = gene_name.replace(/\./g,"");
-    var div_gene_name = gene_name.replace(/[-,]/g,"");
+    gene_name = gene_name.replace(/\./g,"_o0o_");
+    var div_gene_name = gene_name;
+    gene_name2 = gene_name.replace(/_o0o_/g,".");
+    
+    
+    // var div_gene_name = gene_name.replace(/[-,]/g,"");
     
     if (stage_names.length*tissue_names.length > 90) {
       panel_width = stage_names.length*tissue_names.length*6 + 300;
-      // panel_width = panel_max;
     }
     else if (stage_names.length*tissue_names.length > 42 && stage_names.length*tissue_names.length <= 90) {
       panel_width = stage_names.length*tissue_names.length*10+300;
@@ -201,40 +203,43 @@
       panel_width = panel_min;
     }
     
-    // if (panel_width > panel_max) {
-    //   panel_width = panel_max;
-    // }
     if (panel_width < panel_min) {
       panel_width = panel_min;
     }
+    
+    var transpose_switch = $('#'+div_gene_name+'_dialog');
     
     // var tissue_names = ["Inner epidermis","Parenchyma","Vascular tissue","Collenchyma","Outer epidermis"];
     // var stage_names = ["10DPA", "Mature green", "Pink"];
 		
 		var dialog_null = document.getElementById(div_gene_name+"_dialog");
 		
-		if (dialog_null != null) {
+    if (dialog_null != null) {
 
-			var openDialog = $("#"+div_gene_name+"_dialog").dialog( "isOpen" );
-			
-			if (openDialog) {
-				$("#"+div_gene_name+"_dialog").dialog({ position: { my: "center", at: "center", of: window },});
-				$("#"+div_gene_name+"_bar_graph").empty();
-			} else {
-				$("#"+div_gene_name+"_dialog").dialog( "open" );
-			}
-      [sem_AoAoh,sem_AoA_text] = get_error_bars(gene_name, stage_names, tissue_names, gst_sem_hohoh)
+      transpose_switch.val = "on";
+      $("#"+div_gene_name+"_bar_graph").empty();
+
+      var openDialog = $("#"+div_gene_name+"_dialog").dialog( "isOpen" );
+
+      if (openDialog) {
+        $("#"+div_gene_name+"_dialog").dialog({ position: { my: "center", at: "center", of: window },});
+        $("#"+div_gene_name+"_bar_graph").empty();
+      } else {
+        $("#"+div_gene_name+"_dialog").dialog( "open" );
+      }
       
-			print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name,corr_val,expr_unit,sem_AoAoh,sem_AoA_text,0);
-			
-		} else {
+      [sem_AoAoh,sem_AoA_text] = get_error_bars(gene_name2,stage_names,tissue_names,0)
+      
+      print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name,corr_val,expr_unit,sem_AoAoh,sem_AoA_text);
+    } else {
+      transpose_switch.val = "on";
       
 			//TO DO: paste gene on input box on click
       
 			var dynamicDialog = $('<div id="'+div_gene_name+'_dialog" value="off">\
 			<center>\
       <table width="90%"><tr id="dialog_top_info">\
-				<td><a href="http://solgenomics.net/locus/'+gene_id+'/view" target="blank"><b>'+gene_name+'</b></a></td>\
+				<td><a href="http://solgenomics.net/locus/'+gene_id+'/view" target="blank"><b>'+gene_name2+'</b></a></td>\
 				<td><b> Correlation val: </b>'+corr_val+'</td>\
         <td><span id="tr_barplot'+div_gene_name+'" class="blue_link">transpose</span></td>\
 				</tr></table>\
@@ -245,41 +250,40 @@
 			
 			$(function() {
 				dynamicDialog.dialog({
-					title: gene_name,
+					title: gene_name2,
 					minWidth: panel_width,
 					draggable: true,
 					resizable: false,
 				});
 				$('.ui-dialog :button').blur();
         $('.sgn_logo_link').blur();
-        [sem_AoAoh,sem_AoA_text] = get_error_bars(gene_name, stage_names, tissue_names, gst_sem_hohoh,0)
+        
+        [sem_AoAoh,sem_AoA_text] = get_error_bars(gene_name2,stage_names,tissue_names,0)
 				print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name,corr_val,expr_unit,sem_AoAoh,sem_AoA_text);
 			});
+    } //end else
       
-      var switch_status = $('#'+div_gene_name+'_dialog');
-      var transpose_switch = $('#tr_barplot'+gene_name);
-      
-      $('#tr_barplot'+div_gene_name).click(function () {
-        // alert("HI");
+    //clicking on transpose button
+    $('#tr_barplot'+div_gene_name).click(function () {
         var new_array = stage_tissue_values[0].map(function(col, i) {
           return stage_tissue_values.map(function(row) {
             return row[i]
           })
         });
-        
+      
         $("#"+div_gene_name+"_bar_graph").empty();
-          
-        if (switch_status.val == "on") {
-          switch_status.val = "off";
-          [sem_AoAoh,sem_AoA_text] = get_error_bars(gene_name, stage_names, tissue_names, gst_sem_hohoh,0)
+        
+        if (transpose_switch.val == "off") {
+          transpose_switch.val = "on";
+          [sem_AoAoh,sem_AoA_text] = get_error_bars(gene_name2,stage_names,tissue_names,0)
     			print_bar_chart(tissue_names,stage_names,stage_tissue_values,gene_name,corr_val,expr_unit,sem_AoAoh,sem_AoA_text);
         } else {
-          switch_status.val = "on";
-          [sem_AoAoh,sem_AoA_text] = get_error_bars(gene_name, stage_names, tissue_names, gst_sem_hohoh,1)
+          transpose_switch.val = "off";
+          [sem_AoAoh,sem_AoA_text] = get_error_bars(gene_name2,stage_names,tissue_names,1)
           print_bar_chart(stage_names,tissue_names,new_array,gene_name,corr_val,expr_unit,sem_AoAoh,sem_AoA_text);
         }
-      });
-		}
+    }); //end clicking on transpose
+      
 	}
 
   //get color for expression values for cube and tissue imgs

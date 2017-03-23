@@ -637,7 +637,8 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
 		foreach my $s (@stages) {
 			foreach my $t (@tissues) {
 				$gene_stage_tissue_expr{$g}{$s}{$t} = 0.000001;
-				$gene_stage_tissue_sem{$g}{$s}{$t} = 0.000001;
+				$gene_stage_tissue_sem{$g."_".$s."_".$t} = 0.000001;
+        # $gene_stage_tissue_sem{$g}{$s}{$t} = 0.000001;
 			}
 		}
 	}
@@ -674,10 +675,12 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
         if ($hit->{sem} && $hit->{expression}) {
           $sem_val = $hit->{sem} / $hit->{expression};
         }
-  			$gene_stage_tissue_sem{$hit->{gene}}{$hit->{stage}}{$hit->{tissue}} = $sem_val;
+  			$gene_stage_tissue_sem{$hit->{gene}."_".$hit->{stage}."_".$hit->{tissue}} = $sem_val;
+        # $gene_stage_tissue_sem{$hit->{gene}}{$hit->{stage}}{$hit->{tissue}} = $sem_val;
       }
       else {
-        $gene_stage_tissue_sem{$hit->{gene}}{$hit->{stage}}{$hit->{tissue}} = 0
+        $gene_stage_tissue_sem{$hit->{gene}."_".$hit->{stage}."_".$hit->{tissue}} = 0
+        # $gene_stage_tissue_sem{$hit->{gene}}{$hit->{stage}}{$hit->{tissue}} = 0
       }
 		}
     

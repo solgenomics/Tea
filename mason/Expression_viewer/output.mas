@@ -102,7 +102,7 @@ $(document).ready(function () {
   var project_name = "<% $project_name %>";
   var expression_unit = "<% $project_expr_unit %>";
   var correlation_filter = <% $correlation_filter %>;
-	
+  
   // var heatmap_filename = "not found";
   // alert("project_id: "+project_id);
   // var organism_list = [project_id,0];

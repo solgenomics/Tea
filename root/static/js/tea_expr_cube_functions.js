@@ -5,128 +5,128 @@
     //x position to start the pagination elements
     var x_margin = total_width-155;
     
-  	var pages_group = new Kinetic.Group();
+    var pages_group = new Kinetic.Group();
 
-  	//triangle to first page
-  	var first_triangle_group = new Kinetic.Group();
-  	var arrow_first = new Kinetic.Line({
-  		points: [x_margin-140, page_y+22,x_margin-150, page_y+15,x_margin-140, page_y+8,x_margin-140, page_y+22],
-  		stroke: "#111",
-  		strokeWidth: 1,
-  		closed: true,
-  		fillLinearGradientStartPoint: {x:x_margin-140, y:page_y+30},
-  		fillLinearGradientEndPoint: {x:x_margin-140,y:page_y},
-  		fillLinearGradientColorStops: [0, "#333", 1, "#888"],
-  		lineCap: 'round',
-  		tension: 0
-  	});
+    //triangle to first page
+    var first_triangle_group = new Kinetic.Group();
+    var arrow_first = new Kinetic.Line({
+      points: [x_margin-140, page_y+22,x_margin-150, page_y+15,x_margin-140, page_y+8,x_margin-140, page_y+22],
+      stroke: "#111",
+      strokeWidth: 1,
+      closed: true,
+      fillLinearGradientStartPoint: {x:x_margin-140, y:page_y+30},
+      fillLinearGradientEndPoint: {x:x_margin-140,y:page_y},
+      fillLinearGradientColorStops: [0, "#333", 1, "#888"],
+      lineCap: 'round',
+      tension: 0
+    });
     
-  	var line_first = new Kinetic.Line({
-  		points: [x_margin-150, page_y+8,x_margin-150, page_y+22],
-  		stroke: "#111",
-  		strokeWidth: 1,
-  	});
-  	first_triangle_group.add(arrow_first);
-  	first_triangle_group.add(line_first);
+    var line_first = new Kinetic.Line({
+      points: [x_margin-150, page_y+8,x_margin-150, page_y+22],
+      stroke: "#111",
+      strokeWidth: 1,
+    });
+    first_triangle_group.add(arrow_first);
+    first_triangle_group.add(line_first);
 
-  	arrow_first.on('mousedown', function() {
-  		if (current_page > 1) {
-  			document.getElementById("page_num").value = 1;
-  			document.getElementById("search_gene").submit();
-  		}
-  	});
-  	moving_slice_group.add(first_triangle_group);
+    arrow_first.on('mousedown', function() {
+      if (current_page > 1) {
+        document.getElementById("page_num").value = 1;
+        document.getElementById("search_gene").submit();
+      }
+    });
+    moving_slice_group.add(first_triangle_group);
 
-  	//triangle to previous page
-  	var arrow_prev = new Kinetic.Line({
-  		points: [x_margin-120, page_y+22,x_margin-130, page_y+15,x_margin-120, page_y+8,x_margin-120, page_y+22],
-  		stroke: "#111",
-  		strokeWidth: 1,
-  		closed: true,
-  		fillLinearGradientStartPoint: {x:x_margin-120, y:page_y+30},
-  		fillLinearGradientEndPoint: {x:x_margin-120,y:page_y},
-  		fillLinearGradientColorStops: [0, "#333", 1, "#888"],
-  		lineCap: 'round',
-  		tension: 0
-  	});
-  	pages_group.add(arrow_prev);
+    //triangle to previous page
+    var arrow_prev = new Kinetic.Line({
+      points: [x_margin-120, page_y+22,x_margin-130, page_y+15,x_margin-120, page_y+8,x_margin-120, page_y+22],
+      stroke: "#111",
+      strokeWidth: 1,
+      closed: true,
+      fillLinearGradientStartPoint: {x:x_margin-120, y:page_y+30},
+      fillLinearGradientEndPoint: {x:x_margin-120,y:page_y},
+      fillLinearGradientColorStops: [0, "#333", 1, "#888"],
+      lineCap: 'round',
+      tension: 0
+    });
+    pages_group.add(arrow_prev);
 
-  	arrow_prev.on('mousedown', function() {
-  		if (current_page > 1) {
-  			document.getElementById("page_num").value = +current_page - 1;
-  			document.getElementById("search_gene").submit();
-  		}
-  	});
+    arrow_prev.on('mousedown', function() {
+      if (current_page > 1) {
+        document.getElementById("page_num").value = +current_page - 1;
+        document.getElementById("search_gene").submit();
+      }
+    });
 
-  	//print page number links
-  	var page_index = current_page - 3;
-  	var page_x_index = x_margin - 105;
+    //print page number links
+    var page_index = current_page - 3;
+    var page_x_index = x_margin - 105;
 
-  	for (var i=0; i<7; i++) {
-  		if (page_index <= pages_num && page_index > 0) {
-  			draw_page_numbers(page_index, page_x_index, page_y, pages_group,pages_num);
-  		}
-  		page_index++;
-  		page_x_index = page_x_index + 30;
-  	}
-  	moving_slice_group.add(pages_group);
+    for (var i=0; i<7; i++) {
+      if (page_index <= pages_num && page_index > 0) {
+        draw_page_numbers(page_index, page_x_index, page_y, pages_group,pages_num);
+      }
+      page_index++;
+      page_x_index = page_x_index + 30;
+    }
+    moving_slice_group.add(pages_group);
 
-  	//underline the current page
-  	var underline = new Kinetic.Line({
-  		points: [x_margin - 12, page_y+28, x_margin + 6, page_y+28],
-  		stroke: "#4387FD",
-  		strokeWidth: 2,
-  	});
-  	pages_group.add(underline);
+    //underline the current page
+    var underline = new Kinetic.Line({
+      points: [x_margin - 12, page_y+28, x_margin + 6, page_y+28],
+      stroke: "#4387FD",
+      strokeWidth: 2,
+    });
+    pages_group.add(underline);
 
-  	//triangle to next page
-  	var arrow_right = new Kinetic.Line({
-  		points: [x_margin+110, page_y+22,x_margin+120, page_y+15,x_margin+110, page_y+8,x_margin+110, page_y+22],
-  		stroke: "#111",
-  		strokeWidth: 1,
-  		closed: true,
-  		fillLinearGradientStartPoint: {x:x_margin-90, y:page_y+30},
-  		fillLinearGradientEndPoint: {x:x_margin-90,y:page_y},
-  		fillLinearGradientColorStops: [0, "#333", 1, "#888"],
-  		lineCap: 'round',
-  		tension: 0
-  	});
-  	pages_group.add(arrow_right);
+    //triangle to next page
+    var arrow_right = new Kinetic.Line({
+      points: [x_margin+110, page_y+22,x_margin+120, page_y+15,x_margin+110, page_y+8,x_margin+110, page_y+22],
+      stroke: "#111",
+      strokeWidth: 1,
+      closed: true,
+      fillLinearGradientStartPoint: {x:x_margin-90, y:page_y+30},
+      fillLinearGradientEndPoint: {x:x_margin-90,y:page_y},
+      fillLinearGradientColorStops: [0, "#333", 1, "#888"],
+      lineCap: 'round',
+      tension: 0
+    });
+    pages_group.add(arrow_right);
 
-  	arrow_right.on('mousedown', function() {
-  		if (current_page < pages_num) {
-  			document.getElementById("page_num").value = +current_page + 1;
-  			document.getElementById("search_gene").submit();
-  		}
-  	});
+    arrow_right.on('mousedown', function() {
+      if (current_page < pages_num) {
+        document.getElementById("page_num").value = +current_page + 1;
+        document.getElementById("search_gene").submit();
+      }
+    });
 
-  	//triangle to last page
-  	var last_triangle_group = new Kinetic.Group();
-  	var arrow_last = new Kinetic.Line({
-  		points: [x_margin+130, page_y+22,x_margin+140, page_y+15,x_margin+130, page_y+8,x_margin+130, page_y+22],
-  		stroke: "#111",
-  		strokeWidth: 1,
-  		closed: true,
-  		fillLinearGradientStartPoint: {x:x_margin-90, y:page_y+30},
-  		fillLinearGradientEndPoint: {x:x_margin-90,y:page_y},
-  		fillLinearGradientColorStops: [0, "#333", 1, "#888"],
-  		lineCap: 'round',
-  		tension: 0
-  	});
-  	var line_last = new Kinetic.Line({
-  		points: [x_margin+140, page_y+8,x_margin+140, page_y+22],
-  		stroke: "#111",
-  		strokeWidth: 1,
-  	});
-  	last_triangle_group.add(arrow_last);
-  	last_triangle_group.add(line_last);
+    //triangle to last page
+    var last_triangle_group = new Kinetic.Group();
+    var arrow_last = new Kinetic.Line({
+      points: [x_margin+130, page_y+22,x_margin+140, page_y+15,x_margin+130, page_y+8,x_margin+130, page_y+22],
+      stroke: "#111",
+      strokeWidth: 1,
+      closed: true,
+      fillLinearGradientStartPoint: {x:x_margin-90, y:page_y+30},
+      fillLinearGradientEndPoint: {x:x_margin-90,y:page_y},
+      fillLinearGradientColorStops: [0, "#333", 1, "#888"],
+      lineCap: 'round',
+      tension: 0
+    });
+    var line_last = new Kinetic.Line({
+      points: [x_margin+140, page_y+8,x_margin+140, page_y+22],
+      stroke: "#111",
+      strokeWidth: 1,
+    });
+    last_triangle_group.add(arrow_last);
+    last_triangle_group.add(line_last);
     
-  	arrow_last.on('mousedown', function() {
-  		if (current_page < pages_num) {
-  			document.getElementById("page_num").value = pages_num;
-  			document.getElementById("search_gene").submit();
-  		}
-  	});
+    arrow_last.on('mousedown', function() {
+      if (current_page < pages_num) {
+        document.getElementById("page_num").value = pages_num;
+        document.getElementById("search_gene").submit();
+      }
+    });
     
     pages_group.add(arrow_first);
     pages_group.add(arrow_last);
@@ -155,17 +155,17 @@
     
     
     //download button
-  	var download_group = new Kinetic.Group();
+    var download_group = new Kinetic.Group();
     
-		var download_button = new Kinetic.Rect({
+    var download_button = new Kinetic.Rect({
       x: x_margin - 120,
       y: page_y + 70,
-			width: 230,
-			height: 25,
-			strokeWidth: 0,
+      width: 230,
+      height: 25,
+      strokeWidth: 0,
       cornerRadius : 5,
       fill:'#777',
-		});
+    });
     download_group.add(download_button);
     
     //button text
@@ -192,39 +192,39 @@
       document.body.style.cursor = 'default';
     });
     
-		download_group.on('mousedown', function() {
-			document.getElementById("download_data").submit();
-		});
+    download_group.on('mousedown', function() {
+      document.getElementById("download_data").submit();
+    });
     
     moving_slice_group.add(download_group);
     
   }
 
 
-	//function to draw the central page numbers for the cube pagination
-	function draw_page_numbers(page_index, page_x_index, y_margin, pages_group, pages_num) {
+  //function to draw the central page numbers for the cube pagination
+  function draw_page_numbers(page_index, page_x_index, y_margin, pages_group, pages_num) {
     
-		var central_page = new Kinetic.Text({
-			x: page_x_index,
-			y: y_margin + 5,
-			text: page_index,
-			fontSize: '20',
-			fill: "#4387FD",
-		});
-		
-		if (page_index >=1 && page_index <=9) {
-			central_page.x(page_x_index+5)
-		}
-		
-		central_page.on('mousedown', function() {
-			document.getElementById("page_num").value = page_index;
-			document.getElementById("search_gene").submit();
-		});
-		pages_group.add(central_page);
-	}
+    var central_page = new Kinetic.Text({
+      x: page_x_index,
+      y: y_margin + 5,
+      text: page_index,
+      fontSize: '20',
+      fill: "#4387FD",
+    });
+    
+    if (page_index >=1 && page_index <=9) {
+      central_page.x(page_x_index+5)
+    }
+    
+    central_page.on('mousedown', function() {
+      document.getElementById("page_num").value = page_index;
+      document.getElementById("search_gene").submit();
+    });
+    pages_group.add(central_page);
+  }
 
 
-
+// function to draw the tiles of the cube. It is called several times to draw just the initial top, front and right tiles and then the top tiles from each gene when clicking on the gene name
   function add_tiles_and_stage_name(n,s_index,t_index,x_margin,y_margin,aoa,sq_size,slice_group,stage_names,tissue_names,bg_color_hash,tile_popup_layer,draw_names,draw_top,draw_right,draw_front) {
         
         // get expression color
@@ -243,7 +243,7 @@
         
         //set coordinates
         var x_start = x_margin - t_index*15; //move left next stage row
-				var ny = y_margin + t_index*15;
+        var ny = y_margin + t_index*15;
 
         var nx = x_start -15  +s_index*sq_size + (t_index-1)*5;
         var top_tile_id = "top_"+n+"_"+(t_index-1)+"_"+(s_index-1);
@@ -385,43 +385,43 @@
         } // close add stage names to top
   }
 
-	function add_slice(n,gene_names_array,aoa,stage_names,tissue_names,tmp_layer,canvas,x_margin,y_margin,color_code,correlation,gene_descriptions,gene_ids,current_page,pages_num,genes_num,expr_unit,bg_color_hash,layer_drawn_h) {
-		
-    var top_y_margin = y_margin;
-		var sq_size = 20;
-		y_margin = y_margin +n*sq_size;
-		x_margin = x_margin + 20;
-		
-		var slice_group = new Kinetic.Group({
-			id: "slice_"+n,
-		});
-		
-    // var gene_test = "Solyc1234g123456789101112131415";
+
+// function to draw gene name, description and correlation popup when mouse over gene name and the gene top tiles when clicking on gene name
+  function add_slice(n,gene_names_array,aoa,stage_names,tissue_names,tmp_layer,canvas,x_margin,y_margin,color_code,correlation,gene_descriptions,gene_ids,current_page,pages_num,genes_num,expr_unit,bg_color_hash,layer_drawn_h) {
     
-		var gene_text = new Kinetic.Text({
+    var top_y_margin = y_margin;
+    var sq_size = 20;
+    y_margin = y_margin +n*sq_size;
+    x_margin = x_margin + 20;
+    
+    var slice_group = new Kinetic.Group({
+      id: "slice_"+n,
+    });
+    
+    var gene_text = new Kinetic.Text({
       x: x_margin - 10*tissue_names.length,
       y: y_margin +18 +15*tissue_names.length,
-			id: "slice_name_"+n,
+      id: "slice_name_"+n,
       // text: gene_test,
       text: gene_names_array[n-1],
-			fontSize: 16,
-			fontFamily: 'Helvetica',
-			fill: "black"
-		});
-		
+      fontSize: 16,
+      fontFamily: 'Helvetica',
+      fill: "black"
+    });
+    
     gene_text.x(gene_text.x()-gene_text.width());
     
     
-		var gene_popup_layer = new Kinetic.Layer();
-		canvas.add(gene_popup_layer);
-		
-		gene_text.on('mouseover', function() {
+    var gene_popup_layer = new Kinetic.Layer();
+    canvas.add(gene_popup_layer);
+
+    gene_text.on('mouseover', function() {
       var x_pos = this.getAbsolutePosition().x;
       var y_pos = this.getAbsolutePosition().y;
       document.body.style.cursor = 'pointer';
       
-			var gene_description = gene_descriptions[gene_names_array[n-1]];
-			var gene_desc = gene_description;
+      var gene_description = gene_descriptions[gene_names_array[n-1]];
+      var gene_desc = gene_description;
       
       if (!gene_description) {
         gene_desc = "unknown protein";
@@ -429,18 +429,18 @@
       
       var desc_font_size = 16;
 
-			var desc_txt = new Kinetic.Text({
+      var desc_txt = new Kinetic.Text({
         x: 5,
-				y: y_pos-2,
-				text: gene_desc,
-				fontSize: desc_font_size,
-  			width: x_pos-80,
-  			align: 'left',
-				fontFamily: 'Helvetica',
-				fill: "white"
-			});
+        y: y_pos-2,
+        text: gene_desc,
+        fontSize: desc_font_size,
+        width: x_pos-80,
+        align: 'left',
+        fontFamily: 'Helvetica',
+        fill: "white"
+      });
       
-			var desc_height = 30;
+      var desc_height = 30;
       if (desc_txt.height() > desc_font_size) {
           desc_height = 50;
       }
@@ -448,9 +448,8 @@
           desc_height = 65;
       }
       
-      // alert(desc_txt.height()+" "+desc_txt.lineHeight());
 
-			var gene_popup = new Kinetic.Rect({
+      var gene_popup = new Kinetic.Rect({
         x: 0,
         // x: x_pos-80,
         y: y_pos-10,
@@ -460,10 +459,10 @@
         // width: 450,
         height: desc_height,
         cornerRadius: 5
-			});
-			
+      });
       
-			if (n>1) {
+      
+      if (n>1) {
         var corr_popup = new Kinetic.Rect({
           x: x_pos-50,
           y: y_pos-10,
@@ -472,51 +471,50 @@
           width: 40,
           height: 30,
           cornerRadius: 5
-				});
-			
-				var corr_txt = new Kinetic.Text({
-					x: x_pos-45,
-					y: y_pos-3,
-					text: correlation[n-2],
-					fontSize: 16,
-					fontFamily: 'Helvetica',
-					fill: "white"
-				});
-			
-				gene_popup_layer.add(corr_popup);
-				gene_popup_layer.moveToTop();
-				gene_popup_layer.add(corr_txt);
-			}
-			gene_popup_layer.add(gene_popup);
-			gene_popup_layer.moveToTop();
-			gene_popup_layer.add(desc_txt);
-			gene_popup_layer.draw();
-		});
-		
-		gene_text.on('mouseout', function() {
-      document.body.style.cursor = 'default';
-			gene_popup_layer.removeChildren();
-			gene_popup_layer.draw();
-		});
-		
-		var moving_slice_group = new Kinetic.Group({
-			id: "full_slice_"+n,
-		});
+        });
+        
+        var corr_txt = new Kinetic.Text({
+          x: x_pos-45,
+          y: y_pos-3,
+          text: correlation[n-2],
+          fontSize: 16,
+          fontFamily: 'Helvetica',
+          fill: "white"
+        });
 
-		if (n == 1) {
-			gene_text.fill("#0000EE");
-			// gene_text.fontStyle("bold");
+        gene_popup_layer.add(corr_popup);
+        gene_popup_layer.moveToTop();
+        gene_popup_layer.add(corr_txt);
+      }
+      gene_popup_layer.add(gene_popup);
+      gene_popup_layer.moveToTop();
+      gene_popup_layer.add(desc_txt);
+      gene_popup_layer.draw();
+    });
+    
+    gene_text.on('mouseout', function() {
+      document.body.style.cursor = 'default';
+      gene_popup_layer.removeChildren();
+      gene_popup_layer.draw();
+    });
+    
+    var moving_slice_group = new Kinetic.Group({
+      id: "full_slice_"+n,
+    });
+
+    if (n == 1) {
+      gene_text.fill("#0000EE");
       for (var j=1; j<=tissue_names.length; j++) {
         for (var i=stage_names.length; i>=1; i--) {
           add_tiles_and_stage_name(1,i,j,x_margin,y_margin,aoa,sq_size,slice_group,stage_names,tissue_names,bg_color_hash,gene_popup_layer,1,1,1,1);
         }
       }
       
-		} else {
-			moving_slice_group = new Kinetic.Group({
-				id: "full_slice_"+n,
-				name: 'slice_up',
-			});
+    } else {
+      moving_slice_group = new Kinetic.Group({
+        id: "full_slice_"+n,
+        name: 'slice_up',
+      });
       
       for (var j=1; j<=tissue_names.length; j++) {
         for (var i=stage_names.length; i>=1; i--) {
@@ -528,7 +526,6 @@
     
     var genes_number_in_cube = 15; //for pagination only
     var page_y = 70 + top_y_margin + genes_number_in_cube*sq_size + 15*tissue_names.length; //for pagination only
-    // var page_y = 40 + top_y_margin + 20*sq_size + 15*stage_names.length; //for pagination only
     
     //draw the pagination on bottom of the cube
     if (n == genes_num) {
@@ -588,36 +585,33 @@
         document.body.style.cursor = 'default';
     });
     
-		moving_slice_group.add(slice_group);
-		moving_slice_group.add(gene_text);
-		tmp_layer.add(moving_slice_group);
-		canvas.add(tmp_layer);
+    moving_slice_group.add(slice_group);
+    moving_slice_group.add(gene_text);
+    tmp_layer.add(moving_slice_group);
+    canvas.add(tmp_layer);
     
-	}
+  }
 
 
-	function add_tissue_names(x_margin,y_margin,tissue_name,x_margin2,tmp_cube_layer,canvas_tmp,bg_color_hash) {
-		
+  function add_tissue_names(x_margin,y_margin,tissue_name,x_margin2,tmp_cube_layer,canvas_tmp,bg_color_hash) {
+    
     var bg_color = bg_color_hash[tissue_name];
     
-		tissue_name = tissue_name.replace(/_/g, " "); //replace underscores in stage names by spaces
+    tissue_name = tissue_name.replace(/_/g, " "); //replace underscores in stage names by spaces
     
-    
-		//Tissue names for the cube
-		var tissue_text = new Kinetic.Text({
-      // x: x_margin-55,
-      // y: y_margin-52,
+    //Tissue names for the cube
+    var tissue_text = new Kinetic.Text({
       x: x_margin-112,
       y: y_margin-92,
-			text: tissue_name,
+      text: tissue_name,
       width: 250,
-			align: 'right',
-			fontSize: 16,
-			fontFamily: 'Helvetica',
-			fill: 'black',
-			rotation: 35
-		});
-	  
+      align: 'right',
+      fontSize: 16,
+      fontFamily: 'Helvetica',
+      fill: 'black',
+      rotation: 35
+    });
+    
     if (tissue_name) {
       if (bg_color) {
         var text_bg_color = new Kinetic.Rect({
@@ -633,20 +627,20 @@
           rotation: 215
         });
       
-    		tmp_cube_layer.add(text_bg_color);
+        tmp_cube_layer.add(text_bg_color);
       }
     }
     
-		tmp_cube_layer.add(tissue_text);
-		canvas_tmp.add(tmp_cube_layer);
-	}
+    tmp_cube_layer.add(tissue_text);
+    canvas_tmp.add(tmp_cube_layer);
+  }
 
 
-	function add_color_grad_legend(tmp_layer,stage,expr_unit) {
-	
-		var color = ['rgb(80,0,0)','rgb(255,0,0)','rgb(255,130,0)','rgb(255,195,125)','rgb(255,233,199)','rgb(255,255,120)','rgb(255,255,230)'];
-	  var x_pos = 20; // margin from right
-	  var y_pos = 15; //margin from top
+  function add_color_grad_legend(tmp_layer,stage,expr_unit) {
+    
+    var color = ['rgb(80,0,0)','rgb(255,0,0)','rgb(255,130,0)','rgb(255,195,125)','rgb(255,233,199)','rgb(255,255,120)','rgb(255,255,230)'];
+    var x_pos = 20; // margin from right
+    var y_pos = 15; //margin from top
     
     var grad_legend = new Kinetic.Rect({
       x: x_pos+10,
@@ -657,7 +651,7 @@
       fillLinearGradientEndPoint: {x:0,y:400},
       fillLinearGradientColorStops: [0, color[0], 0.2, color[1], 0.4, color[2], 0.6, color[3], 0.75, color[4], 0.9, color[5], 0.98, color[6]],
       // fillLinearGradientColorStops: [0, color[0], 0.2, color[1], 0.4, color[2], 0.6, color[3], 0.75, color[4], 0.9, color[5], 0.99, color[6], 1, 'rgb(255,255,255)'],
-			stroke: 'rgb(50,50,50)',
+      stroke: 'rgb(50,50,50)',
       strokeWidth: 1,
     });
   
@@ -671,16 +665,16 @@
       strokeWidth: 0
     });
   
-		var top_text = new Kinetic.Text({
-			x: x_pos+2,
+    var top_text = new Kinetic.Text({
+      x: x_pos+2,
       y: y_pos,
-			text: expr_unit,
-			fontSize: 14,
-			fontFamily: 'Helvetica',
-			fill: "black",
-			align: 'center'
-		});
-	
+      text: expr_unit,
+      fontSize: 14,
+      fontFamily: 'Helvetica',
+      fill: "black",
+      align: 'center'
+    });
+    
 		var mid1_text = new Kinetic.Text({
 			x: x_pos+35,
 			y: y_pos+80,
@@ -732,45 +726,43 @@
 			y: y_pos+455,
 			text: "No data",
 			fill: "black"
-		});
-  
-  
-		tmp_layer.add(no_data_text);
-		tmp_layer.add(no_data_square);
-		tmp_layer.add(grad_legend);
-		tmp_layer.add(legend_bottom);
-		tmp_layer.add(min_text);
-		tmp_layer.add(min2_text);
-		tmp_layer.add(mid1_text);
-		tmp_layer.add(mid2_text);
-		tmp_layer.add(mid3_text);
-		tmp_layer.add(top_text);
-		
-		stage.add(tmp_layer);
-	}
+    });
 
 
-	function draw_cube(genes,stages,tissues,expr_val,tmp_layer,tmp_canvas,top_x_start,y_margin,gene_ids,gene_descriptions,current_page,pages_num,page_width,expr_unit,bg_color_hash) {
-		tmp_layer.removeChildren();
-		var color_code = $('#color_code').val();
-		var genes_num = genes.length;
+    tmp_layer.add(no_data_text);
+    tmp_layer.add(no_data_square);
+    tmp_layer.add(grad_legend);
+    tmp_layer.add(legend_bottom);
+    tmp_layer.add(min_text);
+    tmp_layer.add(min2_text);
+    tmp_layer.add(mid1_text);
+    tmp_layer.add(mid2_text);
+    tmp_layer.add(mid3_text);
+    tmp_layer.add(top_text);
+
+    stage.add(tmp_layer);
+  }
+
+
+  function draw_cube(genes,stages,tissues,expr_val,tmp_layer,tmp_canvas,top_x_start,y_margin,gene_ids,gene_descriptions,current_page,pages_num,page_width,expr_unit,bg_color_hash) {
+    tmp_layer.removeChildren();
+    var color_code = $('#color_code').val();
+    var genes_num = genes.length;
     
     var layer_drawn_hash = new Object();
     
-		for (var i=genes_num; i>=1; i--) {
-			add_slice(i,genes,expr_val,stages,tissues,tmp_layer,tmp_canvas,top_x_start,y_margin,color_code,corr_values,gene_descriptions,gene_ids,current_page,pages_num,genes_num,expr_unit,bg_color_hash,layer_drawn_hash);
-		}
-	
-		//draw tissue names
-		for (var i=0; i<tissues.length; i++) {
-    // for (var i=0; i<stages.length; i++) {
-			var x = top_x_start -75 - i*10;
-			var y = y_margin -18 + i*15;
-			var x2 = top_x_start -650 + i*180;
-			add_tissue_names(x,y,tissues[i],x2,tmp_layer,tmp_canvas,bg_color_hash);
-      // add_stage_names(x,y,stages[i],x2,tmp_layer,tmp_canvas);
-		}
-		
+    for (var i=genes_num; i>=1; i--) {
+      add_slice(i,genes,expr_val,stages,tissues,tmp_layer,tmp_canvas,top_x_start,y_margin,color_code,corr_values,gene_descriptions,gene_ids,current_page,pages_num,genes_num,expr_unit,bg_color_hash,layer_drawn_hash);
+    }
+    
+    //draw tissue names
+    for (var i=0; i<tissues.length; i++) {
+      var x = top_x_start -75 - i*10;
+      var y = y_margin -18 + i*15;
+      var x2 = top_x_start -650 + i*180;
+      add_tissue_names(x,y,tissues[i],x2,tmp_layer,tmp_canvas,bg_color_hash);
+    }
+    
     //define the legend canvas
     var legend_canvas = new Kinetic.Stage({
       container: "container_legend",
@@ -779,8 +771,34 @@
     });
     var legend_layer = new Kinetic.Layer();
     
-		add_color_grad_legend(legend_layer,legend_canvas,expr_unit)
-	}
+    add_color_grad_legend(legend_layer,legend_canvas,expr_unit)
+  }
 
+  function setup_cube(canvas,canvas_h,canvas_w,cube_x_margin,gene_a,stage_a,tissue_a,AoAoA,locus_id,gene_desc,c_page,pages_number,expr_unit,bg_color_hash) {
+    
+    var frame_height = $('#container').css("height");
+    var container_height = frame_height.replace("px","");
+    
+    if (canvas_h > container_height) {
+      $('#container').css("height",canvas_h+"px");
+    }
+    
+    //for y_margin (top margin) for the cube, to have space for the stages names
+    var longest_stage = 0;
+    for (var j = 0; j < stage_a.length; j++) {
+      if (stage_a[j].length > longest_stage) {
+        longest_stage = stage_a[j].length;
+      }
+    }
+    
+    var y_margin = longest_stage*7;
+    
+    var cube_layer = new Kinetic.Layer();
+    
+    //margins for the cube
+    var top_x_start = cube_x_margin + (tissue_a.length*15);
+    
+    draw_cube(gene_a,stage_a,tissue_a,AoAoA,cube_layer,canvas,top_x_start,y_margin,locus_id,gene_desc,c_page,pages_number,canvas_w,expr_unit,bg_color_hash);
+  }
 
 

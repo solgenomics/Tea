@@ -17,12 +17,23 @@ function draw_stage_name(x_offset,y_offset,one_tissue_layer,canvas,img_width,stg
 }
 
 
-function iterate_by_stage(n,stage_h,stage_ids_a,j_index,x_offset,y_offset,next_stage,next_short_name,prev_stage,prev_stage2,title_y_offset,highest_row,canvas_width) {
+function iterate_by_stage(n,stage_h,stage_ids_a,j_index,x_offset,y_offset,prev_stage,prev_stage2,title_y_offset,highest_row,canvas_width) {
   
+  var next_stage = "";
+  var next_short_name = "";
   var img_name = stage_h[stage_ids_a[n]]["image_name"];
   var img_width = stage_h[stage_ids_a[n]]["image_width"]*1;
   var img_height = stage_h[stage_ids_a[n]]["image_height"]*1;
   var stage_name = stage_h[stage_ids_a[n]]["stage_name"];
+  
+  var next_img_width;
+  
+  if (stage_h[stage_ids_a[n+1]]) {
+    next_img_width = stage_h[stage_ids_a[n+1]]["image_width"]*1
+  } 
+  else {
+    next_img_width = img_width;
+  }
   
   if (img_height > highest_row) {
     highest_row = img_height;
@@ -51,11 +62,11 @@ function iterate_by_stage(n,stage_h,stage_ids_a,j_index,x_offset,y_offset,next_s
     y_offset = 0 + title_y_offset;
   }
   //same line -- if same stage and not over limit
-  else if (stage_short_name == prev_stage && x_offset + img_width*2 <= canvas_width) {
+  else if (stage_short_name == prev_stage && x_offset + img_width + next_img_width <= canvas_width) {
     x_offset = x_offset + img_width;
   }
   //new line -- if starting a set of stages or over the limit
-  else if (stage_short_name == next_short_name || x_offset + img_width*2 > canvas_width) {
+  else if (stage_short_name == next_short_name || x_offset + img_width + next_img_width > canvas_width) {
     x_offset = 0;
     j_index = 1;
     y_offset = y_offset + highest_row + title_y_offset*2;
@@ -84,20 +95,12 @@ function draw_expression_images(img_canvas,canvas_w,stage_ids_a,stage_h,tissue_h
   var label_y_offset = 70;
   var highest_in_row = 0;
   
-  //set canvas height
-  // var height_and_col = get_canvas_height(stage_ids_a,stage_h,canvas_w,canvas_h,label_y_offset);
-  // var images_total_height = height_and_col[0];
-  // var col_num = height_and_col[1];
-  
   img_canvas.width(canvas_w);
-  // img_canvas.height(images_total_height);
   
   var tissue_layer = new Kinetic.Layer();
   
   prev_stage = "";
   prev_stage2 = "";
-  next_stage = "";
-  next_short_name = "";
   j_index = 0;
   
   img_canvas.height(y_offset+label_y_offset);
@@ -109,7 +112,7 @@ function draw_expression_images(img_canvas,canvas_w,stage_ids_a,stage_h,tissue_h
       
       var img_canvas_tmp_height = img_canvas.height();
       
-      [x_offset,y_offset,j_index,stage_name,img_name,img_width,img_height,stage_short_name,highest_in_row] = iterate_by_stage(n,stage_h,stage_ids_a,j_index,x_offset,y_offset,next_stage,next_short_name,prev_stage,prev_stage2,label_y_offset,highest_in_row,canvas_w);
+      [x_offset,y_offset,j_index,stage_name,img_name,img_width,img_height,stage_short_name,highest_in_row] = iterate_by_stage(n,stage_h,stage_ids_a,j_index,x_offset,y_offset,prev_stage,prev_stage2,label_y_offset,highest_in_row,canvas_w);
       
       var stage_top_label = stage_h[stage_ids_a[n]]["stage_top_label"];
       
@@ -122,13 +125,9 @@ function draw_expression_images(img_canvas,canvas_w,stage_ids_a,stage_h,tissue_h
       var tissue_img_group = new Kinetic.Group();
       for (var i = 0; i<tissue_h[stage_ids_a[n]]["image_name"].length; i++) {
       
-      
         var tisue_name = tissue_h[stage_ids_a[n]]["tissue_name"][i];
       
         var expr_val = gst_expr_hhh[gene_a[0]][stage_name][tisue_name];
-        
-        // alert("gst_expr_hhh: "+gst_expr_hhh[gene_a[0]]);
-        // alert("expr_val: "+expr_val+", gene: "+gene_a[0]+", stage_name: "+stage_name+", tisue_name: "+tisue_name);
         
         var r = 210;
         var g = 210;
@@ -147,8 +146,6 @@ function draw_expression_images(img_canvas,canvas_w,stage_ids_a,stage_h,tissue_h
         img_width = tissue_h[stage_ids_a[n]]["image_width"][i]*1;
         img_height = tissue_h[stage_ids_a[n]]["image_height"][i]*1;
 
-        // alert("x_offset: "+x_offset+", y_offset: "+y_offset+", r: "+r+", g: "+g+", b: "+b+", img_width: "+img_width+", img_height: "+img_height+", image_name: "+image_name);
-        
         load_tissue_image(x_offset,y_offset,r,g,b,tissue_layer,img_canvas,img_width,img_height,tissue_img_group,image_name);
         tissue_layer.draw();
       } //for tissues end
@@ -193,9 +190,7 @@ function load_stage_image(x_offset,y_offset,one_tissue_layer,canvas,image_name,i
 //load the img for each one of the tissue layers
 function load_tissue_image(x_offset,y_offset,r_color,g_color,b_color,one_tissue_layer,canvas,img_width,img_height,imgs_group,image_name) {
     
-  // alert("image_name: "+image_name);
-    
-    one_tissue_layer.add(imgs_group);
+  one_tissue_layer.add(imgs_group);
     canvas.add(one_tissue_layer);
 
     var tmp_imgObj = new Image();
@@ -217,13 +212,7 @@ function load_tissue_image(x_offset,y_offset,r_color,g_color,b_color,one_tissue_
       tmp_stage.cache();
       tmp_stage.filters([Kinetic.Filters.RGB]);
       tmp_stage.red(r_color).green(g_color).blue(b_color);
-      // tmp_stage.cache();
-      // tmp_stage.moveToTop();
       tmp_stage.draw();
-      // one_tissue_layer.draw();
-
-      // tmp_stage.draw();
-      // tissue_popup_layer.draw();
     };//end of onload
 
     tmp_imgObj.src = '/static/images/expr_viewer/'+image_name;

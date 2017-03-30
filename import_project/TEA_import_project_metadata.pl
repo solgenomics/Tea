@@ -57,7 +57,8 @@ sub help {
     Other options:
       
       -h                           Print this help
-      
+      -n                           Non-interactively run this script
+      -p <password>                Database user password. Required if -n is used.
       
     Example:
       
@@ -68,8 +69,8 @@ EOF
 exit (1);
 }
 
-our ($opt_d, $opt_u, $opt_t, $opt_H, $opt_h);
-getopts("d:u:t:H:h");
+our ($opt_d, $opt_u, $opt_t, $opt_H, $opt_h, $opt_p, $opt_n);
+getopts("d:u:t:H:hp:n");
 
 if (!$opt_t) {
     print "Input data missing:\n";
@@ -87,13 +88,21 @@ if ($opt_h) {
     help();
 }
 
-system "stty -echo";
-print "Please enter password: ";
-my $password = <STDIN>;
-chomp($password);
-print "\n";
-system "stty echo";
-
+my $password;
+if (!$opt_n){
+    system "stty -echo";
+    print "Please enter password: ";
+    $password = <STDIN>;
+    chomp($password);
+    print "\n";
+    system "stty echo";
+} else {
+    if (!$opt_p){
+        print "To run this script non-interactively, you need to to supply the database password using -p\n\n";
+        help();
+    }
+    $password = $opt_p;
+}
 
 my $dbname = $opt_d;
 my $host = $opt_H;
@@ -172,10 +181,16 @@ try {
           });
           
           if (!$organism_rs || !$organism_rs->species) {
-            print "Organism $organism_species $organism_variety DOES NOT EXIST on the database!\n\n";
-            print "Create? [Y|n]> ";
 
-            if (<STDIN> !~ m/no*/i) {
+            my $skip_organism;
+            if (!$opt_n) {
+              print "Organism $organism_species $organism_variety DOES NOT EXIST on the database!\n\n";
+              print "Create? [Y|n]> ";
+              if (<STDIN> =~ m/no*/i) {
+                $skip_organism = 1;
+              }
+            }
+            if (!$skip_organism) {
               $organism_rs = $schema->resultset('Organism')->find_or_new({
                   species => $organism_species,
                   variety => $organism_variety,
@@ -399,10 +414,15 @@ sub submit_layer {
   my $layer_type_rs = $schema->resultset('LayerType')->single({layer_type => $layer_type});
 
   if (!$layer_type_rs || !$layer_type_rs->layer_type_id) {
+    my $skip_layer;
+    if (!$opt_n) {
       print "Layer type $layer_type DOES NOT EXIST on the database!\n\n";
       print "Create? [Y|n]> ";
-
-      if (<STDIN> !~ m/no*/i) {
+      if (<STDIN> =~ m/no*/i) {
+        $skip_layer = 1;
+      }
+    }
+    if (!$skip_layer) {
           $layer_type_rs = $schema->resultset('LayerType')->new({
               layer_type => $layer_type,
           });
@@ -529,9 +549,14 @@ sub check_commit {
     print "\nyour new $data_type:\n";
     print_one_row($rs);
     
-    print "Commit? [Y|n]> ";
-  
-    if (<STDIN> !~ m/no*/i) {
+    my $skip_commit;
+    if (!$opt_n) {
+      print "Commit? [Y|n]> ";
+      if (<STDIN> =~ m/no*/i) {
+        $skip_commit = 1;
+      }
+    }
+    if (!$skip_commit) {
         $rs->insert();
     
         print "commited.\n\n\n\n\n";

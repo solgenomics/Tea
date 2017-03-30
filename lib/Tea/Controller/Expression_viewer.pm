@@ -236,7 +236,6 @@ sub _get_filtered_layers {
       $layer_info_name =~ s/ /_/g;
       
       # get layer figure id
-      # my $st_figure_id = $schema->resultset('FigureLayer')->search({layer_id => $s->layer_id})->single->figure_id;
       my $st_figure = $schema->resultset('FigureLayer')->search({layer_id => $s->layer_id});
       
       while (my $fig = $st_figure->next) {
@@ -253,30 +252,14 @@ sub _get_filtered_layers {
               if ($$layer_names{$layer_info_name}) {
                 # save layer id and name in arrays
                 push(@selected_layer_ids,$s->layer_id);
-              
-                # if ($layer_type eq "stage") {
-                  # if ($$cube_layer_name_hash{$st_figure_id}) {
-                    # push(@layer_cube_names,$$cube_layer_name_hash{$st_figure_id});
-                  # }
-                # }
-                # if ($layer_type eq "tissue") {
-                  push(@layer_cube_names,$layer_info_name);
-                # }
+                push(@layer_cube_names,$layer_info_name);
               }
             
             }
             else { # ---------------------- only organ
               # save layer id and name in arrays
               push(@selected_layer_ids,$s->layer_id);
-            
-              # if ($layer_type eq "stage") {
-                # if ($$cube_layer_name_hash{$st_figure_id}) {
-                  # push(@layer_cube_names,$$cube_layer_name_hash{$st_figure_id});
-                # }
-              # }
-              # if ($layer_type eq "tissue") {
-                push(@layer_cube_names,$layer_info_name);
-              # }
+              push(@layer_cube_names,$layer_info_name);
             }
           
           }
@@ -287,30 +270,14 @@ sub _get_filtered_layers {
         
             if ($$layer_names{$layer_info_name}) {
               push(@selected_layer_ids,$s->layer_id);
-            
-              # if ($layer_type eq "stage") {
-                # if ($$cube_layer_name_hash{$st_figure_id}) {
-                  # push(@layer_cube_names,$$cube_layer_name_hash{$st_figure_id});
-                # }
-              # }
-              # if ($layer_type eq "tissue") {
-                push(@layer_cube_names,$layer_info_name);
-              # }
+              push(@layer_cube_names,$layer_info_name);
             }
           
           }
           else {# ---------------------- condition only
             # save layer id and name in arrays
             push(@selected_layer_ids,$s->layer_id);
-          
-            # if ($layer_type eq "stage") {
-              # if ($$cube_layer_name_hash{$st_figure_id}) {
-                # push(@layer_cube_names,$$cube_layer_name_hash{$st_figure_id});
-              # }
-            # }
-            # if ($layer_type eq "tissue") {
-              push(@layer_cube_names,$layer_info_name);
-            # }
+            push(@layer_cube_names,$layer_info_name);
           }
         
         } # organ filter end 
@@ -358,6 +325,10 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
   
 	my $current_page = $c->req->param("current_page") || 1;
 	my $pages_num = $c->req->param("all_pages") || 1;
+	my $input_type = $c->req->param("input_type") || "gene_id";
+  my $all_genes_list_arrayref = $c->req->param("custom_gene_list");
+  
+  my @all_genes_list;
   
   # get the path to the expression and correlation lucy indexes
 	my $expr_path = $c->config->{expression_indexes_path};
@@ -381,8 +352,9 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
   my $expr_index_path = $expr_path."/".$project_rs->indexed_dir;
   $loci_and_desc_path .= "/".$project_rs->indexed_dir;
   
-  _check_gene_exists($c,$expr_index_path,$query_gene[0]);
-  
+  if ($input_type eq "gene_id") {
+    _check_gene_exists($c,$expr_index_path,$query_gene[0]);
+  }
   # getting the organs, stages tissues and treatments selected at input page
   my @stages = split(",",$stage_filter);
   my @tissues = split(",",$tissue_filter);
@@ -425,15 +397,6 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
     @tissues = @$tissue_arrayref;
     @stages = @$stage_arrayref;
     
-    # $figure_rs = $schema->resultset('Figure')->search({project_id => $project_rs->project_id});
-    #
-    # while (my $fig = $figure_rs->next) {
-    #
-    #   my $cube_stage_name = $fig->cube_stage_name;
-    #   push(@stages, $cube_stage_name);
-    # }
-    # @stages = uniq(@stages);
-
     ($stage_ids_arrayref,$stage_hashref,$tissue_hashref) = $db_funct->get_image_hash($schema,$this_project_all_layer_ids);
   }
   # organs, stages and/or tissues selected
@@ -553,36 +516,67 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
 	
 	my @corr_values;
 	
-	#check number of input genes
-	if (scalar(@query_gene) == 1) {
-		$query_gene = shift @query_gene;
-		$multiple_genes = 0;
-		
-		if ($query_gene =~ /\n/) {
-			
-			$query_gene =~ s/[\n\s,]+/,/g;
-      if ($query_gene =~ /solyc\d\dg\d{6}/i) {
-  			$query_gene =~ s/\.[12]\.*[12]*$//g;
-			}
-      
-			@genes = split(",", $query_gene);
-			@corr_values = ("list") x scalar(@genes);
-			
-			my @uniq_genes = uniq(@genes);
-			if (scalar(@uniq_genes) >= $cube_gene_number) {
-				@genes = @uniq_genes[0..$cube_gene_number-1];
-			} else {
-				@genes = @uniq_genes[0..$#uniq_genes];
-			}
-			$query_gene = shift @genes;
-			
-			$multiple_genes = 1;
-		}
-		
-	} elsif (scalar(@query_gene) > 1) {
+  #check number of input genes
+  if ($input_type eq "gene_id") {
+    $query_gene = shift @query_gene;
+    $multiple_genes = 0;
+  }
+  elsif ($input_type eq "custom_list") {
+    # Custom list input
+    
+    $multiple_genes = 0;
+    $query_gene = shift @query_gene;
+    
+    $query_gene =~ s/[\n\s,]+/,/g;
+    
+    if ($query_gene =~ /solyc\d\dg\d{6}/i) {
+      $query_gene =~ s/\.[12]\.*[12]*$//g;
+    }
+    
+    @genes = split(",", $query_gene);
+    @corr_values = ("list") x scalar(@genes);
+    
+    my @uniq_genes = uniq(@genes);
+    
+    if ($all_genes_list_arrayref) {
+      $all_genes_list_arrayref =~ s/[\"\[\]]//g;
+      @all_genes_list = split(",", $all_genes_list_arrayref);
+      # @all_genes_list = @all_genes_list_arrayref;
+      print STDERR "all_genes_list_arrayref not null\n";
+    } else {
+      @all_genes_list = @uniq_genes;
+      print STDERR "all_genes_list_arrayref null, 1st time\n";
+    }
+    
+    my $array_start = $cube_gene_number*($current_page-1)-1;
+    my $array_end = $cube_gene_number*$current_page;
+    
+    if ($array_end >= scalar(@all_genes_list)) {
+      $array_end = scalar(@all_genes_list);
+    }
+    if ($array_start < 0) {
+      $array_start = 0;
+    }
+
+    if ($all_genes_list_arrayref) {
+      $query_gene = $all_genes_list[0];
+      @genes = @all_genes_list[$array_start..$array_end-1];
+      shift @genes;
+    } else {
+      @genes = @all_genes_list[$array_start..$array_end-1];
+      $query_gene = shift @genes;
+    }
+    
+    $multiple_genes = 1;
+    
+	} elsif ($input_type eq "blast") {
+    # BLAST input
+    
 		@corr_values = ("blast") x scalar(@query_gene);
 		my @uniq_genes = uniq(@query_gene);
-		
+    @all_genes_list = @uniq_genes;
+    # $input_type = "blast";
+    
 		if (scalar(@uniq_genes) >= $cube_gene_number) {
 			@genes = @uniq_genes[0..$cube_gene_number-1];
 		} else {
@@ -590,11 +584,13 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
 		}
 		$query_gene = shift @genes;
 	}
-	
+  
+  
 	# strip gene name
 	$query_gene =~ s/^\s+//;
 	$query_gene =~ s/\s+$//;
 	
+  # hardcoded only for tomato genes
   if ($query_gene =~ /solyc/i) {
   	$query_gene =~ s/\.\d$//;
   	$query_gene =~ s/\.\d$//;
@@ -707,6 +703,16 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
 	$corr_filter = $c->req->param("correlation_filter")||0.65;
 	my @output_gene = $c->req->param("input_gene");
   
+  my $total_page_number;
+  if ($input_type eq "gene_id") {
+    $total_page_number = int($total_corr_genes/$cube_gene_number)+1;
+  } else {
+    $total_page_number = int(scalar(@all_genes_list)/$cube_gene_number)+1;
+  }
+  
+  print STDERR "total_page_number: $total_page_number\n";
+  print STDERR "query_gene: $query_gene\n";
+  
 	$c->stash->{genes} = \@genes;
 	$c->stash->{stages} = \@stages;
 	$c->stash->{tissues} = \@tissues;
@@ -720,15 +726,21 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
   
 	$c->stash->{aoaoa} = \@AoAoA;
 	$c->stash->{correlation} = \@corr_values;
-	$c->stash->{pages_num} = (int($total_corr_genes/$cube_gene_number)+1);
+  
+	$c->stash->{pages_num} = $total_page_number;
+  # $c->stash->{pages_num} = (int($total_corr_genes/$cube_gene_number)+1);
 	$c->stash->{current_page} = ($current_page + 1);
-	$c->stash->{output_gene} = \@output_gene;
+	$c->stash->{input_type} = $input_type;
+	$c->stash->{custom_gene_list} = \@all_genes_list;
+	
+  $c->stash->{output_gene} = \@output_gene;
 	$c->stash->{correlation_filter} = $corr_filter;
 	$c->stash->{organism_filter} = $project_id;
 	$c->stash->{stage_filter} = $stage_filter;
 	$c->stash->{tissue_filter} = $tissue_filter;
 	$c->stash->{condition_filter} = $condition_filter;
 	$c->stash->{organ_filter} = $organ_filter;
+  
   $c->stash->{description} = \%descriptions;
 	$c->stash->{project_id} = $project_rs->project_id;
 	$c->stash->{project_name} = $project_rs->name;
@@ -858,9 +870,9 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
 	$query_gene =~ s/\.\d$//;
 	$query_gene =~ s/\.\d$//;
 	
-	print STDERR "downloading expression data\n";
-	print STDERR "multiple_genes: $multiple_genes, query_gene: $query_gene\n";
-	print STDERR "genes: @genes\n";
+  # print STDERR "downloading expression data\n";
+  # print STDERR "multiple_genes: $multiple_genes, query_gene: $query_gene\n";
+  # print STDERR "genes: @genes\n";
 	
 	my %corr_values;
   

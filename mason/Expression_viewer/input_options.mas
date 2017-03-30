@@ -11,6 +11,7 @@ $input_gene => ()
     		<form id="search_gene" method="post" enctype="multipart/form-data">
   				<input id="gene_id_input" class="gene_autocomplete form-control col-xs-2 panel-primary" value="<% $input_gene %>" name="input_gene"/>
         
+          <input id="input_type" name="input_type" style="display:none;" value="gene_id" >
   				<input class="corr_filter" name="correlation_filter" style="display:none;"/>
   				<input class="organism_filter" name="organism_filter" style="display:none;"/>
   				<input class="organ_filter" name="organ_filter" style="display:none;"/>

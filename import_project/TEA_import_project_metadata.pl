@@ -305,6 +305,8 @@ try {
           
           foreach my $cond (@conditions_array) {
             
+            $cond =~ s/^\s+//;
+            
             print STDERR "condition: $cond\n\n\n";
             
             # lets fill out the condition table

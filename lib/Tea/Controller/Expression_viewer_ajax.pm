@@ -359,6 +359,7 @@ sub _run_blast_cmd {
 	print STDERR "$blast_cmd\n";
 
 	my $aln_true = 0;
+	my $table_true = 0;
 	my @aln_file;
 	my @res;
 	if ($blast_alignment) {
@@ -386,47 +387,60 @@ sub _run_blast_cmd {
 				# print STDERR "$line\n";
 				if ($blast_alignment) {
 					
-					if ($line =~ /^>/) {
-						$aln_true = 1;
-					}
-					
-					if ($line =~ /^Solyc/) {
-						# my ($subject,$kk1,$kk2,$bitscore,$evalue) = split(/\s+/,$line);
-						my @blast_m0 = split(/\s+/,$line);
+          if ($line =~ /^>/) {
+            $aln_true = 1;
+            $table_true = 0;
+          }
+          
+          if ($line =~ /^Sequences producing significant alignments:/) {
+            $table_true = 1;
+          }
+          
+					if ($table_true) {
+            
+            $line =~ s/\s+$//;
+            
+            if ($line =~ /\d$/) {
+  						# my ($subject,$kk1,$kk2,$bitscore,$evalue) = split(/\s+/,$line);
+  						my @blast_m0 = split(/\s+/,$line);
 						
-						my $subject = $blast_m0[0];
-						my $evalue = $blast_m0[-1];
-						my $bitscore = $blast_m0[-2];
-						
-						$subject =~ s/\.\d$//;
-						$subject =~ s/\.\d$//;
+  						my $subject = $blast_m0[0];
+  						my $evalue = $blast_m0[-1];
+  						my $bitscore = $blast_m0[-2];
+						  
+              if ($subject =~ /^Solyc/i) {
+    						$subject =~ s/\.\d$//;
+    						$subject =~ s/\.\d$//;
+              }
+              
+  						$lucy_desc->search(
+  						    query      => $subject,
+  							num_wanted => 1,
+  						);
 	
-						$lucy_desc->search(
-						    query      => $subject,
-							num_wanted => 1,
-						);
-	
-						while ( my $desc_hit = $lucy_desc->next ) {
-							my $desc = $desc_hit->{description};
-							my $tr_type = "<tr>";
-							if ($#res % 2 == 0) {
-							} else {
-								$tr_type = "<tr class='alt'>"
-							}
-							push(@res, "$tr_type<td><input type=\"checkbox\" class=\"blast_checkbox\" onclick=resetSelectAll(); value=\"$subject\" name=\"input_gene\"></td><td style=\"text-align: left;\">$subject</td><td>$evalue</td><td>$bitscore</td><td style=\"text-align: left; padding-left: 10px;\">".$desc."</td></tr>");
+  						while ( my $desc_hit = $lucy_desc->next ) {
+  							my $desc = $desc_hit->{description};
+  							my $tr_type = "<tr>";
+  							if ($#res % 2 == 0) {
+  							} else {
+  								$tr_type = "<tr class='alt'>"
+  							}
+  							push(@res, "$tr_type<td><input type=\"checkbox\" class=\"blast_checkbox\" onclick=resetSelectAll(); value=\"$subject\" name=\"input_gene\"></td><td style=\"text-align: left;\">$subject</td><td>$evalue</td><td>$bitscore</td><td style=\"text-align: left; padding-left: 10px;\">".$desc."</td></tr>");
+  						} # close while
 						}
-						
 					} elsif ($aln_true) {
 						push(@aln_file, "$line\n");
 					} else {
 						next;
-					}
+					} # close if table true
 				} else {
 					# split lines by tabs getting each column value in a variable
 					my ($query,$subject,$identity,$alignment_length,$mismatch,$gapopen,$qstart,$qend,$sstart,$send,$evalue,$bitscore) = split("\t",$line);
 				
-					$subject =~ s/\.\d$//;
-					$subject =~ s/\.\d$//;
+          if ($subject =~ /^Solyc/i) {
+						$subject =~ s/\.\d$//;
+						$subject =~ s/\.\d$//;
+          }
 	
 					$lucy_desc->search(
 					    query      => $subject,
@@ -441,19 +455,19 @@ sub _run_blast_cmd {
 							$tr_type = "<tr class='alt'>"
 						}
 						push(@res, "$tr_type<td><input type=\"checkbox\" class=\"blast_checkbox\" onclick=resetSelectAll(); value=\"$subject\" name=\"input_gene\"></td><td style=\"text-align: left;\">$subject</td><td>$identity</td><td>$evalue</td><td>$bitscore</td><td style=\"text-align: left; padding-left: 10px;\">".$desc."</td></tr>");
-					}
-				}
+					} # close while
+				} # close if blast alignment
 				
 				if ($line =~ /Database\:/) {
 					$aln_true = 0;
 				}
 				
-			}
+			} # close while
 		} else {
 			print STDERR "BLAST output does not exist\n";
 			return;
-		}
-	}
+		} # close if blast file exists
+	} # if blast error else
 	
 	return (\@res,\@aln_file);
 	# return \@res;

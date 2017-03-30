@@ -70,14 +70,14 @@ function iterate_by_stage(n,stage_h,stage_ids_a,j_index,x_offset,y_offset,prev_s
     x_offset = 0;
     j_index = 1;
     y_offset = y_offset + highest_row + title_y_offset*2;
-    highest_row = 0;
+    highest_row = img_height;
   }
   //new line -- if not belong to a set of stages
   else if (stage_short_name != prev_stage && prev_stage2 && prev_stage == prev_stage2) {
     x_offset = 0;
     j_index = 1;
     y_offset = y_offset + highest_row + title_y_offset*2;
-    highest_row = 0;
+    highest_row = img_height;
   }
   //same line
   else {

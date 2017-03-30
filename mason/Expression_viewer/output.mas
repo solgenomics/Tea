@@ -102,7 +102,7 @@ $(document).ready(function () {
   var project_name = "<% $project_name %>";
   var expression_unit = "<% $project_expr_unit %>";
   var correlation_filter = <% $correlation_filter %>;
-	
+  
   // var heatmap_filename = "not found";
   // alert("project_id: "+project_id);
   // var organism_list = [project_id,0];
@@ -182,7 +182,7 @@ $(document).ready(function () {
     <a id="dwl_cube_link" href="#" download="expression_cube.png" style="display:none"></a>
   </div>
   
-  <div class="tabs">
+  <div class="tabs output_width">
     <ul class="nav nav-tabs">
         <li id="cube_tab" class="active"><a data-toggle="tab" href="#container"><img src="/static/images/ico2.png" height="24"/> Expression Cube</a></li>
         <li id="expr_imgs_tab"><a data-toggle="tab" href="#container_tissues"><img src="/static/images/ico1.png" height="24" style="padding-bottom:5px;"/> Expression images</a></li>
@@ -190,9 +190,9 @@ $(document).ready(function () {
     </ul>
   </div>
   <div class="tab-content">
-    <div id="container" class="tab-pane fade in active"></div>
-    <div id="container_tissues" class="tab-pane fade"></div>
-    <div id="container_heatmap" class="tab-pane fade"></div>
+    <div id="container" class="output_width tab-pane fade in active"></div>
+    <div id="container_tissues" class="output_width tab-pane fade"></div>
+    <div id="container_heatmap" class="output_width tab-pane fade"></div>
   </div>
   
   <div id="hide_legend"><span id="legend_close" class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>

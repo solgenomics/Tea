@@ -314,7 +314,8 @@ sub get_image_hash {
       
       my $layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $one_layer->layer_info_id})->single;
 
-      my $stage_name = $figure_rs->cube_stage_name;
+      # my $stage_name = $figure_rs->cube_stage_name;
+      my $stage_name = $layer_info_rs->name;
       my $stage_top_label = $figure_rs->figure_name;
       $stage_name =~ s/ /_/g;
       

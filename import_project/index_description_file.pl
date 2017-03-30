@@ -2,7 +2,8 @@
 
 use strict;
 use warnings;
-
+use Lucy::Simple;
+use File::Spec::Functions qw( catfile );
 
 if (scalar(@ARGV) != 2) {
 	print "Usage: perl index_description_file.pl <description_file.txt> <output_dir_path>\n";
@@ -11,9 +12,9 @@ if (scalar(@ARGV) != 2) {
 
 my ($desc_file,$output_path) = @ARGV;
 
-
-use Lucy::Simple;
-use File::Spec::Functions qw( catfile );
+if (!-e $output_path) {
+  `mkdir $output_path`;
+}
 
 my $lucy = Lucy::Simple->new(
     path     => $output_path,

@@ -1,78 +1,99 @@
 # Please use one line per field and one file per project. Do not edit or remove any line starting with #
 
 #organism
-organism_species: 
-organism_variety: 
+organism_species:
+organism_variety:
 organism_description:
 # organism - end
 
 
 #project
-project_name: 
-project_contact: 
-project_description: 
-index_dir_name: 
+project_name:
+project_contact:
+project_description:
+expr_unit:
+index_dir_name:
 # project - end
 
 
-# experiment --- All info needed for a cluster of images (usually includes a stage and all its tissues). Copy this block as many times as you need (including as many layer blocks as you need).
-experiment_name: 
-experiment_description: 
-# write experiment metadata
+# figure --- All info needed for a cluster of images (usually includes one stage and all its tissues). Copy this block as many times as you need (including as many tissue layer blocks as you need).
+figure_name:
+conditions:
+# write figure metadata
 
-#layer: define all stages, tissues, organs and conditions from your project
-layer_name: 
-layer_description: 
-layer_type: 
-layer_image: 
-image_width: 
-image_height: 
-cube_ordinal: 
-img_ordinal: 
+#stage layer
+layer_name:
+layer_description:
+layer_type: stage
+bg_color:
+layer_image:
+image_width:
+image_height:
+cube_ordinal:
+img_ordinal:
+organ:
 # layer - end
 
-#layer
-layer_name: 
+#tissue layer
+layer_name:
 layer_description: 
-layer_type: 
-layer_image: 
-image_width: 
-image_height: 
-cube_ordinal: 
-img_ordinal: 
+layer_type: tissue
+bg_color:
+layer_image:
+image_width:
+image_height:
+cube_ordinal:
+img_ordinal:
+organ:
 # layer - end
 
+# figure - end
 
-# experiment - end
 
+# figure --- All info needed for a cluster of images (usually includes one stage and all its tissues). Copy this block as many times as you need (including as many tissue layer blocks as you need).
+figure_name:
+conditions:
+# write figure metadata
 
-# experiment --- All info needed for a cluster of images (usually includes a stage and all its tissues). Copy this block as many times as you need (including as many layer blocks as you need).
-experiment_name: 
-experiment_description: 
-# write experiment metadata
-
-#layer: define all stages, tissues, organs and conditions from your project
-layer_name: 
-layer_description: 
-layer_type: 
-layer_image: 
-image_width: 
-image_height: 
-cube_ordinal: 
-img_ordinal: 
+#stage layer
+layer_name:
+layer_description:
+layer_type: stage
+bg_color:
+layer_image:
+image_width:
+image_height:
+cube_ordinal:
+img_ordinal:
+organ:
 # layer - end
 
-#layer
-layer_name: 
+#tissue layer
+layer_name:
 layer_description: 
-layer_type: 
-layer_image: 
-image_width: 
-image_height: 
-cube_ordinal: 
-img_ordinal: 
+layer_type: tissue
+bg_color:
+layer_image:
+image_width:
+image_height:
+cube_ordinal:
+img_ordinal:
+organ:
 # layer - end
 
-# experiment - end
+#tissue layer
+layer_name:
+layer_description:
+layer_type: tissue
+bg_color:
+layer_image:
+image_width:
+image_height:
+cube_ordinal:
+img_ordinal:
+organ:
+# layer - end
+
+# figure - end
 
 

@@ -460,42 +460,42 @@ sub _run_blast_cmd {
 }
 
 sub external_data_transfer :Path('/external_data_transfer') :Args(2) {
-    my $self = shift;
-    my $c = shift;
-    my $data_source = shift;
-    my $trial_id = shift;
-    my $trial_name = $c->req->param('trial_name');
-    my $export_type = $c->req->param('type');
-    $trial_name =~ s/ //g;
-    $trial_name =~ s/\s//g;
+	my $self = shift;
+	my $c = shift;
+	my $data_source = shift;
+	my $trial_id = shift;
 
-    my $dbname = $c->config->{dbname};
-    my $host = $c->config->{dbhost};
-    my $username = $c->config->{dbuser};
-    my $password = $c->config->{dbpass};
-    my $base_path = $c->config->{base_path};
-    my $temp_path = $c->config->{tmp_path};
-    my $correlation_index_dir = $c->config->{correlation_indexes_path};
-    my $expression_index_dir = $c->config->{expression_indexes_path};
-    my $description_index_dir = $c->config->{loci_and_description_index_path};
+	my $data_source_url;
+	my $data_loading_script;
+	my $index_dir_prefix;
+	if ($data_source eq 'cassbase'){
+		$data_source_url = 'https://cassbase.org';
+		$data_loading_script = "$base_path/cassbase/bin/cea_load.sh";
+		$index_dir_prefix = "cass_index_";
+	}
+	$c->response->headers->header( "Access-Control-Allow-Origin" => $data_source_url );
 
-    my $data_source_url;
-    my $data_loading_script;
-    if ($data_source eq 'localhost'){
-        $data_source_url = 'http://0:3030';
-        $data_loading_script = "$base_path/cassbase/bin/cea_load.sh";
-    } elsif ($data_source eq 'cassbase'){
-        $data_source_url = 'https://cassbase.org';
-        $data_loading_script = "$base_path/cassbase/bin/cea_load.sh";
-    }
-    $c->response->headers->header( "Access-Control-Allow-Origin" => $data_source_url );
+	my $trial_name = $c->req->param('trial_name');
+	my $export_type = $c->req->param('type');
+	$trial_name =~ s/ //g;
+	$trial_name =~ s/\s//g;
 
-    my @args = ($data_loading_script, $data_source_url, $trial_id, $base_path, $correlation_index_dir, $expression_index_dir, $description_index_dir, $temp_path, 'false', 'true', $host, $dbname, $username, $password, "cass_index_$trial_name", $export_type, $trial_name);
-    #print STDERR Dumper \@args;
-    system('bash', @args) == 0
-        or die "system @args failed: $?";
+	my $dbname = $c->config->{dbname};
+	my $host = $c->config->{dbhost};
+	my $username = $c->config->{dbuser};
+	my $password = $c->config->{dbpass};
+	my $base_path = $c->config->{base_path};
+	my $temp_path = $c->config->{tmp_path};
+	my $correlation_index_dir = $c->config->{correlation_indexes_path};
+	my $expression_index_dir = $c->config->{expression_indexes_path};
+	my $description_index_dir = $c->config->{loci_and_description_index_path};
 
-    $c->stash->{rest} = { success => 1 };
+	my @args = ($data_loading_script, $data_source_url, $trial_id, $base_path, $correlation_index_dir, $expression_index_dir, $description_index_dir, $temp_path, 'false', 'true', $host, $dbname, $username, $password, $index_dir_prefix.$trial_name, $export_type, $trial_name);
+	#print STDERR Dumper \@args;
+	system('bash', @args) == 0
+		or die "system @args failed: $?";
+
+	$c->stash->{rest} = { success => 1 };
 }
 
 

@@ -411,7 +411,6 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
       %organ_names=map{$_=>1} @organs;
     }
     
-    
     my %stage_in_organ;
     my %selected_stages;
     
@@ -470,8 +469,6 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
     
     my ($selected_stage_ids,$stage_names,$selected_tissue_ids,$tissue_names);
     
-    # print Dumper %stage_names;
-    
     ($selected_stage_ids,$stage_names) = _get_filtered_layers($all_stages_layer_rs,\%cond_layer_ids,$schema,$organ_filter,$stage_filter,\%organ_names,\%stage_names,\%fig_stage_name,"stage");
     
     if ($selected_stage_ids) {
@@ -479,7 +476,6 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
     }
     
     @stages = @$stage_names;
-    # print Dumper @stages;
     
     # get tissue layer type
     my $tissue_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "tissue"})->single;
@@ -487,21 +483,16 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
     # get all tissue layer obj
     my $all_tissues_layer_rs = $schema->resultset('Layer')->search({layer_type_id => $tissue_layer_type_rs->layer_type_id},{order_by => 'cube_ordinal'});
     
-    # print Dumper %tissue_names;
-    
     ($selected_tissue_ids,$tissue_names) = _get_filtered_layers($all_tissues_layer_rs,\%cond_layer_ids,$schema,$organ_filter,$tissue_filter,\%organ_names,\%tissue_names,\%tissue_names,"tissue");
     
     @selected_tissue_ids = @$selected_tissue_ids;
     @tissues = @$tissue_names;
     
     #------------------------------------------------------------------ image hash
-    
     my @selected_stage_and_tissue_ids = (@selected_stage_ids,@selected_tissue_ids);
-    
     
     ($stage_ids_arrayref,$stage_hashref,$tissue_hashref) = $db_funct->get_image_hash($schema,\@selected_stage_and_tissue_ids);
   } # end of organs, stages and/or tissues selected
-  
   
   for (@stages) {
      s/ /_/g;
@@ -510,42 +501,39 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
      s/ /_/g;
   }
   
-	my $query_gene = "";
-	my @genes;
-	my $multiple_genes = 1;
-	
-	my @corr_values;
-	
+  my $query_gene = "";
+  my @genes;
+  my @corr_values;
+  
   #check number of input genes
   if ($input_type eq "gene_id") {
     $query_gene = shift @query_gene;
-    $multiple_genes = 0;
   }
-  elsif ($input_type eq "custom_list") {
-    # Custom list input
+  elsif ($input_type eq "custom_list" || $input_type eq "blast") {
+    # Custom list and BLAST input
     
-    $multiple_genes = 0;
-    $query_gene = shift @query_gene;
+    my @uniq_genes;
     
-    $query_gene =~ s/[\n\s,]+/,/g;
+    if ($input_type eq "custom_list") {
+      $query_gene = shift @query_gene;
+      $query_gene =~ s/[\n\s,]+/,/g;
     
-    if ($query_gene =~ /solyc\d\dg\d{6}/i) {
-      $query_gene =~ s/\.[12]\.*[12]*$//g;
+      if ($query_gene =~ /solyc\d\dg\d{6}/i) {
+        $query_gene =~ s/\.[12]\.*[12]*$//g;
+      }
+    
+      @genes = split(",", $query_gene);
+      @uniq_genes = uniq(@genes);
     }
-    
-    @genes = split(",", $query_gene);
-    @corr_values = ("list") x scalar(@genes);
-    
-    my @uniq_genes = uniq(@genes);
+    elsif ($input_type eq "blast") {
+      @uniq_genes = uniq(@query_gene);
+    }
     
     if ($all_genes_list_arrayref) {
       $all_genes_list_arrayref =~ s/[\"\[\]]//g;
       @all_genes_list = split(",", $all_genes_list_arrayref);
-      # @all_genes_list = @all_genes_list_arrayref;
-      print STDERR "all_genes_list_arrayref not null\n";
     } else {
       @all_genes_list = @uniq_genes;
-      print STDERR "all_genes_list_arrayref null, 1st time\n";
     }
     
     my $array_start = $cube_gene_number*($current_page-1)-1;
@@ -567,24 +555,13 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
       $query_gene = shift @genes;
     }
     
-    $multiple_genes = 1;
+    if ($input_type eq "custom_list") {
+      @corr_values = ("list") x scalar(@genes);
+    } elsif ($input_type eq "blast") {
+      @corr_values = ("blast") x scalar(@genes);
+    }
     
-	} elsif ($input_type eq "blast") {
-    # BLAST input
-    
-		@corr_values = ("blast") x scalar(@query_gene);
-		my @uniq_genes = uniq(@query_gene);
-    @all_genes_list = @uniq_genes;
-    # $input_type = "blast";
-    
-		if (scalar(@uniq_genes) >= $cube_gene_number) {
-			@genes = @uniq_genes[0..$cube_gene_number-1];
-		} else {
-			@genes = @uniq_genes[0..$#uniq_genes];
-		}
-		$query_gene = shift @genes;
 	}
-  
   
 	# strip gene name
 	$query_gene =~ s/^\s+//;
@@ -598,15 +575,15 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
   	$query_gene =~ s/^s/S/;
   }
   
-	#------------------------------------------------------------------------------------------------------------------
+  #------------------------------------------------------------------------------------------------------------------
   my $total_corr_genes = 0;
   my $genes;
   my $corr_values;
   my $corr_hash;
   
-	$current_page = $current_page - 1;
+  $current_page = $current_page - 1;
   
-	if (!$multiple_genes) {
+  if ($input_type eq "gene_id") {
     my $to_download = 0;
     
     ($genes,$corr_values,$total_corr_genes,$corr_hash) = _get_correlation($c,$corr_filter,$current_page,$corr_index_path,$query_gene,$to_download,$cube_gene_number);
@@ -615,93 +592,89 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
       @genes = @$genes;
       @corr_values = @$corr_values;
     }
-    
-	}
+  }
   
   #------------------------------------------------------------------------------------------------------------------
   
-	# build data structure
-	unshift(@genes, $query_gene);
-	my %gene_stage_tissue_expr;
-	my %gene_stage_tissue_sem;
-	my %stage;
-	my %tissue;
-	my %descriptions;
-	my %locus_ids;
-	
-	foreach my $g (@genes) {
-		foreach my $s (@stages) {
-			foreach my $t (@tissues) {
-				$gene_stage_tissue_expr{$g}{$s}{$t} = 0.000001;
-				$gene_stage_tissue_sem{$g."_".$s."_".$t} = 0.000001;
+  # build data structure
+  unshift(@genes, $query_gene);
+  my %gene_stage_tissue_expr;
+  my %gene_stage_tissue_sem;
+  my %stage;
+  my %tissue;
+  my %descriptions;
+  my %locus_ids;
+
+  foreach my $g (@genes) {
+    foreach my $s (@stages) {
+      foreach my $t (@tissues) {
+        $gene_stage_tissue_expr{$g}{$s}{$t} = 0.000001;
+        $gene_stage_tissue_sem{$g."_".$s."_".$t} = 0.000001;
         # $gene_stage_tissue_sem{$g}{$s}{$t} = 0.000001;
-			}
-		}
-	}
-	
-  
-	my $lucy = Lucy::Simple->new(
-	    path     => $expr_index_path,
-	    language => 'en',
-	);
-	
+      }
+    }
+  }
+
+  my $lucy = Lucy::Simple->new(
+    path     => $expr_index_path,
+    language => 'en',
+  );
+
   my $lucy_loci_and_desc = Lucy::Simple->new(
       path     => $loci_and_desc_path,
       language => 'en',
   );
-	
-	foreach my $g (@genes) {
-		$lucy->search(
-		    query      => $g,
-			num_wanted => 10000
-		);
-		
+
+  foreach my $g (@genes) {
+    $lucy->search(
+      query      => $g,
+      num_wanted => 10000
+    );
+    
     $lucy_loci_and_desc->search(
-        query      => $g,
+      query      => $g,
       num_wanted => 1,
     );
     
-		while ( my $hit = $lucy->next ) {
-			# all expression values are multiplied by 1 to transform string into integer or float
-      
-			$gene_stage_tissue_expr{$hit->{gene}}{$hit->{stage}}{$hit->{tissue}} = $hit->{expression} * 1;
+    while ( my $hit = $lucy->next ) {
+      # all expression values are multiplied by 1 to transform string into integer or float
+      $gene_stage_tissue_expr{$hit->{gene}}{$hit->{stage}}{$hit->{tissue}} = $hit->{expression} * 1;
       
       if ($hit->{expression} >0) {
         my $sem_val = 0;
         if ($hit->{sem} && $hit->{expression}) {
           $sem_val = $hit->{sem} / $hit->{expression};
         }
-  			$gene_stage_tissue_sem{$hit->{gene}."_".$hit->{stage}."_".$hit->{tissue}} = $sem_val;
+        $gene_stage_tissue_sem{$hit->{gene}."_".$hit->{stage}."_".$hit->{tissue}} = $sem_val;
         # $gene_stage_tissue_sem{$hit->{gene}}{$hit->{stage}}{$hit->{tissue}} = $sem_val;
       }
       else {
         $gene_stage_tissue_sem{$hit->{gene}."_".$hit->{stage}."_".$hit->{tissue}} = 0
         # $gene_stage_tissue_sem{$hit->{gene}}{$hit->{stage}}{$hit->{tissue}} = 0
       }
-		}
+    }
     
     while ( my $loci_and_desc_hit = $lucy_loci_and_desc->next ) {
       $locus_ids{$loci_and_desc_hit->{gene}} = $loci_and_desc_hit->{locus_id};
       $descriptions{$loci_and_desc_hit->{gene}} = $loci_and_desc_hit->{description};
     }
     
-	}
-	
-	
-	my @AoAoA;
-	
-	for (my $g=0; $g<scalar(@genes); $g++) {
-		for (my $s=0; $s<scalar(@stages); $s++) {
-			for (my $t=0; $t<scalar(@tissues); $t++) {
-				
-				$AoAoA[$g][$s][$t] = $gene_stage_tissue_expr{$genes[$g]}{$stages[$s]}{$tissues[$t]};
-			}
-		}
-	}
-	
+  }
 
-	$corr_filter = $c->req->param("correlation_filter")||0.65;
-	my @output_gene = $c->req->param("input_gene");
+
+  my @AoAoA;
+
+  for (my $g=0; $g<scalar(@genes); $g++) {
+    for (my $s=0; $s<scalar(@stages); $s++) {
+      for (my $t=0; $t<scalar(@tissues); $t++) {
+        $AoAoA[$g][$s][$t] = $gene_stage_tissue_expr{$genes[$g]}{$stages[$s]}{$tissues[$t]};
+      }
+    }
+  }
+
+
+  $corr_filter = $c->req->param("correlation_filter")||0.65;
+  my @output_gene = $c->req->param("input_gene");
   
   my $total_page_number;
   if ($input_type eq "gene_id") {
@@ -710,44 +683,40 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
     $total_page_number = int(scalar(@all_genes_list)/$cube_gene_number)+1;
   }
   
-  print STDERR "total_page_number: $total_page_number\n";
-  print STDERR "query_gene: $query_gene\n";
-  
-	$c->stash->{genes} = \@genes;
-	$c->stash->{stages} = \@stages;
-	$c->stash->{tissues} = \@tissues;
-	$c->stash->{conditions} = \@conditions;
-  
-	$c->stash->{gst_expr_hohoh} = \%gene_stage_tissue_expr;
-	$c->stash->{gst_sem_hohoh} = \%gene_stage_tissue_sem;
-	$c->stash->{stage_ids_array} = $stage_ids_arrayref;
-	$c->stash->{stage_hash} = $stage_hashref;
-	$c->stash->{tissue_hash} = $tissue_hashref;
-  
-	$c->stash->{aoaoa} = \@AoAoA;
-	$c->stash->{correlation} = \@corr_values;
-  
-	$c->stash->{pages_num} = $total_page_number;
-  # $c->stash->{pages_num} = (int($total_corr_genes/$cube_gene_number)+1);
-	$c->stash->{current_page} = ($current_page + 1);
-	$c->stash->{input_type} = $input_type;
-	$c->stash->{custom_gene_list} = \@all_genes_list;
-	
+  $c->stash->{genes} = \@genes;
+  $c->stash->{stages} = \@stages;
+  $c->stash->{tissues} = \@tissues;
+  $c->stash->{conditions} = \@conditions;
+
+  $c->stash->{gst_expr_hohoh} = \%gene_stage_tissue_expr;
+  $c->stash->{gst_sem_hohoh} = \%gene_stage_tissue_sem;
+  $c->stash->{stage_ids_array} = $stage_ids_arrayref;
+  $c->stash->{stage_hash} = $stage_hashref;
+  $c->stash->{tissue_hash} = $tissue_hashref;
+
+  $c->stash->{aoaoa} = \@AoAoA;
+  $c->stash->{correlation} = \@corr_values;
+
+  $c->stash->{pages_num} = $total_page_number;
+  $c->stash->{current_page} = ($current_page + 1);
+  $c->stash->{input_type} = $input_type;
+  $c->stash->{custom_gene_list} = \@all_genes_list;
+
   $c->stash->{output_gene} = \@output_gene;
-	$c->stash->{correlation_filter} = $corr_filter;
-	$c->stash->{organism_filter} = $project_id;
-	$c->stash->{stage_filter} = $stage_filter;
-	$c->stash->{tissue_filter} = $tissue_filter;
-	$c->stash->{condition_filter} = $condition_filter;
-	$c->stash->{organ_filter} = $organ_filter;
-  
+  $c->stash->{correlation_filter} = $corr_filter;
+  $c->stash->{organism_filter} = $project_id;
+  $c->stash->{stage_filter} = $stage_filter;
+  $c->stash->{tissue_filter} = $tissue_filter;
+  $c->stash->{condition_filter} = $condition_filter;
+  $c->stash->{organ_filter} = $organ_filter;
+
   $c->stash->{description} = \%descriptions;
-	$c->stash->{project_id} = $project_rs->project_id;
-	$c->stash->{project_name} = $project_rs->name;
-	$c->stash->{project_expr_unit} = $project_rs->expr_unit;
+  $c->stash->{project_id} = $project_rs->project_id;
+  $c->stash->{project_name} = $project_rs->name;
+  $c->stash->{project_expr_unit} = $project_rs->expr_unit;
   $c->stash->{locus_ids} = \%locus_ids;
-  
-	$c->stash->{template} = '/Expression_viewer/output.mas';
+
+  $c->stash->{template} = '/Expression_viewer/output.mas';
 }
 
 

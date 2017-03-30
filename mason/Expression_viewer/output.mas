@@ -146,7 +146,7 @@ $(document).ready(function () {
     <br>
   	<& output_desc.mas, input_gene => $genes[0] &>
     
-      
+    
     <!-- form to query a new gene from the output using the same parameters -->
     <form id="search_gene" class="form-inline" role="form" method="post" action="/expression_viewer/output" name="tea_form" enctype="multipart/form-data">
 

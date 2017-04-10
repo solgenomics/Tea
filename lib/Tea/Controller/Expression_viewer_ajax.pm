@@ -506,7 +506,7 @@ sub external_data_transfer :Path('/external_data_transfer') :Args(1) {
 	my $data_loading_script;
 	my $index_dir_prefix;
 	if ($data_source eq 'cassbase'){
-		$data_source_url = 'https://cassbase.org';
+		$data_source_url = 'https://sgn:eggplant@cassbase.org';
 		$data_loading_script = "$base_path/cassbase/bin/cea_load.sh";
 		$index_dir_prefix = "cass_index_";
 	}

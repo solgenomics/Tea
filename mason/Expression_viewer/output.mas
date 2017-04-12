@@ -23,8 +23,8 @@ $input_type => ()
 @custom_gene_list => ()
 
 @output_gene => ()
-$correlation_filter => ()
-$project_id => ()
+$correlation_filter => 1
+$project_id => 1
 $project_name => ()
 $project_expr_unit => ()
 $organism_filter => ()
@@ -81,7 +81,9 @@ $(document).ready(function () {
   
   if (errors[0]) {
     //alert("errors: "+errors);
+    
     $('#error_modal').modal();
+    return;
   }
   
 })
@@ -119,7 +121,7 @@ $(document).ready(function () {
 
 <!--  errors modal -->
 <div class="modal fade" id="error_modal" role="dialog">
-  <div class="modal-dialog modal-sm">
+  <div id="error_modal_dialog" class="modal-dialog">
     
     <div class="modal-content">
       <div class="modal-header">

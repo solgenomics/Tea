@@ -576,6 +576,28 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
   }
   
   #------------------------------------------------------------------------------------------------------------------
+  
+  my $is_private = 0;
+  # Send restrictec access message for M82 dataset
+  if ($project_rs->name =~ /S.lycopersicum M82/i) {
+    if ($input_type eq "gene_id" && $query_gene ne "Solyc01g102660") {
+      $is_private = 1;
+    }
+    
+    if ($input_type ne "gene_id") {
+      $is_private = 1;
+    }
+    
+    if ($is_private) {
+      $c->stash->{errors} = "At present all queries for the <i>S. pimpinellifolium</i> fruit development dataset are publicly open.<br> The full <i>S. lycopersicum</i> M82 fruit development dataset will be released shortly; however, the tools and functionality for <i>S. lycopersicum</i> M82 can be demoed now using the default gene Solyc01g102660 to search by Gene ID.";
+      $c->stash->{template} = '/Expression_viewer/output.mas';
+      return;
+    }
+  }
+  
+  
+  
+  #------------------------------------------------------------------------------------------------------------------
   my $total_corr_genes = 0;
   my $genes;
   my $corr_values;

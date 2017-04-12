@@ -3,9 +3,9 @@ $(document).ready(function () {
   //Code to draw cube and Expression images ----------------------------------------
   
 	//return error if input gene was not found
-	if (!genes[0]) {
-		alert("Gene id not found or gene not expressed");
-	}
+  // if (!genes[0]) {
+  //   alert("Gene id not found or gene not expressed");
+  // }
   
 	//display query gene name
 	$('#gene').val(genes[0]);

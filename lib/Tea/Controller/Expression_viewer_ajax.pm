@@ -245,7 +245,7 @@ sub _parse_blast_input {
 		if ($lines[0] =~ />/) {
 			$input_name = shift(@lines);
 			$input_name =~ s/>//;
-			$input_name =~ s/[\|\s\,\-\.\#\(\)\%\'\"\[\]\{\}\:\;\=\+\\\/]+/_/gi;
+      $input_name =~ s/[\|\s\,\-\.\#\(\)\%\'\"\[\]\{\}\:\;\=\+\\\/]+/_/gi;
 			
 			$input = join "", @lines;
 			$input =~ s/[\n\s\,\-\.\#\(\)\%\'\"\[\]\{\}\:\;\=\+\\\/]+//gi;

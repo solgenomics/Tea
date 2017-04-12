@@ -125,7 +125,7 @@ $(document).ready(function () {
     
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" style="text-align: center;">ERROR</h4>
+        <h4 class="modal-title" style="text-align: center;">Notice</h4>
       </div>
       <div class="modal-body">
         <div style="text-align: center;">

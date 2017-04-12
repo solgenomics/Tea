@@ -923,7 +923,7 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
 	
 	foreach my $t (@tissues) {
 		foreach my $s (@stages) {
-			push(@header, "$t:$s RPKM");
+			push(@header, "$t:$s ".$project_rs->expr_unit);
 		}
 	}
 	push(@header,"Correlation\tdescription");

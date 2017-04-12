@@ -44,10 +44,6 @@ ul.ul_blue li{
   margin-top:50px;
 }
 
-.overview_title:hover {
-  color:#a8a8a8;
-}
-
 .overview_title img {
     -webkit-transition: all 1s ease; /* Safari and Chrome */
     -moz-transition: all 1s ease; /* Firefox */

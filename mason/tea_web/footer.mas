@@ -1,7 +1,4 @@
-<!-- <br/> -->
-<!-- <br/> -->
 <div id="footer" style="display:inline">
-<!-- <hr/> -->
   <div style="float:left">
     <a href="/overview"><img src="/static/images/overview_small.png" height="50" style="margin-left:25px;"/></a>
     <a href="/expression_viewer/input"><img src="/static/images/expr_small.png" height="50" style="margin-left:5px;"/></a>
@@ -14,6 +11,36 @@
     <a href="http://bti.cornell.edu/" target="_blank"><img src="/static/images/bti_logo.png" height="50" style="margin-right:25px;"/></a>
   </div>
   
-  <div style="text-align:center;color:#666;padding-top:15px">Hosted at <a href="http://bti.cornell.edu/" target="_blank">BTI</a></div>
-  <!-- <div style="text-align:center;color:#666;padding-top:15px">Copyright &copy; 2013 - 2016</div> -->
+  <div style="text-align:center;color:#666;padding-top:15px"><a data-toggle="modal" data-target="#cite_us_modal">Cite us</a></div>
 </div>
+
+<div class="modal fade" id="cite_us_modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <center><h4 class="modal-title">Cite us</h4></center>
+      </div>
+      <div class="modal-body">
+        <ul>
+          <li>
+            Fernandez-Pozo N, Zheng Y, Snyder SL, Nicolas P, Shinozaki Y, Fei Z, Catala C, Giovannoni JJ, Rose JKC, Mueller LA.<br>
+            <a class="cite-link" href="https://academic.oup.com/bioinformatics/article-lookup/doi/10.1093/bioinformatics/btx190" target="blank">The Tomato Expression Atlas</a><br>
+            Bioinformatics 2017 btx190. doi: 10.1093/bioinformatics/btx190
+          </li>
+          <li>
+            Pattison RJ, Csukasi F, Zheng Y, Fei Z, Van der Knaap E, Catala C.<br>
+            <a class="cite-link" href="http://www.plantphysiol.org/content/168/4/1684.full" target="blank">Comprehensive Tissue-Specific Transcriptome Analysis Reveals Distinct Regulatory Programs during Early Tomato Fruit Development</a><br>
+            Plant Physiology 2015 Vol. 168, pp. 1684–1701
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .cite-link {
+    color: #337ab7;
+  }
+</style>

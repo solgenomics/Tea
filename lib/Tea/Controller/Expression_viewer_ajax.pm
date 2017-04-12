@@ -473,16 +473,24 @@ sub _run_blast_cmd {
 	# return \@res;
 }
 
-sub external_data_transfer :Path('/external_data_transfer') :Args(2) {
+sub external_data_transfer :Path('/external_data_transfer') :Args(1) {
 	my $self = shift;
 	my $c = shift;
 	my $data_source = shift;
-	my $trial_id = shift;
 
-	my $trial_name = $c->req->param('trial_name');
+	my $trial_name = $c->req->param('project_name');
+	my $trial_ids = $c->req->param('trial_id_list');
+	my $accession_ids = $c->req->param('accession_id_list');
+	my $trait_ids = $c->req->param('trait_id_list');
 	my $export_type = $c->req->param('type');
 	$trial_name =~ s/ //g;
 	$trial_name =~ s/\s//g;
+
+	print STDERR Dumper $trial_name;
+	print STDERR Dumper $trial_ids;
+	print STDERR Dumper $accession_ids;
+	print STDERR Dumper $trait_ids;
+	print STDERR Dumper $export_type;
 
 	my $dbname = $c->config->{dbname};
 	my $host = $c->config->{dbhost};
@@ -498,13 +506,18 @@ sub external_data_transfer :Path('/external_data_transfer') :Args(2) {
 	my $data_loading_script;
 	my $index_dir_prefix;
 	if ($data_source eq 'cassbase'){
-		$data_source_url = 'https://cassbase.org';
+		$data_source_url = 'https://sgn:eggplant@cassbase.org';
+		$data_loading_script = "$base_path/cassbase/bin/cea_load.sh";
+		$index_dir_prefix = "cass_index_";
+	}
+	if ($data_source eq 'localhost'){
+		$data_source_url = 'localhost:8080';
 		$data_loading_script = "$base_path/cassbase/bin/cea_load.sh";
 		$index_dir_prefix = "cass_index_";
 	}
 	$c->response->headers->header( "Access-Control-Allow-Origin" => $data_source_url );
 
-	my @args = ($data_loading_script, $data_source_url, $trial_id, $base_path, $correlation_index_dir, $expression_index_dir, $description_index_dir, $temp_path, 'false', 'true', $host, $dbname, $username, $password, $index_dir_prefix.$trial_name, $export_type, $trial_name);
+	my @args = ($data_loading_script, $data_source_url, $trial_ids, $accession_ids, $trait_ids, $base_path, $correlation_index_dir, $expression_index_dir, $description_index_dir, $temp_path, 'false', 'true', $host, $dbname, $username, $password, $index_dir_prefix.$trial_name, $export_type, $trial_name);
 	#print STDERR Dumper \@args;
 	system('bash', @args) == 0
 		or die "system @args failed: $?";

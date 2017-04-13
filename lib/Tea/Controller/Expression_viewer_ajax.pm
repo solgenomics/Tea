@@ -510,6 +510,11 @@ sub external_data_transfer :Path('/external_data_transfer') :Args(1) {
 		$data_loading_script = "$base_path/cassbase/bin/cea_load.sh";
 		$index_dir_prefix = "cass_index_";
 	}
+	if ($data_source eq 'localhost'){
+		$data_source_url = 'localhost:8080';
+		$data_loading_script = "$base_path/cassbase/bin/cea_load.sh";
+		$index_dir_prefix = "cass_index_";
+	}
 	$c->response->headers->header( "Access-Control-Allow-Origin" => $data_source_url );
 
 	my @args = ($data_loading_script, $data_source_url, $trial_ids, $accession_ids, $trait_ids, $base_path, $correlation_index_dir, $expression_index_dir, $description_index_dir, $temp_path, 'false', 'true', $host, $dbname, $username, $password, $index_dir_prefix.$trial_name, $export_type, $trial_name);

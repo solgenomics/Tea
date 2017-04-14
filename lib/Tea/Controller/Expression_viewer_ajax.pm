@@ -473,7 +473,7 @@ sub _run_blast_cmd {
 	# return \@res;
 }
 
-sub external_data_transfer :Path('/external_data_transfer') :Args(1) {
+sub external_data_transfer :Path('/expression_viewer/external_data_transfer') :Args(1) {
     my $self = shift;
     my $c = shift;
     my $data_source = shift;

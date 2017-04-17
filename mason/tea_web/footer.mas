@@ -8,10 +8,10 @@
 
   <div style="float:right;">
     <a href="http://www.nsf.gov" target="_blank"><img src="/static/images/nsf.png" height="50" style="margin-right:5px;"/></a>
-    <a href="http://bti.cornell.edu/" target="_blank"><img src="/static/images/bti_logo.png" height="50" style="margin-right:25px;"/></a>
+    <a href="http://bti.cornell.edu/" target="_blank"><img src="/static/images/bti_logo.png" height="45" style="margin-right:25px;"/></a>
   </div>
   
-  <div style="text-align:center;color:#666;padding-top:15px"><a data-toggle="modal" data-target="#cite_us_modal">Cite us</a></div>
+  <div style="text-align:center;color:#666;padding-top:15px"><a data-toggle="modal" data-target="#cite_us_modal">Cite Us</a></div>
 </div>
 
 <div class="modal fade" id="cite_us_modal" role="dialog">

@@ -10,7 +10,7 @@ Tomato Expression Atlas Installation Manual (In progress)
 
 It has several components:
 
-1. Catalyst and Perl dependencies
+1. Catalyst, Perl and R dependencies
 2. Code, in github https://github.com/solgenomics/Tea
 3. Configuration file
 4. Database
@@ -18,8 +18,8 @@ It has several components:
 
 
 
-1. Install Catalyst and Perl dependencies
------------------------------------------
+1. Install Catalyst, Perl and R dependencies
+--------------------------------------------
 
 This web tool was developed using the Perl framework Catalyst (​<http://www.catalystframework.org>), so to run the application is necessary to install Perl, Catalyst and its dependencies.
 
@@ -37,7 +37,8 @@ Also, if you are installing it in a new machine you maybe need to install cpanmi
     cpanm -L ~/local-lib/ Catalyst::Devel
     cpanm -L ~/local-lib/ Catalyst::Runtime
     cpanm -L ~/local-lib/ Mason
-		
+    cpanm -L ~/local-lib/ Statistics::R
+
 If you are having trouble installing cpanm, there may be an issue with your system's dependencies. 
 Visit (​<https://library.linode.com/linux-tools/utilities/cpanm>) for help with installing dependencies.
 
@@ -47,7 +48,7 @@ In case local-lib is not in the path you have to add the following line in the .
 
 Do not forget to source .bashrc to be sure this changes make effect.
 
-
+R v3 must be installed for the interactive heatmap. Libraries d3heatmap and htmlwidgets should be also installed.
 
 2. Clone Github repository
 --------------------------

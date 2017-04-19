@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<title>SGN-TEA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<script type="text/javascript" src="/static/js/jquery.js"></script>
     
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">

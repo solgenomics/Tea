@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<title>SGN-TEA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<script type="text/javascript" src="/static/js/jquery.js"></script>
     
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
@@ -40,7 +41,7 @@
             <a class="navbar-brand sgn_brand_name" href="/">Tomato Expression Atlas</a>
           </div>
           
-          <div class="collapse navbar-collapse">
+          <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
               <!-- <li><a href="/overview">Overview</a></li> -->
               <li class="dropdown"><a id="overview_link" class="menu_click_dropdown dropdown-toggle" data-toggle="dropdown">Overview</a>
@@ -61,7 +62,7 @@
         </div>
       </nav>
       <br>
-	</div>
+  	</div>
 	</body>
 </html>
 

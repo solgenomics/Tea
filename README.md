@@ -15,8 +15,8 @@ It has several components:
 3. Configuration file
 4. Database
 5. Lucy indexes
-==========
 
+--------------------------------------------
 
 1. Install Catalyst, Perl and R dependencies
 --------------------------------------------
@@ -49,8 +49,6 @@ In case local-lib is not in the path you have to add the following line in the .
 Do not forget to source .bashrc to be sure this changes make effect.
 
 R v3 must be installed for the interactive heatmap. Libraries d3heatmap and htmlwidgets should be also installed.
-==========
-
 
 2. Clone Github repository
 --------------------------
@@ -74,7 +72,6 @@ Go to the folder Tea, created when cloned the repository and run the server to c
 
 
 If you got an error, you will probably will need to go back to step one and install some dependencies.
-==========
 
 
 3. Configuration file
@@ -102,8 +99,6 @@ You will need to edit this file to customize all the paths, so they work on your
 Add the expression images to the folder `Tea/root/static/images/expr_viewer/`
 
 You can customize the value of any of these variables.
-==========
-
 
 4. Create database
 ------------------
@@ -188,7 +183,6 @@ Try to avoid special characters like commas on `layer_name`, `organ` and `condit
 Run the script to import your project:
 
 `perl TEA_import_project_metadata.pl -d my_db -H localhost -u postgres -t your_project_input_template.txt`
-==========
 
 
 5. Lucy indexes:

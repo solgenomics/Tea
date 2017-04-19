@@ -1,65 +1,226 @@
 
 <center>
-	<h1><img src="/static/images/overview_small.png" height="40" style="margin-bottom: 10px;"/> Overview</h1>
+  <h2><img src="/static/images/overview_small.png" height="40" style="margin-bottom: 10px;"/> Overview</h2>
 
-	<div class="overview_section">
-    <a href="expression_viewer/input">
-      <h2 class="overview_title"><img class="centered_img" src="/static/images/expr_small.png"/> Expression Viewer</h2>
-    </a>
-      <ul class="ul_blue">
-        <a href="expression_viewer/input"><li>View the expression of a specific tomato gene or genes of interest</li></a>
-        <a href="expression_viewer/input"><li>Identify tomato genes by BLAST search using a gene or genes of interest from another species</li></a>
-        <a href="expression_viewer/input"><li>Identify new genes of interest though co-expression queries</li></a>
-        <a href="expression_viewer/input"><li>Download expression data  based on parameters that you define</li></a>
-        <a href="expression_viewer/input"><li>Link to associated metadata in the Sol Genomics Network database</li></a>
-      </ul>
-  </div>
-  
-  <div class="overview_section">
-		<a href="anatomy_viewer">
-      <h2 class="overview_title"><img class="centered_img" src="/static/images/anatomy_small.png"/> Anatomy Viewer</h2>
-    </a>
+
+  <div class="container-fluid">
+    <div class="row" style="width:90%">
+      
+      <h4 class="text-left overview-h4 bottom-space"><b>Project Summary and Participants</b></h4>
+      
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-justify bottom-space">
+        <p>
+          <b>This project is funded by the National Science Foundation Plant Genome Research Program ( IOS-1339287) 
+          “The Tomato Expression Atlas: a new platform for biological discovery with cell-type resolution"</b>
+        </p>
+      </div>
+      
+      <h4 class="text-left overview-h4 bottom-space"><b>Summary</b></h4>
+      
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-justify">
+        <p>
+          Fruit represent unique plant developmental systems and constitute important components of human and animal diets. 
+          Tomato (Solanum lycopersicum), an economically important crop, 
+          has emerged as the principal model for studies of fleshy fruit development, ripening, shelf life and nutritional quality. 
+          However, many fundamental questions related to key aspects of the development, physiology, 
+          quality traits and environmental responses of fleshy fruit remain unanswered. 
+        </p>
+      </div>
+      
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-justify">
+        <p>
+          In addition, most biochemical and molecular studies involving the extraction of transcripts or 
+          proteins from plant organs use a homogenized amalgam of tissues and cell types. 
+          This approach limits insights into cell specialization, 
+          and lower abundance molecules that are present only in certain cell types are often diluted below the level of detection. 
+          There is therefore a critical ‘information void’ when it comes to annotating and presenting gene expression data.
+        </p>
+      </div>
+      
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-justify">
+        <p>
+          We are addressing these issues in the context of understanding the entirety of gene expression during tomato fruit development, 
+          by coupling RNA-seq analysis with laser capture microdissection (LCM), 
+          which allows the precise isolation of individual fruit cells/tissue types. 
+          In addition to resolving gene expression down to the level of cell/ tissue type, 
+          this approach has enabled: (i) the identification of previously unannotated genes, 
+          demonstrating the value of LCM as a tool for gene discovery; (ii) inferences regarding gene functions, 
+          based on the patterns of tissue- or cell type-related expression.         
+        </p>
+      </div>
+      
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-justify bottom-space">
+        <p>
+          An important element of this project is the development of education and training opportunities. 
+          These take the form of an annual Plant Genomics and Systems Biology Workshop, 
+          comprising a series of integrated technology modules with both seminars and lab-based practical training in ‘omics disciplines’, 
+          as well as a multi-level training course in Scientific Communication, providing guidance in both oral and written presentation skills. 
+          These are affiliated with undergraduate students, high school students and high school teachers, 
+          with particular emphasis on the participation of under-represented groups through the support of a network of existing Cornell programs. 
+          Please contact us if you are interested.
+        </p>
+      </div>
+      
+       <h4 class="text-center overview-h4 bottom-space"><b>Lead Investigators</b></h4>
+      
+      <div id="people_container">
+        
+        <div class="pull-left bottom-space" style="margin-right:30px">
+        <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 bottom-space"> -->
+          <div class="people_img_div">
+            <img class="people_img" src="/static/images/people/carmen.png"/>
+            <h4>Carmen Catala</h4>
+            <a  rel="nofollow" onclick="this.href='mailto:' + 'cc283' + '@' + 'cornell.edu'" style="cursor:pointer">cc283@cornell.edu</a>
+          </div>
+        </div>
     
-		<ul class="ul_blue">
-			<a href="anatomy_viewer"><li>Visualize target tissues and cell types in 2D</li></a>
-			<a href="anatomy_viewer"><li>Visualize organ anatomy in 3D/4D</li></a>
-		</ul>
-	</div>
-</center>
+    </div>
+    <div id="people_container">
+    
+        <div class="pull-left bottom-space" style="margin-right:30px;width:170px">
+        <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 bottom-space"> -->
+          <div class="people_img_div">
+            <img class="people_img" src="/static/images/people/fei.png"/>
+            <h4>Zhangjun Fei</h4>
+              <a rel="nofollow" onclick="this.href='mailto:' + 'cc283' + '@' + 'cornell.edu'" style="cursor:pointer">zf25@cornell.edu</a>
+          </div>
+        </div>
+    
+    </div>
+    <div id="people_container">
+    
+        <div class="pull-left bottom-space" style="margin-right:30px">
+        <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 bottom-space"> -->
+          <div class="people_img_div">
+            <img class="people_img" src="/static/images/people/jim.png"/>
+            <h4>Jim Giovannoni</h4>
+            <a rel="nofollow" onclick="this.href='mailto:' + 'cc283' + '@' + 'cornell.edu'" style="cursor:pointer">jjg33@cornell.edu</a>
+          </div>
+        </div>
 
+    </div>
+    <div id="people_container">
+    
+        <div class="pull-left bottom-space" style="margin-right:30px">
+        <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 bottom-space"> -->
+          <div class="people_img_div">
+            <img class="people_img" src="/static/images/people/lukas.png"/>
+            <h4>Lukas A Mueller</h4>
+            <a rel="nofollow" onclick="this.href='mailto:' + 'cc283' + '@' + 'cornell.edu'" style="cursor:pointer">lam87@cornell.edu</a>
+          </div>
+        </div>
+    </div>
+    
+    <br>
+    
+      <div id="people_container">
+        <div class="pull-left bottom-space" style="margin-right:30px">
+        <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 bottom-space"> -->
+          <div class="people_img_div">
+            <img class="people_img" src="/static/images/people/joss.png"/>
+            <h4>Jocelyn KC Rose<br>(Principal Investigator)</h4>
+            <a rel="nofollow" onclick="this.href='mailto:' + 'cc283' + '@' + 'cornell.edu'" style="cursor:pointer">jr286@cornell.edu</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <p class="text-left">
+        Please contact us with any questions or comments.
+      </p>
+      
+      	<div class="overview_section">
+          <a href="expression_viewer/input">
+            <h3 class="overview_title"><img class="centered_img" src="/static/images/expr_small.png"/> Expression Viewer</h3>
+          </a>
+            <ul class="ul_blue">
+              <a href="expression_viewer/input"><li>View the expression of a specific tomato gene or genes of interest</li></a>
+              <a href="expression_viewer/input"><li>Identify tomato genes by BLAST search using a gene or genes of interest from another species</li></a>
+              <a href="expression_viewer/input"><li>Identify new genes of interest though co-expression queries</li></a>
+              <a href="expression_viewer/input"><li>Download expression data  based on parameters that you define</li></a>
+              <a href="expression_viewer/input"><li>Link to associated metadata in the Sol Genomics Network database</li></a>
+            </ul>
+        </div>
+  
+        <div class="overview_section">
+          <a href="anatomy_viewer">
+            <h3 class="overview_title"><img class="centered_img" src="/static/images/anatomy_small.png"/> Anatomy Viewer</h3>
+          </a>
+    
+          <ul class="ul_blue">
+            <a href="anatomy_viewer"><li>Visualize target tissues and cell types in 2D</li></a>
+            <a href="anatomy_viewer"><li>Visualize organ anatomy in 3D/4D</li></a>
+          </ul>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+      
+</center>
+<br>
+<br>
+<br>
+<br>
 <style>
+  
+  #people_container {
+    margin: auto;
+    display: inline-block;
+  }
+  
+  .people_img {
+    height:150px;
+    display: block;
+  }
+  
+  .people_img_div {
+    display: block;
+    
+    margin-right: auto;
+    margin-bottom: 5px;
+    width: 100%;
+/*    width: 150px;*/
+  }
+  
 .centered_img {
 		height:40px;
     margin-bottom:10px;
 	}
 	
 ul.ul_blue li{
-	font-size: 24px;
+/*  font-size: 20px;*/
   color:#000;
 }
 
 .overview_section {
-  width:80%;
   text-align: left;
   margin-top:50px;
 }
 
 .overview_title img {
-    -webkit-transition: all 1s ease; /* Safari and Chrome */
-    -moz-transition: all 1s ease; /* Firefox */
-    -ms-transition: all 1s ease; /* IE 9 */
-    -o-transition: all 1s ease; /* Opera */
-    transition: all 1s ease;
+  -webkit-transition: all 1s ease; /* Safari and Chrome */
+  -moz-transition: all 1s ease; /* Firefox */
+  -ms-transition: all 1s ease; /* IE 9 */
+  -o-transition: all 1s ease; /* Opera */
+  transition: all 1s ease;
 }
 
 .overview_title:hover img {
-    -webkit-transform:scale(1.25); /* Safari and Chrome */
-    -moz-transform:scale(1.25); /* Firefox */
-    -ms-transform:scale(1.25); /* IE 9 */
-    -o-transform:scale(1.25); /* Opera */
-     transform:scale(1.25);
+  -webkit-transform:scale(1.25); /* Safari and Chrome */
+  -moz-transform:scale(1.25); /* Firefox */
+  -ms-transform:scale(1.25); /* IE 9 */
+  -o-transform:scale(1.25); /* Opera */
+   transform:scale(1.25);
 }
 
+.overview-h4 {
+  margin-left: 15px;
+}
+
+.bottom-space {
+  margin-bottom: 25px;
+}
 
 </style>
 

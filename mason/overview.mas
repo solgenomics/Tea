@@ -82,7 +82,7 @@
           <div class="people_img_div">
             <img class="people_img" src="/static/images/people/fei.png"/>
             <h4>Zhangjun Fei</h4>
-              <a rel="nofollow" onclick="this.href='mailto:' + 'cc283' + '@' + 'cornell.edu'" style="cursor:pointer">zf25@cornell.edu</a>
+              <a rel="nofollow" onclick="this.href='mailto:' + 'zf25' + '@' + 'cornell.edu'" style="cursor:pointer">zf25@cornell.edu</a>
           </div>
         </div>
     
@@ -94,7 +94,7 @@
           <div class="people_img_div">
             <img class="people_img" src="/static/images/people/jim.png"/>
             <h4>Jim Giovannoni</h4>
-            <a rel="nofollow" onclick="this.href='mailto:' + 'cc283' + '@' + 'cornell.edu'" style="cursor:pointer">jjg33@cornell.edu</a>
+            <a rel="nofollow" onclick="this.href='mailto:' + 'jjg33' + '@' + 'cornell.edu'" style="cursor:pointer">jjg33@cornell.edu</a>
           </div>
         </div>
 
@@ -106,7 +106,7 @@
           <div class="people_img_div">
             <img class="people_img" src="/static/images/people/lukas.png"/>
             <h4>Lukas A Mueller</h4>
-            <a rel="nofollow" onclick="this.href='mailto:' + 'cc283' + '@' + 'cornell.edu'" style="cursor:pointer">lam87@cornell.edu</a>
+            <a rel="nofollow" onclick="this.href='mailto:' + 'lam87' + '@' + 'cornell.edu'" style="cursor:pointer">lam87@cornell.edu</a>
           </div>
         </div>
     </div>
@@ -119,7 +119,7 @@
           <div class="people_img_div">
             <img class="people_img" src="/static/images/people/joss.png"/>
             <h4>Jocelyn KC Rose<br>(Principal Investigator)</h4>
-            <a rel="nofollow" onclick="this.href='mailto:' + 'cc283' + '@' + 'cornell.edu'" style="cursor:pointer">jr286@cornell.edu</a>
+            <a rel="nofollow" onclick="this.href='mailto:' + 'jr286' + '@' + 'cornell.edu'" style="cursor:pointer">jr286@cornell.edu</a>
           </div>
         </div>
       </div>

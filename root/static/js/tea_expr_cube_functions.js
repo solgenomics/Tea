@@ -639,7 +639,7 @@
   function add_color_grad_legend(tmp_layer,stage,expr_unit) {
     
     var color = ['rgb(80,0,0)','rgb(255,0,0)','rgb(255,130,0)','rgb(255,195,125)','rgb(255,233,199)','rgb(255,255,120)','rgb(255,255,230)'];
-    var x_pos = 20; // margin from right
+    var x_pos = 25; // margin from right
     var y_pos = 15; //margin from top
     
     var grad_legend = new Kinetic.Rect({
@@ -666,11 +666,12 @@
     });
   
     var top_text = new Kinetic.Text({
-      x: x_pos+2,
-      y: y_pos,
+      x: x_pos-25,
+      y: y_pos-10,
       text: expr_unit,
       fontSize: 14,
       fontFamily: 'Helvetica',
+      width: 96,
       fill: "black",
       align: 'center'
     });
@@ -767,7 +768,7 @@
     var legend_canvas = new Kinetic.Stage({
       container: "container_legend",
       width: 98,
-      height: 498
+      height: 516
     });
     var legend_layer = new Kinetic.Layer();
     

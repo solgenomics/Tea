@@ -966,7 +966,7 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
 	}
 	
 	my $tab_file = join("\n", @lines);
-	my $filename = "TEA_".$query_gene."_cf$corr_filter.txt";
+	my $filename = "expr_".$query_gene."_cf$corr_filter.txt";
 
 	#------------------------------------- send file
 	$c->res->content_type('text/plain');

@@ -315,7 +315,7 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
   
   # get variables from catalyst object
   my $params = $c->req->body_params();
-	my @query_gene = $c->req->param("input_gene");
+  my @query_gene = $c->req->param("input_gene");
 	my $corr_filter = $c->req->param("correlation_filter")||0.65;
   my $project_id = $c->req->param("organism_filter");
   my $organ_filter = $c->req->param("organ_filter");

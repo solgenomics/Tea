@@ -1,10 +1,40 @@
 $(document).ready(function () {
   
-  //check input gene before send form
+  //check input gene before sending form
   $('#search_gene').submit(function() {
     var gene_id = $('#gene_id_input').val();
     
     if (gene_id) {
+      return true;
+    } else {
+      $('#no_gene_modal').modal();
+      return false;
+    }
+  });
+  
+  //check input genes from BLAST output before sending form
+  $('#blast_form').submit(function() {
+
+    var check = $( "input[type=checkbox][name=input_gene]:checked" ).val();
+    // alert("genes: "+check);
+
+    if (check) {
+      // alert("genes found");
+
+      return true;
+    } else {
+      // alert("NO genes found");
+
+      $('#no_gene_modal').modal();
+      return false;
+    }
+  });
+  
+  //check input genes from custom list before sending form
+  $('#custom_list_form').submit(function() {
+    var custom_names = $('#custom_list').val();
+
+    if (custom_names) {
       return true;
     } else {
       $('#no_gene_modal').modal();

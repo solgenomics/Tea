@@ -178,6 +178,7 @@ $(document).ready(function () {
       <input name="stages" value=<% $json->encode(\@stages) %> >
       <input name="tissues" value=<% $json->encode(\@tissues) %> >
       <input name="conditions" value=<% $json->encode(\@conditions) %> >
+      <input name="input_type" style="display:none;" value=<% $input_type %> >
     </form>
 
 	</div>

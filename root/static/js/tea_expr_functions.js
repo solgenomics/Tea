@@ -1,6 +1,6 @@
-	
+
   //draw the expression bar graph on dialog
-	function print_bar_chart(t_names,s_names,sxt_values,gene_name,corr_val,expr_units,sem_AoAoh,sem_AoA_text) {
+  function print_bar_chart(t_names,s_names,sxt_values,gene_name,corr_val,expr_units,sem_AoAoh,sem_AoA_text) {
     
     
     for (i in s_names) {
@@ -10,10 +10,12 @@
       t_names[i] = t_names[i].replace(/_/g," ");
     }
 
-    // gene_name = gene_name.replace(/\./g,"");
-    var div_gene_name = gene_name.replace(/[-,]/g,"");
+    var div_gene_name = gene_name.replace(/[-,]+/g,"");
+    div_gene_name = div_gene_name.replace(/\:/g,"");
+    div_gene_name = div_gene_name.replace(/\|/g,"");
+    div_gene_name = div_gene_name.replace(/\+/g,"");
     
-    // alert("s_names: "+s_names+", t_names: "+t_names+", gene_name: "+gene_name+", sxt_values: "+sxt_values);
+    // alert("div_gene_name1: "+div_gene_name);
     
     var bar_width = null;
     var bar_padding = 0;
@@ -36,31 +38,29 @@
     
     var color_array = ['#2e5989','#5f954c','#bb2c32','#6e3f78','#e79f44','#7d807f','#008888','#880088','#5e89b9','#8fc57c','#eb5c62','#9e6fa8','#fccf74','#adb0af','#adb0ff','#0aaeea'];
     
-    // var kk = $('#'+gene_name+'_bar_graph');
-    
-		var plot1 = $.jqplot(div_gene_name+'_bar_graph', sxt_values, {
-			title: '',
-			animate: true,
-			seriesDefaults:{
-				shadow: false,
-				renderer:$.jqplot.BarRenderer,
-				rendererOptions: {
-					barWidth: bar_width,
-					barPadding: bar_padding,
-					barMargin: bar_margin,
-					fillToZero: true,
+    var plot1 = $.jqplot(div_gene_name+'_bar_graph', sxt_values, {
+      title: '',
+      animate: true,
+      seriesDefaults:{
+        shadow: false,
+        renderer:$.jqplot.BarRenderer,
+        rendererOptions: {
+          barWidth: bar_width,
+          barPadding: bar_padding,
+          barMargin: bar_margin,
+          fillToZero: true,
           errorBarWidth: 1,
           errorBarColor: "#606060",
           errorBarTextFont: "bold 16px Arial",
           errorData: sem_AoAoh,
           errorTextData: sem_AoA_text,
           
-					barDirection: 'vertical',
-					animation: {
-						speed: 1000
-					},
-				},
-			},
+          barDirection: 'vertical',
+          animation: {
+            speed: 1000
+          },
+        },
+      },
       series: [
         {label: s_names},
       ],
@@ -71,52 +71,52 @@
               tooltipLocation: 'n',
               formatString:'<div id="bar_tooltip" class="jqplot-highlighter"><p>%s</p></tr></div>'
       },
-			axesDefaults: {
-				tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
-			},
-			axes: {
-				xaxis: {
-					renderer: $.jqplot.CategoryAxisRenderer,
-					ticks: t_names,
-					tickOptions: {
-						angle: -45,
-						showGridline: false,
-						fontSize: '12pt',
-						textColor: 'black',
-						fontFamily: 'Arial',
+      axesDefaults: {
+        tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
+      },
+      axes: {
+        xaxis: {
+          renderer: $.jqplot.CategoryAxisRenderer,
+          ticks: t_names,
+          tickOptions: {
+            angle: -45,
+            showGridline: false,
+            fontSize: '12pt',
+            textColor: 'black',
+            fontFamily: 'Arial',
             markSize: 15,
-					}
-				},
-				yaxis: {
-					pad: 1.5,
+          }
+        },
+        yaxis: {
+          pad: 1.5,
           label: expr_units,
-					min: 0,
-					tickOptions: {
-						angle: 0,
-						formatString: "%#.2f  ",
-						fontSize: '10pt',
-						textColor: 'black',
-						fontFamily: 'Arial'
-					},
-					labelRenderer: $.jqplot.CanvasAxisLabelRenderer
-				}
-			},
-			grid: {
-				background: "white",
-				borderColor: "black",
+          min: 0,
+          tickOptions: {
+            angle: 0,
+            formatString: "%#.2f  ",
+            fontSize: '10pt',
+            textColor: 'black',
+            fontFamily: 'Arial'
+          },
+          labelRenderer: $.jqplot.CanvasAxisLabelRenderer
+        }
+      },
+      grid: {
+        background: "white",
+        borderColor: "black",
         shadow: false,
-			},
-			seriesColors: color_array,
-			legend: {
-				labels: s_names,
-				show: true,
-				showSwatches: true,
-				location: 'ne',
-				placement: 'outsideGrid'
-			}
-		});
+      },
+      seriesColors: color_array,
+      legend: {
+        labels: s_names,
+        show: true,
+        showSwatches: true,
+        location: 'ne',
+        placement: 'outsideGrid'
+      }
+    });
     
-	}
+  }
   
   function get_error_bars(gene, stage_array, tissue_array, is_transposed) {
   
@@ -175,18 +175,22 @@
   }
   
   //open dialog for expression bar graph
-	function open_bar_graph_dialog(stage_tissue_values, gene_name, corr_val, description, gene_id, stage_names, tissue_names, expr_unit) {
+  function open_bar_graph_dialog(stage_tissue_values, gene_name, corr_val, description, gene_id, stage_names, tissue_names, expr_unit) {
     
     var panel_width = 1200;
     var panel_max = 1200;
     var panel_min = 600;
     
     gene_name = gene_name.replace(/\./g,"_o0o_");
-    var div_gene_name = gene_name;
+    // var div_gene_name = gene_name;
     gene_name2 = gene_name.replace(/_o0o_/g,".");
     
+    var div_gene_name = gene_name.replace(/[-,]+/g,"");
+    div_gene_name = div_gene_name.replace(/\:/g,"");
+    div_gene_name = div_gene_name.replace(/\|/g,"");
+    div_gene_name = div_gene_name.replace(/\+/g,"");
     
-    // var div_gene_name = gene_name.replace(/[-,]/g,"");
+    // alert("div_gene_name2: "+div_gene_name);
     
     if (stage_names.length*tissue_names.length > 90) {
       panel_width = stage_names.length*tissue_names.length*6 + 300;

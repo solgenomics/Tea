@@ -315,7 +315,7 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
   
   # get variables from catalyst object
   my $params = $c->req->body_params();
-	my @query_gene = $c->req->param("input_gene");
+  my @query_gene = $c->req->param("input_gene");
 	my $corr_filter = $c->req->param("correlation_filter")||0.65;
   my $project_id = $c->req->param("organism_filter");
   my $organ_filter = $c->req->param("organ_filter");
@@ -771,6 +771,8 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
   my $tissue_filter = $c->req->param("tissues");
   $tissue_filter =~ s/[\[\]\"]//g;
   
+	my $input_type = $c->req->param("input_type") || "gene_id";
+  
   my @stages = split(",",$stage_filter);
   my @tissues = split(",",$tissue_filter);
 
@@ -806,75 +808,74 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
 	
 	my @corr_values;
   # my $total_corr_genes = 0;
+  $query_gene = $query_gene[0];
   
+  $query_gene =~ s/[\[\]\"]//g;
+  $query_gene =~ s/\\n/,/g;
+  $query_gene =~ s/\\r/,/g;
   
 	#check number of input genes
-  if (scalar(@query_gene) == 1) {
+  if ($input_type eq "gene_id") {
     $query_gene = shift @query_gene;
-    $query_gene =~ s/[\[\]\"]//g;
-    $query_gene =~ s/\\n/,/g;
-    $query_gene =~ s/\\r/,/g;
     # print STDERR "query_gene: $query_gene\n";
     
 		$multiple_genes = 0;
 		
-		if ($query_gene =~ /\n/ || $query_gene =~ /,/) {
-			
+  }
+  elsif ($input_type eq "custom_list") {
+  
+    # print STDERR "query_gene: $query_gene\n";
+    
+    $query_gene =~ s/[\n\s,]+/,/g;
+    # print STDERR "query_gene: $query_gene\n";
+    
+    if ($query_gene =~ /solyc\d\dg\d{6}/i) {
+      $query_gene =~ s/\.[12]\.*[12]*//g;
       # print STDERR "query_gene: $query_gene\n";
-			
-			$query_gene =~ s/[\n\s,]+/,/g;
-      # print STDERR "query_gene: $query_gene\n";
-			
-      if ($query_gene =~ /solyc\d\dg\d{6}/i) {
-  			$query_gene =~ s/\.[12]\.*[12]*//g;
-        # print STDERR "query_gene: $query_gene\n";
-      }
-			
-			@genes = split(",", $query_gene);
-			@corr_values = ("list") x scalar(@genes);
-			
-			my @uniq_genes = uniq(@genes);
-			if (scalar(@uniq_genes) >= $cube_gene_number) {
-				@genes = @uniq_genes[0..$cube_gene_number-1];
-			} else {
-				@genes = @uniq_genes[0..$#uniq_genes];
-			}
-			$query_gene = shift @genes;
-			
-			$multiple_genes = 1;
-		}
-		
-  } elsif (scalar(@query_gene) > 1) {
-    @corr_values = ("blast") x scalar(@query_gene);
-    my @uniq_genes = uniq(@query_gene);
-
-    if (scalar(@uniq_genes) >= $cube_gene_number) {
-      @genes = @uniq_genes[0..$cube_gene_number-1];
-    } else {
-      @genes = @uniq_genes[0..$#uniq_genes];
     }
+    
+    @genes = split(",", $query_gene);
+    @corr_values = ("list") x scalar(@genes);
+    
+    my @uniq_genes = uniq(@genes);
+
+    @genes = @uniq_genes[0..$#uniq_genes];
+    
+    $query_gene = shift @genes;
+    
+    $multiple_genes = 1;
+  }
+    
+  elsif ($input_type eq "blast") {
+    @corr_values = ("blast") x scalar(@query_gene);
+    @genes = split(",", $query_gene);
+    
+    my @uniq_genes = uniq(@genes);
+    
+    @genes = @uniq_genes[0..$#uniq_genes];
+    
     $query_gene = shift @genes;
   }
 
-	# strip gene name
-	$query_gene =~ s/^\s+//;
-	$query_gene =~ s/\s+$//;
-	$query_gene =~ s/\.\d$//;
-	$query_gene =~ s/\.\d$//;
-	
+  # strip gene name
+  $query_gene =~ s/^\s+//;
+  $query_gene =~ s/\s+$//;
+  $query_gene =~ s/\.\d$//;
+  $query_gene =~ s/\.\d$//;
+
   # print STDERR "downloading expression data\n";
   # print STDERR "multiple_genes: $multiple_genes, query_gene: $query_gene\n";
   # print STDERR "genes: @genes\n";
-	
-	my %corr_values;
-  
-  
+
+  my %corr_values;
+
+
   my $total_corr_genes = 0;
   my $genes;
   my $corr_values;
-	my $current_page;
-	my $corr_hash;
-	my %corr_hash;
+  my $current_page;
+  my $corr_hash;
+  my %corr_hash;
   
 	if (!$multiple_genes) {
     my $to_download = 1;
@@ -886,10 +887,7 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
 	}
   
   
-	#------------------------------------- Temporal Data
 	unshift(@genes, $query_gene);
-  # my @stages = ("10DPA", "Mature_Green", "Pink");
-  # my @tissues = ("Inner_Epidermis", "Parenchyma", "Vascular", "Collenchyma", "Outer_Epidermis");
 	
 	
 	#------------------------------------- build data structure
@@ -967,8 +965,16 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
 	}
 	
 	my $tab_file = join("\n", @lines);
-	my $filename = "TEA_".$query_gene."_cf$corr_filter.txt";
-
+	my $filename = "expr_".$query_gene."_cf$corr_filter.txt";
+  
+  if ($input_type eq "blast") {
+    $filename = "blast_list_expression.txt";
+  }
+  
+  if ($input_type eq "custom_list") {
+    $filename = "custom_list_expression.txt";
+  }
+  
 	#------------------------------------- send file
 	$c->res->content_type('text/plain');
 	$c->res->header('Content-Disposition', qq[attachment; filename="$filename"]);

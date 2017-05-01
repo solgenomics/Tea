@@ -13,6 +13,7 @@
     var div_gene_name = gene_name.replace(/[-,]+/g,"");
     div_gene_name = div_gene_name.replace(/\:/g,"");
     div_gene_name = div_gene_name.replace(/\|/g,"");
+    div_gene_name = div_gene_name.replace(/\+/g,"");
     
     // alert("div_gene_name1: "+div_gene_name);
     
@@ -187,11 +188,9 @@
     var div_gene_name = gene_name.replace(/[-,]+/g,"");
     div_gene_name = div_gene_name.replace(/\:/g,"");
     div_gene_name = div_gene_name.replace(/\|/g,"");
+    div_gene_name = div_gene_name.replace(/\+/g,"");
     
-    alert("div_gene_name2: "+div_gene_name);
-    
-    
-    // var div_gene_name = gene_name.replace(/[-,]/g,"");
+    // alert("div_gene_name2: "+div_gene_name);
     
     if (stage_names.length*tissue_names.length > 90) {
       panel_width = stage_names.length*tissue_names.length*6 + 300;

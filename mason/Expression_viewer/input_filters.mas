@@ -1,6 +1,9 @@
 <%args>
 $project_html => ()
+$delete_enabled => ()
 </%args>
+
+
 
 <center>
   <h3>Define Expression Parameters <button type="button" class="info_icon" data-toggle="modal" data-target="#parameters_help">i</button></h3>
@@ -11,7 +14,20 @@ $project_html => ()
   <div class="row">
     
     <div class="col-sm-6 col-md-6 col-lg-6">
-      <div style="text-align: center; width=100%">Projects <a href="/anatomy_viewer/microscopy" target="blank" style="float:right">more info</a></div>
+      <div style="width: 100%">
+        
+        <%perl>
+          if ($delete_enabled) {
+            print "<a href=\"/manage_project\" target=\"blank\" class=\"pull-left\">Manage projects</a>"
+          }
+        </%perl>
+        
+        <a href="/anatomy_viewer/microscopy" target="blank" class="pull-right">more info</a>
+        <center>
+          Projects
+        </center>
+      </div>
+      
       <div id="expr_params" class="panel panel-primary" style="overflow: scroll;">
         
         <div class="panel-body">
@@ -40,7 +56,7 @@ $project_html => ()
   <div class="row">
     
     <div class="col-sm-3 col-md-3 col-lg-3">
-      <div style="text-align: center; width=100%">Developmental Stages</div>
+      <div style="text-align: center; width:100%">Developmental Stages</div>
 
       <select multiple id="stage_col" class="form-control wizard_select" size="10"></select>
       <button class="select_all btn btn-default">Select All</button>
@@ -75,7 +91,7 @@ $project_html => ()
   
 </div>
 
-
+<!-- <script type="text/javascript" src="/static/js/jquery/cookie.js"></script> -->
 <script>
   
   // function to control the correlation slider
@@ -93,7 +109,26 @@ $project_html => ()
     $( "#amount" ).val( $( "#correlation_slider" ).slider( "value" ) );
     $( ".corr_filter" ).val( $( "#correlation_slider" ).slider( "value" ) );
   });
-
+  
+  // $(document).ready(function() {
+  //
+  //     var cookie = $.cookie('sgn_session_id');
+  //
+  //     alert("my cookie: "+cookie);
+  //
+  //     $.ajax({
+  //       dataType: "json",
+  //       url: "https://sgn:eggplant@cassbase.org/authenticate/check/token",
+  //       data: ({cookie:cookie}),
+  //       success: function(data) {
+  //
+  //         alert("cookie: "+data.result);
+  //
+  //       }
+  //     });
+  //
+  // });
+  
 </script>
 
 

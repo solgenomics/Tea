@@ -45,6 +45,8 @@ sub index :Path('/expression_viewer/input/') :Args(0) {
   my $username = $c->config->{dbuser};
   my $password = $c->config->{dbpass};
 
+  my $delete_enabled = $c->config->{delete_project};
+
   my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
   my $dbh = DBI->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
   
@@ -64,6 +66,7 @@ sub index :Path('/expression_viewer/input/') :Args(0) {
   
   # send variables to TEA input view
   $c->stash->{input_gene} = $input_gene;
+  $c->stash->{delete_enabled} = $delete_enabled;
   $c->stash->{project_html} = $projects_html;
   $c->stash(template => 'Expression_viewer/input.mas');
 }

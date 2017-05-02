@@ -74,7 +74,7 @@ sub project_menu :Path('/project_menu/') :Args(0) {
     $c->stash(template => 'project_menu.mas');
 }
 
-sub manage_projects :Path('/manage_project/') :Args(0) {
+sub manage_projects :Path('/expression_viewer/manage_project/') :Args(0) {
     my ( $self, $c ) = @_;
   
     my $dbname = $c->config->{dbname};
@@ -99,7 +99,7 @@ sub manage_projects :Path('/manage_project/') :Args(0) {
     if ($delete_enabled) {
       $c->stash(project_ids => \@project_ids);
       $c->stash(project_names => \%project_names);
-      $c->stash(template => 'manage_projects.mas');
+      $c->stash(template => 'Expression_viewer/manage_projects.mas');
     } else {
       $c->stash(template => 'index.mas');
     }

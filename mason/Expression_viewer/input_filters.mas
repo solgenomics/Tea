@@ -18,7 +18,7 @@ $delete_enabled => ()
         
         <%perl>
           if ($delete_enabled) {
-            print "<a href=\"/manage_project\" target=\"blank\" class=\"pull-left\">Manage projects</a>"
+            print "<a href=\"/expression_viewer/manage_project\" target=\"blank\" class=\"pull-left\">Manage projects</a>"
           }
         </%perl>
         

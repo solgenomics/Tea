@@ -1,0 +1,97 @@
+<%args>
+  @project_ids => ()
+  %project_names => ()
+</%args>
+
+
+<div style="width:80%;max-width:1000px;margin:25px">
+  <h2>Manage datasets database</h2>
+  <br>
+  <table class="table font24">
+    <tr><th>Name</th><th></th></tr>
+    <%perl>
+      foreach my $p_ids (@project_ids) {
+        my $p_name = $project_names{$p_ids};
+        print "<tr><td>$p_name</td><td><button class=\"delete_prj_btn btn btn-primary\" value=\"$p_ids;$p_name\">DELETE</button></td></tr>";
+      }
+    </%perl>
+  </table>
+</div>
+
+
+<div class="modal fade" id="delete_prj_modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <center><h4 class="modal-title">Delete dataset</h4></center>
+      </div>
+      <div class="modal-body">
+        <center>
+          <p id="prj_name_delete"></p>
+        </center>
+        <button id="prj_del_button" class="btn btn-primary pull-right" style="position: relative; top: 10px">DELETE</button>
+        <br>
+        <br>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<style>
+
+.font24 {
+  font-size: 20px;
+}
+
+</style>
+
+<script>
+  
+$(document).ready(function () {
+  
+  var project_id = 0;
+  var project_name = "";
+  
+  //check input gene before sending form
+  $('.delete_prj_btn').click(function() {
+    
+    var project_data = this.value.split(/;/);
+    project_id = project_data[0];
+    project_name = project_data[1];
+    
+    $('#prj_name_delete').html("Are you sure you want to delete the project <br> "+project_name+"?");
+    $('#prj_name_delete').val(project_id);
+    $('#delete_prj_modal').modal();
+      
+  });
+  
+  $('#prj_del_button').click(function () {
+    
+    $.ajax({
+      url: '/delete_project/',
+      timeout: 600000,
+      method: 'POST',
+      data: { 'project_id': project_id },
+      success: function(response) {
+        if (response.error) {
+          alert("ERROR: "+response.error);
+          // enable_ui();
+        } else {
+        
+        
+        }
+      },
+      error: function(response) {
+        alert("An error occurred. The service may not be available right now.");
+        // enable_ui();
+      }
+    });
+    
+  });
+  
+  
+});
+  
+</script>

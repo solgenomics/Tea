@@ -7,7 +7,7 @@
 <div style="width:80%;max-width:1000px;margin:25px">
   <h2>Manage datasets database</h2>
   <br>
-  <table class="table font24">
+  <table id="prj_table" class="table font24">
     <tr><th>Name</th><th></th></tr>
     <%perl>
       foreach my $p_ids (@project_ids) {
@@ -63,7 +63,7 @@ $(document).ready(function () {
     
     $('#prj_name_delete').html("Are you sure you want to delete the project <br> "+project_name+"?");
     $('#prj_name_delete').val(project_id);
-    $('#delete_prj_modal').modal();
+    $('#delete_prj_modal').modal('show');
       
   });
   
@@ -76,18 +76,19 @@ $(document).ready(function () {
       data: { 'project_id': project_id },
       success: function(response) {
         if (response.error) {
-          alert("ERROR: "+response.error);
-          // enable_ui();
+          // alert("ERROR: "+response.error);
+          location.reload();
         } else {
-        
-        
+          location.reload();
         }
       },
       error: function(response) {
-        alert("An error occurred. The service may not be available right now.");
-        // enable_ui();
+        // alert("An error occurred. The service may not be available right now.");
+        location.reload();
       }
     });
+    
+    $('#delete_prj_modal').modal('hide');
     
   });
   

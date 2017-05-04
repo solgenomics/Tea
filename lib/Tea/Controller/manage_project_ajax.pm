@@ -41,64 +41,66 @@ sub delete_project_data :Path('/delete_project/') :Args(0) {
   # get variables from catalyst object
   my $project_id = $c->req->param("project_id");
   
+  my $delete_enabled = $c->config->{delete_project};
+  
+  if (!$delete_enabled) {
+    $c->stash->{rest} = {
+      prj_html => 1
+    };
+    print STDERR "delete projects is disabled!\n";
+  }
+  
   my $dbname = $c->config->{dbname};
   my $host = $c->config->{dbhost};
   my $username = $c->config->{dbuser};
   my $password = $c->config->{dbpass};
 
-  my $delete_enabled = $c->config->{delete_project};
-
+  
   my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
   my $dbh = DBI->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
   
   my $project_rs = $schema->resultset('Project')->single({project_id => $project_id});
   my $figure_rs = $schema->resultset('Figure')->search({project_id => $project_id});
   
+  my @fl_ids;
+  
+  
   if ($figure_rs) {
     
-    my $condition_rs = $schema->resultset('Condition')->search({figure_id => $figure_rs->figure_id});
-    my $figure_layer_rs = $schema->resultset('FigureLayer')->search({figure_id => $figure_rs->figure_id});
-    my $layer_rs = $schema->resultset('Layer')->search({layer_id => $figure_layer_rs->layer_id});
-  
-    while(my $l = $layer_rs->next) {
-      $l->delete_all(cascade_delete => 0);
-    }
-    while(my $l = $figure_layer_rs->next) {
-      $l->delete_all(cascade_delete => 0);
-    }
+    while(my $fig = $figure_rs->next) {
     
-    if ($condition_rs) {
-      while(my $l = $condition_rs->next) {
-        $l->delete_all(cascade_delete => 0);
+      my $condition_rs = $schema->resultset('Condition')->search({figure_id => $fig->figure_id});
+      
+      if ($condition_rs) {
+        $condition_rs->delete_all;
       }
+      
+      my $figure_layer_rs = $schema->resultset('FigureLayer')->search({figure_id => $fig->figure_id});
+      
+      
+      # while(my $fl = $figure_layer_rs->next) {
+      #   push (@fl_ids, $fl->layer_id);
+      # }
+      
+      $figure_layer_rs->delete_all;
+      
     }
-    
-    while(my $l = $figure_rs->next) {
-      $l->delete_all(cascade_delete => 0);
-    }
-    
+    $figure_rs->delete_all;
   }
   
-  $project_rs->delete_all(cascade_delete => 0);
+  $project_rs->delete;
+  
+  # foreach my $flid (@fl_ids) {
+  #   my $layer_rs = $schema->resultset('Layer')->search({layer_id => $flid});
+  #
+  #   $layer_rs->delete;
+  #
+  # }
   
   
-  # $layer_rs->delete_all(cascade_delete => 0);
-  # $figure_layer_rs->delete_all(cascade_delete => 0);
-  # $condition_rs->delete_all(cascade_delete => 0);
-  # $figure_rs->delete_all(cascade_delete => 0);
-  
-  my @project_ids;
-  my %project_names;
 
-  my $all_rs = $schema->resultset("Project");
-  while(my $n = $all_rs->next) {
-    push (@project_ids,$n->project_id);
-    $project_names{$n->project_id} = $n->name;
-  }
-  
   $c->stash->{rest} = {
-    project_ids => \@project_ids,
-    project_names => \%project_names,
+    prj_html => 1
   };
   
 }

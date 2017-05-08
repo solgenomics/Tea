@@ -32,7 +32,7 @@ __PACKAGE__->config(
 our %urlencode;
 
 
-sub delete_project_data :Path('/delete_project/') :Args(0) {
+sub delete_project_data :Path('/expression_viewer/delete_project/') :Args(0) {
   my ($self, $c) = @_;
   
   # to store erros as they may happen

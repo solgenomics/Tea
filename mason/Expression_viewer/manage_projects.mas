@@ -70,7 +70,7 @@ $(document).ready(function () {
   $('#prj_del_button').click(function () {
     
     $.ajax({
-      url: '/delete_project/',
+      url: '/expression_viewer/delete_project/',
       timeout: 600000,
       method: 'POST',
       data: { 'project_id': project_id },

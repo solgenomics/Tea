@@ -69,6 +69,7 @@ $(document).ready(function () {
   
   //get default project gene names for autocomplete function
   get_project_genes(organism_list);
+  get_max_expr(organism_list);
   
   
   jQuery('.organism_col').click(function() {
@@ -80,6 +81,7 @@ $(document).ready(function () {
     
     load_wizard(organism_list,null,null,null,null);
     get_project_genes(organism_list);
+    // get_max_expr(organism_list);
   });
   
   
@@ -94,6 +96,35 @@ $(document).ready(function () {
     $( '.tissue_filter' ).val( $( '#tissue_col' ).val());
     $( '.condition_filter' ).val( $( '#condition_col' ).val());
   });
+  
+  
+ // get array with the gene names from the project for the autocomplete function
+  function get_max_expr(organism_list){
+    $.ajax({
+      url: '/expression_viewer/get_max_expr/',
+      timeout: 600000,
+      method: 'POST',
+      data: { 'project_id': organism_list[0]},
+      success: function(response) {
+        if (response.error) {
+          alert("ERROR: "+response.error);
+          // enable_ui();
+        } else {
+          max_value = response.project_max_val;
+          $( "#expr_amount" ).val( 1+" - "+max_value );
+          $( "#expr_amount" ).val( $( "#expr_slider" ).slider( "values", 0 )+" - "+$( "#expr_slider" ).slider( "values", 1 ) );
+          $( ".expr_min_scale" ).val( $( "#expr_slider" ).slider( "value", 0 ) );
+          $( ".expr_max_scale" ).val( $( "#expr_slider" ).slider( "value", 1 ) );
+          $( "#expr_slider" ).slider("option","max",max_value);
+        }
+      },
+      error: function(response) {
+        alert("An error occurred. The service may not be available right now.");
+        // enable_ui();
+      }
+    });
+    
+  }
   
   
   function load_wizard(organism_list,organ_list,stage_list,tissue_list,condition_list){

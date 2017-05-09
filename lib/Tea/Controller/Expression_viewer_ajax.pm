@@ -41,12 +41,12 @@ __PACKAGE__->config(
 
 our %urlencode;
 
-=head2 get_stages
+=head2 get_genes
 
-get selected info on input and return parent-children info back to input
+get gene names from the selected project for autocompleting their names on input boxes
 
-ARGS: selected project, organ, stage and tissue
-Returns: organ, stage and tissue HTML options
+ARGS: project_id
+Returns: gene anmes array
 
 =cut
 
@@ -93,6 +93,59 @@ sub get_genes :Path('/expression_viewer/get_genes/') :Args(0) {
   
   $c->stash->{rest} = {
       project_genes => \@genes_array
+  };
+  
+}
+
+=head2 get_max_expr
+
+get gene maximum expression value from the project to allow customization of the scale
+
+ARGS: project_id
+Returns: maximum expression value from the project
+
+=cut
+
+sub get_max_expr :Path('/expression_viewer/get_max_expr/') :Args(0) {
+  my ($self, $c) = @_;
+  
+  # get variables from catalyst object
+  my $project_id = $c->req->param("project_id");
+  my $max_val = $c->config->{max_val} || 10000;
+  
+  #connect to database
+  # my $dbname = $c->config->{dbname};
+  # my $host = $c->config->{dbhost};
+  # my $username = $c->config->{dbuser};
+  # my $password = $c->config->{dbpass};
+  #
+  # my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
+  #
+  # get DBIx project resultset
+  # my $project_rs = $schema->resultset('Project')->search({project_id => $project_id})->single;
+  #
+  # my $expr_path = $c->config->{expression_indexes_path};
+  # $expr_path .= "/".$project_rs->indexed_dir;
+  #
+  # my $searcher = Lucy::Search::IndexSearcher->new(
+  #     index => $expr_path
+  # );
+  #
+  # my $all_genes = $searcher->hits(
+  #     query => Lucy::Search::MatchAllQuery->new,
+  #     # num_wanted => 200000,
+  # );
+  #
+  # while ( my $hit = $all_genes->next ) {
+  #   if ($hit->{expression} * 1 > $max_val) {
+  #     $max_val = sprintf("%.0f", $hit->{expression} * 1);
+  #   }
+  # }
+  #
+  # print "MAX VAL: $max_val\n";
+  
+  $c->stash->{rest} = {
+      project_max_val => $max_val
   };
   
 }

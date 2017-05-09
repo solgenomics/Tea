@@ -88,7 +88,7 @@ function iterate_by_stage(n,stage_h,stage_ids_a,j_index,x_offset,y_offset,prev_s
 }
 
 
-function draw_expression_images(img_canvas,canvas_w,stage_ids_a,stage_h,tissue_h,gst_expr_hhh,gene_a,tissue_a) {
+function draw_expression_images(img_canvas,canvas_w,stage_ids_a,stage_h,tissue_h,gst_expr_hhh,gene_a,tissue_a,min_expr,max_expr) {
   
   var x_offset = 0;
   var y_offset = 0;
@@ -134,7 +134,7 @@ function draw_expression_images(img_canvas,canvas_w,stage_ids_a,stage_h,tissue_h
         var b = 210;
         
         if (expr_val != 0.000001) {
-          var rgb_color_array = get_expr_color(expr_val);
+          var rgb_color_array = get_expr_color(expr_val,min_expr,max_expr);
 
           r = rgb_color_array[0];
           g = rgb_color_array[1];

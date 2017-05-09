@@ -319,24 +319,34 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
   # get variables from catalyst object
   my $params = $c->req->body_params();
   my @query_gene = $c->req->param("input_gene");
-	my $corr_filter = $c->req->param("correlation_filter")||0.65;
+  my $corr_filter = $c->req->param("correlation_filter")||0.65;
   my $project_id = $c->req->param("organism_filter");
   my $organ_filter = $c->req->param("organ_filter");
   my $stage_filter = $c->req->param("stage_filter");
   my $tissue_filter = $c->req->param("tissue_filter");
   my $condition_filter = $c->req->param("condition_filter");
   
-	my $current_page = $c->req->param("current_page") || 1;
-	my $pages_num = $c->req->param("all_pages") || 1;
-	my $input_type = $c->req->param("input_type") || "gene_id";
+  my $current_page = $c->req->param("current_page") || 1;
+  my $pages_num = $c->req->param("all_pages") || 1;
+  my $input_type = $c->req->param("input_type") || "gene_id";
   my $all_genes_list_arrayref = $c->req->param("custom_gene_list");
+  
+  my $expr_min_scale = $c->req->param("expression_min_scale");
+  my $expr_max_scale = $c->req->param("expression_max_scale");
+  
+  if ($expr_min_scale !~ /\d/) {
+    $expr_min_scale = "default";
+  }
+  if ($expr_max_scale !~ /\d/) {
+    $expr_max_scale = "default";
+  }
   
   my @all_genes_list;
   
   # get the path to the expression and correlation lucy indexes
-	my $expr_path = $c->config->{expression_indexes_path};
-	my $corr_path = $c->config->{correlation_indexes_path};
-	my $loci_and_desc_path = $c->config->{loci_and_description_index_path};
+  my $expr_path = $c->config->{expression_indexes_path};
+  my $corr_path = $c->config->{correlation_indexes_path};
+  my $loci_and_desc_path = $c->config->{loci_and_description_index_path};
 
   # connect to the db
   my $dbname = $c->config->{dbname};
@@ -729,6 +739,8 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
 
   $c->stash->{output_gene} = \@output_gene;
   $c->stash->{correlation_filter} = $corr_filter;
+  $c->stash->{expression_min_scale} = $expr_min_scale;
+  $c->stash->{expression_max_scale} = $expr_max_scale;
   $c->stash->{organism_filter} = $project_id;
   $c->stash->{stage_filter} = $stage_filter;
   $c->stash->{tissue_filter} = $tissue_filter;

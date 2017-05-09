@@ -286,47 +286,109 @@
   }
 
   //get color for expression values for cube and tissue imgs
-  function get_expr_color(expr_val) {
+  function get_expr_color(expr_val,min_expr,max_expr) {
 
     var r_color = 255;
     var g_color = 255;
     var b_color = 255;
-
-    if (expr_val == 0) {
-      r_color = 255;
-      g_color = 255;
-      b_color = 255;
+    
+    var top_val = max_expr;
+    var bottom_val = min_expr;
+    
+    var section_length = (top_val-bottom_val)/4;
+    
+    if (min_expr == "default" || max_expr == "default") {
       
-    } 
-    else if (expr_val == 0.000001) {
-      r_color = 210;
-      g_color = 210;
-      b_color = 210;
-    }
-    else if (expr_val <= 1) {
-      r_color = 255;
-      g_color = 255;
-      b_color = Math.round(130*(1-expr_val)+100);
-    } else if (expr_val > 1 && expr_val <= 10) {
-      r_color = 255;
-      g_color = Math.round(245 - 60*expr_val/10);
-      b_color = Math.round(220 - 105*expr_val/10);
-    } else if (expr_val > 10 && expr_val <= 100) {
-      r_color = 255;
-      g_color = Math.round(197 - 67*(expr_val/100));
-      b_color = Math.round(130 - 130*(expr_val/100));
-    } else if (expr_val > 100 && expr_val <= 300) {
-      r_color = 255
-      g_color = Math.round(130 - 130*(expr_val-100)/200);
-      b_color = 0;
-    } else if (expr_val > 300 && expr_val <= 500) {
-      r_color = Math.round(255 - 175*(expr_val-300)/200);
-      g_color = 0;
-      b_color = 0;
-    } else if (expr_val > 500) {
-      r_color = 80;
-      g_color = 0;
-      b_color = 0;
+      if (expr_val == 0) {
+        r_color = 255;
+        g_color = 255;
+        b_color = 255;
+      } else if (expr_val == 0.000001) {
+        r_color = 210;
+        g_color = 210;
+        b_color = 210;
+      } else if (expr_val <= 1) {
+        r_color = 255;
+        g_color = 255;
+        b_color = Math.round(130*(1-expr_val)+100);
+      } else if (expr_val > 1 && expr_val <= 10) {
+        r_color = 255;
+        g_color = Math.round(245 - 60*expr_val/10);
+        b_color = Math.round(220 - 105*expr_val/10);
+      } else if (expr_val > 10 && expr_val <= 100) {
+        r_color = 255;
+        g_color = Math.round(197 - 67*(expr_val/100));
+        b_color = Math.round(130 - 130*(expr_val/100));
+      } else if (expr_val > 100 && expr_val <= 300) {
+        r_color = 255
+        g_color = Math.round(130 - 130*(expr_val-100)/200);
+        b_color = 0;
+      } else if (expr_val > 300 && expr_val <= 500) {
+        r_color = Math.round(255 - 175*(expr_val-300)/200);
+        g_color = 0;
+        b_color = 0;
+      } else if (expr_val > 500) {
+        r_color = 80;
+        g_color = 0;
+        b_color = 0;
+      }
+      
+    } else {
+      
+      if (bottom_val == 0) {
+        bottom_val = section_length/2;
+      }
+      
+      if (expr_val == 0) {
+        r_color = 255;
+        g_color = 255;
+        b_color = 255;
+      } else if (expr_val == 0.000001) {
+        r_color = 210;
+        g_color = 210;
+        b_color = 210;
+      } else if (expr_val > 0 && expr_val <= bottom_val) {
+        
+        var myval = Math.round(expr_val/bottom_val); //0-1
+        
+        r_color = 255;
+        g_color = 255;
+        b_color = Math.round(90 + 130*(1-myval));
+      } else if (expr_val > bottom_val && expr_val <= bottom_val+section_length) {
+
+        var myval = Math.round((expr_val-bottom_val)/section_length); //0-1
+
+        r_color = 255;
+        g_color = Math.round(185 + 54*(1-myval));
+        b_color = Math.round(115 + 94*(1-myval));
+      
+      } else if (expr_val > bottom_val+section_length && expr_val <= bottom_val+section_length*2) {
+      
+        var myval = Math.round((expr_val-(bottom_val+section_length))/section_length); //0-1
+      
+        r_color = 255;
+        g_color = Math.round(130 + 60*(1-myval));
+        b_color = Math.round(0 + 117*(1-myval));
+      } else if (expr_val > bottom_val+section_length*2 && expr_val <= bottom_val+section_length*3) {
+      
+        var myval = Math.round((expr_val-(bottom_val+section_length*2))/section_length); //0-1
+      
+        r_color = 255
+        g_color = Math.round(130*(1-myval));
+        b_color = 0;
+      } else if (expr_val > bottom_val+section_length*3 && expr_val <= bottom_val+section_length*4) {
+      
+        var myval = Math.round((expr_val-(bottom_val+section_length*3))/section_length); //0-1
+      
+        r_color = Math.round(90 + 165*(1-myval));
+        g_color = 0;
+        b_color = 0;
+      } else if (expr_val > top_val) {
+        r_color = 60;
+        g_color = 0;
+        b_color = 0;
+      }
+      
     }
     
     return [r_color,g_color,b_color];
@@ -335,6 +397,55 @@
 
 
 
+  // function get_expr_color(expr_val) {
+  //
+  //   var r_color = 255;
+  //   var g_color = 255;
+  //   var b_color = 255;
+  //
+  //   if (expr_val == 0) {
+  //     r_color = 255;
+  //     g_color = 255;
+  //     b_color = 255;
+  //
+  //   }
+  //   else if (expr_val == 0.000001) {
+  //     r_color = 210;
+  //     g_color = 210;
+  //     b_color = 210;
+  //   }
+  //   else if (expr_val <= 1) {
+  //     r_color = 255;
+  //     g_color = 255;
+  //     b_color = Math.round(130*(1-expr_val)+100);
+  //   } else if (expr_val > 1 && expr_val <= 10) {
+  //     r_color = 255;
+  //     g_color = Math.round(245 - 60*expr_val/10);
+  //     b_color = Math.round(220 - 105*expr_val/10);
+  //   } else if (expr_val > 10 && expr_val <= 100) {
+  //     r_color = 255;
+  //     g_color = Math.round(197 - 67*(expr_val/100));
+  //     b_color = Math.round(130 - 130*(expr_val/100));
+  //   } else if (expr_val > 100 && expr_val <= 300) {
+  //     r_color = 255
+  //     g_color = Math.round(130 - 130*(expr_val-100)/200);
+  //     b_color = 0;
+  //   } else if (expr_val > 300 && expr_val <= 500) {
+  //     r_color = Math.round(255 - 175*(expr_val-300)/200);
+  //     g_color = 0;
+  //     b_color = 0;
+  //   } else if (expr_val > 500) {
+  //     r_color = 80;
+  //     g_color = 0;
+  //     b_color = 0;
+  //   }
+  //
+  //   return [r_color,g_color,b_color];
+  // }
+  //
+  //
+  //
+  //
   // get array with the gene names from the project for the autocomplete function
   function get_project_genes(organism_list){
     

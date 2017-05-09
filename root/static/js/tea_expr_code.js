@@ -63,7 +63,7 @@ $(document).ready(function () {
 
 
   //print cube
-  setup_cube(canvas,canvas_height,canvas_width,x_margin,genes,stages,tissues,aoaoa,gene_locus_id,gene_descriptions,current_page,pages_num,expression_unit,bg_color_hash);
+  setup_cube(canvas,canvas_height,canvas_width,x_margin,genes,stages,tissues,aoaoa,gene_locus_id,gene_descriptions,current_page,pages_num,expression_unit,bg_color_hash,expression_min_scale,expression_max_scale);
 
 
   //print Expression images
@@ -84,7 +84,7 @@ $(document).ready(function () {
       });
       
       
-      draw_expression_images(img_canvas,canvas_width,stage_ids_array,stage_hash,tissue_hash,gst_expr_hohoh,genes,tissues);
+      draw_expression_images(img_canvas,canvas_width,stage_ids_array,stage_hash,tissue_hash,gst_expr_hohoh,genes,tissues,expression_min_scale,expression_max_scale);
       expr_imgs_loaded = 1;
       
       setTimeout($("#loading_modal").modal("hide"), 5000);

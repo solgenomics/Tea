@@ -2,35 +2,37 @@
 $input_gene => ()
 </%args>
 
-	<div class="well input_width" style="margin-bottom:30px;">
+  <div class="well input_width" style="margin-bottom:30px;">
 
     <div class="row">
       
       <div class="col-sm-4 col-md-4 col-lg-4">
         By Gene ID <button type="button" class="info_icon" data-toggle="modal" data-target="#gene_id_help">i</button>
-    		<form id="search_gene" method="post" enctype="multipart/form-data">
-  				<input id="gene_id_input" class="gene_autocomplete form-control col-xs-2 panel-primary" value="<% $input_gene %>" name="input_gene"/>
-        
+        <form id="search_gene" method="post" enctype="multipart/form-data">
+          <input id="gene_id_input" class="gene_autocomplete form-control col-xs-2 panel-primary" value="<% $input_gene %>" name="input_gene"/>
+
           <input id="input_type" name="input_type" style="display:none;" value="gene_id" >
-  				<input class="corr_filter" name="correlation_filter" style="display:none;"/>
-  				<input class="organism_filter" name="organism_filter" style="display:none;"/>
-  				<input class="organ_filter" name="organ_filter" style="display:none;"/>
-  				<input class="stage_filter" name="stage_filter" style="display:none;"/>
-  				<input class="tissue_filter" name="tissue_filter" style="display:none;"/>
-  				<input class="condition_filter" name="condition_filter" style="display:none;"/>
+          <input class="corr_filter" name="correlation_filter" style="display:none;" value="70"/>
+          <input class="expr_min_scale" name="expression_min_scale" style="display:none;"/>
+          <input class="expr_max_scale" name="expression_max_scale" style="display:none;"/>
+          <input class="organism_filter" name="organism_filter" style="display:none;"/>
+          <input class="organ_filter" name="organ_filter" style="display:none;"/>
+          <input class="stage_filter" name="stage_filter" style="display:none;"/>
+          <input class="tissue_filter" name="tissue_filter" style="display:none;"/>
+          <input class="condition_filter" name="condition_filter" style="display:none;"/>
         </form>
       </div>
       
       <div class="col-sm-4 col-md-4 col-lg-4">
         By BLAST Search <button type="button" class="info_icon" data-toggle="modal" data-target="#blast_help">i</button>
-				<input id="blast_input_box" class="form-control col-xs-2" value="Click here" style="color: #ccc;"/>
+        <input id="blast_input_box" class="form-control col-xs-2" value="Click here" style="color: #ccc;"/>
       </div>
       
       <div class="col-sm-4 col-md-4 col-lg-4">
         By Custom List <button type="button" class="info_icon" data-toggle="modal" data-target="#custom_list_help">i</button>
-				<input id="custom_input_box" class="form-control col-xs-2" value="Click here"  style="color: #ccc;"/>
+        <input id="custom_input_box" class="form-control col-xs-2" value="Click here"  style="color: #ccc;"/>
       </div>
       
     </div>
       
-	</div>
+  </div>

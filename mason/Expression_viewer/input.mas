@@ -1,5 +1,6 @@
 <%args>
 $project_html => ()
+$delete_enabled => ()
 $input_gene => ()
 </%args>
 
@@ -18,7 +19,7 @@ $input_gene => ()
 	<& input_options.mas, input_gene => $input_gene &>
 </center>
 
-	<& input_filters.mas, project_html => $project_html &>
+	<& input_filters.mas, project_html => $project_html, delete_enabled => $delete_enabled &>
 <br/>
 
 <center>

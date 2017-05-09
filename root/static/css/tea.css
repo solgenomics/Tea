@@ -395,11 +395,6 @@ body .ui-tooltip {
 	height: 300px;
 }
 
-#correlation_slider {
-/*  width: 300px;*/
-	height: 8px;
-}
-
 .grayed_out {
 	color: #ccc;
 }

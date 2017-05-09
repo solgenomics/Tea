@@ -28,7 +28,7 @@ $delete_enabled => ()
         </center>
       </div>
       
-      <div id="expr_params" class="panel panel-primary" style="overflow: scroll; min-height: 140px">
+      <div id="expr_params" class="panel panel-primary" style="overflow: scroll; min-height: 145px">
         
         <div class="panel-body">
           <form role="form" id="organism_col">
@@ -41,13 +41,13 @@ $delete_enabled => ()
       
     <div class="col-sm-6 col-md-6 col-lg-6">
        <div id="expr_params" class="panel" style="margin-top: 25px;">
-          <div class="panel-body">
+          <div class="panel-body" style="padding-bottom: 25px;">
+            
             Correlation filter: 0.<input type="text" id="amount" readonly style="border:0;font-size:18px;background-color: #fff;" size="4">
             <br>
             <div id="correlation_slider"></div>
             <br>
-            Expression color scale: <input type="text" id="min_expr_amount" class="slider_box" size="6"> - <input type="text" id="max_expr_amount" class="slider_box" size="6">
-            <br>
+            Expression color scale: <input type="text" id="min_expr_amount" class="slider_box" size="6"> - <input type="text" id="max_expr_amount" class="slider_box" size="6"> 
             <div id="expr_slider"></div>
           </div>
       </div>

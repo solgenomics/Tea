@@ -158,7 +158,7 @@ $(document).ready(function () {
     <form id="search_gene" class="form-inline" role="form" method="post" action="/expression_viewer/output" name="tea_form" enctype="multipart/form-data">
 
       <input id="custom_gene_list" name="custom_gene_list" style="display:none;" value=<% $json->encode(\@custom_gene_list) %> >
-      <input id="input_type" name="input_type" style="display:none;" value=<% $input_type %> >
+      <input id="input_type" name="input_type" style="display:none;" value="gene_id" >
       <input id="page_num" name="current_page" style="display:none;" value=<% $current_page %> >
       <input id="total_pages" name="all_pages" style="display:none;" value=<% $pages_num %> >
       <input id="correlation_filter" name="correlation_filter" style="display:none;" value=<% $correlation_filter %> >

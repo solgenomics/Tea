@@ -327,6 +327,52 @@
               closed: true
             });
             
+            //show values on mouseover
+            right_tile.on('mouseover', function() {
+              var right_tile_y = this.getAbsolutePosition().y+ny;
+          
+              right_tile.fill("#529dfb");
+              right_tile.draw();
+          
+              var tile_txt = new Kinetic.Text({
+                x: nx,
+                y: right_tile_y + 7 - sq_size*2,
+                text: stage_name+" - "+tissue_name+": "+expr_val,
+                fontSize: 16,
+                align: 'right',
+                fontFamily: 'Helvetica',
+                fill: "black"
+              });
+          
+              tile_txt.x(nx-tile_txt.width()+25);
+          
+              var tile_popup = new Kinetic.Rect({
+                x: tile_txt.x()-5,
+                y: right_tile_y - sq_size*2,
+                fill: '#fff',
+                opacity: 0.9,
+                width: tile_txt.width()+10,
+                height: 30,
+                cornerRadius: 5,
+                stroke: 'rgb(100,100,100)',
+                strokeWidth: 1,
+              });
+
+              tile_popup_layer.add(tile_popup);
+              tile_popup_layer.moveToTop();
+              tile_popup_layer.add(tile_txt);
+              tile_popup_layer.draw();
+            }); //close mouseover
+
+            //on mouseout remove popups
+            right_tile.on('mouseout', function() {
+              right_tile.fill(sqr_color);
+              right_tile.draw();
+          
+              tile_popup_layer.removeChildren();
+              tile_popup_layer.draw();
+            });
+            
             slice_group.add(right_tile);
           };
         }; // close draw right tile
@@ -344,6 +390,52 @@
               fill: sqr_color,
               stroke: 'rgb(50,50,50)',
               strokeWidth: 1,
+            });
+            
+            //show values on mouseover
+            front_tile.on('mouseover', function() {
+              var front_tile_y = this.getAbsolutePosition().y;
+          
+              front_tile.fill("#529dfb");
+              front_tile.draw();
+          
+              var tile_txt = new Kinetic.Text({
+                x: nx,
+                y: front_tile_y + 7 - sq_size*2,
+                text: stage_name+" - "+tissue_name+": "+expr_val,
+                fontSize: 16,
+                align: 'right',
+                fontFamily: 'Helvetica',
+                fill: "black"
+              });
+          
+              tile_txt.x(nx-tile_txt.width()+15);
+          
+              var tile_popup = new Kinetic.Rect({
+                x: tile_txt.x()-5,
+                y: front_tile_y - sq_size*2,
+                fill: '#fff',
+                opacity: 0.9,
+                width: tile_txt.width()+10,
+                height: 30,
+                cornerRadius: 5,
+                stroke: 'rgb(100,100,100)',
+                strokeWidth: 1,
+              });
+
+              tile_popup_layer.add(tile_popup);
+              tile_popup_layer.moveToTop();
+              tile_popup_layer.add(tile_txt);
+              tile_popup_layer.draw();
+            }); //close mouseover
+
+            //on mouseout remove popups
+            front_tile.on('mouseout', function() {
+              front_tile.fill(sqr_color);
+              front_tile.draw();
+          
+              tile_popup_layer.removeChildren();
+              tile_popup_layer.draw();
             });
             
             slice_group.add(front_tile);

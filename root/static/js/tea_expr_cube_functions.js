@@ -645,7 +645,7 @@
     var top_val = max_expr * 1;
     var bottom_val = min_expr * 1;
     
-    var section_length = Math.round((top_val-bottom_val)/4);
+    var section_length = Math.round((top_val-bottom_val)/5);
     
     var legend_text = "300";
     
@@ -687,7 +687,7 @@
       legend_text = "300";
     }
     else {
-      legend_text = Math.round(bottom_val+section_length*3);
+      legend_text = Math.round(bottom_val+section_length*4);
     }
     
     var mid1_text = new Kinetic.Text({
@@ -701,7 +701,7 @@
       legend_text = "100";
     }
     else {
-      legend_text = Math.round(bottom_val+section_length*2);
+      legend_text = Math.round(bottom_val+section_length*3);
     }
     
     var mid2_text = new Kinetic.Text({
@@ -715,7 +715,7 @@
       legend_text = "10";
     }
     else {
-      legend_text = Math.round(bottom_val+section_length);
+      legend_text = Math.round(bottom_val+section_length*2);
     }
     
     var mid3_text = new Kinetic.Text({
@@ -729,11 +729,11 @@
       legend_text = "1";
     }
     else {
-      if (bottom_val == 0) {
-        legend_text = Math.round(bottom_val+section_length/2);
-      } else {
-        legend_text = bottom_val;
-      }
+      // if (bottom_val == 0) {
+        legend_text = Math.round(bottom_val+section_length);
+      // } else {
+        // legend_text = bottom_val;
+      // }
     }
     
     var min2_text = new Kinetic.Text({
@@ -743,10 +743,21 @@
       fill: "black"
     });
     
+    if (min_expr == "default" || max_expr == "default") {
+      legend_text = "0";
+    }
+    else {
+      // if (bottom_val == 0) {
+        // legend_text = Math.round(bottom_val+section_length/2);
+      // } else {
+        legend_text = bottom_val;
+      // }
+    }
+    
     var min_text = new Kinetic.Text({
       x: x_pos+35,
       y: y_pos+415,
-      text: "0",
+      text: legend_text,
       fill: "black"
     });
     

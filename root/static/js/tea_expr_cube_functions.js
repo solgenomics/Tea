@@ -154,49 +154,49 @@
     moving_slice_group.add(ranking_text);
     
     
-    //download button
-    var download_group = new Kinetic.Group();
-    
-    var download_button = new Kinetic.Rect({
-      x: x_margin - 120,
-      y: page_y + 70,
-      width: 230,
-      height: 25,
-      strokeWidth: 0,
-      cornerRadius : 5,
-      fill:'#777',
-    });
-    download_group.add(download_button);
-    
-    //button text
-    var download_text = new Kinetic.Text({
-      x: x_margin - 112,
-      y: page_y + 74,
-      text: "Download expression data",
-      fontSize: '18',
-      fill: "#fff",
-      fontFamily: 'Helvetica',
-    });
-    download_group.add(download_text);
-    
-    download_group.on('mouseover', function() {
-      download_text.fill("#555");
-      download_button.fill("#bbb");
-      download_group.draw();
-      document.body.style.cursor = 'pointer';
-    });
-    download_group.on('mouseout', function() {
-      download_text.fill("#fff");
-      download_button.fill("#777");
-      download_group.draw();
-      document.body.style.cursor = 'default';
-    });
-    
-    download_group.on('mousedown', function() {
-      document.getElementById("download_data").submit();
-    });
-    
-    moving_slice_group.add(download_group);
+    // //download button
+    // var download_group = new Kinetic.Group();
+    //
+    // var download_button = new Kinetic.Rect({
+    //   x: x_margin - 120,
+    //   y: page_y + 70,
+    //   width: 230,
+    //   height: 25,
+    //   strokeWidth: 0,
+    //   cornerRadius : 5,
+    //   fill:'#777',
+    // });
+    // download_group.add(download_button);
+    //
+    // //button text
+    // var download_text = new Kinetic.Text({
+    //   x: x_margin - 112,
+    //   y: page_y + 74,
+    //   text: "Download expression data",
+    //   fontSize: '18',
+    //   fill: "#fff",
+    //   fontFamily: 'Helvetica',
+    // });
+    // download_group.add(download_text);
+    //
+    // download_group.on('mouseover', function() {
+    //   download_text.fill("#555");
+    //   download_button.fill("#bbb");
+    //   download_group.draw();
+    //   document.body.style.cursor = 'pointer';
+    // });
+    // download_group.on('mouseout', function() {
+    //   download_text.fill("#fff");
+    //   download_button.fill("#777");
+    //   download_group.draw();
+    //   document.body.style.cursor = 'default';
+    // });
+    //
+    // download_group.on('mousedown', function() {
+    //   document.getElementById("download_data").submit();
+    // });
+    //
+    // moving_slice_group.add(download_group);
     
   }
 

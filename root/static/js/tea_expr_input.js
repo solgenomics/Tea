@@ -218,9 +218,6 @@ $(document).ready(function () {
 					if (blast_alignment) {
 						$('#blast_aln_p').html(response.blast_alignment);
 						$('#blast_aln_div').css('display','inline');
-						$('#blast_res_div').css('height','300px');
-					} else {
-						$('#blast_res_div').css('height','600px');
 					}
 				}
 			},

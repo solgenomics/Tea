@@ -835,7 +835,7 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
   
 	#check number of input genes
   if ($input_type eq "gene_id") {
-    $query_gene = shift @query_gene;
+    # $query_gene = shift @query_gene;
     # print STDERR "query_gene: $query_gene\n";
     
 		$multiple_genes = 0;

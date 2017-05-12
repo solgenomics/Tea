@@ -184,6 +184,13 @@ $(document).ready(function () {
     e.preventDefault();
   });
   
+  
+  // to download the expression data
+  $("#dwl_expr_data").click(function(){
+    $("#download_data").submit();
+  });
+  
+  
 });
 
 

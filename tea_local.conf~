@@ -2,9 +2,14 @@ name Tea
 
 dbhost localhost
 dbname my_db
+# not useful: dbname my_db2
+#dbname my_db3
 dbuser postgres
 dbpass d088Y!&
 
+#expression_indexes_path /media/sf_Shared_Folder/slm82/expression_indexes/
+#correlation_indexes_path /media/sf_Shared_Folder/slm82/correlation_indexes/
+#loci_and_description_index_path /media/sf_Shared_Folder/slm82/correlation_indexes/
 expression_indexes_path /home/vagrant/Documents/indexed_files/expression_indexes/
 correlation_indexes_path /home/vagrant/Documents/indexed_files/correlation_indexes/
 loci_and_description_index_path /home/vagrant/Documents/indexed_files/description_index/
@@ -14,3 +19,4 @@ prot_blastdb_path tomato_v2.40_prots.fasta
 tmp_path
 
 default_gene Pp3c10_13370V3.1
+#default_gene Solyc01g102660

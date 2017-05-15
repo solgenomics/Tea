@@ -1,21 +1,30 @@
 $(document).ready(function () {
 
     $("#scatterplots_tab").click(function(){
-    document.getElementById("NewPlot").style.display="block";
-    document.getElementById("selector").style.display="block";
+    document.getElementById("NewPlot").style.display="none";
+    document.getElementById("GetPlot").style.display="block";
+	document.getElementById("selector").style.display="block";
 	document.getElementById("ExpCorrChart").style.display="none";
 	document.getElementById("new_plot_btn").style.display="none";
 	document.getElementById("new_plot_btn").style.position="relative";
 	document.getElementById("new_plot_btn").style.margin="-20 px";
 	document.getElementById("new_plot_btn").style.top="50%";
+	document.getElementById("get_scatterplot_btn").style.margin="-20 px";
+	document.getElementById("get_scatterplot_btn").style.top="50%";
+	document.getElementById("get_scatterplot_btn").style.display="block";    
+	document.getElementById("get_scatterplot_btn").style.position="relative";
 	document.getElementById("NewPlot").style.height="50px";
 	document.getElementById("NewPlot").style.width="550px";
 //	document.getElementById("NewPlot").style.visibility="hidden";
 	document.getElementById("NewPlot").style.styleFloat="left";
+	document.getElementById("GetPlot").style.height="50px";
+	document.getElementById("GetPlot").style.width="550px";
+	document.getElementById("GetPlot").style.styleFloat="left";
+	
 	document.getElementById("selector").style.height="550px";
     document.getElementById("selector").style.width="850px";
     document.getElementById("selector").style.styleFloat = 'left';
-
+	
 
     document.getElementById("ExpCorrChart").style.height="550px";    
     document.getElementById("ExpCorrChart").style.width="550px";    
@@ -24,7 +33,7 @@ $(document).ready(function () {
     
     var selectioncounter = 0
     var selectorArraySwitch = []
-    var samples_chosen = []
+	var samples_chosen = [];
     var temp_id = []
     var temp_col
     var stored_color = []
@@ -196,7 +205,8 @@ $(document).ready(function () {
 		  		height: 600
 			});
 			var layer = new Kinetic.Layer();
-      var get_plot_group = new Kinetic.Group();
+
+/*	var get_plot_group = new Kinetic.Group();
 	  var get_plot = new Kinetic.Rect({
 	      x: 0,
 	      y: 80,
@@ -217,14 +227,21 @@ $(document).ready(function () {
 
 	  });
       get_plot_group.add(get_plot_text);
-      layer.add(get_plot_group);
+      layer.add(get_plot_group);*/
 
     var selectorArray = [];
     var selectorCounter = 0;
     var stage_text = [];
     var tissue_text = [];
-    var expr_val = 0;
-			
+	var expr_val = 0;
+	var max_tissue_length = 0;
+	for (var y=1; y<=tissues.length; y++) {
+	    if (tissues[y-1].length >= max_tissue_length) {
+		max_tissue_length = tissues[y-1].length
+	    }else{
+	    }
+	}
+//	alert(max_tissue_length);
 			
 			for (var x=1; x<=stages.length; x++) {
 				stage_text[x] = new Kinetic.Text({
@@ -244,11 +261,12 @@ $(document).ready(function () {
 					add_squares(x,y,selectorCounter);
 					if (x==1) {
 						tissue_text[y] = new Kinetic.Text({
-							x: 30,
+						    x: 1,
 							y: y*20+150+4,
 							// text: tissue_name,
 						    text: tissues[y-1],
-						    align: 'left',
+						   // width: 150,
+						    align: 'right',
 							fontSize: 16, //20 for CondensedLight
 							fontFamily: 'Helvetica',
 							// fontFamily: 'CondensedLight',
@@ -264,16 +282,20 @@ $(document).ready(function () {
 
 
 
-
-    get_plot_group.on('mousedown', function getscatterplot() {
+	$("#get_scatterplot_btn").click(function(){
+ //   get_plot_group.on('mousedown', function getscatterplot() {
 
 
  	if (samples_chosen.length == 2) {
 	    	document.getElementById("ExpCorrChart").innerHTML = "";
 //	    document.getElementbyId("NewPlot").style.visibility="visible";
+	    document.getElementById("NewPlot").style.display="block";
+	    document.getElementById("GetPlot").style.display="none";
 	    document.getElementById("ExpCorrChart").style.display="block";
 	    document.getElementById("selector").style.display="none";
 	    document.getElementById("new_plot_btn").style.display="block";
+	    document.getElementById("get_scatterplot_btn").style.display="none";
+
 	    makeplot(samples_chosen);
 	    samples_chosen = [];
 
@@ -490,14 +512,14 @@ $(document).ready(function () {
 
     
 			function handleClick() {       			
-//        		    alert(this.y());
-			    //			    alert(this.x());
 			    var temp_idx = this.id();
 			    var temp_idy = temp_id[0];
 			    var temp_idz = temp_id[1];
-			    
+//			    alert(samples_chosen.);
 			    if ((temp_idx != temp_idy) && (temp_idx != temp_idz)) {
-			    if (samples_chosen.length < 2) {
+//			    if ((stored_color[temp_idx]) != 'rgb(210,210,210)') { 
+
+				if (samples_chosen.length < 2) {
 				//				for x in temp_id
 				
 
@@ -524,6 +546,8 @@ $(document).ready(function () {
 			    }
          		    }else{
 			    }
+//			    }else{
+//			    }
 			}
          	
 			var temp_array_length = selectorArray.length - 1;
@@ -545,7 +569,10 @@ $(document).ready(function () {
 	$("#new_plot_btn").click(function(){
     document.getElementById("selector").style.display="block";
 	    document.getElementById("ExpCorrChart").style.display="none";
+	    document.getElementById("NewPlot").style.display="none";
 	    document.getElementById("new_plot_btn").style.display="none";
+	    document.getElementById("GetPlot").style.display="block";
+	    document.getElementById("get_scatterplot_btn").style.display="block";
 
 	});
 

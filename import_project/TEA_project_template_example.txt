@@ -1,122 +1,213 @@
 # Please use one line per field and one file per project. Do not edit or remove any line starting with #
 
 #organism
-organism_species: Solanum lycopersicum
-organism_variety: M82
-organism_description: this organism is a plant, commonly known as tomato
+organism_species: Genus species
+organism_variety: 
+organism_description:
 # organism - end
 
 
 #project
-project_name: S. Lycopersicum M82 Fruit Development
-project_contact: Jocelyn Rose
-project_description: tomato expression data for fruit development.
-index_dir_name: tomato_index
+project_name: RNA-Seq project
+project_contact: 
+project_description: 
+expr_unit: FPKM
+index_dir_name: example1
 # project - end
 
 
-# experiment --- All info needed for a cluster of images (usually includes a stage and all its tissues). Copy this block as many times as you need (including as many layer blocks as you need).
-experiment_name: Fruit 5DPA
-experiment_description: 
-# write experiment metadata
+# figure --- All info needed for a cluster of images (usually includes a stage and all its tissues). Copy this block as many times as you need (including as many tissue layer blocks as you need).
+figure_name: figure 3
+conditions: condition 1, condition 2
+# write figure metadata
 
-#layer: define all stages, tissues, organs and conditions from your project. Do not include underscores (_) on layer_name field
-layer_name: Fruit
-layer_description: Tomato fruit
-layer_type: organ
-layer_image: slm82_fruit.png
+#stage layer
+layer_name: stage_3
+layer_description: 
+layer_type: stage
+bg_color: #bbffff
+layer_image:
 image_width: 250
-image_height: 500
-cube_ordinal: 10
-img_ordinal: 10
+image_height: 300
+cube_ordinal: 300
+img_ordinal: 300
+organ: organ_1
 # layer - end
 
-#layer
-layer_name: 5DPA
-layer_description: Five days post anthesis
-layer_type:stage
-layer_image: slm82_fruit_5dpa-equatorial_bg.png
+#tissue layer
+layer_name: tissue_1
+layer_description: 
+layer_type: tissue
+bg_color: #e9f2ea
+layer_image: tissue1.png
 image_width: 250
-image_height: 500
+image_height: 300
+cube_ordinal: 1000
+img_ordinal: 1000
+organ: organ_1
+# layer - end
+
+#tissue layer
+layer_name: tissue_2
+layer_description: 
+layer_type: tissue
+bg_color:
+layer_image: tissue2.png
+image_width: 250
+image_height: 300
+cube_ordinal: 1010
+img_ordinal: 1010
+organ: organ_1
+# layer - end
+
+#tissue layer
+layer_name: tissue_3
+layer_description: 
+layer_type: tissue
+bg_color: #e9f2ea
+layer_image: tissue3.png
+image_width: 250
+image_height: 300
+cube_ordinal: 1020
+img_ordinal: 1020
+organ: organ_1
+# layer - end
+
+#tissue layer
+layer_name: tissue_4
+layer_description: 
+layer_type: tissue
+bg_color: #e9d9ff
+layer_image: tissue4.png
+image_width: 250
+image_height: 300
+cube_ordinal: 1030
+img_ordinal: 1030
+organ: organ_1
+# layer - end
+
+# figure - end
+
+
+# figure --- All info needed for a cluster of images (usually includes a stage and all its tissues). Copy this block as many times as you need (including as many tissue layer blocks as you need).
+figure_name: figure 2
+conditions: condition 2
+# write figure metadata
+
+#stage layer
+layer_name: stage_2
+layer_description: 
+layer_type: stage
+bg_color:
+layer_image:
+image_width: 250
+image_height: 300
+cube_ordinal: 200
+img_ordinal: 200
+organ: organ_2
+# layer - end
+
+#tissue layer
+layer_name: tissue_1
+layer_description: 
+layer_type: tissue
+bg_color: #e9f2ea
+layer_image: tissue1.png
+image_width: 250
+image_height: 300
+cube_ordinal: 1000
+img_ordinal: 1000
+organ: organ_2
+# layer - end
+
+#tissue layer
+layer_name: tissue_2
+layer_description: 
+layer_type: tissue
+bg_color:
+layer_image: tissue2.png
+image_width: 250
+image_height: 300
+cube_ordinal: 1010
+img_ordinal: 1010
+organ: organ_2
+# layer - end
+
+#tissue layer
+layer_name: tissue_3
+layer_description: 
+layer_type: tissue
+bg_color: #e9f2ea
+layer_image: tissue3.png
+image_width: 250
+image_height: 300
+cube_ordinal: 1020
+img_ordinal: 1020
+organ: organ_2
+# layer - end
+
+# figure - end
+
+
+# figure --- All info needed for a cluster of images (usually includes a stage and all its tissues). Copy this block as many times as you need (including as many tissue layer blocks as you need).
+figure_name: figure 1
+conditions: condition 1, condition 3
+# write figure metadata
+
+#stage layer
+layer_name: stage_1
+layer_description: 
+layer_type: stage
+bg_color: #ffffbb
+layer_image: stage1_bg.png
+image_width: 250
+image_height: 300
 cube_ordinal: 100
 img_ordinal: 100
+organ: organ_1
 # layer - end
 
-#layer
-layer_name: Pericarp
+#tissue layer
+layer_name: tissue_1
 layer_description: 
-layer_type:tissue
-layer_image: slm82_fruit_5dpa-equatorial_pericarp.png
+layer_type: tissue
+bg_color: #e9f2ea
+layer_image: tissue1.png
 image_width: 250
-image_height: 500
+image_height: 300
 cube_ordinal: 1000
 img_ordinal: 1000
+organ: organ_1
 # layer - end
 
-#layer
-layer_name: Septum
-layer_description:
-layer_type:tissue
-layer_image: slm82_fruit_5dpa-equatorial_septum.png
-image_width: 250
-image_height: 500
-cube_ordinal: 1010
-img_ordinal: 1010
-# layer - end
-
-# experiment - end
-
-
-# experiment --- All info needed for a cluster of images (usually includes a stage and all its tissues). Copy this block as many times as you need.
-experiment_name: Fruit Breaker Stem
-experiment_description: 
-# write experiment metadata
-
-#layer: define all stages, tissues, organs and conditions from your project
-layer_name: Fruit
-layer_description: Tomato fruit
-layer_type: organ
-layer_image: slm82_fruit.png
-image_width: 250
-image_height: 500
-cube_ordinal: 10
-img_ordinal: 10
-# layer - end
-
-#layer
-layer_name: Breaker stem
-layer_description:
-layer_type:stage
-layer_image: slm82_fruit_breaker-stem_bg.png
-image_width: 250
-image_height: 500
-cube_ordinal: 110
-img_ordinal: 110
-# layer - end
-
-#layer
-layer_name: Pericarp
+#tissue layer
+layer_name: tissue_2
 layer_description: 
-layer_type:tissue
-layer_image: slm82_fruit_breaker-stem_pericarp.png
+layer_type: tissue
+bg_color:
+layer_image: tissue2.png
 image_width: 250
-image_height: 500
-cube_ordinal: 1000
-img_ordinal: 1000
-# layer - end
-
-#layer
-layer_name: Septum
-layer_description:
-layer_type:tissue
-layer_image: slm82_fruit_breaker-stem_septum.png
-image_width: 250
-image_height: 500
+image_height: 300
 cube_ordinal: 1010
 img_ordinal: 1010
+organ: organ_1
 # layer - end
 
+#tissue layer
+layer_name: tissue_3
+layer_description: 
+layer_type: tissue
+bg_color: #e9f2ea
+layer_image: tissue3.png
+image_width: 250
+image_height: 300
+cube_ordinal: 1020
+img_ordinal: 1020
+organ: organ_1
+# layer - end
 
-# experiment - end
+# figure - end
+
+
 
 

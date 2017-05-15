@@ -1,6 +1,9 @@
 <%args>
 $project_html => ()
+$delete_enabled => ()
 </%args>
+
+
 
 <center>
   <h3>Define Expression Parameters <button type="button" class="info_icon" data-toggle="modal" data-target="#parameters_help">i</button></h3>
@@ -11,8 +14,21 @@ $project_html => ()
   <div class="row">
     
     <div class="col-sm-6 col-md-6 col-lg-6">
-      <div style="text-align: center; width=100%">Projects <a href="/anatomy_viewer/microscopy" target="blank" style="float:right">more info</a></div>
-      <div id="expr_params" class="panel panel-primary" style="overflow: scroll;">
+      <div style="width: 100%">
+        
+        <%perl>
+          if ($delete_enabled) {
+            print "<a href=\"/expression_viewer/manage_project\" target=\"blank\" class=\"pull-left\">Manage projects</a>"
+          }
+        </%perl>
+        
+        <a href="/anatomy_viewer/microscopy" target="blank" class="pull-right">more info</a>
+        <center>
+          Projects
+        </center>
+      </div>
+      
+      <div id="expr_params" class="panel panel-primary" style="overflow: scroll; min-height: 145px">
         
         <div class="panel-body">
           <form role="form" id="organism_col">
@@ -20,15 +36,19 @@ $project_html => ()
           </form>
         </div>
       </div>
+      
     </div>
       
     <div class="col-sm-6 col-md-6 col-lg-6">
        <div id="expr_params" class="panel" style="margin-top: 25px;">
-          <div class="panel-body">
+          <div class="panel-body" style="padding-bottom: 25px;">
+            
             Correlation filter: 0.<input type="text" id="amount" readonly style="border:0;font-size:18px;background-color: #fff;" size="4">
             <br>
-            <br>
             <div id="correlation_slider"></div>
+            <br>
+            Expression color scale: <input type="text" id="min_expr_amount" class="slider_box" size="6"> - <input type="text" id="max_expr_amount" class="slider_box" size="6"> 
+            <div id="expr_slider"></div>
           </div>
       </div>
       
@@ -40,7 +60,7 @@ $project_html => ()
   <div class="row">
     
     <div class="col-sm-3 col-md-3 col-lg-3">
-      <div style="text-align: center; width=100%">Developmental Stages</div>
+      <div style="text-align: center; width:100%">Developmental Stages</div>
 
       <select multiple id="stage_col" class="form-control wizard_select" size="10"></select>
       <button class="select_all btn btn-default">Select All</button>
@@ -75,7 +95,7 @@ $project_html => ()
   
 </div>
 
-
+<!-- <script type="text/javascript" src="/static/js/jquery/cookie.js"></script> -->
 <script>
   
   // function to control the correlation slider
@@ -93,7 +113,84 @@ $project_html => ()
     $( "#amount" ).val( $( "#correlation_slider" ).slider( "value" ) );
     $( ".corr_filter" ).val( $( "#correlation_slider" ).slider( "value" ) );
   });
-
+  
+  // function to control the expr slider
+  $(function() {
+    $( "#expr_slider" ).slider({
+      range: true,
+      min: 0,
+      max: 1000,
+      values: [0,500],
+      slide: function( event, ui ) {
+        $( ".expr_min_scale" ).val( ui.values[0] );
+        $( ".expr_max_scale" ).val( ui.values[1] );
+        $( "#min_expr_amount" ).val( ui.values[0] );
+        $( "#max_expr_amount" ).val( ui.values[1] );
+      }
+    });
+    $( "#min_expr_amount" ).val( $( "#expr_slider" ).slider( "values", 0 ) );
+    $( "#max_expr_amount" ).val( $( "#expr_slider" ).slider( "values", 1 ) );
+  });
+  
+  $(document).ready(function () {
+    $( "#min_expr_amount" ).mouseleave(function() {
+      var min_val = $( "#min_expr_amount" ).val();
+      var max_val = $( "#max_expr_amount" ).val();
+      
+      $( "#expr_slider" ).slider( "option","values", [min_val,max_val] );
+      $( ".expr_min_scale" ).val( min_val );
+      $( ".expr_max_scale" ).val( max_val );
+      
+    });
+    $( "#max_expr_amount" ).mouseleave(function() {
+      var min_val = $( "#min_expr_amount" ).val();
+      var max_val = $( "#max_expr_amount" ).val();
+      
+      $( "#expr_slider" ).slider( "option","values", [min_val,max_val] );
+      $( ".expr_min_scale" ).val( min_val );
+      $( ".expr_max_scale" ).val( max_val );
+    });
+  });
+  
+  
+  // $(document).ready(function() {
+  //
+  //     var cookie = $.cookie('sgn_session_id');
+  //
+  //     alert("my cookie: "+cookie);
+  //
+  //     $.ajax({
+  //       dataType: "json",
+  //       url: "https://sgn:eggplant@cassbase.org/authenticate/check/token",
+  //       data: ({cookie:cookie}),
+  //       success: function(data) {
+  //
+  //         alert("cookie: "+data.result);
+  //
+  //       }
+  //     });
+  //
+  // });
+  
 </script>
 
-
+<style>
+  .slider_box{
+    border: 1px solid #dddddd;
+    background: #efefef;
+    font-size:18px;
+    border-radius: 2px;
+    height: 20px;
+  }
+  .ui-widget-header {
+      border: 1px solid #dddddd;
+      background: #e9e9e9;
+  }
+  .ui-slider-horizontal .ui-slider-handle {
+       margin-left: -.3em;
+  }
+  .ui-slider .ui-slider-handle {
+      width: 0.5em;
+      height: 1.5em;
+  }
+</style>

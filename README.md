@@ -10,16 +10,16 @@ Tomato Expression Atlas Installation Manual (In progress)
 
 It has several components:
 
-1. Catalyst and Perl dependencies
+1. Catalyst, Perl and R dependencies
 2. Code, in github https://github.com/solgenomics/Tea
 3. Configuration file
 4. Database
 5. Lucy indexes
 
+--------------------------------------------
 
-
-1. Install Catalyst and Perl dependencies
------------------------------------------
+1. Install Catalyst, Perl and R dependencies
+--------------------------------------------
 
 This web tool was developed using the Perl framework Catalyst (​<http://www.catalystframework.org>), so to run the application is necessary to install Perl, Catalyst and its dependencies.
 
@@ -37,7 +37,8 @@ Also, if you are installing it in a new machine you maybe need to install cpanmi
     cpanm -L ~/local-lib/ Catalyst::Devel
     cpanm -L ~/local-lib/ Catalyst::Runtime
     cpanm -L ~/local-lib/ Mason
-		
+    cpanm -L ~/local-lib/ Statistics::R
+
 If you are having trouble installing cpanm, there may be an issue with your system's dependencies. 
 Visit (​<https://library.linode.com/linux-tools/utilities/cpanm>) for help with installing dependencies.
 
@@ -47,7 +48,9 @@ In case local-lib is not in the path you have to add the following line in the .
 
 Do not forget to source .bashrc to be sure this changes make effect.
 
+R v3 must be installed for the interactive heatmap. Libraries d3heatmap and htmlwidgets should be also installed.
 
+--------------------------------------------
 
 2. Clone Github repository
 --------------------------
@@ -72,6 +75,8 @@ Go to the folder Tea, created when cloned the repository and run the server to c
 
 If you got an error, you will probably will need to go back to step one and install some dependencies.
 
+
+--------------------------------------------
 
 3. Configuration file
 ---------------------
@@ -98,6 +103,8 @@ You will need to edit this file to customize all the paths, so they work on your
 Add the expression images to the folder `Tea/root/static/images/expr_viewer/`
 
 You can customize the value of any of these variables.
+
+--------------------------------------------
 
 4. Create database
 ------------------
@@ -132,8 +139,7 @@ Use `TEA_project_template.txt` and `TEA_project_template_example.txt` from `impo
     
     # figure --- All info needed for a cluster of images (usually includes a stage and all its tissues). Copy this block as many times as you need (including as many tissue layer blocks as you need).
     figure_name: 10DPA Total Pericarp
-    cube_stage_name: 10DPA
-    conditions: 
+    conditions: condition 1, condition 2
     # write figure metadata
     
     #stage layer
@@ -150,7 +156,7 @@ Use `TEA_project_template.txt` and `TEA_project_template_example.txt` from `impo
     # layer - end
     
     #tissue layer
-    layer_name: Total Pericarp
+    layer_name: Total_Pericarp
     layer_description: 
     layer_type: tissue
     bg_color:
@@ -165,7 +171,7 @@ Use `TEA_project_template.txt` and `TEA_project_template_example.txt` from `impo
     # figure - end
 
 
-The `cube_stage_name` will be displayed on the top of the cube. It is recommended to use the stage name followed by the conditions for that stage. For example: `10DPA drought`.
+The `figure_name` will be displayed on the top of the expression figures. It is recommended to use the stage name followed by the conditions for that stage. For example: `10DPA drought`.
 
 The `bg_color` defines the background color for the stages and tissues labels on the cube.
 
@@ -177,13 +183,15 @@ The `img_ordinal` from the stage layer defines the order of the figure for the E
 
 The `cube_ordinal` from the tissue layer defines the order of the tissue rows on the cube (from top to bottom).
 
-The tissue names on the cube are defined by the field `layer_name` on the tissue layer block.
-
+The stage and tissue names on the cube are defined by the field `layer_name` on the tissue layer block. WHITE SPACES ARE NOT ALLOWED IN THIS FIELD. Please, replace them by underscores (_).
+Try to avoid special characters like commas on `layer_name`, `organ` and `conditions`.
 
 Run the script to import your project:
 
 `perl TEA_import_project_metadata.pl -d my_db -H localhost -u postgres -t your_project_input_template.txt`
 
+
+--------------------------------------------
 
 5. Lucy indexes:
 ----------------
@@ -191,7 +199,7 @@ Run the script to import your project:
 Three Lucy indexes are needed. One for expression, another for correlation and the last one for sgn_loci_id and the gene descriptions.
 To format the expression and correlation data you will need to run the scripts `index_expression_file.pl` and `index_correlation_file.pl` respectively.
 
-The input format for the expression should be gene name, `cube_stage_name` (like in the TEA project template), tissue (like the tissue-layer `layer_name` from the TEA project template), the expression value, the standard error and the replicates separated by commas:
+The input format for the expression should be gene name, stage `layer_name` (like the stage-layer in the TEA project template), tissue (like the tissue-layer `layer_name` from the TEA project template).WHITE SPACES ARE NOT ALLOWED IN THESE FIELDS. Then, the expression value, the standard error and the replicates separated by commas:
 
     Solyc00g005040	Anthesis	Columella	1.36	0.27	0.86,1.8,1.41
     Solyc00g005040	Anthesis	Locular_Material	0.09	0.09	0,0,0.28

@@ -1,5 +1,48 @@
 $(document).ready(function () {
+  
+  //check input gene before sending form
+  $('#search_gene').submit(function() {
+    var gene_id = $('#gene_id_input').val();
+    
+    if (gene_id) {
+      return true;
+    } else {
+      $('#no_gene_modal').modal();
+      return false;
+    }
+  });
+  
+  //check input genes from BLAST output before sending form
+  $('#blast_form').submit(function() {
 
+    var check = $( "input[type=checkbox][name=input_gene]:checked" ).val();
+    // alert("genes: "+check);
+
+    if (check) {
+      // alert("genes found");
+
+      return true;
+    } else {
+      // alert("NO genes found");
+
+      $('#no_gene_modal').modal();
+      return false;
+    }
+  });
+  
+  //check input genes from custom list before sending form
+  $('#custom_list_form').submit(function() {
+    var custom_names = $('#custom_list').val();
+
+    if (custom_names) {
+      return true;
+    } else {
+      $('#no_gene_modal').modal();
+      return false;
+    }
+  });
+  
+  
   //open BLAST info dialog
   $('#blast_i2').click(function () {
     $('#blast_help').modal();
@@ -26,6 +69,7 @@ $(document).ready(function () {
   
   //get default project gene names for autocomplete function
   get_project_genes(organism_list);
+  get_max_expr(organism_list);
   
   
   jQuery('.organism_col').click(function() {
@@ -37,6 +81,7 @@ $(document).ready(function () {
     
     load_wizard(organism_list,null,null,null,null);
     get_project_genes(organism_list);
+    // get_max_expr(organism_list);
   });
   
   
@@ -51,6 +96,35 @@ $(document).ready(function () {
     $( '.tissue_filter' ).val( $( '#tissue_col' ).val());
     $( '.condition_filter' ).val( $( '#condition_col' ).val());
   });
+  
+  
+ // get array with the gene names from the project for the autocomplete function
+  function get_max_expr(organism_list){
+    $.ajax({
+      url: '/expression_viewer/get_max_expr/',
+      timeout: 600000,
+      method: 'POST',
+      data: { 'project_id': organism_list[0]},
+      success: function(response) {
+        if (response.error) {
+          alert("ERROR: "+response.error);
+          // enable_ui();
+        } else {
+          max_value = response.project_max_val;
+          $( "#expr_amount" ).val( 1+" - "+max_value );
+          $( "#expr_amount" ).val( $( "#expr_slider" ).slider( "values", 0 )+" - "+$( "#expr_slider" ).slider( "values", 1 ) );
+          $( ".expr_min_scale" ).val( $( "#expr_slider" ).slider( "value", 0 ) );
+          $( ".expr_max_scale" ).val( $( "#expr_slider" ).slider( "value", 1 ) );
+          $( "#expr_slider" ).slider("option","max",max_value);
+        }
+      },
+      error: function(response) {
+        alert("An error occurred. The service may not be available right now.");
+        // enable_ui();
+      }
+    });
+    
+  }
   
   
   function load_wizard(organism_list,organ_list,stage_list,tissue_list,condition_list){
@@ -144,9 +218,6 @@ $(document).ready(function () {
 					if (blast_alignment) {
 						$('#blast_aln_p').html(response.blast_alignment);
 						$('#blast_aln_div').css('display','inline');
-						$('#blast_res_div').css('height','300px');
-					} else {
-						$('#blast_res_div').css('height','600px');
 					}
 				}
 			},

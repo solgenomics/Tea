@@ -194,6 +194,8 @@ sub names_array_to_option {
   foreach my $e (@$layers_arrayref) {
     my $option_id = $e;
     $option_id =~ s/ /_/g;
+    $e =~ s/_/ /g;
+    
     push(@layer_options,"<option id=\"$option_id\" value=\"$option_id\">".$e."</option>");
   }
   
@@ -264,6 +266,7 @@ sub array_to_option {
     
     my $option_id = $name;
     $option_id =~ s/ /_/g;
+    $name =~ s/_/ /g;
     
     push(@res,"<option id=\"$option_id\" value=\"$option_id\">".$name."</option>");
   }
@@ -311,7 +314,9 @@ sub get_image_hash {
       
       my $layer_info_rs = $schema->resultset('LayerInfo')->search({layer_info_id => $one_layer->layer_info_id})->single;
 
-      my $stage_name = $figure_rs->cube_stage_name;
+      # my $stage_name = $figure_rs->cube_stage_name;
+      my $stage_name = $layer_info_rs->name;
+      my $stage_top_label = $figure_rs->figure_name;
       $stage_name =~ s/ /_/g;
       
       $stage_ordinal_id{$one_layer->layer_id} = $one_layer->img_ordinal;
@@ -319,6 +324,7 @@ sub get_image_hash {
       $stage_hash{$one_layer->layer_id}{"image_name"} = $one_layer->image_file_name;
       $stage_hash{$one_layer->layer_id}{"image_width"} = $one_layer->image_width;
       $stage_hash{$one_layer->layer_id}{"image_height"} = $one_layer->image_height;
+      $stage_hash{$one_layer->layer_id}{"stage_top_label"} = $stage_top_label;
       $stage_hash{$one_layer->layer_id}{"stage_name"} = $stage_name;
       $stage_hash{$one_layer->layer_id}{"bg_color"} = $layer_info_rs->bg_color;
     }

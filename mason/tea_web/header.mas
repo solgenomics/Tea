@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<title>SGN-TEA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<script type="text/javascript" src="/static/js/jquery.js"></script>
     
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
@@ -42,27 +43,18 @@
           
           <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-              <li><a href="/overview">Overview</a></li>
+              <!-- <li><a href="/overview">Overview</a></li> -->
+              <li class="dropdown"><a id="overview_link" class="menu_click_dropdown dropdown-toggle" data-toggle="dropdown">Overview</a>
+              
+                <ul class="dropdown-menu">
+                  <li><a href="/overview">About Us</a></li>
+                  <li><a data-toggle="modal" data-target="#cite_us_modal">Cite Us</a></li>
+                  <li><a href="/help">Help</a></li>
+                </ul>
+              </li>
+              
               <li><a href="/expression_viewer/input">Expression Viewer</a></li>
               <li><a href="/anatomy_viewer">Anatomy Viewer</a></li>
-              <li><a href="/help">Help</a></li>
-              
-              
-              <!-- <li class="dropdown"><a class="menu_click_dropdown dropdown-toggle" data-toggle="dropdown" href="/about/">About</a>
-                <ul class="dropdown-menu">
-
-                  <li><a href="https://solgenomics.net/about" target="_blank">About</a></li>
-                  <li><a href="https://solgenomics.net/contact/form" target="_blank">Contact</a></li>
-                  <li><a href="https://solgenomics.net/help/index.pl" target="_blank">Cite SGN</a></li>
-
-                  <li role="separator" class="divider"></li>
-
-                  <li><a href="http://www.slideshare.net/solgenomics" target="_blank">SlideShare</a></li>
-                  <li><a href="https://twitter.com/solgenomics" target="_blank">Twitter</a></li>
-                  <li><a href="https://www.facebook.com/solgenomics" target="_blank">Facebook</a></li>
-                </ul>
-              </li> -->
-
               
             </ul>
           </div>
@@ -70,18 +62,42 @@
         </div>
       </nav>
       <br>
-	</div>
+  	</div>
 	</body>
 </html>
 
 <style>
 
-.navbar-nav > li > a {
+  .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+    padding-bottom: 10px;
+    cursor: pointer
+  }
+  .dropdown-menu > li > a {
+    line-height: 14px;
     font-size: 14px;
-}
+    margin-top:0px;
+    padding-top:0px;
+    cursor: pointer
+  }
 
-.dropdown-menu > li > a {
-    font-size: 14px;
-}
+  .navbar-default .navbar-nav>li>a {
+    color: #555;
+    cursor: pointer
+  }
+
+  .navbar-default .navbar-nav>li>a:hover {
+    background-color: #e7e7e7;
+  }
 
 </style>
+
+<script>
+
+  jQuery(document).ready(function() {
+    jQuery(".menu_click_dropdown").removeClass("dropdown-toggle");
+    jQuery(".menu_click_dropdown").removeAttr("data-toggle");
+  });
+
+</script>

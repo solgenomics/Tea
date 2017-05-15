@@ -41,12 +41,12 @@ __PACKAGE__->config(
 
 our %urlencode;
 
-=head2 get_stages
+=head2 get_genes
 
-get selected info on input and return parent-children info back to input
+get gene names from the selected project for autocompleting their names on input boxes
 
-ARGS: selected project, organ, stage and tissue
-Returns: organ, stage and tissue HTML options
+ARGS: project_id
+Returns: gene anmes array
 
 =cut
 
@@ -93,6 +93,59 @@ sub get_genes :Path('/expression_viewer/get_genes/') :Args(0) {
   
   $c->stash->{rest} = {
       project_genes => \@genes_array
+  };
+  
+}
+
+=head2 get_max_expr
+
+get gene maximum expression value from the project to allow customization of the scale
+
+ARGS: project_id
+Returns: maximum expression value from the project
+
+=cut
+
+sub get_max_expr :Path('/expression_viewer/get_max_expr/') :Args(0) {
+  my ($self, $c) = @_;
+  
+  # get variables from catalyst object
+  my $project_id = $c->req->param("project_id");
+  my $max_val = $c->config->{max_val} || 10000;
+  
+  #connect to database
+  # my $dbname = $c->config->{dbname};
+  # my $host = $c->config->{dbhost};
+  # my $username = $c->config->{dbuser};
+  # my $password = $c->config->{dbpass};
+  #
+  # my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
+  #
+  # get DBIx project resultset
+  # my $project_rs = $schema->resultset('Project')->search({project_id => $project_id})->single;
+  #
+  # my $expr_path = $c->config->{expression_indexes_path};
+  # $expr_path .= "/".$project_rs->indexed_dir;
+  #
+  # my $searcher = Lucy::Search::IndexSearcher->new(
+  #     index => $expr_path
+  # );
+  #
+  # my $all_genes = $searcher->hits(
+  #     query => Lucy::Search::MatchAllQuery->new,
+  #     # num_wanted => 200000,
+  # );
+  #
+  # while ( my $hit = $all_genes->next ) {
+  #   if ($hit->{expression} * 1 > $max_val) {
+  #     $max_val = sprintf("%.0f", $hit->{expression} * 1);
+  #   }
+  # }
+  #
+  # print "MAX VAL: $max_val\n";
+  
+  $c->stash->{rest} = {
+      project_max_val => $max_val
   };
   
 }
@@ -245,7 +298,7 @@ sub _parse_blast_input {
 		if ($lines[0] =~ />/) {
 			$input_name = shift(@lines);
 			$input_name =~ s/>//;
-			$input_name =~ s/[\|\s\,\-\.\#\(\)\%\'\"\[\]\{\}\:\;\=\+\\\/]+/_/gi;
+      $input_name =~ s/[\|\s\,\-\.\#\(\)\%\'\"\[\]\{\}\:\;\=\+\\\/]+/_/gi;
 			
 			$input = join "", @lines;
 			$input =~ s/[\n\s\,\-\.\#\(\)\%\'\"\[\]\{\}\:\;\=\+\\\/]+//gi;
@@ -359,6 +412,7 @@ sub _run_blast_cmd {
 	print STDERR "$blast_cmd\n";
 
 	my $aln_true = 0;
+	my $table_true = 0;
 	my @aln_file;
 	my @res;
 	if ($blast_alignment) {
@@ -386,47 +440,60 @@ sub _run_blast_cmd {
 				# print STDERR "$line\n";
 				if ($blast_alignment) {
 					
-					if ($line =~ /^>/) {
-						$aln_true = 1;
-					}
-					
-					if ($line =~ /^Solyc/) {
-						# my ($subject,$kk1,$kk2,$bitscore,$evalue) = split(/\s+/,$line);
-						my @blast_m0 = split(/\s+/,$line);
+          if ($line =~ /^>/) {
+            $aln_true = 1;
+            $table_true = 0;
+          }
+          
+          if ($line =~ /^Sequences producing significant alignments:/) {
+            $table_true = 1;
+          }
+          
+					if ($table_true) {
+            
+            $line =~ s/\s+$//;
+            
+            if ($line =~ /\d$/) {
+  						# my ($subject,$kk1,$kk2,$bitscore,$evalue) = split(/\s+/,$line);
+  						my @blast_m0 = split(/\s+/,$line);
 						
-						my $subject = $blast_m0[0];
-						my $evalue = $blast_m0[-1];
-						my $bitscore = $blast_m0[-2];
-						
-						$subject =~ s/\.\d$//;
-						$subject =~ s/\.\d$//;
+  						my $subject = $blast_m0[0];
+  						my $evalue = $blast_m0[-1];
+  						my $bitscore = $blast_m0[-2];
+						  
+              if ($subject =~ /^Solyc/i) {
+    						$subject =~ s/\.\d$//;
+    						$subject =~ s/\.\d$//;
+              }
+              
+  						$lucy_desc->search(
+  						    query      => $subject,
+  							num_wanted => 1,
+  						);
 	
-						$lucy_desc->search(
-						    query      => $subject,
-							num_wanted => 1,
-						);
-	
-						while ( my $desc_hit = $lucy_desc->next ) {
-							my $desc = $desc_hit->{description};
-							my $tr_type = "<tr>";
-							if ($#res % 2 == 0) {
-							} else {
-								$tr_type = "<tr class='alt'>"
-							}
-							push(@res, "$tr_type<td><input type=\"checkbox\" class=\"blast_checkbox\" onclick=resetSelectAll(); value=\"$subject\" name=\"input_gene\"></td><td style=\"text-align: left;\">$subject</td><td>$evalue</td><td>$bitscore</td><td style=\"text-align: left; padding-left: 10px;\">".$desc."</td></tr>");
+  						while ( my $desc_hit = $lucy_desc->next ) {
+  							my $desc = $desc_hit->{description};
+  							my $tr_type = "<tr>";
+  							if ($#res % 2 == 0) {
+  							} else {
+  								$tr_type = "<tr class='alt'>"
+  							}
+  							push(@res, "$tr_type<td><input type=\"checkbox\" class=\"blast_checkbox\" onclick=resetSelectAll(); value=\"$subject\" name=\"input_gene\"></td><td style=\"text-align: left;\">$subject</td><td>$evalue</td><td>$bitscore</td><td style=\"text-align: left; padding-left: 10px;\">".$desc."</td></tr>");
+  						} # close while
 						}
-						
 					} elsif ($aln_true) {
 						push(@aln_file, "$line\n");
 					} else {
 						next;
-					}
+					} # close if table true
 				} else {
 					# split lines by tabs getting each column value in a variable
 					my ($query,$subject,$identity,$alignment_length,$mismatch,$gapopen,$qstart,$qend,$sstart,$send,$evalue,$bitscore) = split("\t",$line);
 				
-					$subject =~ s/\.\d$//;
-					$subject =~ s/\.\d$//;
+          if ($subject =~ /^Solyc/i) {
+						$subject =~ s/\.\d$//;
+						$subject =~ s/\.\d$//;
+          }
 	
 					$lucy_desc->search(
 					    query      => $subject,
@@ -441,22 +508,78 @@ sub _run_blast_cmd {
 							$tr_type = "<tr class='alt'>"
 						}
 						push(@res, "$tr_type<td><input type=\"checkbox\" class=\"blast_checkbox\" onclick=resetSelectAll(); value=\"$subject\" name=\"input_gene\"></td><td style=\"text-align: left;\">$subject</td><td>$identity</td><td>$evalue</td><td>$bitscore</td><td style=\"text-align: left; padding-left: 10px;\">".$desc."</td></tr>");
-					}
-				}
+					} # close while
+				} # close if blast alignment
 				
 				if ($line =~ /Database\:/) {
 					$aln_true = 0;
 				}
 				
-			}
+			} # close while
 		} else {
 			print STDERR "BLAST output does not exist\n";
 			return;
-		}
-	}
+		} # close if blast file exists
+	} # if blast error else
 	
 	return (\@res,\@aln_file);
 	# return \@res;
+}
+
+sub external_data_transfer :Path('/expression_viewer/external_data_transfer') :Args(1) {
+    my $self = shift;
+    my $c = shift;
+    my $data_source = shift;
+
+    my $trial_name = $c->req->param('project_name');
+    my $trial_ids = $c->req->param('trial_id_list');
+    my $accession_ids = $c->req->param('accession_id_list');
+    my $trait_ids = $c->req->param('trait_id_list');
+    my $export_type = $c->req->param('type');
+    my $sgn_session_id = $c->req->param('sgn_session_id');
+    my $user_name = $c->req->param('user_name');
+    $trial_name =~ s/ //g;
+    $trial_name =~ s/\s//g;
+
+    print STDERR Dumper $trial_name;
+    print STDERR Dumper $trial_ids;
+    print STDERR Dumper $accession_ids;
+    print STDERR Dumper $trait_ids;
+    print STDERR Dumper $export_type;
+    print STDERR Dumper $sgn_session_id;
+
+    my $search_param_description = 'QueryParams(TrialIDs:'.$trial_ids.'AccessionIDs:'.$accession_ids.'TraitIDs:'.$trait_ids.')';
+    my $dbname = $c->config->{dbname};
+    my $host = $c->config->{dbhost};
+    my $username = $c->config->{dbuser};
+    my $password = $c->config->{dbpass};
+    my $base_path = $c->config->{base_path};
+    my $temp_path = $c->config->{tmp_path};
+    my $correlation_index_dir = $c->config->{correlation_indexes_path};
+    my $expression_index_dir = $c->config->{expression_indexes_path};
+    my $description_index_dir = $c->config->{loci_and_description_index_path};
+
+    my $data_source_url;
+    my $data_loading_script;
+    my $index_dir_prefix;
+    if ($data_source eq 'CassBase'){
+        $data_source_url = 'https://sgn:eggplant@cassbase.org';
+        $data_loading_script = "$base_path/cassbase/bin/cea_load.sh";
+        $index_dir_prefix = "cass_index_";
+	}
+    if ($data_source eq 'localhost'){
+        $data_source_url = 'http://localhost:8080';
+        $data_loading_script = "$base_path/cassbase/bin/cea_load.sh";
+        $index_dir_prefix = "cass_index_";
+    }
+    $c->response->headers->header( "Access-Control-Allow-Origin" => $data_source_url );
+
+    my @args = ($data_loading_script, $data_source_url, $trial_ids, $accession_ids, $trait_ids, $base_path, $correlation_index_dir, $expression_index_dir, $description_index_dir, $temp_path, 'false', 'true', $host, $dbname, $username, $password, $index_dir_prefix.$trial_name, $export_type, $trial_name, $sgn_session_id, $user_name, $search_param_description);
+    #print STDERR Dumper \@args;
+    system('bash', @args) == 0
+        or die "system @args failed: $?";
+
+    $c->stash->{rest} = { success => 1 };
 }
 
 

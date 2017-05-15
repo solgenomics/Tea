@@ -269,7 +269,7 @@ hr {
   border-color: #ddd;
   border-width:0px 1px 1px 1px;
   height:700px;
-  width:1060px;
+/*  width:1060px;*/
   overflow:scroll;
   padding-right: 20px;
 }
@@ -284,7 +284,7 @@ hr {
   margin-right: 15px;
   min-width:1120px;
 */  
-  width:1060px;
+/*  width:1060px;*/
   overflow:scroll;
 }
 
@@ -295,7 +295,7 @@ hr {
   border-width:0px 1px 1px 1px;
   padding-left: 0px;
   height:700px;
-  width:1060px;
+/*  width:1060px;*/
   overflow:scroll;
 }
 
@@ -321,38 +321,38 @@ body .ui-tooltip {
 /* Expression Viewer input page */
 
 .dialog_text_area {
-	border-color:#AAA;
-	border-width:1px;
-	border-style:solid;
-	border-radius:5px;
-	min-width: 420px;
-	max-width: 420px;
+  border-color:#AAA;
+  border-width:1px;
+  border-style:solid;
+  border-radius:5px;
+  min-width: 420px;
+  max-width: 420px;
 }
 
 #blast_div_dialog {
-	border-collapse: collapse;
-	width: 100%;
-    text-align: left;
-    padding-top: 10px;
-    padding-bottom: 2px;
-	white-space: nowrap;
-	overflow: hidden;
+  border-collapse: collapse;
+  width: 100%;
+  text-align: left;
+  padding-top: 10px;
+  padding-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 #blast_res_div {
-	width: 100%;
-	overflow: auto;
-	height: 300px;
-	border-color:#AAA;
-	border-width:1px;
-	border-style:solid;
-	border-radius:5px;
+  width: 100%;
+  overflow: auto;
+  height: 300px;
+  border-color:#AAA;
+  border-width:1px;
+  border-style:solid;
+  border-radius:5px;
   padding: 5px 0px 5px 5px;
 }
 
 #blast_res_table {
-	border-collapse: collapse;
-	width: 100%;
+  border-collapse: collapse;
+  width: 100%;
   text-align: right;
   padding-top: 2px;
   padding-bottom: 2px;
@@ -363,7 +363,7 @@ body .ui-tooltip {
 #blast_res_table th {
   background-color: #aaa;
   color: #ffffff;
-	padding-left: 5px;
+  padding-left: 5px;
 }
 
 #blast_res_table tr.alt td {
@@ -392,12 +392,7 @@ body .ui-tooltip {
 	border-radius:5px;
   padding: 5px 0px 5px 5px;
 	overflow: auto;
-	height: 300px;
-}
-
-#correlation_slider {
-/*  width: 300px;*/
-	height: 8px;
+	height: 220px;
 }
 
 .grayed_out {
@@ -503,10 +498,10 @@ body .ui-tooltip {
   text-decoration:none;
 }
 
-.tabs {
+/*.tabs {
   width: 1060px;
 }
-
+*/
 .jqplot-table-legend-label {
   padding-left:5px;
 }

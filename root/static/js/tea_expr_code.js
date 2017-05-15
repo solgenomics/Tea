@@ -72,6 +72,9 @@ $(document).ready(function () {
   
   $("#expr_imgs_tab").click(function(){
     // alert("images: "+expr_imgs_loaded);
+    
+    $('#dwl_expr_data').css("display","none");
+    
     if (!expr_imgs_loaded) {
       
       $("#loading_modal").modal("show");
@@ -94,6 +97,8 @@ $(document).ready(function () {
   //get d3heatmap html file
   var d3heatmap_loaded = 0;
   $("#heatmap_tab").click(function(){
+    
+    $('#dwl_expr_data').css("display","none");
     
     if (!d3heatmap_loaded) {
     
@@ -174,6 +179,9 @@ $(document).ready(function () {
   
   //code to change tabs content
   $("#cube_tab").on('click', function(e)  {
+    
+    $('#dwl_expr_data').css("display","inline-block");
+    
     var currentAttrValue = jQuery(this).attr('href');
     // Show/Hide Tabs
     $(currentAttrValue).show().siblings().hide();

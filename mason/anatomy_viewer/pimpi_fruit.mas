@@ -1,7 +1,9 @@
 
 <center>
   <div style="width:80%;max-width:1200px;">
-	
+    
+    <a href="/anatomy_viewer/microscopy/" class="go_back_link">Go back</a>
+    <br>
     <h1><i>S. pimpinellifolium</i> LA1589</h1>
     <h3><b>Microdissected Ovary and Fruit Tissues</b></h3>
     
@@ -24,19 +26,13 @@
         This also allows different gene expression levels found in each tissue to be shown in the expression viewer.
     </p>
       
-    <br>
-      <a href="/anatomy_viewer/microscopy/" class="go_back_link">Go back</a>
-
     <div class="microscopy_section" style="width:80%">
         <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/Pimpi_Ovary_0DPA_Anatomy.jpg">
         <hr>
         <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/Pimpi_Ovary_4DPA_Anatomy.jpg">
     </div>
-      <a href="/anatomy_viewer/microscopy/" class="go_back_link">Go back</a>
       
   </div>
-
-  <br>
   <br>
   <br>
     

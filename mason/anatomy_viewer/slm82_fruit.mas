@@ -1,7 +1,9 @@
 
 <center>
   <div style="width:80%;max-width:1200px;">
-	
+    
+    <a href="/anatomy_viewer/microscopy/" class="go_back_link">Go back</a>
+    <br>
     <h1><i>S. lycopersicum</i> M82 Fruit Development</h1>
     <img class="microscopy_img" src="/static/images/anatomy_viewer/microscopy/M82_developmental_series.jpeg">
 
@@ -31,10 +33,6 @@
       REFRENCES<br>
       USDA Agricultural Marketing Service (1975) Color classification requirements in United States Standards for grades of fresh tomatoes. USDA Visual Aid TM-L-1. The John Henry Company, Lansing, MI.
     </p>
-    
-    <a href="/anatomy_viewer/microscopy/" class="go_back_link">Go back</a>
-    <br>
-    <br>
     
     <p>
       The drawings on this site were derived by taking fruit cross-section photographs and using <a href="http://www.adobe.com/products/photoshop.html" target="blank">Adobe Photoshop</a> to convert them into anatomically accurate drawings.

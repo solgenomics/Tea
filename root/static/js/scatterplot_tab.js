@@ -1,130 +1,6 @@
 $(document).ready(function () {
-
+    var scatterplot_loaded = 0;
     $("#scatterplots_tab").click(function(){
-    document.getElementById("NewPlot").style.display="none";
-    document.getElementById("GetPlot").style.display="block";
-	document.getElementById("selector").style.display="block";
-	document.getElementById("ExpCorrChart").style.display="none";
-	document.getElementById("new_plot_btn").style.display="none";
-	document.getElementById("new_plot_btn").style.position="relative";
-	document.getElementById("new_plot_btn").style.margin="-20 px";
-	document.getElementById("new_plot_btn").style.top="50%";
-	document.getElementById("get_scatterplot_btn").style.margin="-20 px";
-	document.getElementById("get_scatterplot_btn").style.top="50%";
-	document.getElementById("get_scatterplot_btn").style.display="block";    
-	document.getElementById("get_scatterplot_btn").style.position="relative";
-	document.getElementById("NewPlot").style.height="50px";
-	document.getElementById("NewPlot").style.width="550px";
-//	document.getElementById("NewPlot").style.visibility="hidden";
-	document.getElementById("NewPlot").style.styleFloat="left";
-	document.getElementById("GetPlot").style.height="50px";
-	document.getElementById("GetPlot").style.width="550px";
-	document.getElementById("GetPlot").style.styleFloat="left";
-	
-	document.getElementById("selector").style.height="550px";
-    document.getElementById("selector").style.width="850px";
-    document.getElementById("selector").style.styleFloat = 'left';
-	
-
-    document.getElementById("ExpCorrChart").style.height="550px";    
-    document.getElementById("ExpCorrChart").style.width="550px";    
-    document.getElementById("ExpCorrChart").style.styleFloat = 'right';
-    //    document.getElementById("ExpCorrChart").style.border = "thick solid #000000"
-    
-    var selectioncounter = 0
-    var selectorArraySwitch = []
-	var samples_chosen = [];
-    var temp_id = []
-    var temp_col
-    var stored_color = []
-   
-// var stage2 = new Kinetic.Stage({
-//		  		container: "NewPlot",
-//		  		width: 300,
-//		  		height: 300
-//			});
-//			var layer2 = new Kinetic.Layer();
-  //    var new_plot_group = new Kinetic.Group();
-//	  var new_plot = new Kinetic.Rect({
-//	      x: 50,
-//	      y: 50,
-//	      id: "newplotbutton",
-//	      width: 145,
-//	      height: 25,
-//	      strokeWidth: 0,
-//	      cornerRadius : 5,
-//	      fill:'white',
-//	  });
-//	  new_plot_group.add(new_plot);
-//	  var new_plot_text = new Kinetic.Text({
-//	      x: 61,
-//	      y: 54,
-//	      text: "New scatterplot",
-//	      fontSize: '18',
-//	      fill: "#fff",
-//	      fontFamily: 'Helvetica',	      
-//
-//	  });
-//	new_plot_group.add(new_plot_text);
-
-//	new_plot.on('mousedown', function() {
-//	    alert("hello!");
-	    
-//	});
-//	new_plot_group.on('mouseover', function() {
-//	   	    new_plot_group.fill("#bbb");
-//	});	
-//	layer2.add(new_plot_group);
-//	stage2.add(layer2);
-
-
-
-	
-
-
-//    function get_expr_color(expr_val) {
-			
-//	var r_color = 255;
-//	var g_color = 255;
-//	var b_color = 255;
-/*			
-	if (expr_val == 0) {
-	    tmp_color = 'rgb('+255+','+255+','+255+')';
-	} else if (expr_val <= 1) {
-	    r_color = 255;
-	    g_color = 255;
-	    // b_color = Math.round(200*(1-expr_val)+50);
-	    b_color = Math.round(130*(1-expr_val)+120);
-	} else if (expr_val > 1 && expr_val <= 10) {
-	    r_color = 255;
-	    g_color = Math.round(245 - 60*expr_val/10);
-	    // g_color = Math.round(250 - 55*expr_val/10);
-	    b_color = Math.round(220 - 105*expr_val/10);
-	    // b_color = Math.round(225 - 100*expr_val/10);
-	} else if (expr_val > 10 && expr_val <= 100) {
-	    r_color = 255;
-	    g_color = Math.round(197 - 67*(expr_val/100));
-	    b_color = Math.round(130 - 130*(expr_val/100));
-	} else if (expr_val > 100 && expr_val <= 300) {
-	    r_color = 255
-	    g_color = Math.round(130 - 130*(expr_val-100)/200);
-	    b_color = 0;
-	} else if (expr_val > 300 && expr_val <= 500) {
-
-	    r_color = Math.round(255 - 175*(expr_val-300)/200);
-	    g_color = 0;
-	    b_color = 0;
-
-	} else if (expr_val > 500) {
-	    r_color = 80;
-	    g_color = 0;
-	    b_color = 0;
-	}
-			
-	var tmp_color = 'rgb('+r_color+','+g_color+','+b_color+')';
-	return [tmp_color,r_color,g_color,b_color];
-    }*/
-			
 			
     function add_squares() {
         var expr_val = aoaoa[0][x-1][y-1];
@@ -136,7 +12,7 @@ $(document).ready(function () {
         var sqr_color = 'rgb(210,210,210)';
 
         if (expr_val != "ND") {
-          var rgb_array = get_expr_color(expr_val);
+            var rgb_array = get_expr_color(expr_val,"default","default");
           sqr_color = 'rgb('+rgb_array[0]+','+rgb_array[1]+','+rgb_array[2]+')';
         }
 	
@@ -177,7 +53,7 @@ $(document).ready(function () {
 						}
 					});
 					
-					selectorArray[selectorCounter].on('click', function() {
+/*					selectorArray[selectorCounter].on('click', function() {
 					    if (samples_chosen.length < 2) {
 //					    selectioncounter++;
 //					    this.listening(true);
@@ -192,94 +68,12 @@ $(document).ready(function () {
 						
 					    }
 									  
-					});
+					});*/
 
 					layer.add(front_tile);
 // 					layer.add(top_text);
 					stage.add(layer);
 			}
-			
-      var stage = new Kinetic.Stage({
-		  		container: "selector",
-		  		width: 600,
-		  		height: 600
-			});
-			var layer = new Kinetic.Layer();
-
-/*	var get_plot_group = new Kinetic.Group();
-	  var get_plot = new Kinetic.Rect({
-	      x: 0,
-	      y: 80,
-	      width: 135,
-	      height: 25,
-	      strokeWidth: 0,
-	      cornerRadius : 5,
-	      fill:'#777',
-	  });
-	  get_plot_group.add(get_plot);
-	  var get_plot_text = new Kinetic.Text({
-	      x: 8,
-	      y: 84,
-	      text: "Get scatterplot",
-	      fontSize: '18',
-	      fill: "#fff",
-	      fontFamily: 'Helvetica',	      
-
-	  });
-      get_plot_group.add(get_plot_text);
-      layer.add(get_plot_group);*/
-
-    var selectorArray = [];
-    var selectorCounter = 0;
-    var stage_text = [];
-    var tissue_text = [];
-	var expr_val = 0;
-	var max_tissue_length = 0;
-	for (var y=1; y<=tissues.length; y++) {
-	    if (tissues[y-1].length >= max_tissue_length) {
-		max_tissue_length = tissues[y-1].length
-	    }else{
-	    }
-	}
-//	alert(max_tissue_length);
-			
-			for (var x=1; x<=stages.length; x++) {
-				stage_text[x] = new Kinetic.Text({
-					x: x*20+150,
-					y: 155,
-			        // text: tissue_name,
-					text: stages[x-1],
-					fontSize: 16, //20 for CondensedLight
-					fontFamily: 'Helvetica',
-					// fontFamily: 'CondensedLight',
-					fill: 'black',
-					rotation: 300
-					});
-				layer.add(stage_text[x]);
-				for (var y=1; y<=tissues.length; y++) {
-					selectorCounter++;					
-					add_squares(x,y,selectorCounter);
-					if (x==1) {
-						tissue_text[y] = new Kinetic.Text({
-						    x: 1,
-							y: y*20+150+4,
-							// text: tissue_name,
-						    text: tissues[y-1],
-						   // width: 150,
-						    align: 'right',
-							fontSize: 16, //20 for CondensedLight
-							fontFamily: 'Helvetica',
-							// fontFamily: 'CondensedLight',
-							fill: 'black',
-							rotation: 0
-						});
-						layer.add(tissue_text[y]);
-					}
-				}
-			}
-
-
-
 
 
 	$("#get_scatterplot_btn").click(function(){
@@ -521,7 +315,8 @@ $(document).ready(function () {
 
 				if (samples_chosen.length < 2) {
 				//				for x in temp_id
-				
+				this.name("selected");
+				this.draw;
 
         			samples_chosen.push([this.y(),this.x()]);
 				temp_id.push(this.id());
@@ -541,7 +336,9 @@ $(document).ready(function () {
         			samples_chosen.push([this.y(),this.x()]);
 				temp_id.shift();
 				temp_id.push(this.id());				
-//				alert(this.y());
+				this.name("selected");
+				this.draw;
+				//				alert(this.y());
 //				alert(samples_chosen.length);
 			    }
          		    }else{
@@ -549,8 +346,216 @@ $(document).ready(function () {
 //			    }else{
 //			    }
 			}
-         	
-			var temp_array_length = selectorArray.length - 1;
+
+	if (!scatterplot_loaded) {
+    document.getElementById("NewPlot").style.display="none";
+    document.getElementById("GetPlot").style.display="block";
+	document.getElementById("selector").style.display="block";
+	document.getElementById("ExpCorrChart").style.display="none";
+	document.getElementById("new_plot_btn").style.display="none";
+	document.getElementById("new_plot_btn").style.position="relative";
+	document.getElementById("new_plot_btn").style.margin="-20 px";
+	document.getElementById("new_plot_btn").style.top="50%";
+	document.getElementById("get_scatterplot_btn").style.margin="-20 px";
+	document.getElementById("get_scatterplot_btn").style.top="50%";
+	document.getElementById("get_scatterplot_btn").style.display="block";    
+	document.getElementById("get_scatterplot_btn").style.position="relative";
+	document.getElementById("NewPlot").style.height="50px";
+	document.getElementById("NewPlot").style.width="550px";
+//	document.getElementById("NewPlot").style.visibility="hidden";
+	document.getElementById("NewPlot").style.styleFloat="left";
+	document.getElementById("GetPlot").style.height="50px";
+	document.getElementById("GetPlot").style.width="550px";
+	document.getElementById("GetPlot").style.styleFloat="left";
+	
+	document.getElementById("selector").style.height="550px";
+    document.getElementById("selector").style.width="850px";
+    document.getElementById("selector").style.styleFloat = 'left';
+	
+
+    document.getElementById("ExpCorrChart").style.height="550px";    
+    document.getElementById("ExpCorrChart").style.width="550px";    
+    document.getElementById("ExpCorrChart").style.styleFloat = 'right';
+    //    document.getElementById("ExpCorrChart").style.border = "thick solid #000000"
+    
+    var selectioncounter = 0
+    var selectorArraySwitch = []
+	var samples_chosen = []
+    var temp_id = []
+    var stored_color = []
+   			var layer = new Kinetic.Layer();
+
+/*	var get_plot_group = new Kinetic.Group();
+	  var get_plot = new Kinetic.Rect({
+	      x: 0,
+	      y: 80,
+	      width: 135,
+	      height: 25,
+	      strokeWidth: 0,
+	      cornerRadius : 5,
+	      fill:'#777',
+	  });
+	  get_plot_group.add(get_plot);
+	  var get_plot_text = new Kinetic.Text({
+	      x: 8,
+	      y: 84,
+	      text: "Get scatterplot",
+	      fontSize: '18',
+	      fill: "#fff",
+	      fontFamily: 'Helvetica',	      
+
+	  });
+      get_plot_group.add(get_plot_text);
+      layer.add(get_plot_group);*/
+
+    var selectorArray = [];
+    var selectorCounter = 0;
+    var stage_text = [];
+    var tissue_text = [];
+	var expr_val = 0;
+	var max_tissue_length = 0;
+			
+      var stage = new Kinetic.Stage({
+		  		container: "selector",
+		  		width: 600,
+		  		height: 600
+			});
+
+	for (var y=1; y<=tissues.length; y++) {
+	    if (tissues[y-1].length >= max_tissue_length) {
+		max_tissue_length = tissues[y-1].length
+	    }else{
+	    }
+	}
+//	alert(max_tissue_length);
+			
+			for (var x=1; x<=stages.length; x++) {
+				stage_text[x] = new Kinetic.Text({
+					x: x*20+150,
+					y: 155,
+			        // text: tissue_name,
+					text: stages[x-1],
+					fontSize: 16, //20 for CondensedLight
+					fontFamily: 'Helvetica',
+					// fontFamily: 'CondensedLight',
+					fill: 'black',
+					rotation: 300
+					});
+				layer.add(stage_text[x]);
+				for (var y=1; y<=tissues.length; y++) {
+					selectorCounter++;					
+					add_squares(x,y,selectorCounter);
+					if (x==1) {
+						tissue_text[y] = new Kinetic.Text({
+						    x: 1,
+							y: y*20+150+4,
+							// text: tissue_name,
+						    text: tissues[y-1],
+						   // width: 150,
+						    align: 'right',
+							fontSize: 16, //20 for CondensedLight
+							fontFamily: 'Helvetica',
+							// fontFamily: 'CondensedLight',
+							fill: 'black',
+							rotation: 0
+						});
+						layer.add(tissue_text[y]);
+					}
+				}
+			}
+	    scatterplot_loaded = 1;
+	}
+
+
+// var stage2 = new Kinetic.Stage({
+//		  		container: "NewPlot",
+//		  		width: 300,
+//		  		height: 300
+//			});
+//			var layer2 = new Kinetic.Layer();
+  //    var new_plot_group = new Kinetic.Group();
+//	  var new_plot = new Kinetic.Rect({
+//	      x: 50,
+//	      y: 50,
+//	      id: "newplotbutton",
+//	      width: 145,
+//	      height: 25,
+//	      strokeWidth: 0,
+//	      cornerRadius : 5,
+//	      fill:'white',
+//	  });
+//	  new_plot_group.add(new_plot);
+//	  var new_plot_text = new Kinetic.Text({
+//	      x: 61,
+//	      y: 54,
+//	      text: "New scatterplot",
+//	      fontSize: '18',
+//	      fill: "#fff",
+//	      fontFamily: 'Helvetica',	      
+//
+//	  });
+//	new_plot_group.add(new_plot_text);
+
+//	new_plot.on('mousedown', function() {
+//	    alert("hello!");
+	    
+//	});
+//	new_plot_group.on('mouseover', function() {
+//	   	    new_plot_group.fill("#bbb");
+//	});	
+//	layer2.add(new_plot_group);
+//	stage2.add(layer2);
+
+
+
+	
+
+
+//    function get_expr_color(expr_val) {
+			
+//	var r_color = 255;
+//	var g_color = 255;
+//	var b_color = 255;
+/*			
+	if (expr_val == 0) {
+	    tmp_color = 'rgb('+255+','+255+','+255+')';
+	} else if (expr_val <= 1) {
+	    r_color = 255;
+	    g_color = 255;
+	    // b_color = Math.round(200*(1-expr_val)+50);
+	    b_color = Math.round(130*(1-expr_val)+120);
+	} else if (expr_val > 1 && expr_val <= 10) {
+	    r_color = 255;
+	    g_color = Math.round(245 - 60*expr_val/10);
+	    // g_color = Math.round(250 - 55*expr_val/10);
+	    b_color = Math.round(220 - 105*expr_val/10);
+	    // b_color = Math.round(225 - 100*expr_val/10);
+	} else if (expr_val > 10 && expr_val <= 100) {
+	    r_color = 255;
+	    g_color = Math.round(197 - 67*(expr_val/100));
+	    b_color = Math.round(130 - 130*(expr_val/100));
+	} else if (expr_val > 100 && expr_val <= 300) {
+	    r_color = 255
+	    g_color = Math.round(130 - 130*(expr_val-100)/200);
+	    b_color = 0;
+	} else if (expr_val > 300 && expr_val <= 500) {
+
+	    r_color = Math.round(255 - 175*(expr_val-300)/200);
+	    g_color = 0;
+	    b_color = 0;
+
+	} else if (expr_val > 500) {
+	    r_color = 80;
+	    g_color = 0;
+	    b_color = 0;
+	}
+			
+	var tmp_color = 'rgb('+r_color+','+g_color+','+b_color+')';
+	return [tmp_color,r_color,g_color,b_color];
+    }*/
+			
+
+	var temp_array_length = selectorArray.length - 1;
 			for (var y=1; y<=temp_array_length; y++) {
 				selectorArray[y].on("click",handleClick);
 			}

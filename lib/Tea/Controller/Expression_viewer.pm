@@ -340,9 +340,12 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
   if ($expr_max_scale !~ /\d/) {
     $expr_max_scale = "default";
   }
-  if ($expr_min_scale == 0 && $expr_max_scale == 500) {
-    $expr_min_scale = "default";
-    $expr_max_scale = "default";
+  
+  if ($expr_min_scale =~ /\d/ || $expr_max_scale =~ /\d/) {
+    if ($expr_min_scale == 0 && $expr_max_scale == 500) {
+      $expr_min_scale = "default";
+      $expr_max_scale = "default";
+    }
   }
   
   my @all_genes_list;

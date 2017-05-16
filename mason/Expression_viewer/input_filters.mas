@@ -180,7 +180,8 @@ $delete_enabled => ()
     background: #efefef;
     font-size:18px;
     border-radius: 2px;
-    height: 20px;
+    height: 24px;
+    margin-bottom: 3px;
   }
   .ui-widget-header {
       border: 1px solid #dddddd;

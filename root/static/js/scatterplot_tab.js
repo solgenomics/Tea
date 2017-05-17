@@ -1,7 +1,7 @@
 $(document).ready(function () {
     var scatterplot_loaded = 0;
     $("#scatterplots_tab").click(function(){
-			
+
     function add_squares() {
         var expr_val = aoaoa[0][x-1][y-1];
         
@@ -145,9 +145,9 @@ $(document).ready(function () {
 				    var sample2tissuetempindex = lists_to_get[1][0];
 				    var sample2stagetempindex = lists_to_get[1][1];
 				    var sample1stageindex = ((sample1stagetempindex - 150)/20) - 1;
-				    var sample2stageindex = ((sample2stagetempindex - 150)/20)- 1;
+				    var sample2stageindex = ((sample2stagetempindex - 150)/20) - 1;
 				    var sample1tissueindex = ((sample1tissuetempindex - 150)/20) - 1;
-				    var sample2tissueindex = ((sample2tissuetempindex - 150)/20)- 1;
+				    var sample2tissueindex = ((sample2tissuetempindex - 150)/20) - 1;
 				    var sample1stage = stages[sample1stageindex];
 				    var sample1tissue = tissues[sample1tissueindex];
 				    var sample2stage = stages[sample2stageindex];
@@ -265,7 +265,8 @@ $(document).ready(function () {
 		sizeAdjust: 7.5
 					},
 					cursor: {
-						show: false
+					    show: false
+					    
 					}
 				}); // end plot2
 
@@ -368,8 +369,8 @@ $(document).ready(function () {
 	document.getElementById("GetPlot").style.width="550px";
 	document.getElementById("GetPlot").style.styleFloat="left";
 	
-	document.getElementById("selector").style.height="550px";
-    document.getElementById("selector").style.width="850px";
+	document.getElementById("selector").style.height="850";
+    document.getElementById("selector").style.width="850";
     document.getElementById("selector").style.styleFloat = 'left';
 	
 
@@ -427,7 +428,7 @@ $(document).ready(function () {
 	    }else{
 	    }
 	}
-//	alert(max_tissue_length);
+	    var stage_lengths = [];
 			
 			for (var x=1; x<=stages.length; x++) {
 				stage_text[x] = new Kinetic.Text({
@@ -441,7 +442,8 @@ $(document).ready(function () {
 					fill: 'black',
 					rotation: 300
 					});
-				layer.add(stage_text[x]);
+			    layer.add(stage_text[x]);
+			    stage_lengths[x] = stage_text[x].width();
 				for (var y=1; y<=tissues.length; y++) {
 					selectorCounter++;					
 					add_squares(x,y,selectorCounter);
@@ -451,7 +453,7 @@ $(document).ready(function () {
 							y: y*20+150+4,
 							// text: tissue_name,
 						    text: tissues[y-1],
-						   // width: 150,
+						    width: 160,
 						    align: 'right',
 							fontSize: 16, //20 for CondensedLight
 							fontFamily: 'Helvetica',
@@ -463,6 +465,27 @@ $(document).ready(function () {
 					}
 				}
 			}
+	    var max_stage_length = 0;
+	    for (var x=1; x<=stages.length; x++) {
+		if (stage_text[x].width() >= max_stage_length) {
+		    max_stage_length = stage_text[x].width();
+	    }else{
+	    }
+	}
+
+	    // trigonometry to calculate height of rotated text - max_stage_length is hypotenuse
+	  
+	    var rad = 30 * Math.PI/180;
+	    var adjacent_side_height = (Math.cos(rad))*max_stage_length;
+	    //adjust y values by height of text
+//	    var temp_array_length_y_adj = selectorArray.length - 1;
+//			for (var w=1; w<=temp_array_length_y_adj; w++) {
+//			    selectorArray[w].y(selectorArray[w].y + adjacent_side_height);
+//			}
+	    var new_height = 25 + adjacent_side_height;
+	    var new_height_string = new_height + "px";
+	    document.getElementById("GetPlot").style.height = new_height_string;
+
 	    scatterplot_loaded = 1;
 	}
 

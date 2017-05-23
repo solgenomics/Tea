@@ -508,7 +508,6 @@ body .ui-tooltip {
 
 /*jqplot default highlighter opacity changed */
 .jqplot-highlighter-tooltip, .jqplot-canvasOverlay-tooltip {
-  z-index: 2;
   background: rgba(208, 208, 208, 0.8)!IMPORTANT;
 }
 

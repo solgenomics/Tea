@@ -273,7 +273,6 @@ $(document).ready(function () {
 				}); // end plot2
 
 
-
     
 				}; //end of makeplot
 
@@ -383,8 +382,8 @@ $(document).ready(function () {
 // Get the <span> element that closes the modal
 var close_btn = document.getElementById("scatter_close_btn");
 
-    document.getElementById("ExpCorrChart").style.height="550px";    
-    document.getElementById("ExpCorrChart").style.width="550px";    
+    document.getElementById("ExpCorrChart").style.height="550px";
+    document.getElementById("ExpCorrChart").style.width="550px";
     document.getElementById("ExpCorrChart").style.styleFloat = 'right';
 	    //    document.getElementById("ExpCorrChart").style.border = "thick solid #000000"
 
@@ -492,7 +491,7 @@ var close_btn = document.getElementById("scatter_close_btn");
 //			for (var w=1; w<=temp_array_length_y_adj; w++) {
 //			    selectorArray[w].y(selectorArray[w].y + adjacent_side_height);
 //			}
-	    var new_height = 25 + adjacent_side_height;
+	    var new_height = 10 + adjacent_side_height;
 	    var new_height_string = new_height + "px";
 	    document.getElementById("GetPlot").style.height = new_height_string;
 

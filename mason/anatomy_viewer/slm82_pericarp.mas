@@ -1,7 +1,9 @@
 
 <center>
   <div style="width:80%;max-width:1200px;">
-	
+    
+    <a href="/anatomy_viewer/microscopy/" class="go_back_link">Go back</a>
+    <br>
     <h1>S. lycopersicum</i> M82 Fruit Development</h1>
     <h3><b>Pericarp Laser Capture Microdissection</b></h3>
     
@@ -29,18 +31,11 @@
       USDA Agricultural Marketing Service (1975) Color classification requirements in United States Standards for grades of fresh tomatoes. USDA Visual Aid TM-L-1. The John Henry Company, Lansing, MI.
     </p>
     
-    <a href="/anatomy_viewer/microscopy/" class="go_back_link">Go back</a>
-    <br>
-    <br>
-    
     <p>
         The drawings on this site were derived by tracing individual cells using <a href="http://www.adobe.com/products/illustrator.html" target="blank">Adobe Illustrator</a> to create anatomically accurate drawings.
         This also allows different gene expression levels found in each tissue to be shown in the expression viewer.
     </p>
       
-    <br>
-
-
       <div class="microscopy_section" style="width:80%">
         
         <div style="margin-bottom: 100px">

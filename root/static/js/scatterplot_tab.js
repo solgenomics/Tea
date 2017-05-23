@@ -12,7 +12,7 @@ $(document).ready(function () {
         var sqr_color = 'rgb(210,210,210)';
 
         if (expr_val != "ND") {
-            var rgb_array = get_expr_color(expr_val,"default","default");
+            var rgb_array = get_expr_color(expr_val,expression_min_scale,expression_max_scale);
           sqr_color = 'rgb('+rgb_array[0]+','+rgb_array[1]+','+rgb_array[2]+')';
         }
 	

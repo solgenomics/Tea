@@ -102,8 +102,8 @@ $(document).ready(function () {
 //	    new_plot_group.draw();
 				}
 				else if (samples_chosen.length < 2) {
-				    alert("You have selected too few samples; please select two samples.");
 				    //
+	    document.getElementById("Scatter_error_modal").style.display="block";				    
 				    if (samples_chosen.length == 1) {
 				    var id_rect1 = temp_id[0];
 				    
@@ -357,7 +357,8 @@ $(document).ready(function () {
 	document.getElementById("selector").style.display="block";
 	document.getElementById("ExpCorrChart").style.display="none";	    
 	document.getElementById("new_plot_btn").style.display="none";
-	   
+	    document.getElementById("Scatter_error_modal").style.display="none";
+	    
 	document.getElementById("new_plot_btn").style.position="relative";
 	document.getElementById("new_plot_btn").style.margin="-20 px";
 	document.getElementById("new_plot_btn").style.top="50%";
@@ -376,7 +377,11 @@ $(document).ready(function () {
 	document.getElementById("selector").style.height="850";
     document.getElementById("selector").style.width="850";
     document.getElementById("selector").style.styleFloat = 'left';
-	
+
+	    var modal = document.getElementById('Scatter_error_modal');
+
+// Get the <span> element that closes the modal
+var close_btn = document.getElementById("scatter_close_btn");
 
     document.getElementById("ExpCorrChart").style.height="550px";    
     document.getElementById("ExpCorrChart").style.width="550px";    
@@ -609,7 +614,17 @@ $(document).ready(function () {
 
 	});
 
-
+	close_btn.onclick = function() {
+    modal.style.display = "none";
+}
+	
+	
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+	
 
 
   });

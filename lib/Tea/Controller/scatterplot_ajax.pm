@@ -28,7 +28,8 @@ __PACKAGE__->config(
    );
 
 sub _check_gene_exists {
-  my $c = shift;
+    my $c = shift;
+    
   my $lucy_path = shift;
   my $query_gene = shift;
   
@@ -53,6 +54,61 @@ print STDERR "Output: ".$gene_found_num."\n";
 return;  
 }
 
+sub _get_genes_for_plot {
+    my $c = shift;    
+    my $corr_filter = shift;
+    my $corr_index_path = shift;    
+    my $query_gene = shift;
+
+    my @genes;
+
+
+    
+	if ($corr_filter > 1) {
+		$corr_filter = $corr_filter/100;
+	}
+  
+	# Get Correlation Data
+	my $lucy_corr = Lucy::Simple->new(
+	    path     => $corr_index_path,
+	    language => 'en',
+	);
+
+	my $sort_spec = Lucy::Search::SortSpec->new(
+	     rules => [
+		 	Lucy::Search::SortRule->new( field => 'correlation', reverse => 1,),
+		 	Lucy::Search::SortRule->new( field => 'gene2', reverse => 0,),
+		 	Lucy::Search::SortRule->new( field => 'gene1',),
+	     ],
+	);
+  
+  my $hits;
+
+
+    
+    $hits = $lucy_corr->search(
+      query      => $query_gene,
+      sort_spec  => $sort_spec,
+      num_wanted => 10000,
+    );
+    
+	while ( my $hit = $lucy_corr->next ) {
+    
+		if ($query_gene eq $hit->{gene1} && $hit->{correlation} >= $corr_filter) {
+			push(@genes, $hit->{gene2});
+#			$corr_hash{$hit->{gene2}} = $hit->{correlation};
+		} elsif ($query_gene eq $hit->{gene2} && $hit->{correlation} >= $corr_filter) {
+			push(@genes, $hit->{gene1});
+#			$corr_hash{$hit->{gene1}} = $hit->{correlation};
+		}
+    else {
+      # print STDERR "gene: $query_gene, hit1: ".$hit->{gene1}.", hit2: ".$hit->{gene2}.", correlation: ".$hit->{correlation}."\n";
+    }
+#		push(@corr_values, $hit->{correlation})
+	}
+    return (\@genes);
+}
+
  sub get_scatterplot_expression :Path('/expression_viewer/scatterplot/') :Args(0) {
         my ( $self, $c ) = @_;
 # temporarily change default gene to the one that actually has correlated genes in this test mini-dataset
@@ -64,20 +120,22 @@ return;
 	my $sample1_stage = $c->req->param("st_s1_index");
 	my $sample2_tissue = $c->req->param("ti_s2_index");
 	my $sample2_stage = $c->req->param("st_s2_index");	
-	my $project_id = $c->req->param("projectid");	
+	my $project_id = $c->req->param("projectid");
+	my $corr_filter = $c->req->param("corr_filter_to_set_genes");
 #	print STDERR "Received parameter: ".$project_id."\n";
 #	my @tissues = split(",",$tissue_filter);
-	my @genes = $c->req->param("genes_to_plot[]");
 	#	print STDERR "Genes received: ".@genes."\n";
 	print STDERR "S1 stage received: ".$sample1_stage."\n";
 	print STDERR "S1 tissue received: ".$sample1_tissue."\n";
 	print STDERR "S2 stage received: ".$sample2_stage."\n";
-	print STDERR "S2 tissue received: ".$sample2_tissue."\n";	
+	print STDERR "S2 tissue received: ".$sample2_tissue."\n";
+	print STDERR "Correlation filter received: ".$corr_filter."\n";
+	
        	# get the path to the expression and correlation lucy indexes
 	my $expr_path = $c->config->{expression_indexes_path};
 	my $corr_path = $c->config->{correlation_indexes_path};
 	my $loci_and_desc_path = $c->config->{loci_and_description_index_path};
-
+	
 	# connect to the db
 	my $dbname = $c->config->{dbname};
 	my $host = $c->config->{dbhost};
@@ -98,7 +156,15 @@ return;
 	$loci_and_desc_path .= "/".$project_rs->indexed_dir;		
 
 	
-
+	# get the array of genes for which expression will be sought
+	# my @genes = $c->req->param("genes_to_plot[]");
+	my $genes;
+	my @genes;
+	($genes) = _get_genes_for_plot($c,$corr_filter,$corr_index_path,$default_gene);
+	if ($genes) {
+	    @genes = @$genes;
+	}
+	
 
        	# build data structure
 #	my @genes = ('Pp3c19_22960V3.1','Pp3c19_22410V3.1');
@@ -165,10 +231,10 @@ print STDERR "current g: ".$g."\n";
       }
 		}
     
-    while ( my $loci_and_desc_hit = $lucy_loci_and_desc->next ) {
-      $locus_ids{$loci_and_desc_hit->{gene}} = $loci_and_desc_hit->{locus_id};
+#    while ( my $loci_and_desc_hit = $lucy_loci_and_desc->next ) {
+#      $locus_ids{$loci_and_desc_hit->{gene}} = $loci_and_desc_hit->{locus_id};
 #      $descriptions{$loci_and_desc_hit->{gene}} = $loci_and_desc_hit->{description};
-    }
+#    }
     
 	}
 	my @gene_name_list;

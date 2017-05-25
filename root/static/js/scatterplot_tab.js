@@ -162,7 +162,7 @@ $(document).ready(function () {
  				async: false,					
 				method: 'POST',
  				dataType: "json",
- 				data: { 'projectid': project_id, 'st_array': stages, 'ti_array': tissues, 'st_s1_index': sample1stageindex, 'st_s2_index': sample2stageindex, 'ti_s1_index': sample1tissueindex, 'ti_s2_index': sample2tissueindex, 'genes_to_plot': genes},		
+ 					data: { 'projectid': project_id, 'st_array': stages, 'ti_array': tissues, 'st_s1_index': sample1stageindex, 'st_s2_index': sample2stageindex, 'ti_s1_index': sample1tissueindex, 'ti_s2_index': sample2tissueindex, 'genes_to_plot': genes, 'corr_filter_to_set_genes': correlation_filter},		
 				    success: function(response) {
 					// ret_data should be declared outside the ajax request
  					ret = response.expression_to_plot3;

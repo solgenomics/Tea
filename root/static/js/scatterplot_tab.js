@@ -77,8 +77,8 @@ $(document).ready(function () {
 
 
 	$("#get_scatterplot_btn").click(function(){
- //   get_plot_group.on('mousedown', function getscatterplot() {
-
+	    //   get_plot_group.on('mousedown', function getscatterplot() {
+	    
 
  	if (samples_chosen.length == 2) {
 	    	document.getElementById("ExpCorrChart").innerHTML = "";

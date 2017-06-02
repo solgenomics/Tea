@@ -112,8 +112,7 @@ sub _get_genes_for_plot {
  sub get_scatterplot_expression :Path('/expression_viewer/scatterplot/') :Args(0) {
         my ( $self, $c ) = @_;
 # temporarily change default gene to the one that actually has correlated genes in this test mini-dataset
-	my $default_gene = $c->config->{default_gene};
-#	my $default_gene = "Pp3c10_13370V3.1";
+#	my $default_gene = $c->config->{default_gene};
 	my @tissues = $c->req->param("ti_array[]");	
 	my @stages = $c->req->param("st_array[]");
 	my $sample1_tissue = $c->req->param("ti_s1_index");
@@ -157,10 +156,12 @@ sub _get_genes_for_plot {
 
 	
 	# get the array of genes for which expression will be sought
-	# my @genes = $c->req->param("genes_to_plot[]");
+        my @query_gene_array = $c->req->param("genes_to_plot[]");
+	my $query_gene = $query_gene_array[0];
+#	print STDERR "QUERY GENE:".$query_gene."\n"; 
 	my $genes;
 	my @genes;
-	($genes) = _get_genes_for_plot($c,$corr_filter,$corr_index_path,$default_gene);
+	($genes) = _get_genes_for_plot($c,$corr_filter,$corr_index_path,$query_gene);
 	if ($genes) {
 	    @genes = @$genes;
 	}
@@ -177,7 +178,7 @@ sub _get_genes_for_plot {
 	my %tissue;
 	my %descriptions;
 	my %locus_ids;
-	_check_gene_exists($c,$expr_index_path,$genes[2]);
+#	_check_gene_exists($c,$expr_index_path,$genes[2]);
 	
 	foreach my $g (@genes) {
 		foreach my $s (@stages) {
@@ -198,7 +199,7 @@ sub _get_genes_for_plot {
 	    path     => $loci_and_desc_path,
 	    language => 'en',
 	);
-	print STDERR "all genes:".$lucy_loci_and_desc."\n";
+#	print STDERR "all genes:".$lucy_loci_and_desc."\n";
 
 	
 		
@@ -207,7 +208,7 @@ sub _get_genes_for_plot {
 		    query      => $g,
 			num_wanted => 10000
 		);
-print STDERR "current g: ".$g."\n";		
+#print STDERR "current g: ".$g."\n";		
     $lucy_loci_and_desc->search(
         query      => $g,
       num_wanted => 1,
@@ -217,18 +218,18 @@ print STDERR "current g: ".$g."\n";
 			# all expression values are multiplied by 1 to transform string into integer or float
       
 			$gene_stage_tissue_expr{$hit->{gene}}{$hit->{stage}}{$hit->{tissue}} = $hit->{expression} * 1;
-      if ($hit->{expression} >0) {
-        my $sem_val = 0;
-        if ($hit->{sem} && $hit->{expression}) {
-          $sem_val = $hit->{sem} / $hit->{expression};
-        }
-  			$gene_stage_tissue_sem{$hit->{gene}."_".$hit->{stage}."_".$hit->{tissue}} = $sem_val;
+#      if ($hit->{expression} >0) {
+#        my $sem_val = 0;
+#        if ($hit->{sem} && $hit->{expression}) {
+#          $sem_val = $hit->{sem} / $hit->{expression};
+#        }
+#  			$gene_stage_tissue_sem{$hit->{gene}."_".$hit->{stage}."_".$hit->{tissue}} = $sem_val;
         # $gene_stage_tissue_sem{$hit->{gene}}{$hit->{stage}}{$hit->{tissue}} = $sem_val;
-      }
-      else {
-        $gene_stage_tissue_sem{$hit->{gene}."_".$hit->{stage}."_".$hit->{tissue}} = 0
+#      }
+#      else {
+#        $gene_stage_tissue_sem{$hit->{gene}."_".$hit->{stage}."_".$hit->{tissue}} = 0
         # $gene_stage_tissue_sem{$hit->{gene}}{$hit->{stage}}{$hit->{tissue}} = 0
-      }
+ #     }
 		}
     
 #    while ( my $loci_and_desc_hit = $lucy_loci_and_desc->next ) {
@@ -249,7 +250,6 @@ print STDERR "current g: ".$g."\n";
 	for (my $g=0; $g<scalar(@genes); $g++) {
 		for (my $s=0; $s<scalar(@stages); $s++) {
 			for (my $t=0; $t<scalar(@tissues); $t++) {
-			    print
 			    $AoAoA[$g][$s][$t] = $gene_stage_tissue_expr{$genes[$g]}{$stages[$s]}{$tissues[$t]};
 
 			}
@@ -267,9 +267,10 @@ print STDERR "current g: ".$g."\n";
 			for (my $t=0; $t<scalar(@tissues); $t++) {
 			    if (($t == $sample1_tissue) && ($s == $sample1_stage)) {
 				 $sample1_AoAoA[$g] = $AoAoA[$g][$s][$t];
-				print STDERR "Loop: ".$AoAoA[$g][$s][$t]."\n";				
+				#print STDERR "Loop: ".$AoAoA[$g][$s][$t]."\n";				
 			    } elsif ($t == $sample2_tissue && $s == $sample2_stage) {
-				 $sample2_AoAoA[$g] = $AoAoA[$g][$s][$t];								print STDERR "Loop: ".$AoAoA[$g][$s][$t]."\n";
+				 $sample2_AoAoA[$g] = $AoAoA[$g][$s][$t];								
+				 #print STDERR "Loop: ".$AoAoA[$g][$s][$t]."\n";
 			    } else {
 			    }
 
@@ -307,7 +308,7 @@ for (my $g=0; $g<scalar(@genes); $g++) {
 #  );
 	my $json_string = new JSON;
 	$json_string = encode_json(\@AoH);
-print STDERR $json_string;	
+#print STDERR $json_string;	
 	
 my @combined_sample_array;
 

@@ -221,9 +221,10 @@ $(document).ready(function () {
 						xaxis:{
 						    label: sampleaxislabel1,
 						    min:0,
+						   // numberTicks: 5,
 						    					tickOptions: {
 						angle: 0,
-						formatString: "%#.2f  ",
+						formatString: "%#.0f  ",
 						fontSize: '10pt',
 						textColor: 'black',
 						fontFamily: 'Arial'
@@ -235,12 +236,11 @@ $(document).ready(function () {
 						    min:0,
 						    					tickOptions: {
 						angle: 0,
-						formatString: "%#.2f  ",
+						formatString: "%#.0f  ",
 						fontSize: '10pt',
 						textColor: 'black',
 						fontFamily: 'Arial'
 					}
-//							formatString: "%#.0f"
 						},
 					},
 								grid: {

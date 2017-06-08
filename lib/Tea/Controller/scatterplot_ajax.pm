@@ -12,6 +12,7 @@ use Lucy::Search::TermQuery;
 use Lucy::Search::ANDQuery;
 use Lucy::Search::QueryParser;
 use Array::Utils qw(:all);
+use List::MoreUtils qw(uniq);
 
 use strict;
 use warnings;
@@ -54,7 +55,7 @@ print STDERR "Output: ".$gene_found_num."\n";
 return;  
 }
 
-sub _get_genes_for_plot {
+sub _get_correlated_genes_for_plot {
     my $c = shift;    
     my $corr_filter = shift;
     my $corr_index_path = shift;    
@@ -109,6 +110,59 @@ sub _get_genes_for_plot {
     return (\@genes);
 }
 
+sub _get_all_genes_for_plot {
+    my $c = shift;    
+    my $corr_filter = shift;
+    my $loci_and_desc_path = shift;    
+    my $query_gene = shift;
+
+    my @all_genes;
+    my @unique_all_genes;
+
+
+    
+#	if ($corr_filter > 1) {
+#		$corr_filter = $corr_filter/100;
+#	}
+  
+	# Get Correlation Data
+	my $searcher = Lucy::Search::IndexSearcher->new(
+	    index     => $loci_and_desc_path,
+	);
+=for comment
+	my $sort_spec = Lucy::Search::SortSpec->new(
+	     rules => [
+		 	Lucy::Search::SortRule->new( field => 'correlation', reverse => 1,),
+		 	Lucy::Search::SortRule->new( field => 'gene2', reverse => 0,),
+		 	Lucy::Search::SortRule->new( field => 'gene1',),
+	     ],
+	);
+=cut
+
+    print STDERR "I'm inside the all-gene subroutine!";
+	
+    
+    my $all_gene_hits = $searcher->hits(
+      query      => Lucy::Search::MatchAllQuery->new,
+#      sort_spec  => $sort_spec,
+      num_wanted => 200000,
+    );
+    
+	while ( my $hit = $all_gene_hits->next ) {
+			push(@all_genes, $hit->{gene});
+#		}
+#    else {
+      # print STDERR "gene: $query_gene, hit1: ".$hit->{gene1}.", hit2: ".$hit->{gene2}.", correlation: ".$hit->{correlation}."\n";
+#    }
+#		push(@corr_values, $hit->{correlation})
+}
+@unique_all_genes = uniq @all_genes;
+ 
+    return (\@unique_all_genes);
+}
+
+
+
  sub get_scatterplot_expression :Path('/expression_viewer/scatterplot/') :Args(0) {
         my ( $self, $c ) = @_;
 # temporarily change default gene to the one that actually has correlated genes in this test mini-dataset
@@ -121,6 +175,7 @@ sub _get_genes_for_plot {
 	my $sample2_stage = $c->req->param("st_s2_index");	
 	my $project_id = $c->req->param("projectid");
 	my $corr_filter = $c->req->param("corr_filter_to_set_genes");
+	my $gene_set_selector_switch = $c->req->param("gene_set_request");
 #	print STDERR "Received parameter: ".$project_id."\n";
 #	my @tissues = split(",",$tissue_filter);
 	#	print STDERR "Genes received: ".@genes."\n";
@@ -160,8 +215,16 @@ sub _get_genes_for_plot {
 	my $query_gene = $query_gene_array[0];
 #	print STDERR "QUERY GENE:".$query_gene."\n"; 
 	my $genes;
-	my @genes;
-	($genes) = _get_genes_for_plot($c,$corr_filter,$corr_index_path,$query_gene);
+my @genes;
+
+	print STDERR "Selector value: ".$gene_set_selector_switch."\n";
+	if ($gene_set_selector_switch == 0) {    
+	    ($genes) = _get_correlated_genes_for_plot($c,$corr_filter,$corr_index_path,$query_gene);
+	} else {
+	    ($genes) = _get_all_genes_for_plot($c,$corr_filter,$expr_index_path,$query_gene);	    
+	}
+	
+	
 	if ($genes) {
 	    @genes = @$genes;
 	}

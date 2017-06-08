@@ -162,7 +162,7 @@ $(document).ready(function () {
  				async: false,					
 				method: 'POST',
  				dataType: "json",
- 					data: { 'projectid': project_id, 'st_array': stages, 'ti_array': tissues, 'st_s1_index': sample1stageindex, 'st_s2_index': sample2stageindex, 'ti_s1_index': sample1tissueindex, 'ti_s2_index': sample2tissueindex, 'genes_to_plot': genes, 'corr_filter_to_set_genes': correlation_filter},		
+ 					data: { 'projectid': project_id, 'st_array': stages, 'ti_array': tissues, 'st_s1_index': sample1stageindex, 'st_s2_index': sample2stageindex, 'ti_s1_index': sample1tissueindex, 'ti_s2_index': sample2tissueindex, 'genes_to_plot': genes, 'corr_filter_to_set_genes': correlation_filter, 'gene_set_request': all_gene_selector},		
 				    success: function(response) {
 					// ret_data should be declared outside the ajax request
  					ret = response.expression_to_plot3;
@@ -191,7 +191,7 @@ $(document).ready(function () {
 					test_line2[i] = [sample1_data[i],sample2_data[i],geneids[i]];
 					
 				    }
-//				    alert(test_line2[1][2]);
+				    alert(geneids.length);
 				    var sampleaxislabel1 = sample1tissue + "<br>" + sample1stage;
 				    var sampleaxislabel2 = sample2tissue + "<br>" + sample2stage;
 
@@ -424,7 +424,12 @@ var close_btn = document.getElementById("scatter_close_btn");
     var tissue_text = [];
 	var expr_val = 0;
 	var max_tissue_length = 0;
-			
+
+
+	var all_gene_selector = 1;
+
+
+	    
       var stage = new Kinetic.Stage({
 		  		container: "selector",
 		  		width: 600,

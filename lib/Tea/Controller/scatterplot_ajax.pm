@@ -138,8 +138,6 @@ sub _get_all_genes_for_plot {
 	     ],
 	);
 =cut
-
-    print STDERR "I'm inside the all-gene subroutine!";
 	
     
     my $all_gene_hits = $searcher->hits(

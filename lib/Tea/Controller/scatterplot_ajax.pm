@@ -229,10 +229,6 @@ my @genes;
 	
 
        	# build data structure
-#	my @genes = ('Pp3c19_22960V3.1','Pp3c19_22410V3.1');
-#	my @tissues = ('tissue1','tissue2');
-#	my @stages = ('Sporophyte_g','Sporophyte_b');
-#	unshift(@genes, $default_gene);
 	my %gene_stage_tissue_expr;
 	my %gene_stage_tissue_sem;
 	my %stage;
@@ -349,24 +345,7 @@ for (my $g=0; $g<scalar(@genes); $g++) {
     }
 	
 }
-#	my @AoH = (
-#    {
-#       geneid  => "Pp3c19_22960V3.1",
-#       sample1_exp => "50",
-#       sample2_exp      => "70",
-#    },
-#    {
-#       geneid => "Pp3c19_22500V3.1",
-#       sample1_exp    => "150",
-#       sample2_exp     => "140",
-#    },
 
-#    {
-#       geneid => "Pp3c19_22410V3.1",
-#       sample1_exp    => "300",
-#       sample2_exp     => "330",
-#    },
-#  );
 	my $json_string = new JSON;
 	$json_string = encode_json(\@AoH);
 #print STDERR $json_string;	

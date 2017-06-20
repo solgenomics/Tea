@@ -191,7 +191,7 @@ $(document).ready(function () {
 					test_line2[i] = [sample1_data[i],sample2_data[i],geneids[i]];
 					
 				    }
-				    alert(geneids.length);
+//				    alert(geneids.length);
 				    var sampleaxislabel1 = sample1tissue + "<br>" + sample1stage;
 				    var sampleaxislabel2 = sample2tissue + "<br>" + sample2stage;
 
@@ -371,7 +371,9 @@ $(document).ready(function () {
 	document.getElementById("NewPlot").style.styleFloat="left";
 	document.getElementById("GetPlot").style.height="50px";
 	document.getElementById("GetPlot").style.width="550px";
-	document.getElementById("GetPlot").style.styleFloat="left";
+	    document.getElementById("GetPlot").style.styleFloat="left";
+	    var text_instruction_scatterplot = document.createTextNode("Please select two samples from the grid, then click the button.");
+	    document.getElementById("GetPlot").appendChild(text_instruction_scatterplot);	    
 	
 	document.getElementById("selector").style.height="850";
     document.getElementById("selector").style.width="850";

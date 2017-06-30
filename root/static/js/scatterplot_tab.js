@@ -2,6 +2,7 @@ $(document).ready(function () {
     var scatterplot_loaded = 0;
     $("#scatterplots_tab").click(function(){
 	$("#dwl_expr_data").css("display","none");
+
     function add_squares() {
         var expr_val = aoaoa[0][x-1][y-1];
         
@@ -81,7 +82,7 @@ $(document).ready(function () {
 	    
 
  	if (samples_chosen.length == 2) {
-	    	document.getElementById("ExpCorrChart").innerHTML = "";
+	    document.getElementById("ExpCorrChart").innerHTML = "";
 //	    document.getElementbyId("NewPlot").style.visibility="visible";
 	    document.getElementById("NewPlot").style.display="block";
 	    document.getElementById("GetPlot").style.display="none";
@@ -137,8 +138,6 @@ $(document).ready(function () {
 	temp_id = [];
 				
 				function makeplot(lists_to_get){
-//				    alert(lists_to_get[0])
-//				    alert(lists_to_get[1])
 
 				    var sample1tissuetempindex = lists_to_get[0][0];
 				    var sample1stagetempindex = lists_to_get[0][1];
@@ -156,8 +155,12 @@ $(document).ready(function () {
 				    // make ajax request; goes to subroutine in scatterplot.pm (url); send data, variables sent are obtained from the output.mas file, which sends to this .js file
 				    var ret;
  			 	    $.ajax({
-				url: '/expression_viewer/scatterplot/',
-// 				url: url,
+					url: '/expression_viewer/scatterplot/',
+//					beforeSend: function() {
+//					    $("#loading_modal").modal("show");
+//					},
+					
+
 //				timeout: 600000,
  				async: false,					
 				method: 'POST',
@@ -165,7 +168,8 @@ $(document).ready(function () {
  					data: { 'projectid': project_id, 'st_array': stages, 'ti_array': tissues, 'st_s1_index': sample1stageindex, 'st_s2_index': sample2stageindex, 'ti_s1_index': sample1tissueindex, 'ti_s2_index': sample2tissueindex, 'genes_to_plot': genes, 'corr_filter_to_set_genes': correlation_filter, 'gene_set_request': all_gene_selector},		
 				    success: function(response) {
 					// ret_data should be declared outside the ajax request
- 					ret = response.expression_to_plot3;
+					//$("#loading_modal").modal("hide");
+					ret = response.expression_to_plot3;
 //					alert("Ajax success");
  				}// end of success function
 //					error: function(XMLHttpRequest, textStatus, errorThrown) {

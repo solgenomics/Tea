@@ -173,7 +173,11 @@ $(document).ready(function () {
     if ($("#heatmap_tab").hasClass('active')) {
       alert("This heatmap is not available for downloading");
     }
-    
+
+    if ($("#scatterplots_tab").hasClass('active')) {
+      alert("This scatterplot is not available for downloading");
+    }
+      
   });
   
   

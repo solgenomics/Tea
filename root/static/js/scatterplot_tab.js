@@ -1,7 +1,7 @@
 $(document).ready(function () {
     var scatterplot_loaded = 0;
     $("#scatterplots_tab").click(function(){
-
+	$("#dwl_expr_data").css("display","none");
     function add_squares() {
         var expr_val = aoaoa[0][x-1][y-1];
         

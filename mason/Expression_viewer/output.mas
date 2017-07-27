@@ -247,6 +247,7 @@ $(document).ready(function () {
         <div id="NewPlot">
       	    <button class="btn btn-primary" id="new_plot_btn" type="button">New scatterplot</button>
         </div>
+	<div id="Scatter_Instruction"></div>
         <div id="GetPlot">
     	    <button class="btn btn-primary" id="get_scatterplot_btn" type="button">Get scatterplot</button>
         </div>

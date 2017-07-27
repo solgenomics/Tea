@@ -23,7 +23,7 @@ $(document).ready(function () {
 			
 					var front_tile = new Kinetic.Rect({
 						x: x*20+150,
-						y: y*20+150,
+						y: y*20+adjustable_y_val,
 						width: 20,
 					    height: 20,
 					    fill: sqr_color,
@@ -71,6 +71,7 @@ $(document).ready(function () {
 	    document.getElementById("selector").style.display="none";
 	    document.getElementById("new_plot_btn").style.display="block";
 	    document.getElementById("get_scatterplot_btn").style.display="none";
+	    document.getElementById("Scatter_Instruction").style.display="none";
 
 	    makeplot(samples_chosen);
 	    samples_chosen = [];
@@ -116,8 +117,8 @@ $(document).ready(function () {
 				    var sample2stagetempindex = lists_to_get[1][1];
 				    var sample1stageindex = ((sample1stagetempindex - 150)/20) - 1;
 				    var sample2stageindex = ((sample2stagetempindex - 150)/20) - 1;
-				    var sample1tissueindex = ((sample1tissuetempindex - 150)/20) - 1;
-				    var sample2tissueindex = ((sample2tissuetempindex - 150)/20) - 1;
+				    var sample1tissueindex = ((sample1tissuetempindex - adjustable_y_val)/20) - 1;
+				    var sample2tissueindex = ((sample2tissuetempindex - adjustable_y_val)/20) - 1;
 				    var sample1stage = stages[sample1stageindex];
 				    var sample1tissue = tissues[sample1tissueindex];
 				    var sample2stage = stages[sample2stageindex];
@@ -258,22 +259,29 @@ $(document).ready(function () {
 	    document.getElementById("new_plot_btn").style.margin="-20 px";
 	    document.getElementById("new_plot_btn").style.top="50%";
 	    document.getElementById("get_scatterplot_btn").style.margin="-20 px";
-	    document.getElementById("get_scatterplot_btn").style.top="50%";
+	    document.getElementById("get_scatterplot_btn").style.top="0%";
 	    document.getElementById("get_scatterplot_btn").style.display="block";    
 	    document.getElementById("get_scatterplot_btn").style.position="relative";
-	    document.getElementById("NewPlot").style.height="100px";
+	    document.getElementById("NewPlot").style.height="50px";
 	    document.getElementById("NewPlot").style.width="550px";
 	    document.getElementById("NewPlot").style.styleFloat="left";
 	    document.getElementById("GetPlot").style.height="50px";
 	    document.getElementById("GetPlot").style.width="550px";
 	    document.getElementById("GetPlot").style.styleFloat="left";
-	    var text_instruction_scatterplot = document.createTextNode("Please select two samples from the grid, then click the button.");
-	    document.getElementById("GetPlot").appendChild(text_instruction_scatterplot);	    
-	
-	    document.getElementById("selector").style.height="850";
+	    var text_instruction_scatterplot = document.createTextNode("Please select two samples from the " + "\n" + "grid, then click the button.");
+	    document.getElementById("Scatter_Instruction").appendChild(text_instruction_scatterplot);
+	    document.getElementById("Scatter_Instruction").style.position="relative";
+	    document.getElementById("Scatter_Instruction").style.styleFloat="right";
+	    document.getElementById("Scatter_Instruction").style.width="250px";
+//	    document.getElementById("Scatter_Instruction").style.height="50px";
+	    document.getElementById("Scatter_Instruction").style.right="220px";
+	    document.getElementById("Scatter_Instruction").style.top="20px";	    
+	    document.getElementById("selector").style.height="1000";
 	    document.getElementById("selector").style.width="850";
-	    document.getElementById("selector").style.styleFloat = 'left';
-
+//	    document.getElementById("selector").style.top="200px";	    
+	    //	    document.getElementById("selector").style.styleFloat = 'left';
+	    	    document.getElementById("selector").style.position ="relative";
+	    
 	    var modal = document.getElementById('Scatter_error_modal');
 
 	    // Get the <span> element that closes the modal
@@ -306,7 +314,7 @@ $(document).ready(function () {
       var stage = new Kinetic.Stage({
 		  		container: "selector",
 		  		width: 600,
-		  		height: 600
+		  		height: 1000
 			});
 
 	for (var y=1; y<=tissues.length; y++) {
@@ -315,27 +323,29 @@ $(document).ready(function () {
 	    }else{
 	    }
 	}
+
+	    var adjustable_y_val = max_tissue_length + 20
 	    var stage_lengths = [];
 			
 			for (var x=1; x<=stages.length; x++) {
 				stage_text[x] = new Kinetic.Text({
 					x: x*20+150,
-					y: 155,
+					y:adjustable_y_val+5,
 					text: stages[x-1],
 					fontSize: 16,
 					fontFamily: 'Helvetica',
 					fill: 'black',
-					rotation: 300
+					rotation: 270
 					});
 			    layer.add(stage_text[x]);
 			    stage_lengths[x] = stage_text[x].width();
 				for (var y=1; y<=tissues.length; y++) {
-					selectorCounter++;					
-					add_squares(x,y,selectorCounter);
+//					selectorCounter++;					
+//					add_squares(x,y,selectorCounter);
 					if (x==1) {
 						tissue_text[y] = new Kinetic.Text({
 						    x: 1,
-						    y: y*20+150+4,
+						    y: y*20+adjustable_y_val+4,
 						    text: tissues[y-1],
 						    width: 160,
 						    align: 'right',
@@ -348,21 +358,47 @@ $(document).ready(function () {
 					}
 				}
 			}
+
+		
 	    var max_stage_length = 0;
 	    for (var x=1; x<=stages.length; x++) {
+//		    alert(stages[x-1].length());
+
 		if (stage_text[x].width() >= max_stage_length) {
 		    max_stage_length = stage_text[x].width();
+//		if (stages[x-1].length() >= max_stage_length) {
+//		    max_stage_length = stages[x-1].length();
 	    }else{
 	    }
-	}
+	    }
+	    adjustable_y_val = max_stage_length + 20;
+	    
+	    // add selector squares and adjust y positions/values
+	    for (var x=1; x<=stages.length; x++) {
+		stage_text[x].y(adjustable_y_val+5);
+		for (var y=1; y<=tissues.length; y++) {
+		    tissue_text[y].y(y*20+adjustable_y_val+4);
+		selectorCounter++;		
+		add_squares(x,y,selectorCounter);
+	    }
+			}
+	    
+//	    document.getElementById("selector").style.top="200px";
 
-	    // trigonometry to calculate height of rotated text - max_stage_length is hypotenuse
+/*	    // trigonometry to calculate height of rotated text - max_stage_length is hypotenuse
 	  
-	    var rad = 30 * Math.PI/180;
-	    var adjacent_side_height = (Math.cos(rad))*max_stage_length;
-	    var new_height = 10 + adjacent_side_height;
+//	    var rad = 30 * Math.PI/180;
+//	    max_stage_length = 90;
+	    alert(max_stage_length);
+//	    var adjacent_side_height = (Math.cos(rad))*max_stage_length;
+	    var pseudo_new_height = 60;
+//	    var new_height = adjacent_side_height - 20;
+	    var new_height = max_stage_length + 50;
+	    var pseudo_new_height_string = pseudo_new_height + "px";
 	    var new_height_string = new_height + "px";
+	    alert(pseudo_new_height_string);
 	    document.getElementById("GetPlot").style.height = new_height_string;
+//	    document.getElementById("GetPlot").style.height = pseudo_new_height_string; */
 	    scatterplot_loaded = 1;
 	}
 
@@ -378,6 +414,7 @@ $(document).ready(function () {
 	    document.getElementById("new_plot_btn").style.display="none";
 	    document.getElementById("GetPlot").style.display="block";
 	    document.getElementById("get_scatterplot_btn").style.display="block";
+	    document.getElementById("Scatter_Instruction").style.display="block";
 	});
 
 	close_btn.onclick = function() {

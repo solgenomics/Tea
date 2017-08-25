@@ -59,16 +59,13 @@ my $json = JSON::Any->new;
 <script type="text/javascript" src="/static/js/tea_expr_cube_functions.js"></script>
 <script type="text/javascript" src="/static/js/tea_expr_images.js"></script>
 <script type="text/javascript" src="/static/js/tea_expr_code.js"></script>
-
 <script type="text/javascript" src="/static/js/scatterplot_tab.js"></script>
-<script src="/static/js/jqplot/jquery.min.js"></script>
+
 <script src="/static/js/jqplot/jquery.jqplot.min.js"></script>
-<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.highlighter.js"></script>
 <script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.json2.js"></script>
+<script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.highlighter.js"></script>
 <script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.pointLabels.js"></script>
 <link rel="stylesheet" type="text/css" href="/static/js/jqplot/jquery.jqplot.css" />
-
-
 
 <script type="text/javascript" src="/static/js/kinetic-v5.1.0.min.js"></script>
 <script type="text/javascript" src="/static/js/jqplot/jquery.jqplot.js"></script>
@@ -88,7 +85,7 @@ my $json = JSON::Any->new;
 <script type="text/javascript" src="/static/js/d3heatmap_libs/d3-tip-0.6.6/index.js"></script>
 <script type="text/javascript" src="/static/js/d3heatmap_libs/d3heatmap-binding-0.6.1.1/d3heatmap.js"></script>
 
-<script src="/static/js/bootstrap.min.js"></script>
+
 
 <script>
 $(document).ready(function () {

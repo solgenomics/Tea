@@ -88,6 +88,7 @@ my $json = JSON::Any->new;
 <script type="text/javascript" src="/static/js/d3heatmap_libs/d3-tip-0.6.6/index.js"></script>
 <script type="text/javascript" src="/static/js/d3heatmap_libs/d3heatmap-binding-0.6.1.1/d3heatmap.js"></script>
 
+<script src="/static/js/bootstrap.min.js"></script>
 
 <script>
 $(document).ready(function () {

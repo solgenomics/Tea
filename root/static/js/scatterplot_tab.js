@@ -1,8 +1,18 @@
 $(document).ready(function () {
-
+    var plot_tissues;
+    var plot_stages;
+    
     var scatterplot_loaded = 0;
     $("#scatterplots_tab").click(function(){
 
+	plot_tissues = tissues;
+	plot_stages = stages;
+	for (i in plot_stages) {
+      plot_stages[i] = plot_stages[i].replace(/ /g,"_");
+    }
+    for (i in plot_tissues) {
+      plot_tissues[i] = plot_tissues[i].replace(/ /g,"_");
+    }
 	$("#dwl_expr_data").css("display","none");
 
     function add_squares() {
@@ -121,10 +131,10 @@ $(document).ready(function () {
 				    var sample2stageindex = ((sample2stagetempindex - 150)/20) - 1;
 				    var sample1tissueindex = ((sample1tissuetempindex - adjustable_y_val)/20) - 1;
 				    var sample2tissueindex = ((sample2tissuetempindex - adjustable_y_val)/20) - 1;
-				    var sample1stage = stages[sample1stageindex];
-				    var sample1tissue = tissues[sample1tissueindex];
-				    var sample2stage = stages[sample2stageindex];
-				    var sample2tissue = tissues[sample2tissueindex];
+				    var sample1stage = plot_stages[sample1stageindex];
+				    var sample1tissue = plot_tissues[sample1tissueindex];
+				    var sample2stage = plot_stages[sample2stageindex];
+				    var sample2tissue = plot_tissues[sample2tissueindex];
 				    var ret;
  			 	    $.ajax({
 					url: '/expression_viewer/scatterplot/',
@@ -136,7 +146,7 @@ $(document).ready(function () {
  					async: false,					
 					method: 'POST',					
  					dataType: "json",					
- 					data: { 'projectid': project_id, 'st_array': stages, 'ti_array': tissues, 'st_s1_index': sample1stageindex, 'st_s2_index': sample2stageindex, 'ti_s1_index': sample1tissueindex, 'ti_s2_index': sample2tissueindex, 'genes_to_plot': genes, 'corr_filter_to_set_genes': correlation_filter, 'gene_set_request': all_gene_selector},		
+ 					data: { 'projectid': project_id, 'st_array': plot_stages, 'ti_array': plot_tissues, 'st_s1_index': sample1stageindex, 'st_s2_index': sample2stageindex, 'ti_s1_index': sample1tissueindex, 'ti_s2_index': sample2tissueindex, 'genes_to_plot': genes, 'corr_filter_to_set_genes': correlation_filter, 'gene_set_request': all_gene_selector},		
 				    success: function(response) {
 					ret = response.expression_to_plot3;
 
@@ -319,9 +329,9 @@ $(document).ready(function () {
 		  		height: 1000
 			});
 
-	for (var y=1; y<=tissues.length; y++) {
-	    if (tissues[y-1].length >= max_tissue_length) {
-		max_tissue_length = tissues[y-1].length
+	for (var y=1; y<=plot_tissues.length; y++) {
+	    if (plot_tissues[y-1].length >= max_tissue_length) {
+		max_tissue_length = plot_tissues[y-1].length
 	    }else{
 	    }
 	}
@@ -329,11 +339,11 @@ $(document).ready(function () {
 	    var adjustable_y_val = max_tissue_length + 20
 	    var stage_lengths = [];
 			
-			for (var x=1; x<=stages.length; x++) {
+			for (var x=1; x<=plot_stages.length; x++) {
 				stage_text[x] = new Kinetic.Text({
 					x: x*20+150,
 					y:adjustable_y_val+5,
-					text: stages[x-1],
+					text: plot_stages[x-1],
 					fontSize: 16,
 					fontFamily: 'Helvetica',
 					fill: 'black',
@@ -341,14 +351,14 @@ $(document).ready(function () {
 					});
 			    layer.add(stage_text[x]);
 			    stage_lengths[x] = stage_text[x].width();
-				for (var y=1; y<=tissues.length; y++) {
+				for (var y=1; y<=plot_tissues.length; y++) {
 //					selectorCounter++;					
 //					add_squares(x,y,selectorCounter);
 					if (x==1) {
 						tissue_text[y] = new Kinetic.Text({
 						    x: 1,
 						    y: y*20+adjustable_y_val+4,
-						    text: tissues[y-1],
+						    text: plot_tissues[y-1],
 						    width: 160,
 						    align: 'right',
 							fontSize: 16,
@@ -363,7 +373,7 @@ $(document).ready(function () {
 
 		
 	    var max_stage_length = 0;
-	    for (var x=1; x<=stages.length; x++) {
+	    for (var x=1; x<=plot_stages.length; x++) {
 //		    alert(stages[x-1].length());
 
 		if (stage_text[x].width() >= max_stage_length) {
@@ -376,9 +386,9 @@ $(document).ready(function () {
 	    adjustable_y_val = max_stage_length + 20;
 	    
 	    // add selector squares and adjust y positions/values
-	    for (var x=1; x<=stages.length; x++) {
+	    for (var x=1; x<=plot_stages.length; x++) {
 		stage_text[x].y(adjustable_y_val+5);
-		for (var y=1; y<=tissues.length; y++) {
+		for (var y=1; y<=plot_tissues.length; y++) {
 		    tissue_text[y].y(y*20+adjustable_y_val+4);
 		selectorCounter++;		
 		add_squares(x,y,selectorCounter);

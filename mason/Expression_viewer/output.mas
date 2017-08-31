@@ -61,7 +61,7 @@ my $json = JSON::Any->new;
 <script type="text/javascript" src="/static/js/tea_expr_code.js"></script>
 <script type="text/javascript" src="/static/js/scatterplot_tab.js"></script>
 
-<script src="/static/js/jqplot/jquery.jqplot.min.js"></script>
+<script type="text/javascript" src="/static/js/jqplot/jquery.jqplot.min.js"></script>
 <script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.json2.js"></script>
 <script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.highlighter.js"></script>
 <script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.pointLabels.js"></script>
@@ -77,6 +77,7 @@ my $json = JSON::Any->new;
 <script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.pointLabels.min.js"></script>
 <script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.highlighter.min.js"></script>
 <script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.cursor.js"></script>
+
 
 <script type="text/javascript" src="/static/js/d3heatmap_libs/htmlwidgets-0.7/htmlwidgets.js"></script>
 <script type="text/javascript" src="/static/js/d3heatmap_libs/d3-3.5.3/./d3.min.js"></script>

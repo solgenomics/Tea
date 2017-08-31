@@ -280,13 +280,13 @@ $(document).ready(function () {
 	    document.getElementById("GetPlot").style.height="50px";
 	    document.getElementById("GetPlot").style.width="550px";
 	    document.getElementById("GetPlot").style.styleFloat="left";
-	    var text_instruction_scatterplot = document.createTextNode("Please select two samples from the " + "\n" + "grid, then click \'Get scatterplot\'");
+	    var text_instruction_scatterplot = document.createTextNode("Please select two samples from the " + "\n" + "grid, then click \'Get scatterplot\'\.");
 	    document.getElementById("Scatter_Instruction").appendChild(text_instruction_scatterplot);
 	    document.getElementById("Scatter_Instruction").style.position="relative";
 	    document.getElementById("Scatter_Instruction").style.styleFloat="right";
 	    document.getElementById("Scatter_Instruction").style.width="250px";
 //	    document.getElementById("Scatter_Instruction").style.height="50px";
-	    document.getElementById("Scatter_Instruction").style.right="220px";
+	    document.getElementById("Scatter_Instruction").style.right="270px";
 	    document.getElementById("Scatter_Instruction").style.top="40px";	    
 	    document.getElementById("selector").style.height="1000";
 	    document.getElementById("selector").style.width="850";

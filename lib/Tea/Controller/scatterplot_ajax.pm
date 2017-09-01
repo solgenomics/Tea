@@ -50,7 +50,7 @@ sub _check_gene_exists {
 		$c->stash->{template} = '/Expression_viewer/output.mas';
 		return;
 	}
-print STDERR "Output: ".$gene_found_num."\n";
+#print STDERR "Output: ".$gene_found_num."\n";
 return;  
 }
 
@@ -106,10 +106,9 @@ sub _get_correlated_genes_for_plot {
 }
 
 sub _get_all_genes_for_plot {
-    my $c = shift;    
-    my $corr_filter = shift;
+    my $c = shift;    ;
     my $loci_and_desc_path = shift;    
-    my $query_gene = shift;
+
 
     my @all_genes;
     my @unique_all_genes;
@@ -145,11 +144,11 @@ sub _get_all_genes_for_plot {
 	my $project_id = $c->req->param("projectid");
 	my $corr_filter = $c->req->param("corr_filter_to_set_genes");
 	my $gene_set_selector_switch = $c->req->param("gene_set_request");
-	print STDERR "S1 stage received: ".$sample1_stage."\n";
-	print STDERR "S1 tissue received: ".$sample1_tissue."\n";
-	print STDERR "S2 stage received: ".$sample2_stage."\n";
-	print STDERR "S2 tissue received: ".$sample2_tissue."\n";
-	print STDERR "Correlation filter received: ".$corr_filter."\n";
+#	print STDERR "S1 stage received: ".$sample1_stage."\n";
+#	print STDERR "S1 tissue received: ".$sample1_tissue."\n";
+#	print STDERR "S2 stage received: ".$sample2_stage."\n";
+#	print STDERR "S2 tissue received: ".$sample2_tissue."\n";
+#	print STDERR "Correlation filter received: ".$corr_filter."\n";
 	
        	# get the path to the expression and correlation lucy indexes
 	my $expr_path = $c->config->{expression_indexes_path};
@@ -179,13 +178,13 @@ sub _get_all_genes_for_plot {
 	my $genes;
 my @genes;
 
-	print STDERR "Selector value: ".$gene_set_selector_switch."\n";
-	if ($gene_set_selector_switch == 0) {    
-	    ($genes) = _get_correlated_genes_for_plot($c,$corr_filter,$corr_index_path,$query_gene);
-	} else {
-	    ($genes) = _get_all_genes_for_plot($c,$corr_filter,$expr_index_path,$query_gene);	    
-	}
-	
+#	print STDERR "Selector value: ".$gene_set_selector_switch."\n";
+#	if ($gene_set_selector_switch == 0) {    
+#	    ($genes) = _get_correlated_genes_for_plot($c,$corr_filter,$corr_index_path,$query_gene);
+#	} else {
+#	    ($genes) = _get_all_genes_for_plot($c,$corr_filter,$expr_index_path,$query_gene);	    
+#	}
+	($genes) = _get_all_genes_for_plot($c,$loci_and_desc_path);
 	
 	if ($genes) {
 	    @genes = @$genes;
@@ -212,20 +211,20 @@ my @genes;
 	    language => 'en',
 	);
 	
-	my $lucy_loci_and_desc = Lucy::Simple->new(
-	    path     => $loci_and_desc_path,
-	    language => 'en',
-	);
+#	my $lucy_loci_and_desc = Lucy::Simple->new(
+#	    path     => $loci_and_desc_path,
+#	    language => 'en',
+#	);
 	
 	foreach my $g (@genes) {
 		$lucy->search(
 		    query      => $g,
 			num_wanted => 10000
 		);		
-    $lucy_loci_and_desc->search(
-        query      => $g,
-      num_wanted => 1,
-    );
+#    $lucy_loci_and_desc->search(
+#        query      => $g,
+#      num_wanted => 1,
+#    );
     
 		while ( my $hit = $lucy->next ) {
 			# all expression values are multiplied by 1 to transform string into integer or float

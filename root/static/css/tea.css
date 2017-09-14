@@ -310,6 +310,16 @@ hr {
   overflow:scroll;
 }
 
+#container_network {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #ddd;
+  border-width:0px 1px 1px 1px;
+  padding-left: 0px;
+  height:700px;
+/*  width:1060px;*/
+  overflow:scroll;
+}
 
 .ui-tooltip {
   padding: 10px;

@@ -112,8 +112,6 @@ sub _get_all_genes_for_plot {
 
     my @all_genes;
     my @unique_all_genes;
-
-
 	my $searcher = Lucy::Search::IndexSearcher->new(
 	    index     => $loci_and_desc_path,
 	);
@@ -127,7 +125,7 @@ sub _get_all_genes_for_plot {
 			push(@all_genes, $hit->{gene});
 }
 @unique_all_genes = uniq @all_genes;
- 
+    
     return (\@unique_all_genes);
 }
 
@@ -171,40 +169,42 @@ sub _get_all_genes_for_plot {
 	my $corr_index_path = $corr_path."/".$project_rs->indexed_dir;
 	my $expr_index_path = $expr_path."/".$project_rs->indexed_dir;
 	$loci_and_desc_path .= "/".$project_rs->indexed_dir;		
-	
+		    
 	# get the array of genes for which expression will be sought
         my @query_gene_array = $c->req->param("genes_to_plot[]");
 	my $query_gene = $query_gene_array[0];
 	my $genes;
-my @genes;
+        my @genes;
 
 #	print STDERR "Selector value: ".$gene_set_selector_switch."\n";
 #	if ($gene_set_selector_switch == 0) {    
 #	    ($genes) = _get_correlated_genes_for_plot($c,$corr_filter,$corr_index_path,$query_gene);
 #	} else {
 #	    ($genes) = _get_all_genes_for_plot($c,$corr_filter,$expr_index_path,$query_gene);	    
+
 #	}
-	($genes) = _get_all_genes_for_plot($c,$loci_and_desc_path);
+#	($genes) = _get_all_genes_for_plot($c,$loci_and_desc_path);
+	    ($genes) = _get_all_genes_for_plot($c,$expr_index_path);
 	
 	if ($genes) {
 	    @genes = @$genes;
 	}
 	
 	my %gene_stage_tissue_expr;
-	my %gene_stage_tissue_sem;
+#	my %gene_stage_tissue_sem;
 	my %stage;
 	my %tissue;
 	my %descriptions;
 	my %locus_ids;
 	
-	foreach my $g (@genes) {
-		foreach my $s (@stages) {
-			foreach my $t (@tissues) {
-				$gene_stage_tissue_expr{$g}{$s}{$t} = 0.000001;
-				$gene_stage_tissue_sem{$g."_".$s."_".$t} = 0.000001;
-			}
-		}
-	}
+#	foreach my $g (@genes) {
+#		foreach my $s (@stages) {
+#			foreach my $t (@tissues) {
+#				$gene_stage_tissue_expr{$g}{$s}{$t} = 0.000001;
+#				$gene_stage_tissue_sem{$g."_".$s."_".$t} = 0.000001;
+#			}
+#		}
+#	}
 
 	my $lucy = Lucy::Simple->new(
 	    path     => $expr_index_path,
@@ -221,7 +221,7 @@ my @genes;
 		    query      => $g,
 			num_wanted => 10000
 		);		
-#    $lucy_loci_and_desc->search(
+#      $lucy_loci_and_desc->search(
 #        query      => $g,
 #      num_wanted => 1,
 #    );
@@ -234,47 +234,61 @@ my @genes;
 	my @gene_name_list;
 	
 	my @AoAoA;
-	
-	for (my $g=0; $g<scalar(@genes); $g++) {
-		for (my $s=0; $s<scalar(@stages); $s++) {
-			for (my $t=0; $t<scalar(@tissues); $t++) {
-			    $AoAoA[$g][$s][$t] = $gene_stage_tissue_expr{$genes[$g]}{$stages[$s]}{$tissues[$t]};
 
-			}
-		}
-	}
 	my @select_AoAoA;
 	my @sample1_AoAoA;
 	my @sample2_AoAoA;
+	my @AoH;	
+#	for (my $g=0; $g<scalar(@genes); $g++) {
+#		for (my $s=0; $s<scalar(@stages); $s++) {
+#			for (my $t=0; $t<scalar(@tissues); $t++) {
+#			    $AoAoA[$g][$s][$t] = $gene_stage_tissue_expr{$genes[$g]}{$stages[$s]}{$tissues[$t]};
+#
+#			}
+#		}
+#	}
 	for (my $g=0; $g<scalar(@genes); $g++) {
-		for (my $s=0; $s<scalar(@stages); $s++) {
-			for (my $t=0; $t<scalar(@tissues); $t++) {
-			    if (($t == $sample1_tissue) && ($s == $sample1_stage)) {
-				 $sample1_AoAoA[$g] = $AoAoA[$g][$s][$t];				
-			    } elsif ($t == $sample2_tissue && $s == $sample2_stage) {
-				 $sample2_AoAoA[$g] = $AoAoA[$g][$s][$t];
-			    } else {
-			    }
-
-			}
-		}
-	}
-	my @AoH;
-for (my $g=0; $g<scalar(@genes); $g++) {
     $AoH[$g] = {
 	geneid => $genes[$g],
-	sample1_exp => $sample1_AoAoA[$g],
-	sample2_exp => $sample2_AoAoA[$g],
+				 sample1_exp => $gene_stage_tissue_expr{$genes[$g]}{$stages[$sample1_stage]}{$tissues[$sample1_tissue]},
+				 sample2_exp => $gene_stage_tissue_expr{$genes[$g]}{$stages[$sample2_stage]}{$tissues[$sample2_tissue]},   
+
+#				 $sample1_AoAoA[$g] = $gene_stage_tissue_expr{$genes[$g]}{$stages[$sample1_stage]}{$tissues[$sample1_tissue]};
+#				 $sample2_AoAoA[$g] = $gene_stage_tissue_expr{$genes[$g]}{$stages[$sample2_stage]}{$tissues[$sample2_tissue]};   
     }
+	}
+
 	
-}
+#	for (my $g=0; $g<scalar(@genes); $g++) {
+#		for (my $s=0; $s<scalar(@stages); $s++) {
+#			for (my $t=0; $t<scalar(@tissues); $t++) {
+#			    if (($t == $sample1_tissue) && ($s == $sample1_stage)) {
+#				 $sample1_AoAoA[$g] = $AoAoA[$g][$s][$t];				
+#			    } elsif ($t == $sample2_tissue && $s == $sample2_stage) {
+#				 $sample2_AoAoA[$g] = $AoAoA[$g][$s][$t];
+#			    } else {
+#			    }
+#				 $sample1_AoAoA[$g] = $AoAoA[$g][$sample1_stage][$sample1_tissue];
+#				 $sample2_AoAoA[$g] = $AoAoA[$g][$sample2_stage][$sample2_tissue];	    
+#			}
+#		}
+#	}
+
+#for (my $g=0; $g<scalar(@genes); $g++) {
+#    $AoH[$g] = {
+#	geneid => $genes[$g],
+#	sample1_exp => $sample1_AoAoA[$g],
+#	sample2_exp => $sample2_AoAoA[$g],
+#    }
+	
+#}
 
 	my $json_string = new JSON;
 	$json_string = encode_json(\@AoH);
 	
-my @combined_sample_array;
+#my @combined_sample_array;
 
-	my $combined_sample_string = encode_json(\@combined_sample_array);
+#	my $combined_sample_string = encode_json(\@combined_sample_array);
 
     $c->stash->{rest} = {
 	expression_to_plot3 => $json_string

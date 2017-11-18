@@ -538,6 +538,7 @@ sub external_data_transfer :Path('/expression_viewer/external_data_transfer') :A
     my $export_type = $c->req->param('type');
     my $sgn_session_id = $c->req->param('sgn_session_id');
     my $user_name = $c->req->param('user_name');
+    my $main_production_site_url = $c->req->param('main_production_site_url');
     $trial_name =~ s/ //g;
     $trial_name =~ s/\s//g;
 
@@ -566,10 +567,9 @@ sub external_data_transfer :Path('/expression_viewer/external_data_transfer') :A
         $data_source_url = 'https://sgn:eggplant@cassbase.org';
         $data_loading_script = "$base_path/cassbase/bin/cea_load.sh";
         $index_dir_prefix = "cass_index_";
-	}
-    if ($data_source eq 'localhost'){
-        $data_source_url = 'http://localhost:8080';
-        $data_loading_script = "$base_path/cassbase/bin/cea_load.sh";
+    } else {
+        $data_source_url = $main_production_site_url;
+        $data_loading_script = "$base_path/bea/bin/bea_load.sh";
         $index_dir_prefix = "cass_index_";
     }
     $c->response->headers->header( "Access-Control-Allow-Origin" => $data_source_url );

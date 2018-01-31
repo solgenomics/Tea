@@ -16,7 +16,7 @@
       </p>
       <br>
       <center>
-        <img id="params_fig1" src="/static/images/help_imgs/exp_parameters.png" style="width:100%;max-width:1000px;"><br>
+        <img id="params_fig1" src="/static/images/help_imgs/exp_parameters_v2.png" style="width:100%;max-width:1000px;"><br>
         Figure 1. Eligible options for the Expression Viewer.<br><br><br>
       </center>
         
@@ -34,7 +34,7 @@
       </p>
       
       <center>
-        <img id="params_fig2" src="/static/images/help_imgs/pimpi_input.png" style="width:100%;max-width:1000px;"><br>
+        <img id="params_fig2" src="/static/images/help_imgs/pimpi_input_v2.png" style="width:100%;max-width:1000px;"><br>
         Figure 2. <i>S.pimpinellifolium</i> Fruit Development project selection.<br><br><br>
       </center>
         
@@ -58,7 +58,7 @@
       <p>
         Once the project is selected, the user can choose the stages, organs or tissues that will be included in the analysis. 
         The selection boxes for these conditions are standard HTML elements that allow the user to select one item clicking on it, 
-        or multiple items using the keys <kbd>shift</kbd> and/or c<kbd>ctrl</kbd> keys (<a href="#params_fig4">Figure 4</a>): 
+        or multiple items using the keys <kbd>shift</kbd> and/or <kbd>ctrl</kbd> keys (<a href="#params_fig4">Figure 4</a>): 
         <br><br>
         
         Clicking on one item (e.g. 5DPA in <a href="#params_fig4">Figure 4</a>), 
@@ -76,7 +76,7 @@
       </p>
       
       <center>
-        <img id="params_fig4" src="/static/images/help_imgs/multi_select.png" style="width:100%;max-width:1000px;"><br>
+        <img id="params_fig4" src="/static/images/help_imgs/multi_select_v2.png" style="width:100%;max-width:1000px;"><br>
         Figure 4. Multiple selection of conditions.<br><br><br>
       </center>
         

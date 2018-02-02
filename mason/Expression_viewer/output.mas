@@ -188,6 +188,14 @@ $(document).ready(function () {
       <button class="btn btn-primary" id="run_tool" value="Run Expression Tool">Get Expression</button>
     </form>
 
+    <form id="gene_clipboard" class="form-inline" role="form" method="post" action="/expression_viewer/output" name="tea_form_clip" enctype="multipart/form-data">
+      <label for="clipboard">Clipboard:</label>
+      <div class="form-group">
+       <input id="clipboard" class="gene_autocomplete form-control col-xs-2" type="input" name="input_clipboard"/>
+      </div>
+      <button class="btn btn-primary" id="copy_clipboard_tool" value="Copy Gene Name Tool">Copy Genes</button>
+    </form>
+
     <!-- TO DO add conditions in controller-->
     <form id="download_data" method="post" action="/download_expression_data/" enctype="multipart/form-data" style="display:none;">
       <input name="input_gene" value=<% $json->encode(\@output_gene) %> >

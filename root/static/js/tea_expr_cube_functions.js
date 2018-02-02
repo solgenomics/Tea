@@ -583,7 +583,7 @@
       gene_popup_layer.add(desc_txt);
       gene_popup_layer.draw();
     });
-    
+            
     gene_text.on('mouseout', function() {
       document.body.style.cursor = 'default';
       gene_popup_layer.removeChildren();
@@ -626,8 +626,10 @@
     }
     
     gene_text.on('mousedown', function() {
-      
-      if (!layer_drawn_h[gene_names_array[n-1]]) {
+    switch (event.which) {
+        case 1:
+        alert('Left Mouse button pressed.');
+	      if (!layer_drawn_h[gene_names_array[n-1]]) {
         for (var j=1; j<=tissue_names.length; j++) {
           for (var i=stage_names.length; i>=1; i--) {
             add_tiles_and_stage_name(n,i,j,x_margin,y_margin,aoa,sq_size,slice_group,stage_names,tissue_names,bg_color_hash,gene_popup_layer,0,1,0,0,min_expr,max_expr);
@@ -663,6 +665,17 @@
         moving_slice_group.name("slice_up");
       }
       tmp_layer.draw();
+            break;
+        case 2:
+            alert('Middle Mouse button pressed.');
+            break;
+        case 3:
+            alert('Right Mouse button pressed.');
+            break;
+        default:
+            alert('You have a strange Mouse!');
+    }      
+
     });
     
     slice_group.on('mousedown', function() {

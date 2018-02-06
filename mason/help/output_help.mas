@@ -17,7 +17,8 @@
         <li><a href="#exp_bar">3.2 Expression bar graphs</a></li>
         <li><a href="#exp_img">3.3 Expression images</a></li>
         <li><a href="#exp_heatmap">3.4 Heatmap</a></li>
-        <li><a href="#exp_download">3.5 Downloading the results</a></li>
+	<li><a href="#exp_scatterplot">3.5 Scatterplots</a></li>
+        <li><a href="#exp_download">3.6 Downloading the results</a></li>
       </ul>
       
       <p>
@@ -120,8 +121,14 @@
         <img id="output_fig7" src="/static/images/help_imgs/exp_heatmap.png" style="width:100%;max-width:1000px;"><br>
         Figure 7. Heatmap<br><br><br>
       </center>
-      
-      <h4 id="exp_download"><b>3.5 Downloading the results</b></h4>
+
+      <h4 id="exp_scatterplot"><b>3.5 Scatterplots</b></h4>
+
+      <p>
+        The scatterplot tab enables the user to make pairwise comparisons between two samples. The user first selects to samples using the selector (which represents to top side of the expression cube). By selecting two samples and clicking "Get Scatterplot", the user will be provided with a scatterplot of expression values for all genes in the selected samples.
+      </p>
+
+      <h4 id="exp_download"><b>3.6 Downloading the results</b></h4>
       
       <p>
         There are two ways to download the results from the expression atlas. 

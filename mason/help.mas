@@ -42,7 +42,7 @@
           <br>
           <ol>
             <li><a href="help/input_params/#projects">Projects.</a></li>
-            <li><a href="help/input_params/#cor_filter">Correlation filter.</a></li>
+            <li><a href="help/input_params/#cor_filter">Correlation filter and expression color scale.</a></li>
             <li><a href="help/input_params/#cond_sel">Selection of the conditions.</a></li>
           </ol>
         </li>

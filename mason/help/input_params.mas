@@ -38,7 +38,7 @@
         Figure 2. <i>S.pimpinellifolium</i> Fruit Development project selection.<br><br><br>
       </center>
         
-      <h4 id="cor_filter"><b>2.2 Correlation filter</b></h4>
+      <h4 id="cor_filter"><b>2.2 Correlation filter and expression color scale</b></h4>
       
       <p>
         A slider bar (<a href="#params_fig3">Figure 3</a>) allows to the user to set the minimum correlation value (0.65 - 1.0) 
@@ -46,11 +46,12 @@
         Higher correlation values will result in more genes being filtered out, 
         giving more conservative correlations. 
         Lower correlation values will result in less strict correlations being included in the analysis.
+	A second slider bar allows the user to set the expression color scale (0 - 5000) for displaying expression data.
       </p>
       
       <center>
-        <img id="params_fig3" src="/static/images/help_imgs/cor_slider.png" style="width:50%;max-width:500px;"><br>
-        Figure 3. Correlation filter slider.<br><br><br>
+        <img id="params_fig3" src="/static/images/help_imgs/cor_slider_v2.png" style="width:50%;max-width:500px;"><br>
+        Figure 3. Correlation filter slider and color scale slider.<br><br><br>
       </center>
         
       <h4 id="cond_sel"><b>2.3 Selection of the conditions</b></h4>

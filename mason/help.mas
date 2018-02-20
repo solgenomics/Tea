@@ -42,7 +42,7 @@
           <br>
           <ol>
             <li><a href="help/input_params/#projects">Projects.</a></li>
-            <li><a href="help/input_params/#cor_filter">Correlation filter.</a></li>
+            <li><a href="help/input_params/#cor_filter">Correlation filter and expression color scale.</a></li>
             <li><a href="help/input_params/#cond_sel">Selection of the conditions.</a></li>
           </ol>
         </li>
@@ -56,6 +56,7 @@
             <li><a href="help/output/#exp_bar">Expression bar graphs.</a></li>
             <li><a href="help/output/#exp_img">Expression images.</a></li>
             <li><a href="help/output/#exp_heatmap">Heatmap.</a></li>
+            <li><a href="help/output/#exp_scatterplot">Scatterplots.</a></li>	    
             <li><a href="help/output/#exp_download">Downloading the results.</a></li>
           </ol>
         </li>

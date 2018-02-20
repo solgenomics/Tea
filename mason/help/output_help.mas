@@ -56,7 +56,7 @@
       </center>
       
       <p>
-        The expression Cube is interactive. When the mouse cursor is moved over a gene names, 
+        The expression cube is interactive. When the mouse cursor is moved over a gene names, 
         the gene description and correlation value (based on the co-expression with the query gene) will be displayed (<a href="#output_fig3">Figure 3</a>). 
         Clicking on a gene name will split the cube to show the expression layer for that gene (<a href="#output_fig3">Figure 3</a>). 
         Clicking again on the gene name will collapse the cube again. 
@@ -125,8 +125,20 @@
       <h4 id="exp_scatterplot"><b>3.5 Scatterplots</b></h4>
 
       <p>
-        The scatterplot tab enables the user to make pairwise comparisons between two samples. The user first selects two samples using the selector (which represents to top side of the expression cube). By selecting two samples and clicking <kbd>Get scatterplot</kbd>, the user will be provided with a scatterplot of expression values for all genes in the selected samples. The identity of genes in the scatterplot can be seen by mousing over points in the scatterplot. Zooming in on the scatterplot can be achieved by clicking and dragging the mouse over the desired area. Resetting the magnification is accomplished by clicking on the plot. The scatterplot selection can be reset by clicking <kbd>New scatterplot</kbd>.
+        The scatterplot tab enables the user to make pairwise comparisons between two samples. The user first selects two samples using the selector, which represents to top side of the expression cube (<a href="#output_fig8">Figure 8</a>). By selecting two samples and clicking <kbd>Get scatterplot</kbd>, the user will be provided with a scatterplot of expression values for all genes in the selected samples (<a href="#output_fig9">Figure 9</a>). The identity of genes in the scatterplot can be seen by mousing over points in the scatterplot. Zooming in on the scatterplot can be achieved by clicking and dragging the mouse over the desired area. Resetting the magnification is accomplished by clicking on the plot. The scatterplot selection can be reset by clicking <kbd>New scatterplot</kbd>.
       </p>
+
+      
+      <center>
+        <img id="output_fig8" src="/static/images/help_imgs/scatterplot_selector.png" style="width:100%;max-width:1000px;"><br>
+        Figure 8. Scatterplot selector<br><br><br>
+      </center>
+
+      <center>
+        <img id="output_fig9" src="/static/images/help_imgs/scatterplot_output.png" style="width:100%;max-width:1000px;"><br>
+        Figure 9. Scatterplot output<br><br><br>
+      </center>
+
 
       <h4 id="exp_download"><b>3.6 Downloading the results</b></h4>
       

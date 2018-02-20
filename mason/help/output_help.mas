@@ -125,7 +125,7 @@
       <h4 id="exp_scatterplot"><b>3.5 Scatterplots</b></h4>
 
       <p>
-        The scatterplot tab enables the user to make pairwise comparisons between two samples. The user first selects to samples using the selector (which represents to top side of the expression cube). By selecting two samples and clicking "Get Scatterplot", the user will be provided with a scatterplot of expression values for all genes in the selected samples.
+        The scatterplot tab enables the user to make pairwise comparisons between two samples. The user first selects two samples using the selector (which represents to top side of the expression cube). By selecting two samples and clicking <kbd>Get scatterplot</kbd>, the user will be provided with a scatterplot of expression values for all genes in the selected samples. The identity of genes in the scatterplot can be seen by mousing over points in the scatterplot. Zooming in on the scatterplot can be achieved by clicking and dragging the mouse over the desired area. Resetting the magnification is accomplished by clicking on the plot. The scatterplot selection can be reset by clicking <kbd>New scatterplot</kbd>.
       </p>
 
       <h4 id="exp_download"><b>3.6 Downloading the results</b></h4>

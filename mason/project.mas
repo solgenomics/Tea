@@ -42,13 +42,9 @@ $exp_tables => ()
   margin-bottom:100px;
 }
 
-.figure_title {
-  text-align: center;
-}
-
 #color_legend {
 	width:400px;
-  padding-top:150px;
+  padding-top:20px;
 }
 
 #color_legend li {

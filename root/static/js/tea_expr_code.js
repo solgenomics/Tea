@@ -182,14 +182,7 @@ $(document).ready(function () {
       
     // download canvas as image when Scatterplots tab is active
     if ($("#scatterplots_tab").hasClass('active')) {
-      selector.toDataURL({
-        callback: function(imageURL) {
-           var a = $("#dwl_cube_link")
-               .attr("href", imageURL)
-               .appendTo("body");
-           a[0].click();
-         }
-      });
+	alert("Scatterplot images are not currently available for downloading");
     }
       
   });

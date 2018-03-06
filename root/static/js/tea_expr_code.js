@@ -97,11 +97,17 @@ $(document).ready(function () {
   //get d3heatmap html file
   var d3heatmap_loaded = 0;
   $("#heatmap_tab").click(function(){
-    
+
     $('#dwl_expr_data').css("display","none");
     
     if (!d3heatmap_loaded) {
-    
+	for (i in stages) {
+	    stages[i] = stages[i].replace(/ /g,"_");
+	}
+	for (i in tissues) {
+	    tissues[i] = tissues[i].replace(/ /g,"_");
+	}    
+	
       $.ajax({
             url: '/expression_viewer/d3heatmap/',
             timeout: 600000,
@@ -173,9 +179,10 @@ $(document).ready(function () {
     if ($("#heatmap_tab").hasClass('active')) {
       alert("This heatmap is not available for downloading");
     }
-
+      
+    // download canvas as image when Scatterplots tab is active
     if ($("#scatterplots_tab").hasClass('active')) {
-      alert("This scatterplot is not available for downloading");
+	alert("Scatterplot images are not currently available for downloading");
     }
       
   });

@@ -12,7 +12,6 @@ $input_gene => ()
 
 </style>
 
-
 <center>
 	<& hidden_dialogs.mas, input_gene => $input_gene &>
 	<& input_title.mas &>
@@ -31,7 +30,10 @@ $input_gene => ()
 <br/>
 <br/>
 
+<script>
+  var conf_input_gene = "<% $input_gene %>";
+  //alert("conf_input_gene: "+conf_input_gene);
+</script>
 
 <script type="text/javascript" src="/static/js/tea_expr_input.js"></script>
 <script type="text/javascript" src="/static/js/tea_expr_functions.js"></script>
-

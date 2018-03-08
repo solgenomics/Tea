@@ -465,6 +465,11 @@
         } else {
           project_genes = response.project_genes;
 
+          if (!conf_input_gene) {
+            //alert("first gene: "+project_genes[0]);
+            $('#gene_id_input').val(project_genes[0]);
+          }
+
           $( ".gene_autocomplete" ).autocomplete({
               source: function(request, response) {
                   var results = $.ui.autocomplete.filter(project_genes, request.term);

@@ -44,7 +44,7 @@ sub help {
 
 
     Usage:
-       
+
        TEA_import_project_metadata.pl -d <db_name> -H <host> -u <user_name> -t <template_file>
 
     Mandatory options:
@@ -53,15 +53,15 @@ sub help {
       -H <host>                    Database host
       -u <user_name>               Database user
       -t <template_file>           TEA metadata template TEA_project_input_template.txt
-    
+
     Other options:
-      
+
       -h                           Print this help
       -n                           Non-interactively run this script
       -p <password>                Database user password. Required if -n is used.
-      
+
     Example:
-      
+
       TEA_import_project_metadata.pl -d expression_db -H localhost -u postgres -t TEA_project_input_template.txt
 
 
@@ -113,37 +113,9 @@ my $input_file = $opt_t;
 my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
 
 my ($organism_species,$organism_variety,$organism_id,$organism_description);
-my ($project_id,$project_name,$project_contact,$project_description,$indexed_dir,$expr_unit);
+my ($project_id,$project_name,$project_contact,$project_description,$project_ordinal,$indexed_dir,$expr_unit);
 my ($figure_name,$cube_stage_name,$figure_id,$conditions);
 my ($layer_name,$layer_description,$bg_color,$layer_type,$layer_image,$img_width,$img_height,$cube_ordinal,$img_ordinal,$organ);
-
-# my $organism_species;
-# my $organism_variety;
-# my $organism_id;
-# my $organism_description;
-#
-# my $project_id;
-# my $project_name;
-# my $project_contact;
-# my $project_description;
-# my $indexed_dir;
-# my $expr_unit;
-#
-# my $cube_stage_name;
-# my $figure_id;
-# my $conditions;
-#
-# my $layer_name;
-# my $layer_description;
-# my $bg_color;
-# my $organ;
-# my $layer_type;
-#
-# my $layer_image;
-# my $img_width;
-# my $img_height;
-# my $cube_ordinal;
-# my $img_ordinal;
 
 
 open (my $info_fh, "<", $input_file) or die("Input file not found");
@@ -167,19 +139,19 @@ try {
       if ($line =~ /^organism_variety:\s*(.+)\s*/) {
           $organism_variety = $1;
       }
-      
+
       if ($line =~ /^organism_description:\s*(.+)\s*/) {
           $organism_description = $1;
       }
-      
+
       if ($line =~ /^\#\s*organism\s*-\s*end/) {
-      
+
           my $organism_all_rs = $schema->resultset('Organism');
           my $organism_rs = $schema->resultset('Organism')->single({
             species => $organism_species,
             variety => $organism_variety,
           });
-          
+
           if (!$organism_rs || !$organism_rs->species) {
 
             my $skip_organism;
@@ -195,7 +167,7 @@ try {
                   species => $organism_species,
                   variety => $organism_variety,
               });
-        
+
               if ($organism_rs->in_storage) {
                   print "this organism is already in the database\n";
                   print_one_row($organism_rs);
@@ -203,7 +175,7 @@ try {
               else {
                   check_commit($organism_rs,$organism_all_rs,"Organism");
               }
-          
+
               print "commited.\n";
             } else {
               print  "Not commited. Exiting\n";
@@ -212,7 +184,7 @@ try {
           }
           $organism_id = $organism_rs->organism_id;
       } # organism end
-      
+
       # lets fill out the project table
       if ($line =~ /^project_name:\s*(.+)\s*$/) {
           $project_name = $1;
@@ -226,6 +198,9 @@ try {
       if ($line =~ /^expr_unit:\s*(.+)\s*$/) {
           $expr_unit = $1;
       }
+      if ($line =~ /^ordinal:\s*(\d+)\s*$/) {
+          $project_ordinal = $1;
+      }
       if ($line =~ /^index_dir_name:\s*(.+)\s*$/) {
           $indexed_dir = $1;
       }
@@ -236,6 +211,7 @@ try {
               contact => $project_contact,
               description => $project_description,
               expr_unit => $expr_unit,
+              ordinal => $project_ordinal,
               organism_id => $organism_id,
               indexed_dir => $indexed_dir,
           });
@@ -248,13 +224,13 @@ try {
           }
           $project_id = $project_rs->project_id;
       } # project end
-      
-      
-      
-      
-      
+
+
+
+
+
       # lets fill out the figure table
-      
+
       #START FIGURE OPEN
       if ($line =~ /^\#\s*figure/i) {
           $cube_stage_name = "";
@@ -270,7 +246,7 @@ try {
           $cube_ordinal = 0;
           $img_ordinal = 0;
       }
-      
+
       if ($line =~ /^figure_name:\s*(.+)\s*$/) {
           $figure_name = $1;
       }
@@ -280,7 +256,7 @@ try {
       if ($line =~ /^conditions:\s*(.+)\s*$/) {
           $conditions = $1;
       }
-      
+
       if ($line =~ /^\#\s*write\s*figure\s*metadata/i) {
 
           # lets fill out the figure table
@@ -290,7 +266,7 @@ try {
               cube_stage_name => $cube_stage_name,
               project_id => $project_id,
           });
-          
+
           if ($figure_rs->in_storage) {
               print "this figure is already in the database\n";
               print_one_row($figure_rs);
@@ -300,22 +276,22 @@ try {
           }
           # print "figure_id1: ".$figure_rs->figure_id."\n";
           $figure_id = $figure_rs->figure_id;
-          
+
           my @conditions_array = split(",",$conditions);
-          
+
           foreach my $cond (@conditions_array) {
-            
+
             $cond =~ s/^\s+//;
-            
+
             print STDERR "condition: $cond\n\n\n";
-            
+
             # lets fill out the condition table
             my $condition_all_rs = $schema->resultset('Condition');
             my $condition_rs = $schema->resultset('Condition')->find_or_new({
                 name => $cond,
                 figure_id => $figure_id,
             });
-          
+
             if ($condition_rs->in_storage) {
                 print "this condition is already in the database\n";
                 print_one_row($condition_rs);
@@ -323,17 +299,17 @@ try {
             else {
                 check_commit($condition_rs,$condition_all_rs,"Condition");
             }
-            
+
           }
-          
+
       } # write figure metadata
-      
-      
-      
+
+
+
       # lets fill out the layer tables
       my $layer_rs;
       if ($line =~ /^layer_name:\s*(.+)\s*$/) {
-          
+
           $layer_name = "";
           $layer_description = "";
           $layer_type = "";
@@ -343,9 +319,9 @@ try {
           $img_height = 0;
           $cube_ordinal = 0;
           $img_ordinal = 0;
-          
+
           $layer_name = $1;
-          
+
       }
       if ($line =~ /^layer_description:\s*(.+)\s*$/) {
           $layer_description = $1;
@@ -375,12 +351,12 @@ try {
           $organ = $1;
       }
       if ($line =~ /^\#\s*layer\s*-\s*end/) {
-          
+
           submit_layer($schema,$layer_type,$layer_name,$layer_description,$bg_color,$layer_image,$img_width,$img_height,$cube_ordinal,$img_ordinal,$organ);
-          
+
       } # layer end
-      
-      
+
+
     } # while end
   }); # end txn
 } catch {
@@ -406,9 +382,9 @@ sub submit_layer {
   my $cube_ordinal = shift;
   my $img_ordinal = shift;
   my $organ = shift;
-  
+
   print STDERR "layer_type: $layer_type, layer_name: $layer_name, layer_description: $layer_description, bg_color: $bg_color, layer_image: $layer_image, img_width: $img_width, img_height: $img_height, cube_ordinal: $cube_ordinal, img_ordinal: $img_ordinal, organ: $organ\n";
-  
+
   # checking the layer type
   my $layer_type_all_rs = $schema->resultset('LayerType');
   my $layer_type_rs = $schema->resultset('LayerType')->single({layer_type => $layer_type});
@@ -426,16 +402,16 @@ sub submit_layer {
           $layer_type_rs = $schema->resultset('LayerType')->new({
               layer_type => $layer_type,
           });
-          
+
           check_commit($layer_type_rs,$layer_type_all_rs,$layer_type);
-          
+
           print "commited.\n";
       } else {
           print  "Not commited. Exiting\n";
           exit;
       }
   }
-  
+
   my $layer_info_all_rs = $schema->resultset('LayerInfo');
   my $layer_info_rs = $schema->resultset('LayerInfo')->find_or_new({
       name => $layer_name,
@@ -443,7 +419,7 @@ sub submit_layer {
       bg_color => $bg_color,
       organ => $organ,
   });
-  
+
   if ($layer_info_rs->in_storage) {
       print "the layer info for $layer_name is already in the database\n";
       print_one_row($layer_info_rs);
@@ -457,7 +433,7 @@ sub submit_layer {
     });
     check_commit($layer_info_rs,$layer_info_all_rs,$layer_type);
   }
-  
+
   my $layer_rs = $schema->resultset('Layer')->find_or_new({
       image_file_name => $layer_image,
       layer_type_id => $layer_type_rs->layer_type_id,
@@ -467,18 +443,18 @@ sub submit_layer {
       cube_ordinal => $cube_ordinal,
       img_ordinal => $img_ordinal,
   });
-  
+
   my $layer_all_rs = $schema->resultset('Layer');
-  
-  
-  
+
+
+
   if ($layer_rs->in_storage) {
       print "the layer for $layer_image is already in the database\n";
       print_one_row($layer_rs);
   }
   else {
       print "the layer for $layer_image was not found in the database\n";
-      
+
       $layer_rs = $schema->resultset('Layer')->new({
           image_file_name => $layer_image,
           layer_type_id => $layer_type_rs->layer_type_id,
@@ -490,7 +466,7 @@ sub submit_layer {
       });
       check_commit($layer_rs,$layer_all_rs,$layer_type);
   }
-  
+
   my $figure_layer_all_rs = $schema->resultset('FigureLayer');
   my $figure_layer_rs = $schema->resultset('FigureLayer')->find_or_new({
       figure_id => $figure_id,
@@ -504,7 +480,7 @@ sub submit_layer {
   else {
       check_commit($figure_layer_rs,$figure_layer_all_rs,"FigureLayer");
   }
-  
+
 }
 
 
@@ -512,9 +488,9 @@ sub submit_layer {
 
 sub print_one_row {
     my $rs = shift;
-    
+
     my @cols = $rs->result_source->columns;
-    
+
     foreach my $col (@cols) {
         if ($rs->$col) {
             print "$col: ".$rs->$col."\n";
@@ -525,11 +501,11 @@ sub print_one_row {
 
 sub print_table_data {
     my $rs = shift;
-    
+
     my @cols = $rs->result_source->columns;
-    
+
     print join("\t|\t",@cols)."\n";
-    
+
     while(my $rs_i = $rs->next) {
         foreach my $col (@cols) {
             print $rs_i->$col."\t\t";
@@ -542,13 +518,13 @@ sub check_commit {
     my $rs = shift;
     my $all_rs = shift;
     my $data_type = shift;
-    
+
     # print "Please, check if your $data_type is similar to anyone from the database:\n\n";
     # print_table_data($all_rs);
-    
+
     print "\nyour new $data_type:\n";
     print_one_row($rs);
-    
+
     my $skip_commit;
     if (!$opt_n) {
       print "Commit? [Y|n]> ";
@@ -558,11 +534,10 @@ sub check_commit {
     }
     if (!$skip_commit) {
         $rs->insert();
-    
+
         print "commited.\n\n\n\n\n";
     } else {
         print  "Not commited. Exiting\n";
         exit;
     }
 }
-

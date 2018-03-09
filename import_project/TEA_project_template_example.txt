@@ -2,16 +2,17 @@
 
 #organism
 organism_species: Genus species
-organism_variety: 
+organism_variety:
 organism_description:
 # organism - end
 
 
 #project
 project_name: RNA-Seq project
-project_contact: 
-project_description: 
+project_contact:
+project_description:
 expr_unit: FPKM
+ordinal: 10
 index_dir_name: example1
 # project - end
 
@@ -23,7 +24,7 @@ conditions: condition 1, condition 2
 
 #stage layer
 layer_name: stage_3
-layer_description: 
+layer_description:
 layer_type: stage
 bg_color: #bbffff
 layer_image:
@@ -36,7 +37,7 @@ organ: organ_1
 
 #tissue layer
 layer_name: tissue_1
-layer_description: 
+layer_description:
 layer_type: tissue
 bg_color: #e9f2ea
 layer_image: tissue1.png
@@ -49,7 +50,7 @@ organ: organ_1
 
 #tissue layer
 layer_name: tissue_2
-layer_description: 
+layer_description:
 layer_type: tissue
 bg_color:
 layer_image: tissue2.png
@@ -62,7 +63,7 @@ organ: organ_1
 
 #tissue layer
 layer_name: tissue_3
-layer_description: 
+layer_description:
 layer_type: tissue
 bg_color: #e9f2ea
 layer_image: tissue3.png
@@ -75,7 +76,7 @@ organ: organ_1
 
 #tissue layer
 layer_name: tissue_4
-layer_description: 
+layer_description:
 layer_type: tissue
 bg_color: #e9d9ff
 layer_image: tissue4.png
@@ -96,7 +97,7 @@ conditions: condition 2
 
 #stage layer
 layer_name: stage_2
-layer_description: 
+layer_description:
 layer_type: stage
 bg_color:
 layer_image:
@@ -109,7 +110,7 @@ organ: organ_2
 
 #tissue layer
 layer_name: tissue_1
-layer_description: 
+layer_description:
 layer_type: tissue
 bg_color: #e9f2ea
 layer_image: tissue1.png
@@ -122,7 +123,7 @@ organ: organ_2
 
 #tissue layer
 layer_name: tissue_2
-layer_description: 
+layer_description:
 layer_type: tissue
 bg_color:
 layer_image: tissue2.png
@@ -135,7 +136,7 @@ organ: organ_2
 
 #tissue layer
 layer_name: tissue_3
-layer_description: 
+layer_description:
 layer_type: tissue
 bg_color: #e9f2ea
 layer_image: tissue3.png
@@ -156,7 +157,7 @@ conditions: condition 1, condition 3
 
 #stage layer
 layer_name: stage_1
-layer_description: 
+layer_description:
 layer_type: stage
 bg_color: #ffffbb
 layer_image: stage1_bg.png
@@ -169,7 +170,7 @@ organ: organ_1
 
 #tissue layer
 layer_name: tissue_1
-layer_description: 
+layer_description:
 layer_type: tissue
 bg_color: #e9f2ea
 layer_image: tissue1.png
@@ -182,7 +183,7 @@ organ: organ_1
 
 #tissue layer
 layer_name: tissue_2
-layer_description: 
+layer_description:
 layer_type: tissue
 bg_color:
 layer_image: tissue2.png
@@ -195,7 +196,7 @@ organ: organ_1
 
 #tissue layer
 layer_name: tissue_3
-layer_description: 
+layer_description:
 layer_type: tissue
 bg_color: #e9f2ea
 layer_image: tissue3.png
@@ -207,7 +208,3 @@ organ: organ_1
 # layer - end
 
 # figure - end
-
-
-
-

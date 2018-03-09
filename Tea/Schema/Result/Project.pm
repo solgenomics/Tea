@@ -59,6 +59,11 @@ __PACKAGE__->table("project");
   is_nullable: 1
   size: 80
 
+=head2 ordinal
+
+  data_type: 'integer'
+  is_nullable: 1
+
 =head2 organism_id
 
   data_type: 'bigint'
@@ -85,6 +90,8 @@ __PACKAGE__->add_columns(
   { data_type => "varchar", is_nullable => 1, size => 80 },
   "expr_unit",
   { data_type => "varchar", is_nullable => 1, size => 80 },
+  "ordinal",
+  { data_type => "integer", is_nullable => 1 },
   "indexed_dir",
   { data_type => "varchar", is_nullable => 1, size => 80 },
   "organism_id",
@@ -207,6 +214,11 @@ __PACKAGE__->table("project");
   is_nullable: 1
   size: 80
 
+=head2 ordinal
+
+  data_type: 'integer'
+  is_nullable: 1
+
 =head2 indexed_dir
 
   data_type: 'varchar'
@@ -239,6 +251,8 @@ __PACKAGE__->add_columns(
   { data_type => "varchar", is_nullable => 1, size => 80 },
   "expr_unit",
   { data_type => "varchar", is_nullable => 1, size => 80 },
+  "ordinal",
+  { data_type => "integer", is_nullable => 1 },
   "indexed_dir",
   { data_type => "varchar", is_nullable => 1, size => 80 },
   "organism_id",
@@ -302,7 +316,7 @@ __PACKAGE__->belongs_to(
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;
-# End of lines loaded from '/home/noe/cxgn/Tea/Tea/Schema/Result/Project.pm' 
+# End of lines loaded from '/home/noe/cxgn/Tea/Tea/Schema/Result/Project.pm'
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

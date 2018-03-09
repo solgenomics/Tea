@@ -12,6 +12,7 @@ CREATE TABLE project (
     contact varchar(80),
     expr_unit varchar(80),
     indexed_dir varchar(80),
+    ordinal integer,
     organism_id bigserial references organism(organism_id) NOT NULL
 );
 

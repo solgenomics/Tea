@@ -5,13 +5,13 @@
     <a href="/anatomy_viewer"><img src="/static/images/anatomy_small.png" height="50" style="margin-left:5px;"/></a>
   </div>
 
-
   <div style="float:right;">
     <a href="http://www.nsf.gov" target="_blank"><img src="/static/images/nsf.png" height="50" style="margin-right:5px;"/></a>
     <a href="http://bti.cornell.edu/" target="_blank"><img src="/static/images/bti_logo.png" height="45" style="margin-right:25px;"/></a>
   </div>
   
-  <div style="text-align:center;color:#666;padding-top:15px;cursor: pointer"><a data-toggle="modal" data-target="#cite_us_modal">Cite Us</a></div>
+  <div style="text-align:center;color:#666;padding-top:15px;cursor: pointer"><a style="padding-left:10px;padding-right:10px" rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /><a style="padding-left:10px;padding-right:10px" data-toggle="modal" data-target="#attribution_modal">Image Use Attribution</a></a><a style="padding-left:10px;padding-right:10px" data-toggle="modal" data-target="#cite_us_modal">Cite Us</a></div>
+  
 </div>
 
 <div class="modal fade" id="cite_us_modal" role="dialog">
@@ -19,7 +19,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <center><h4 class="modal-title">Cite us</h4></center>
+        <center><h4 class="modal-title">Cite Us</h4></center>
       </div>
       <div class="modal-body">
         <ul>
@@ -46,8 +46,23 @@
   </div>
 </div>
 
+<div class="modal fade" id="attribution_modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <center><h4 class="modal-title">Image Use Attribution</h4></center>
+      </div>
+      <div class="modal-body">
+        <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/StillImage" property="dct:title" rel="dct:type">"Tomato Expression Atlas images</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://solgenomics.net" property="cc:attributionName" rel="cc:attributionURL">BTI</a> are licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. Based on work at <a xmlns:dct="http://purl.org/dc/terms/" href="http://tea.solgenomics.net" rel="dct:source">tea.solgenomics.net</a>"
+      </div>
+    </div>
+  </div>
+</div>
+
 <style>
   .cite-link {
     color: #337ab7;
   }
 </style>
+

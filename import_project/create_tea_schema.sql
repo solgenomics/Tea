@@ -59,9 +59,6 @@ CREATE TABLE figure_layer (
     layer_id bigserial REFERENCES layer(layer_id)
 );
 
-
-GRANT ALL PRIVILEGES ON DATABASE tea_metadata TO web_usr;
-
 GRANT ALL PRIVILEGES ON organism TO web_usr;
 GRANT ALL PRIVILEGES ON project TO web_usr;
 GRANT ALL PRIVILEGES ON figure TO web_usr;
@@ -70,4 +67,3 @@ GRANT ALL PRIVILEGES ON layer TO web_usr;
 GRANT ALL PRIVILEGES ON layer_info TO web_usr;
 GRANT ALL PRIVILEGES ON layer_type TO web_usr;
 GRANT ALL PRIVILEGES ON figure_layer TO web_usr;
-

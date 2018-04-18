@@ -63,22 +63,27 @@ function iterate_by_stage(n,stage_h,stage_ids_a,j_index,x_offset,y_offset,prev_s
   //sum x and y offsets to print the tissue images
   j_index++;
 
+  var img_width_sum = x_offset + prev_img_width + img_width;
+
   //first stage
   if (n == 0) {
     x_offset = 0;
     y_offset = 0 + title_y_offset;
   }
   //same line -- if same stage and not over limit
-  else if (stage_short_name == prev_stage && x_offset + img_width + next_img_width <= canvas_width) {
+  else if (stage_short_name == prev_stage && img_width_sum <= canvas_width) {
     x_offset = x_offset + prev_img_width;
     // x_offset = x_offset + img_width;
+    // alert("stage_name: "+stage_name+", img_width_sum: "+img_width_sum+", canvas_width: "+canvas_width);
+    // alert("x_offset: "+x_offset+", img_width: "+img_width+", next_img_width: "+next_img_width);
   }
   //new line -- if starting a set of stages or over the limit
-  else if (stage_short_name == next_short_name || x_offset + img_width + next_img_width > canvas_width) {
+  else if (stage_short_name == next_short_name || img_width_sum > canvas_width) {
     x_offset = 0;
     j_index = 1;
     y_offset = y_offset + highest_row + title_y_offset*2;
     highest_row = img_height;
+    // alert("else if 2");
   }
   //new line -- if not belong to a set of stages
   else if (stage_short_name != prev_stage && prev_stage2 && prev_stage == prev_stage2) {
@@ -86,15 +91,16 @@ function iterate_by_stage(n,stage_h,stage_ids_a,j_index,x_offset,y_offset,prev_s
     j_index = 1;
     y_offset = y_offset + highest_row + title_y_offset*2;
     highest_row = img_height;
+    // alert("else if 3");
   }
   //same line
   else {
     x_offset = x_offset + prev_img_width;
     // x_offset = x_offset + img_width;
-    // alert("x_offset_else: "+x_offset);
+    // alert("else");
   }
 
-  // alert("x_offset_final: "+x_offset);
+  // alert("final x offset: "+x_offset);
 
   return [x_offset,y_offset,j_index,stage_name,img_name,img_width,img_height,stage_short_name,highest_row];
 }

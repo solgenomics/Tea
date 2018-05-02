@@ -399,57 +399,6 @@
   }
 
 
-
-
-  // function get_expr_color(expr_val) {
-  //
-  //   var r_color = 255;
-  //   var g_color = 255;
-  //   var b_color = 255;
-  //
-  //   if (expr_val == 0) {
-  //     r_color = 255;
-  //     g_color = 255;
-  //     b_color = 255;
-  //
-  //   }
-  //   else if (expr_val == 0.000001) {
-  //     r_color = 210;
-  //     g_color = 210;
-  //     b_color = 210;
-  //   }
-  //   else if (expr_val <= 1) {
-  //     r_color = 255;
-  //     g_color = 255;
-  //     b_color = Math.round(130*(1-expr_val)+100);
-  //   } else if (expr_val > 1 && expr_val <= 10) {
-  //     r_color = 255;
-  //     g_color = Math.round(245 - 60*expr_val/10);
-  //     b_color = Math.round(220 - 105*expr_val/10);
-  //   } else if (expr_val > 10 && expr_val <= 100) {
-  //     r_color = 255;
-  //     g_color = Math.round(197 - 67*(expr_val/100));
-  //     b_color = Math.round(130 - 130*(expr_val/100));
-  //   } else if (expr_val > 100 && expr_val <= 300) {
-  //     r_color = 255
-  //     g_color = Math.round(130 - 130*(expr_val-100)/200);
-  //     b_color = 0;
-  //   } else if (expr_val > 300 && expr_val <= 500) {
-  //     r_color = Math.round(255 - 175*(expr_val-300)/200);
-  //     g_color = 0;
-  //     b_color = 0;
-  //   } else if (expr_val > 500) {
-  //     r_color = 80;
-  //     g_color = 0;
-  //     b_color = 0;
-  //   }
-  //
-  //   return [r_color,g_color,b_color];
-  // }
-  //
-  //
-  //
-  //
   // get array with the gene names from the project for the autocomplete function
   function get_project_genes(organism_list){
 
@@ -465,9 +414,11 @@
         } else {
           project_genes = response.project_genes;
 
-          if (!conf_input_gene) {
-            //alert("first gene: "+project_genes[0]);
+          if (typeof conf_input_gene === 'undefined' || !conf_input_gene) {
+            // alert("first gene: "+project_genes[0]);
             $('#gene_id_input').val(project_genes[0]);
+          } else {
+            console.log('conf_input_gene: '+conf_input_gene)
           }
 
           $( ".gene_autocomplete" ).autocomplete({

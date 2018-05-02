@@ -11,9 +11,11 @@ $exp_tables => ()
 
 <center>
   <h2><% $project_name %></h2>
-  <br>
 
   <div style="width:900px; text-align: left;">
+    <a href="/project_menu" class="pull-left" style="text-decoration: underline">Go back to menu page</a>
+    <br>
+    <br>
     <p><b>Genotype: </b><i><% $organism %></i>
     <p><b>Description: </b><% $project_description %></p>
     <p><b>Contact: </b><% $project_contact %></p>

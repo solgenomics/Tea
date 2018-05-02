@@ -39,7 +39,13 @@ sub index :Path('/expression_viewer/input/') :Args(0) {
   my ( $self, $c ) = @_;
 
   my $default_gene = $c->config->{default_gene};
-	my $input_gene = $c->req->param("input_gene") || $default_gene;
+
+  # print STDERR "default_gene: $default_gene\n";
+
+  my $input_gene = $c->req->param("input_gene") || $default_gene;
+
+  # print STDERR "input_gene: $input_gene\n";
+
   my $dbname = $c->config->{dbname};
   my $host = $c->config->{dbhost};
   my $username = $c->config->{dbuser};
@@ -83,6 +89,8 @@ sub index :Path('/expression_viewer/input/') :Args(0) {
   #   push(@projects,"<div id=\"project_radio_div\" class=\"radio\">\n<label><input id=\"project_".$proj_obj->project_id."\" type='radio' class='organism_col' name=\"optradio\" value=\'".$proj_obj->project_id."\'> $project_name</label>\n</div>\n");
   #   # push(@projects,"<div id=\"project_radio_div\" class=\"radio\">\n<label><input id=\"organism_".$proj_obj->organism_id."\" type='radio' class='organism_col' name=\"optradio\" value=\'".$proj_obj->organism_id."\'> $project_name</label>\n</div>\n");
   # }
+
+  # print STDERR "input_gene: $input_gene\n";
 
   # save array info in text variable
   my $projects_html = join("\n", @projects);

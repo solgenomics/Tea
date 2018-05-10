@@ -1,10 +1,11 @@
 $(document).ready(function () {
+    $.jqplot.config.enablePlugins = true;
     var plot_tissues;
     var plot_stages;
     
     var scatterplot_loaded = 0;
     $("#scatterplots_tab").click(function(){
-
+        var scatterplot_img_loaded = 0;
 	plot_tissues = tissues;
 	plot_stages = stages;
 	for (i in plot_stages) {
@@ -75,6 +76,9 @@ $(document).ready(function () {
 	    
 
  	if (samples_chosen.length == 2) {
+//           if (!scatterplot_img_loaded) {
+
+	    
 	    document.getElementById("ExpCorrChart").innerHTML = "";
 
 	    document.getElementById("NewPlot").style.display="block";
@@ -84,10 +88,18 @@ $(document).ready(function () {
 	    document.getElementById("new_plot_btn").style.display="block";
 	    document.getElementById("get_scatterplot_btn").style.display="none";
 	    document.getElementById("Scatter_Instruction").style.display="none";
+//	    setTimeout($("#scatterplot_loading_modal").modal("show"), 1);
+//	    $("#scatterplot_loading_modal").style.display="";
 
-	    makeplot(samples_chosen);
-	    samples_chosen = [];
-				}
+		makeplot(samples_chosen);
+//		scatterplot_img_loaded = 1;
+//	    setTimeout($("#scatterplot_loading_modal").modal("hide"), 5000);
+//	    	    $("#scatterplot_loading_modal").style.display="none";
+//	    $("#scatterplot_loading_modal").modal('hide');	    
+
+		samples_chosen = [];
+//	    }	
+	}
 				else if (samples_chosen.length < 2) {
 				    document.getElementById("Scatter_error_modal").style.display="block";
 				    if (samples_chosen.length == 1) {
@@ -138,9 +150,9 @@ $(document).ready(function () {
 				    var ret;
  			 	    $.ajax({
 					url: '/expression_viewer/scatterplot/',
-//					beforeSend: function() {
-//					    $("#loading_modal").modal("show");
-//					},
+					beforeSend: function() {
+					    $("#scatterplot_loading_modal").modal("show");
+					},
 					
 					
  					async: false,					
@@ -149,7 +161,8 @@ $(document).ready(function () {
  					data: { 'projectid': project_id, 'st_array': plot_stages, 'ti_array': plot_tissues, 'st_s1_index': sample1stageindex, 'st_s2_index': sample2stageindex, 'ti_s1_index': sample1tissueindex, 'ti_s2_index': sample2tissueindex, 'genes_to_plot': genes, 'corr_filter_to_set_genes': correlation_filter, 'gene_set_request': all_gene_selector},		
 				    success: function(response) {
 					ret = response.expression_to_plot3;
-
+//	    				$("#scatterplot_loading_modal").style.display="none";
+	    $("#scatterplot_loading_modal").modal('hide');
  				}
  				    });
 				    var JSONobject = JSON.parse(ret);
@@ -168,7 +181,8 @@ $(document).ready(function () {
 				    var sampleaxislabel1 = sample1tissue + "<br>" + sample1stage;
 				    var sampleaxislabel2 = sample2tissue + "<br>" + sample2stage;
 
-				    var plot2 = $.jqplot('ExpCorrChart', [test_line2], { 
+				    var plot2 = $.jqplot('ExpCorrChart', [test_line2], {
+					captureRightClick: true,
 					title: {
 					    text: "",
 					    textColor: 'black',
@@ -178,7 +192,8 @@ $(document).ready(function () {
 					gridPadding: {top:50, bottom:200, left:30, right:30},
 					seriesDefaults: {
 						color: "#17BDB8",
-						showLine: false,
+					        showLine: false,
+					        pointLabels: {show:false},
 						shadow: false
 					},
 					axes:{
@@ -214,6 +229,7 @@ $(document).ready(function () {
 	    highlighter: {
 		show: true,
 		yvalues: 2,
+		formatString:'<table id="current_ExpCorr_highlight" class="jqplot-highlighter"><tr><td>%s</td></tr><tr><td>%s</td></tr><tr><td>%s</td></tr></table>',
 		sizeAdjust: 7.5
 					},
 					cursor: {
@@ -222,7 +238,14 @@ $(document).ready(function () {
 					    showTooltip: false,
 					    clickReset: true
 					}
-				});
+				    });
+				    $('#ExpCorrChart').bind('jqplotDataRightClick',
+							    function (ev, seriesIndex, pointIndex, data) {
+								$('#clipboard').val(data[2]);
+							    }
+							    
+				    );
+				    
 
 
     
@@ -420,6 +443,7 @@ $(document).ready(function () {
 			}
 
 	$("#new_plot_btn").click(function(){
+	    scatterplot_img_loaded = 0;
 	    document.getElementById("selector").style.display="block";
 	    document.getElementById("ExpCorrChart").style.display="none";
 	    document.getElementById("NewPlot").style.display="none";

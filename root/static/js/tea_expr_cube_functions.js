@@ -626,55 +626,55 @@
     }
     
     gene_text.on('mousedown', function() {
-    switch (event.which) {
+      switch (event.which) {
         case 1:
-        alert('Left Mouse button pressed.');
-	      if (!layer_drawn_h[gene_names_array[n-1]]) {
-        for (var j=1; j<=tissue_names.length; j++) {
-          for (var i=stage_names.length; i>=1; i--) {
-            add_tiles_and_stage_name(n,i,j,x_margin,y_margin,aoa,sq_size,slice_group,stage_names,tissue_names,bg_color_hash,gene_popup_layer,0,1,0,0,min_expr,max_expr);
-          }
-        }
+          
+	  if (!layer_drawn_h[gene_names_array[n-1]]) {
+            for (var j=1; j<=tissue_names.length; j++) {
+              for (var i=stage_names.length; i>=1; i--) {
+                add_tiles_and_stage_name(n,i,j,x_margin,y_margin,aoa,sq_size,slice_group,stage_names,tissue_names,bg_color_hash,gene_popup_layer,0,1,0,0,min_expr,max_expr);
+              }
+            }
         
-        layer_drawn_h[gene_names_array[n-1]] = 1;
-      }
-      
-      // var y_layer_dist = stage_names.length*15 + 5;
-      var y_layer_dist = tissue_names.length*15 + 5;
-      
-      for (var i=0;i<=gene_names_array.length;i++) {
-        if (i>=n) {
-          
-          var other_layer = canvas.find("#full_slice_"+i);
-          
-          if (moving_slice_group.name() == "slice_down") {
-            other_layer.move({
-              y: -y_layer_dist
-            });
-          } else if (moving_slice_group.name() == "slice_up") {
-            other_layer.move({
-              y: y_layer_dist
-            });
+            layer_drawn_h[gene_names_array[n-1]] = 1
           }
-        }
-      }
       
-      if (moving_slice_group.name() == "slice_up") {
-        moving_slice_group.name("slice_down");
-      } else if (moving_slice_group.name() == "slice_down") {
-        moving_slice_group.name("slice_up");
-      }
-      tmp_layer.draw();
-            break;
+            // var y_layer_dist = stage_names.length*15 + 5;
+          var y_layer_dist = tissue_names.length*15 + 5;
+      
+          for (var i=0;i<=gene_names_array.length;i++) {
+            if (i>=n) {
+         
+              var other_layer = canvas.find("#full_slice_"+i);
+          
+	      if (moving_slice_group.name() == "slice_down") {
+                other_layer.move({
+                  y: -y_layer_dist
+                });
+              } else if (moving_slice_group.name() == "slice_up") {
+                other_layer.move({
+                  y: y_layer_dist
+                });
+              }
+            }
+          }
+      
+          if (moving_slice_group.name() == "slice_up") {
+            moving_slice_group.name("slice_down");
+          } else if (moving_slice_group.name() == "slice_down") {
+            moving_slice_group.name("slice_up");
+          }
+          tmp_layer.draw();
+          break;
         case 2:
-            alert('Middle Mouse button pressed.');
-            break;
+          alert('No middle mouse button function.');
+          break;
         case 3:
-            alert('Right Mouse button pressed.');
-            break;
+	  $('#clipboard').val(gene_text.text());
+          break;
         default:
-            alert('You have a strange Mouse!');
-    }      
+          alert('Invalid Mouse Selection');
+      }      
 
     });
     

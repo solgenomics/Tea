@@ -201,7 +201,13 @@ $(document).ready(function () {
   $("#dwl_expr_data").click(function(){
     $("#download_data").submit();
   });
-  
+
+  // to copy text from the clipboard using the copy button   
+  $("#copy_clipboard_tool").click(function(){
+      var copyText = document.getElementById("clipboard");
+      copyText.select();
+      document.execCommand("Copy");
+  });  
   
 });
 

@@ -13,6 +13,7 @@ CREATE TABLE project (
     expr_unit varchar(80),
     indexed_dir varchar(80),
     ordinal integer,
+    blast_db varchar(80),
     organism_id bigserial references organism(organism_id) NOT NULL
 );
 

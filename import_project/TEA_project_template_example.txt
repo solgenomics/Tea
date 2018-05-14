@@ -13,6 +13,7 @@ project_contact:
 project_description:
 expr_unit: FPKM
 ordinal: 10
+blast_db: my_project_prots.fasta
 index_dir_name: example1
 # project - end
 

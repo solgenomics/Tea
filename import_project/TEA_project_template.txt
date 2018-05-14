@@ -13,6 +13,7 @@ project_contact:
 project_description:
 expr_unit:
 ordinal:
+blast_db:
 index_dir_name:
 # project - end
 

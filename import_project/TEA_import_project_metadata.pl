@@ -113,7 +113,7 @@ my $input_file = $opt_t;
 my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
 
 my ($organism_species,$organism_variety,$organism_id,$organism_description);
-my ($project_id,$project_name,$project_contact,$project_description,$project_ordinal,$indexed_dir,$expr_unit);
+my ($project_id,$project_name,$project_contact,$project_description,$project_ordinal,$indexed_dir,$expr_unit,$project_blast_db);
 my ($figure_name,$cube_stage_name,$figure_id,$conditions);
 my ($layer_name,$layer_description,$bg_color,$layer_type,$layer_image,$img_width,$img_height,$cube_ordinal,$img_ordinal,$organ);
 
@@ -201,6 +201,9 @@ try {
       if ($line =~ /^ordinal:\s*(\d+)\s*$/) {
           $project_ordinal = $1;
       }
+      if ($line =~ /^blast_db:\s*(.+)\s*$/) {
+          $project_blast_db = $1;
+      }
       if ($line =~ /^index_dir_name:\s*(.+)\s*$/) {
           $indexed_dir = $1;
       }
@@ -212,6 +215,7 @@ try {
               description => $project_description,
               expr_unit => $expr_unit,
               ordinal => $project_ordinal,
+              blast_db => $project_blast_db,
               organism_id => $organism_id,
               indexed_dir => $indexed_dir,
           });

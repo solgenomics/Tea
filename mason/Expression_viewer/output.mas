@@ -182,7 +182,7 @@ $(document).ready(function () {
       <input class="tissue_filter" name="tissue_filter" style="display:none;" value=<% $tissue_filter %> >
       <input class="condition_filter" name="condition_filter" style="display:none;" value=<% $condition_filter %> >
 
-      <label for="gene">Select a gene:</label>
+      <label id="gene_label" for="gene">Select a gene:</label>
       <div class="form-group">
        <input id="gene" class="gene_autocomplete form-control col-xs-2" type="input" name="input_gene"/>
       </div>

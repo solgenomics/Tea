@@ -1,9 +1,5 @@
 <div id="footer" style="display:inline">
-  <div style="float:left">
-    <a href="/overview"><img src="/static/images/overview_small.png" height="50" style="margin-left:25px;"/></a>
-    <a href="/expression_viewer/input"><img src="/static/images/expr_small.png" height="50" style="margin-left:5px;"/></a>
-    <a href="/anatomy_viewer"><img src="/static/images/anatomy_small.png" height="50" style="margin-left:5px;"/></a>
-  </div>
+  <div style="float:left;text-align:center;color:#666;padding-top:15px;cursor: pointer"><a style="padding-left:10px;padding-right:10px" data-toggle="modal" data-target="#attribution_modal">Contact Us</a></div>
 
   <div style="float:right;">
     <a href="http://www.nsf.gov" target="_blank"><img src="/static/images/nsf.png" height="50" style="margin-right:5px;"/></a>
@@ -11,9 +7,9 @@
     <a href="http://www.cornell.edu" target="_blank"><img src="/static/images/cu_logo.png" height="45" style="margin-right:5px;"/></a>
     <a href="http://www.usda.gov" target="_blank"><img src="/static/images/usda_logo2.png" height="45" style="margin-right:25px;"/></a>
   </div>
-  
+
   <div style="text-align:center;color:#666;padding-top:15px;cursor: pointer"><a style="padding-left:10px;padding-right:10px" rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /><a style="padding-left:10px;padding-right:10px" data-toggle="modal" data-target="#attribution_modal">Image Use Attribution</a></a></div>
-  
+
 </div>
 
 <div class="modal fade" id="cite_us_modal" role="dialog">
@@ -67,4 +63,3 @@
     color: #337ab7;
   }
 </style>
-

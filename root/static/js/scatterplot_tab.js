@@ -321,7 +321,7 @@ $(document).ready(function () {
 
 	var all_gene_selector = 1;
 
-  //plot_tissues[4] = "Reallylongtissuenamefortesting"
+
 
   for (var y=1; y<=plot_tissues.length; y++) {
 	    if (plot_tissues[y-1].length >= max_tissue_length) {

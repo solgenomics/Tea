@@ -145,7 +145,7 @@ $(document).ready(function () {
       </div>
       <div class="modal-body">
         <div style="text-align: center;">
-          <p><% @errors %></p>
+          <p class="black_text"><% @errors %></p>
         </div>
       </div>
       <div class="modal-footer">

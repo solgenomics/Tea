@@ -21,6 +21,10 @@ Catalyst Controller.
 
 =cut
 
+sub contact :Path('/contact/') :Args(0) {
+    my ( $self, $c ) = @_;
+    $c->stash(template => 'contact.mas');
+}
 
 sub help :Path('/help/') :Args(0) {
     my ( $self, $c ) = @_;

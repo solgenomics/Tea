@@ -912,8 +912,11 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
   # strip gene name
   $query_gene =~ s/^\s+//;
   $query_gene =~ s/\s+$//;
-  $query_gene =~ s/\.\d$//;
-  $query_gene =~ s/\.\d$//;
+
+  if ($query_gene =~ /^solyc/i) {
+    $query_gene =~ s/\.\d$//;
+    $query_gene =~ s/\.\d$//;
+  }
 
   # print STDERR "downloading expression data\n";
   # print STDERR "multiple_genes: $multiple_genes, query_gene: $query_gene\n";

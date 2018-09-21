@@ -1,5 +1,5 @@
 <div id="footer" style="display:inline">
-  <div style="float:left;text-align:center;color:#666;padding-top:15px;cursor: pointer"><a style="padding-left:10px;padding-right:10px" data-toggle="modal" data-target="#attribution_modal">Contact Us</a></div>
+  <div style="float:left;text-align:center;color:#666;padding-top:15px;cursor: pointer"><a href="/contact/form" style="padding-left:10px;padding-right:10px" data-toggle="modal">Contact Us</a></div>
 
   <div style="float:right;">
     <a href="http://www.nsf.gov" target="_blank"><img src="/static/images/nsf.png" height="50" style="margin-right:5px;"/></a>

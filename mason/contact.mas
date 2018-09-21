@@ -7,7 +7,7 @@ $email_address_to_display => ''
 <div class="container">
 
   <center>
-    <h id="subtitle">Contact</h>
+    <h id="subtitle">Contact TEA</h>
     <br/>
     <br/>
   </center>
@@ -90,7 +90,6 @@ $email_address_to_display => ''
 <script>
 
 jQuery(document).ready(function () {
-
     jQuery('#contact_form_submit').on('click',function (e){
         var subject = jQuery('input[name="subject"]').val();
         var name = jQuery('input[name="name"]').val();
@@ -114,7 +113,7 @@ jQuery(document).ready(function () {
             jQuery('#submit_contact_form_response').modal('show');
         } else {
             jQuery.ajax ( {
-                url : '/ajax/contact/submit',
+                url : '/contact/submit',
                 type: "POST",
                 beforeSend: function(){
                     jQuery('#working_modal').modal('show');
@@ -122,8 +121,8 @@ jQuery(document).ready(function () {
                 data: {
                     "title": subject,
                     "body": body + '\n\nFrom: ' + name + '\nEmail: ' + email,
-                    "security_answer": <% $contact_form_human_answer %>,
-                    "security_attempt": challenge_answer
+//                    "security_answer": <% $contact_form_human_answer %>,
+//                    "security_attempt": challenge_answer
                 },
                 success: function(response){
                     //console.log(response);

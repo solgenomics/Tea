@@ -270,5 +270,11 @@ $(document).ready(function () {
     <div id="container_legend"></div>
   </div>
 
+  <div id="hide_clipboard"><span id="clipboard_close" class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
+
+  <div id="clipboard_box">
+    <div id="container_clipboard"></div>
+  </div>
+
 </center>
 <br>

@@ -257,6 +257,7 @@
           minWidth: panel_width,
           draggable: true,
           resizable: false,
+          closeText: ''
         });
         $('.ui-dialog :button').blur();
         $('.sgn_logo_link').blur();

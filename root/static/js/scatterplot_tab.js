@@ -333,7 +333,7 @@ $(document).ready(function () {
 	    var adjustable_y_val = max_tissue_length * 20
 	    var stage_lengths = [];
 
-    var adjustable_width = (plot_stages.length * 20) + (max_tissue_length * 25);
+    var adjustable_width = (plot_stages.length * 20) + (max_tissue_length * 30);
 
       var stage = new Kinetic.Stage({
 		  		container: "selector",
@@ -367,7 +367,7 @@ $(document).ready(function () {
 						    y: y*20+adjustable_y_val+4,
 						    text: plot_tissues[y-1],
 //						    width: 160,
-                width: adjustable_width - (plot_stages.length*20+175),
+                width: adjustable_width,
 						    align: 'left',
 //                align: 'right'
 							fontSize: 16,

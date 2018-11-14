@@ -359,23 +359,23 @@ $(document).ready(function () {
 //					selectorCounter++;
 //					add_squares(x,y,selectorCounter);
 					if (x==1) {
-						tissue_text[y] = new Kinetic.Text({
+					    tissue_text[y] = new Kinetic.Text({
 //						    x: stage_textplot_stages.length + 1),
 //                x: adjustable_width - (max_tissue_length * 10),
-                x: plot_stages.length*20+175,
+						x: plot_stages.length*20+175,
 //                x: stage.width,
-						    y: y*20+adjustable_y_val+4,
-						    text: plot_tissues[y-1],
+						y: y*20+adjustable_y_val+4,
+						text: plot_tissues[y-1],
 //						    width: 160,
-                width: adjustable_width,
-						    align: 'left',
+						width: adjustable_width,
+						align: 'left',
 //                align: 'right'
-							fontSize: 16,
-							fontFamily: 'Helvetica',
-							fill: 'black',
-							rotation: 0
-						});
-						layer.add(tissue_text[y]);
+						fontSize: 16,
+						fontFamily: 'Helvetica',
+						fill: 'black',
+						rotation: 0
+					    });
+					    layer.add(tissue_text[y]);
 					}
 				}
 			}

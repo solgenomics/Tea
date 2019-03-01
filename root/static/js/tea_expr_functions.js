@@ -401,7 +401,7 @@
 
 
   // get array with the gene names from the project for the autocomplete function
-  function get_project_genes(organism_list){
+  function get_project_genes(organism_list,change_input_gene){
 
     $.ajax({
       url: '/expression_viewer/get_genes/',
@@ -415,11 +415,13 @@
         } else {
           project_genes = response.project_genes;
 
-          // if (typeof conf_input_gene === 'undefined' || !conf_input_gene) {
-            // $('#gene_id_input').val(project_genes[0]);
-          // } else {
-            // console.log('conf_input_gene: '+conf_input_gene)
-          // }
+          if (typeof conf_input_gene === 'undefined' || !conf_input_gene) {
+            if (change_input_gene) {
+              $('#gene_id_input').val(project_genes[0]);
+            }
+          } else {
+            console.log('conf_input_gene: '+conf_input_gene)
+          }
 
           $( ".gene_autocomplete" ).autocomplete({
               source: function(request, response) {

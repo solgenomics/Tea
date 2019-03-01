@@ -416,9 +416,10 @@
           project_genes = response.project_genes;
 
           if (typeof conf_input_gene === 'undefined' || !conf_input_gene) {
-            if (change_input_gene) {
-              $('#gene_id_input').val(project_genes[0]);
-            }
+            // if (change_input_gene) {
+              // $('#gene_id_input').val(project_genes[0]);
+              $('#gene_id_input').attr("placeholder",project_genes[0]);
+            // }
           } else {
             console.log('conf_input_gene: '+conf_input_gene)
           }

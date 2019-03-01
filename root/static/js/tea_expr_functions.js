@@ -416,7 +416,6 @@
           project_genes = response.project_genes;
 
           // if (typeof conf_input_gene === 'undefined' || !conf_input_gene) {
-            // alert("first gene: "+project_genes[0]);
             // $('#gene_id_input').val(project_genes[0]);
           // } else {
             // console.log('conf_input_gene: '+conf_input_gene)
@@ -425,12 +424,11 @@
           $( ".gene_autocomplete" ).autocomplete({
               source: function(request, response) {
                   var results = $.ui.autocomplete.filter(project_genes, request.term);
-
                   response(results.slice(0, 15));
               }
           });
 
-          // alert("project_genes: "+project_genes[0]);
+          return project_genes;
         }
       },
       error: function(response) {

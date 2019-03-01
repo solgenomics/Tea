@@ -68,7 +68,7 @@ $(document).ready(function () {
   load_wizard(organism_list,null,null,null,null);
   
   //get default project gene names for autocomplete function
-  get_project_genes(organism_list);
+  var project_genes = get_project_genes(organism_list);
   $('#gene_id_input').val(project_genes[0]);
   get_max_expr(organism_list);
   

@@ -219,6 +219,7 @@ sub _check_gene_exists {
   my $c = shift;
   my $lucy_path = shift;
   my $query_gene = shift;
+  my $dataset_name = shift;
 
   # test gene exist
 	my $lucy = Lucy::Simple->new(
@@ -231,14 +232,175 @@ sub _check_gene_exists {
   	num_wanted => 10
   );
 
-	# Send error message to the web if something is wrong
-	if (!$gene_found_num){
-		$c->stash->{errors} = "Gene not found";
-		$c->stash->{template} = '/Expression_viewer/output.mas';
-		return;
-	}
+#### CODE for PEATmoss gene lookup ###
+  my $application_name = $c->config->{name};
 
-}
+# For all other applications
+  if ($application_name ne "PEATmoss") {
+
+  	# Send error message to the web if something is wrong
+  	if (!$gene_found_num){
+  		$c->stash->{errors} = "Gene not found";
+  		$c->stash->{template} = '/Expression_viewer/output.mas';
+  		return;
+  	}
+
+  }
+  else {
+
+    if ($gene_found_num){
+      ### Gene found in PEATmoss
+      # print STDERR "GENE found in PEATmoss, right gene version\n";
+
+      return $query_gene;
+    }
+    else {
+      ### Gene not found in PEATmoss
+
+      my $gene_version;
+
+      if ($dataset_name =~ /RNA-seq/ || $dataset_name =~ /v3\.3/) {
+        $gene_version = "3.3";
+      }
+      if ($dataset_name =~ /CombiMatrix/ || $dataset_name =~ /v1\.2/) {
+        $gene_version = "1.2_Phypa";
+      }
+      if ($dataset_name =~ /NimbleGen/ || $dataset_name =~ /v1\.6/) {
+        $gene_version = "1.6";
+      }
+
+      # Connect to PpGML DB
+      my $pp_db = $c->config->{lookup_db};
+      my $pp_host = $c->config->{lookup_host};
+      my $pp_user = $c->config->{lookup_user};
+      my $pp_psw = $c->config->{lookup_psw};
+
+      my $dbh = DBI->connect("dbi:Pg:dbname=$pp_db;host=$pp_host;", "$pp_user", "$pp_psw");
+      $dbh->begin_work;
+
+      # find gene_id
+      my $sth = $dbh->prepare("SELECT gene_id FROM gene WHERE gene_name = \'$query_gene\'");
+      $sth->execute() or die $sth->errstr;
+
+      my @gene_id = $sth->fetchrow_array();
+      my $query_gene_id = $gene_id[0];
+
+      $sth->finish();
+
+      # Gene not found
+      if (!$query_gene_id) {
+
+        # print STDERR "Wrong gene\n";
+
+        $c->stash->{errors} = "The gene $query_gene was not found in ".$dataset_name.".<br>Please, check if there is a typo or try to find it in the <a href=\"https://peatmoss.online.uni-marburg.de/ppatens_db/pp_search_output.php?search_keywords=$query_gene\">PpGML DB</a>";
+        $c->stash->{template} = '/Expression_viewer/output.mas';
+
+        $dbh->disconnect();
+        return $query_gene;
+      }
+      else {
+
+        # print STDERR "GENE FOUND ALTER $query_gene_id\n";
+
+        #find genes from v3.3 in other versions
+        my $sth = $dbh->prepare("SELECT gene_name,genome_version FROM gene JOIN gene_gene ON(gene_id=gene_id2) WHERE gene_id1=$query_gene_id;");
+        $sth->execute() or die "SQL query failed!";
+
+        my @lookup_array;
+        my $other_version_found = 0;
+        my $alternative_gene = 0;
+        my @all_genes_found;
+
+        while ( @lookup_array = $sth->fetchrow_array() ) {
+
+          my $lookup_gene = $lookup_array[0];
+          my $lookup_gene_v = $lookup_array[1];
+
+          if ($gene_version eq $lookup_gene_v) {
+            $other_version_found++;
+            $alternative_gene = $lookup_gene;
+            push(@all_genes_found,"<a href=\"/expression_viewer/input?input_gene=$lookup_gene\">$lookup_gene</a>");
+          }
+        }
+
+        # store ID for current gene version
+        my $gene_current_v;
+
+        if (!$other_version_found) {
+          #find genes from other versions in v3.3
+          my $sth = $dbh->prepare("SELECT gene_id,gene_name,genome_version FROM gene JOIN gene_gene ON(gene_id=gene_id1) WHERE gene_id2=$query_gene_id;");
+          $sth->execute() or die "SQL query 2 failed!";
+
+          while ( @lookup_array = $sth->fetchrow_array() ) {
+
+            my $lookup_gene_id = $lookup_array[0];
+            my $lookup_gene = $lookup_array[1];
+            my $lookup_gene_v = $lookup_array[2];
+
+            # print STDERR "lookup_gene_id: $lookup_gene_id\n";
+            $gene_current_v = $lookup_gene_id;
+
+            if ($gene_version eq $lookup_gene_v) {
+              $other_version_found++;
+              $alternative_gene = $lookup_gene;
+              push(@all_genes_found,"<a href=\"/expression_viewer/input?input_gene=$lookup_gene\">$lookup_gene</a>");
+            }
+          }
+
+        }
+
+        if (!$other_version_found && $gene_version ne "3.3") {
+          #find genes from other versions in other versions using current version as reference
+
+          # print STDERR "curent gene ID: $gene_current_v\n";
+
+          my $sth = $dbh->prepare("SELECT gene_name,genome_version FROM gene JOIN gene_gene ON(gene_id=gene_id2) WHERE gene_id1=$gene_current_v;");
+          $sth->execute() or die "SQL query 3 failed!";
+
+          while ( @lookup_array = $sth->fetchrow_array() ) {
+
+            my $lookup_gene = $lookup_array[0];
+            my $lookup_gene_v = $lookup_array[1];
+
+            if ($gene_version eq $lookup_gene_v) {
+              $other_version_found++;
+              $alternative_gene = $lookup_gene;
+              push(@all_genes_found,"<a href=\"/expression_viewer/input?input_gene=$lookup_gene\">$lookup_gene</a>");
+            }
+          }
+
+        }
+
+        # print STDERR "GENE FOUND ALTER? $other_version_found\n";
+
+        $sth->finish();
+        $dbh->disconnect();
+
+        if ($other_version_found == 1) {
+          #one gene from another version found
+          return $alternative_gene;
+        }
+        elsif ($other_version_found > 1) {
+          #Multiple genes from another version found
+          my $multiple_genes_html = join("<br>", @all_genes_found);
+
+          $c->stash->{errors} = "Multiple genes were found for v$gene_version:<br>$multiple_genes_html";
+          $c->stash->{template} = '/Expression_viewer/output.mas';
+
+          return $alternative_gene;
+        }
+        else {
+          $c->stash->{errors} = "Gene not found";
+          $c->stash->{template} = '/Expression_viewer/output.mas';
+          return $query_gene;
+        }
+
+      }
+
+
+    } # looking for gene in PEATmoss
+  } # end of App conditional
+} # end of _check_gene_exists
 
 
 sub _get_filtered_layers {
@@ -381,6 +543,9 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
 
   my @all_genes_list;
 
+  # Get application name
+  my $application_name = $c->config->{name};
+
   # get the path to the expression and correlation lucy indexes
   my $expr_path = $c->config->{expression_indexes_path};
   my $corr_path = $c->config->{correlation_indexes_path};
@@ -403,9 +568,18 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
   my $expr_index_path = $expr_path."/".$project_rs->indexed_dir;
   $loci_and_desc_path .= "/".$project_rs->indexed_dir;
 
+
   if ($input_type eq "gene_id") {
-    _check_gene_exists($c,$expr_index_path,$query_gene[0]);
+
+    if ($application_name eq "PEATmoss") {
+        $query_gene[0] = _check_gene_exists($c,$expr_index_path,$query_gene[0],$project_rs->name);
+    }
+    else {
+        _check_gene_exists($c,$expr_index_path,$query_gene[0],$project_rs->name);
+    }
+
   }
+
   # getting the organs, stages tissues and treatments selected at input page
   my @stages = split(",",$stage_filter);
   my @tissues = split(",",$tissue_filter);

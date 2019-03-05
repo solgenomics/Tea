@@ -349,7 +349,7 @@ sub _check_gene_exists {
 
         }
 
-        if (!$other_version_found && $gene_version ne "3.3") {
+        if (!$other_version_found && $gene_current_v && $gene_version ne "3.3") {
           #find genes from other versions in other versions using current version as reference
 
           # print STDERR "curent gene ID: $gene_current_v\n";

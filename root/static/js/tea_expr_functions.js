@@ -239,17 +239,37 @@
 
       //TO DO: paste gene on input box on click
 
-      var dynamicDialog = $('<div id="'+div_gene_name+'_dialog" value="off">\
-        <center>\
-          <table width="90%"><tr id="dialog_top_info">\
-            <td><a href="http://solgenomics.net/locus/'+gene_id+'/view" target="blank"><b>'+gene_name2+'</b></a></td>\
-            <td><b> Correlation val: </b>'+corr_val+'</td>\
-            <td><span id="tr_barplot'+div_gene_name+'" class="blue_link">transpose</span></td>\
-          </tr></table>\
-          <span>'+description+'</span><br>\
-        </center>\
-        <div id="'+div_gene_name+'_bar_graph"></div>\
-      </div>');
+      var app_name = document.title;
+      var dynamicDialog;
+
+      if (app_name == "PEATmoss") {
+        dynamicDialog = $('<div id="'+div_gene_name+'_dialog" value="off">\
+          <center>\
+            <table width="90%"><tr id="dialog_top_info">\
+              <td><a href="https://peatmoss.online.uni-marburg.de/ppatens_db/pp_annot.php?name='+gene_name2+'" target="blank"><b>'+gene_name2+'</b></a></td>\
+              <td><b> Correlation val: </b>'+corr_val+'</td>\
+              <td><span id="tr_barplot'+div_gene_name+'" class="blue_link">transpose</span></td>\
+            </tr></table>\
+            <span>'+description+'</span><br>\
+          </center>\
+          <div id="'+div_gene_name+'_bar_graph"></div>\
+        </div>');
+
+      }
+      else {
+        dynamicDialog = $('<div id="'+div_gene_name+'_dialog" value="off">\
+          <center>\
+            <table width="90%"><tr id="dialog_top_info">\
+              <td><a href="http://solgenomics.net/locus/'+gene_id+'/view" target="blank"><b>'+gene_name2+'</b></a></td>\
+              <td><b> Correlation val: </b>'+corr_val+'</td>\
+              <td><span id="tr_barplot'+div_gene_name+'" class="blue_link">transpose</span></td>\
+            </tr></table>\
+            <span>'+description+'</span><br>\
+          </center>\
+          <div id="'+div_gene_name+'_bar_graph"></div>\
+        </div>');
+      }
+
 
       $(function() {
         dynamicDialog.dialog({

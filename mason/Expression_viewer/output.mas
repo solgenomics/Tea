@@ -79,12 +79,12 @@ my $json = JSON::Any->new;
 <script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.cursor.js"></script>
 
 
-<script type="text/javascript" src="/static/js/d3heatmap_libs/htmlwidgets-0.7/htmlwidgets.js"></script>
-<script type="text/javascript" src="/static/js/d3heatmap_libs/d3-3.5.3/./d3.min.js"></script>
+<script type="text/javascript" src="/static/js/d3heatmap_libs/htmlwidgets-0.9/htmlwidgets.js"></script>
+<script type="text/javascript" src="/static/js/d3heatmap_libs/d3-3.5.3/d3.min.js"></script>
 <link  href="/static/js/d3heatmap_libs/d3heatmapcore-0.0.0/heatmapcore.css" rel="stylesheet" />
 <script type="text/javascript" src="/static/js/d3heatmap_libs/d3heatmapcore-0.0.0/heatmapcore.js"></script>
 <script type="text/javascript" src="/static/js/d3heatmap_libs/d3-tip-0.6.6/index.js"></script>
-<script type="text/javascript" src="/static/js/d3heatmap_libs/d3heatmap-binding-0.6.1.1/d3heatmap.js"></script>
+<script type="text/javascript" src="/static/js/d3heatmap_libs/d3heatmap-binding-0.6.1.2/d3heatmap.js"></script>
 
 
 

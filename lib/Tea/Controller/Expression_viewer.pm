@@ -319,7 +319,8 @@ sub _check_gene_exists {
           if ($gene_version eq $lookup_gene_v) {
             $other_version_found++;
             $alternative_gene = $lookup_gene;
-            push(@all_genes_found,"<a href=\"/expression_viewer/input?input_gene=$lookup_gene\">$lookup_gene</a>");
+            push(@all_genes_found,"<a class=\"multiple_lookup_gene\" href=\"#\" value=\"$lookup_gene\">$lookup_gene</a>");
+            # push(@all_genes_found,"<a class=\"multiple_lookup_gene\" href=\"/expression_viewer/input?input_gene=$lookup_gene\">$lookup_gene</a>");
           }
         }
 
@@ -343,7 +344,8 @@ sub _check_gene_exists {
             if ($gene_version eq $lookup_gene_v) {
               $other_version_found++;
               $alternative_gene = $lookup_gene;
-              push(@all_genes_found,"<a href=\"/expression_viewer/input?input_gene=$lookup_gene\">$lookup_gene</a>");
+              push(@all_genes_found,"<a class=\"multiple_lookup_gene\" href=\"#\" value=\"$lookup_gene\">$lookup_gene</a>");
+              # push(@all_genes_found,"<a class=\"multiple_lookup_gene\" href=\"/expression_viewer/input?input_gene=$lookup_gene\">$lookup_gene</a>");
             }
           }
 
@@ -365,7 +367,8 @@ sub _check_gene_exists {
             if ($gene_version eq $lookup_gene_v) {
               $other_version_found++;
               $alternative_gene = $lookup_gene;
-              push(@all_genes_found,"<a href=\"/expression_viewer/input?input_gene=$lookup_gene\">$lookup_gene</a>");
+              push(@all_genes_found,"<a class=\"multiple_lookup_gene\" href=\"#\" value=\"$lookup_gene\">$lookup_gene</a>");
+              # push(@all_genes_found,"<a class=\"multiple_lookup_gene\" href=\"/expression_viewer/input?input_gene=$lookup_gene\">$lookup_gene</a>");
             }
           }
 

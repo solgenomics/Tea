@@ -1213,6 +1213,33 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
 	$c->res->body($tab_file);
 }
 
+=head2 download_deg
+
+Download DEG file
+
+ARGV: DEG file path
+
+Return: print file with DEG results
+
+=cut
+
+sub download_expression_data :Path('/download_DEG_file/') :Args(0) {
+  my ($self, $c) = @_;
+
+	#get parameters from form and config file
+	my $full_file_name = $c->req->param("deg_file");
+  my $file_name = $full_file_name;
+  $file_name =~ s/.+\///;
+
+  print STDERR "deg_file: $file_name\n";
+  open (my $fh, '<', $full_file_name);
+
+  #------------------------------------- send file
+	$c->res->content_type('text/plain');
+	$c->res->header('Content-Disposition', qq[attachment; filename="$file_name"]);
+  $c->res->body( $fh );
+
+}
 
 
 =head2 uniq

@@ -260,9 +260,12 @@ $(document).ready(function () {
       <div id="degNewPlot">
           <button class="btn btn-primary" id="deg_new_plot_btn" type="button">New selection</button>
       </div>
-      <div id="deg_instruction">Please select two samples from the grid, then click Get DEGs</div>
+      <div id="deg_instruction" class="pull-left">
+        To calculate Differentially Expressed Genes (DEGs) between 2 experiments,
+        please select two samples from the grid, then click Get DEGs.
+        </div>
 
-      <div id="degGetPlot">
+      <div id="degGetPlot" class="pull-left">
         <button class="btn btn-primary" id="get_deg_btn" type="button">Get DEGs</button>
       </div>
 
@@ -288,11 +291,8 @@ $(document).ready(function () {
 
 <style>
   #deg_instruction {
-    position: relative;
-    styleFloat: right;
-    width: 250px;
-    right: 270px;
-    top: 40px;
+    width: 550px;
+    margin: 20px;
   }
 
   #deg_new_plot_btn {
@@ -301,23 +301,17 @@ $(document).ready(function () {
     top: 50%;
   }
 
-  #get_deg_btn {
-    margin: -20 px;
-    top: 0%;
-    display: block;
-    position: relative;
-  }
-
   #degNewPlot {
     height: 70px;
     styleFloat: left;
   }
 
   #degGetPlot {
-    height: 50px;
-    width: 550px;
-    styleFloat: left;
+    padding: 25px;
   }
-
+  #degSelector {
+    height: 1000px;
+    width: 850px;
+  }
 
 </style>

@@ -179,9 +179,10 @@ __PACKAGE__->config(
         $R->run(' mynoiseq.rpkm.deg <- degenes(mynoiseq.rpkm, q = pvt, M = NULL) ');
         # $R->run(' mynoiseq.rpkm.deg.up <- degenes(mynoiseq.rpkm, q = pvt, M = "up") ');
         # $R->run(' mynoiseq.rpkm.deg.down <- degenes(mynoiseq.rpkm, q = pvt, M = "down") ');
+        $R->run(' pval = 1-mynoiseq.rpkm.deg$prob ');
+        $R->run(' deg_result_file = cbind(mynoiseq.rpkm.deg,pval) ');
 
-
-        $R->run(' write.table(mynoiseq.rpkm.deg, file = paste0("'.$tmp_path.'","/'.$deg_out.'"), sep = "\t", row.names=T, col.names=NA, quote = F) ');
+        $R->run(' write.table(deg_result_file, file = paste0("'.$tmp_path.'","/'.$deg_out.'"), sep = "\t", row.names=T, col.names=NA, quote = F) ');
 
 
     } # end of

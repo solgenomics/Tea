@@ -18,33 +18,49 @@ $(document).ready(function () {
       }
 
       var sqr_color = 'rgb(210,210,210)';
+      var front_tile;
 
       if (expr_val != "ND") {
         var rgb_array = get_expr_color(expr_val,expression_min_scale,expression_max_scale);
         sqr_color = 'rgb('+rgb_array[0]+','+rgb_array[1]+','+rgb_array[2]+')';
       }
+      else {
+
+        front_tile = new Kinetic.Rect({
+          x: x*20+150,
+          y: y*20+adjustable_y_val,
+          width: 20,
+          height: 20,
+          fill: sqr_color,
+          name: 'ND',
+          id: selectorCounter,
+          strokeWidth: 1,
+          stroke: 'black',
+        });
+      }
 
       stored_color[selectorCounter] = sqr_color;
 
-
-      var front_tile = new Kinetic.Rect({
-        x: x*20+150,
-        y: y*20+adjustable_y_val,
-        width: 20,
-        height: 20,
-        fill: sqr_color,
-        name: 'notselected',
-        id: selectorCounter,
-        strokeWidth: 1,
-        stroke: 'black',
-      });
+      if (expr_val != "ND") {
+        front_tile = new Kinetic.Rect({
+          x: x*20+150,
+          y: y*20+adjustable_y_val,
+          width: 20,
+          height: 20,
+          fill: sqr_color,
+          name: 'notselected',
+          id: selectorCounter,
+          strokeWidth: 1,
+          stroke: 'black',
+        });
+      }
 
       selectorArraySwitch[selectorCounter] = 0;
 
       selectorArray[selectorCounter] = front_tile;
 
       selectorArray[selectorCounter].on('mouseover', function() {
-        if ((this.name() != "selected")) {
+        if ((this.name() != "selected") && (this.name() != "ND")) {
           this.fill("#529dfb");
           this.draw();
         }
@@ -52,7 +68,7 @@ $(document).ready(function () {
       });
 
       selectorArray[selectorCounter].on('mouseout', function() {
-        if ((this.name() != "selected")) {
+        if ((this.name() != "selected") && (this.name() != "ND")) {
           this.fill(sqr_color);
           this.draw();
         }
@@ -76,9 +92,11 @@ $(document).ready(function () {
 
 
   $("#get_deg_btn").click(function(){
-    $("#loading_modal").modal("show");
-    setTimeout(function(){ get_degs_after_click(); }, 1000);
-    setTimeout(function(){ $("#loading_modal").modal("hide"); }, 1000);
+    if (samples_chosen.length == 2) {
+      $("#loading_modal").modal("show");
+      setTimeout(function(){ get_degs_after_click(); }, 1000);
+      setTimeout(function(){ $("#loading_modal").modal("hide"); }, 1000);
+    }
   });
 
   function get_degs_after_click() {
@@ -127,11 +145,15 @@ $(document).ready(function () {
            var id_rect1 = temp_id[0];
 
            var temp_rect1 = stage.find("#"+id_rect1);
-           temp_rect1.fill(stored_color[id_rect1]);
-           temp_rect1.name("notselected");
-           temp_rect1.draw();}
-           samples_chosen = [];
+
+           if ( temp_rect1.name() != "ND") {
+             temp_rect1.fill(stored_color[id_rect1]);
+             temp_rect1.name("notselected");
+             temp_rect1.draw();
+           }
         }
+        samples_chosen = [];
+    }
     else if (samples_chosen.length > 2) {
         alert("You have selected too many samples; please select only two samples.");
         location.reload();
@@ -145,13 +167,19 @@ $(document).ready(function () {
 
     var temp_rect1 = stage.find("#"+id_rect1);
     var temp_rect2 = stage.find("#"+id_rect2);
-    temp_rect1.fill(stored_color[id_rect1]);
-    temp_rect1.name("notselected");
-    temp_rect1.draw();
-    temp_rect2.fill(stored_color[id_rect2]);
-    temp_rect2.name("notselected");
-    temp_rect2.draw();
-    temp_id = [];
+
+    if ( temp_rect1.name() != "ND") {
+      temp_rect1.fill(stored_color[id_rect1]);
+      temp_rect1.name("notselected");
+      temp_rect1.draw();
+    }
+
+    if ( temp_rect2.name() != "ND") {
+      temp_rect2.fill(stored_color[id_rect2]);
+      temp_rect2.name("notselected");
+      temp_rect2.draw();
+      temp_id = [];
+    }
 
   }
 
@@ -173,9 +201,13 @@ $(document).ready(function () {
 
 
   	function handleClick() {
+
+      if ( this.name() != "ND") {
+
   	    var temp_idx = this.id();
   	    var temp_idy = temp_id[0];
   	    var temp_idz = temp_id[1];
+
   	    if ((temp_idx != temp_idy) && (temp_idx != temp_idz)) {
   	        if (samples_chosen.length < 2) {
         				this.name("selected");
@@ -199,8 +231,10 @@ $(document).ready(function () {
         				this.name("selected");
         				this.draw;
   			    }
-  	    }
-  	}
+  	    } // end of temp_idx conditional
+
+      } // end of ND conditional
+  	} // function handleClick end
 
   	if (!deg_loaded) {
   	    $("#degNewPlot").css("display", "none");
@@ -241,7 +275,7 @@ $(document).ready(function () {
   		  		container: "degSelector",
   		  		width: 	adjustable_width,
   //          width: 650,
-  		  		height: 1000
+  		  		height: 500
   			});
 
 

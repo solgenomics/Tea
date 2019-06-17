@@ -49,12 +49,13 @@ __PACKAGE__->config(
     # check if file exist: project_stage1_tissue1_stage2_tissue2
     my $filename = $project_id."_$stage1"."_$tissue1"."_$stage2"."_$tissue2.txt";
     my $deg_out = $project_id."_$stage1"."_$tissue1"."_$stage2"."_$tissue2"."_NOISeq_DEGs.txt";
+    my $deg_out2 = $project_id."_$stage2"."_$tissue2"."_$stage1"."_$tissue1"."_NOISeq_DEGs.txt";
 
     my $output_fh;
     my $rep_num1;
     my $rep_num2;
 
-    if (-e "$tmp_path/$deg_out") {
+    if (-e "$tmp_path/$deg_out" || -e "$tmp_path/$deg_out2") {
       print STDERR "$deg_out already exist!\n";
     }
     else {
@@ -83,6 +84,8 @@ __PACKAGE__->config(
     	my %stage;
     	my %tissue;
 
+      my %gene_desc;      my $gene_name;
+
     	my $lucy = Lucy::Simple->new(
     	    path     => $expr_index_path,
     	    language => 'en',
@@ -94,8 +97,11 @@ __PACKAGE__->config(
       );
 
   		while ( my $hit = $lucy->next ) {
+
+        $gene_name = $hit->{gene};
+
         if ($hit->{stage} eq $stage1 && $hit->{tissue} eq $tissue1) {
-    			$gene_stage_tissue_expr{$hit->{gene}}{$stage1}{$tissue1} = $hit->{replicates};
+    			$gene_stage_tissue_expr{$gene_name}{$stage1}{$tissue1} = $hit->{replicates};
         }
   		}
 
@@ -105,8 +111,11 @@ __PACKAGE__->config(
       );
 
       while ( my $hit = $lucy->next ) {
+
+        $gene_name = $hit->{gene};
+
         if ($hit->{stage} eq $stage2 && $hit->{tissue} eq $tissue2) {
-    			$gene_stage_tissue_expr{$hit->{gene}}{$stage2}{$tissue2} = $hit->{replicates};
+    			$gene_stage_tissue_expr{$gene_name}{$stage2}{$tissue2} = $hit->{replicates};
         }
   		}
 
@@ -179,8 +188,33 @@ __PACKAGE__->config(
         $R->run(' mynoiseq.rpkm.deg <- degenes(mynoiseq.rpkm, q = pvt, M = NULL) ');
         # $R->run(' mynoiseq.rpkm.deg.up <- degenes(mynoiseq.rpkm, q = pvt, M = "up") ');
         # $R->run(' mynoiseq.rpkm.deg.down <- degenes(mynoiseq.rpkm, q = pvt, M = "down") ');
+
+        my @gene_desc;
+        my $gene_list_arrayref = $R->get(' row.names(mynoiseq.rpkm.deg) ');
+
+        my $lucy_desc = Lucy::Simple->new(
+      	    path     => $loci_and_desc_path,
+      	    language => 'en',
+      	);
+
+        foreach my $one_gene (@{$gene_list_arrayref}) {
+
+          $lucy_desc->search(
+              query    => $one_gene,
+            num_wanted => 1
+          );
+
+          while ( my $hit = $lucy_desc->next ) {
+            push(@gene_desc, $hit->{description});
+            # print STDERR "$one_gene: ".$hit->{description}."\n";
+          }
+
+        }
+        $R->set('description', \@gene_desc);
+        # $R->run(' write.table(description, file = paste0("'.$tmp_path.'","/test_'.$deg_out.'"), sep = "\t", row.names=T, col.names=NA, quote = F) ');
+
         $R->run(' pval = 1-mynoiseq.rpkm.deg$prob ');
-        $R->run(' deg_result_file = cbind(mynoiseq.rpkm.deg,pval) ');
+        $R->run(' deg_result_file = cbind(mynoiseq.rpkm.deg,pval,description) ');
 
         $R->run(' write.table(deg_result_file, file = paste0("'.$tmp_path.'","/'.$deg_out.'"), sep = "\t", row.names=T, col.names=NA, quote = F) ');
 

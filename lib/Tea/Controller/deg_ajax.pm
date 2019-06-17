@@ -55,8 +55,37 @@ __PACKAGE__->config(
     my $rep_num1;
     my $rep_num2;
 
+    my $deg_count;
+    my $deg_up_count;
+    my $deg_down_count;
+    my $deg_up_name;
+    my $deg_down_name;
+
+
     if (-e "$tmp_path/$deg_out" || -e "$tmp_path/$deg_out2") {
       print STDERR "$deg_out already exist!\n";
+
+      # count DEGs
+      my $R = Statistics::R->new();
+
+      $R->run(q`library("NOISeq")`);
+
+      if (-e "$tmp_path/$deg_out") {
+        $R->run(' deg_input <- read.delim(paste0("'.$tmp_path.'","'.$deg_out.'"), header = T, row.names =1) ');
+      }
+      elsif (-e "$tmp_path/$deg_out2") {
+        $R->run(' deg_input <- read.delim(paste0("'.$tmp_path.'","'.$deg_out2.'"), header = T, row.names =1) ');
+      }
+
+      $deg_count = $R->get(' nrow(deg_input) ');
+
+      $deg_up_count = $R->get(' nrow(deg_input[deg_input$M>0,]) ');
+      $deg_down_count = $R->get(' nrow(deg_input[deg_input$M<0,]) ');
+
+      $deg_up_name = $R->get(' colnames(deg_input[1]) ');
+      $deg_down_name = $R->get(' colnames(deg_input[2]) ');
+
+
     }
     else {
 
@@ -186,8 +215,19 @@ __PACKAGE__->config(
         $R->run(' mynoiseq.rpkm.prob <- mynoiseq.rpkm.prob[!is.na(mynoiseq.rpkm.prob$prob), ] ');
 
         $R->run(' mynoiseq.rpkm.deg <- degenes(mynoiseq.rpkm, q = pvt, M = NULL) ');
+
+        $deg_count = $R->get(' nrow(mynoiseq.rpkm.deg) ');
+
+        $deg_up_count = $R->get(' nrow(mynoiseq.rpkm.deg[mynoiseq.rpkm.deg$M>0,]) ');
+        $deg_down_count = $R->get(' nrow(mynoiseq.rpkm.deg[mynoiseq.rpkm.deg$M<0,]) ');
+
+        $deg_up_name = $R->get(' colnames(mynoiseq.rpkm.deg[1]) ');
+        $deg_down_name = $R->get(' colnames(mynoiseq.rpkm.deg[2]) ');
+
+
         # $R->run(' mynoiseq.rpkm.deg.up <- degenes(mynoiseq.rpkm, q = pvt, M = "up") ');
         # $R->run(' mynoiseq.rpkm.deg.down <- degenes(mynoiseq.rpkm, q = pvt, M = "down") ');
+
 
         my @gene_desc;
         my $gene_list_arrayref = $R->get(' row.names(mynoiseq.rpkm.deg) ');
@@ -221,8 +261,24 @@ __PACKAGE__->config(
 
     } # end of
 
+    $deg_up_name =~ s/_mean$//;
+    $deg_up_name =~ s/[\._]+/ /g;
+    $deg_down_name =~ s/_mean$//;
+    $deg_down_name =~ s/[\._]+/ /g;
+
+print STDERR "deg_count: $deg_count\n";
+print STDERR "deg_up_count: $deg_up_count\n";
+print STDERR "deg_down_count: $deg_down_count\n";
+print STDERR "deg_up_name: $deg_up_name\n";
+print STDERR "deg_down_name: $deg_down_name\n";
+
     $c->stash->{rest} = {
-      deg_file => "$tmp_path/$deg_out"
+      deg_file => "$tmp_path/$deg_out",
+      deg_count => $deg_count,
+      deg_up_count => $deg_up_count,
+      deg_down_count => $deg_down_count,
+      deg_up_name => $deg_up_name,
+      deg_down_name => $deg_down_name
     }
 
 }

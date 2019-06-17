@@ -277,6 +277,28 @@ $(document).ready(function () {
       <form id="download_deg" method="post" action="/download_DEG_file/" enctype="multipart/form-data" style="display:none;">
         <input id="form_file_name" name="deg_file" style="display:none;" value="">
       </form>
+      <br>
+      <table class="table" style="width:450px">
+        <tr>
+          <td id="up_condition">
+          </td>
+          <td id="up_number" style="text-align: right">
+          </td>
+        </tr>
+        <tr>
+          <td id="down_condition">
+          </td>
+          <td id="down_number" style="text-align: right">
+          </td>
+        </tr>
+        <tr>
+          <td>Total DEGs
+          </td>
+          <td id="deg_number" style="text-align: right">
+          </td>
+        </tr>
+      </table>
+      <br>
       <buttom id="degOutput" class="btn btn-primary"></buttom>
 
     </div>

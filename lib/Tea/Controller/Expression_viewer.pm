@@ -1223,7 +1223,7 @@ Return: print file with DEG results
 
 =cut
 
-sub download_expression_data :Path('/download_DEG_file/') :Args(0) {
+sub download_deg_result :Path('/download_DEG_file/') :Args(0) {
   my ($self, $c) = @_;
 
 	#get parameters from form and config file

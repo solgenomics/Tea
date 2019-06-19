@@ -231,28 +231,52 @@ __PACKAGE__->config(
 
         my @gene_desc;
         my $gene_list_arrayref = $R->get(' row.names(mynoiseq.rpkm.deg) ');
+        my $gene_description = "Unknown protein";
 
         my $lucy_desc = Lucy::Simple->new(
       	    path     => $loci_and_desc_path,
       	    language => 'en',
       	);
 
-        foreach my $one_gene (@{$gene_list_arrayref}) {
+        if ( eval { \@$gene_list_arrayref } ) {
+          foreach my $one_gene (@{$gene_list_arrayref}) {
+
+            $lucy_desc->search(
+                query    => $one_gene,
+              num_wanted => 1
+            );
+
+            while ( my $hit = $lucy_desc->next ) {
+              if ($hit->{description}) {
+                # push(@gene_desc, $hit->{description});
+                $gene_description = $hit->{description};
+              }
+              # print STDERR "$one_gene: ".$hit->{description}."\n";
+            }
+
+            push(@gene_desc, $gene_description);
+
+          }
+        }
+        else {
 
           $lucy_desc->search(
-              query    => $one_gene,
+              query    => $gene_list_arrayref,
             num_wanted => 1
           );
 
           while ( my $hit = $lucy_desc->next ) {
-            push(@gene_desc, $hit->{description});
-            # print STDERR "$one_gene: ".$hit->{description}."\n";
+            if ($hit->{description}) {
+              $gene_description = $hit->{description};
+            }
           }
+          push(@gene_desc, $gene_description);
 
         }
         $R->set('description', \@gene_desc);
         # $R->run(' write.table(description, file = paste0("'.$tmp_path.'","/test_'.$deg_out.'"), sep = "\t", row.names=T, col.names=NA, quote = F) ');
-
+        # print STDERR "gene_list: ".scalar(@{$gene_list_arrayref})."\n";
+        # print STDERR "gene_desc: ".scalar(@gene_desc)."\n";
         $R->run(' pval = 1-mynoiseq.rpkm.deg$prob ');
         $R->run(' deg_result_file = cbind(mynoiseq.rpkm.deg,pval,description) ');
 

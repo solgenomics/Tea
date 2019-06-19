@@ -113,7 +113,8 @@ __PACKAGE__->config(
     	my %stage;
     	my %tissue;
 
-      my %gene_desc;      my $gene_name;
+      my %gene_desc;
+      my $gene_name;
 
     	my $lucy = Lucy::Simple->new(
     	    path     => $expr_index_path,

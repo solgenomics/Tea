@@ -198,7 +198,8 @@ __PACKAGE__->config(
         $R->run(q`library("NOISeq")`);
 
         # $R->run(' rpkm_input <- read.delim("'.$filename.'", header = T, row.names =1) ');
-        $R->run(' rpkm_input <- read.delim(paste0("'.$tmp_path.'","'.$filename.'"), header = T, row.names =1) ');
+        # $R->run(' rpkm_input <- read.delim(paste0("'.$tmp_path.'","'.$filename.'"), header = T, row.names =1) ');
+        $R->run(' rpkm_input <- read.delim(paste("'.$tmp_path.'","'.$filename.'", sep="/"), header = T, row.names =1) ');
 
         # remove all 0 lines
         $R->run(' rpkm_input <- rpkm_input[rowSums(rpkm_input) > 0,] ');

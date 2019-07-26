@@ -71,10 +71,10 @@ __PACKAGE__->config(
       $R->run(q`library("NOISeq")`);
 
       if (-e "$tmp_path/$deg_out") {
-        $R->run(' deg_input <- read.delim(paste0("'.$tmp_path.'","'.$deg_out.'"), header = T, row.names =1) ');
+        $R->run(' deg_input <- read.delim(paste("'.$tmp_path.'","'.$deg_out.'", sep="/"), header = T, row.names =1) ');
       }
       elsif (-e "$tmp_path/$deg_out2") {
-        $R->run(' deg_input <- read.delim(paste0("'.$tmp_path.'","'.$deg_out2.'"), header = T, row.names =1) ');
+        $R->run(' deg_input <- read.delim(paste("'.$tmp_path.'","'.$deg_out2.'", sep="/"), header = T, row.names =1) ');
       }
 
       $deg_count = $R->get(' nrow(deg_input) ');
@@ -282,7 +282,7 @@ __PACKAGE__->config(
         $R->run(' pval = 1-mynoiseq.rpkm.deg$prob ');
         $R->run(' deg_result_file = cbind(mynoiseq.rpkm.deg,pval,description) ');
 
-        $R->run(' write.table(deg_result_file, file = paste0("'.$tmp_path.'","/'.$deg_out.'"), sep = "\t", row.names=T, col.names=NA, quote = F) ');
+        $R->run(' write.table(deg_result_file, file = paste("'.$tmp_path.'","'.$deg_out.'", sep="/"), sep = "\t", row.names=T, col.names=NA, quote = F) ');
 
 
     } # end of

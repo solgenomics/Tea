@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
     var plot_tissues;
     var plot_stages;
 
@@ -76,12 +77,15 @@ $(document).ready(function () {
 
  	if (samples_chosen.length == 2) {
 	    document.getElementById("ExpCorrChart").innerHTML = "";
-
+    //  document.getElementById("ExpTable").innerHTML="";
 	    document.getElementById("NewPlot").style.display="block";
+      document.getElementById("NewTable").style.display="block";
 	    document.getElementById("GetPlot").style.display="none";
 	    document.getElementById("ExpCorrChart").style.display="block";
+    //  document.getElementById("ExpTable").style.display="block";
 	    document.getElementById("selector").style.display="none";
 	    document.getElementById("new_plot_btn").style.display="block";
+      document.getElementById("new_table_btn").style.display="block";
 	    document.getElementById("get_scatterplot_btn").style.display="none";
 	    document.getElementById("Scatter_Instruction").style.display="none";
 
@@ -156,17 +160,33 @@ $(document).ready(function () {
 				    var sample1_data = [];
 				    var sample2_data = [];
 				    var geneids = [];
-			       var test_line2 = [];
+            var ratios=[];
+		       var test_line2 = [];
+          // var test_line_ratio = [];
+          var descr=[];
+           var int;
+           var test_line_json = [];
+
+
 				    for (var i=0; i<JSONobject.length; i++) {
-
+              var place = {
+                "geneid":{},
+                "sample1":{},
+                "sample2":{}
+              };
 					sample1_data[i] = eval(JSONobject[i]["sample1_exp"]);
+          place.sample1=eval(JSONobject[i]["sample1_exp"]);
 					sample2_data[i] = eval(JSONobject[i]["sample2_exp"]);
+          place.sample2=eval(JSONobject[i]["sample2_exp"]);
 					geneids[i] = JSONobject[i]["geneid"];
+          place.geneid=JSONobject[i]["geneid"];
 					test_line2[i] = [sample1_data[i],sample2_data[i],geneids[i]];
+        }
 
-				    }
 				    var sampleaxislabel1 = sample1tissue + "<br>" + sample1stage;
 				    var sampleaxislabel2 = sample2tissue + "<br>" + sample2stage;
+
+          //  var trend=[1000,2000,3000,4000];
 
 				    var plot2 = $.jqplot('ExpCorrChart', [test_line2], {
 					title: {
@@ -177,10 +197,11 @@ $(document).ready(function () {
 					},
 					gridPadding: {top:50, bottom:200, left:30, right:30},
 					seriesDefaults: {
-						color: "#17BDB8",
+					color: "#17BDB8",
 						showLine: false,
-						shadow: false
-					},
+					shadow: false
+        //  trendline: {show: true}
+        },
 					axes:{
 						xaxis:{
 						    label: sampleaxislabel1,
@@ -211,6 +232,16 @@ $(document).ready(function () {
 				borderColor: "black",
         shadow: false,
 			},
+      canvasOverlay: {
+            show: true,
+            objects: [
+                {Line: {
+                  start: [0,0],
+                  stop: [5000,5000],
+                    lineWidth: 6,
+                    color: 'rgb(100, 55, 124)',
+                    shadow: false
+                }}]},
 	    highlighter: {
 		show: true,
 		yvalues: 2,
@@ -222,13 +253,67 @@ $(document).ready(function () {
 					    showTooltip: false,
 					    clickReset: true
 					}
-				});
+				});//endofplot
+
+      //  var gene_descr= gene_descriptions[gene_names_array[n-1]];
 
 
+        $("#new_table_btn").click(function(){
+          for (var i=0; i<JSONobject.length; i++) {
+            var place = {
+              "geneid":{},
+            //  "descr": {},
+              "sample1":{},
+              "sample2":{},
+              "ratio":{}
+            };
+        place.sample1=eval(JSONobject[i]["sample1_exp"]);
+        place.sample2=eval(JSONobject[i]["sample2_exp"]);
+    //    place.descr=eval(JSONobject[i]["description"]);
+        place.geneid=JSONobject[i]["geneid"];
+      //  place.genedes=gene_descr;
+        //convert nans to 0s
+        if (sample1_data[i]==0 || sample2_data[i]==0)
+          place.ratio=0;
+        else{
+          int=Math.round((sample1_data[i]/sample2_data[i])*100)/100;
+          int=parseFloat(int);
+          place.ratio=int;
+        }
+        test_line_json[i]= place;
+      //  test_line_ratio[i] = [geneids[i],sample1_data[i],sample2_data[i],ratios[i]];
+      }
 
-				};
 
-	});
+      var table= new Tabulator("#table", {
+        height:"300px", // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+ 	        data:test_line_json, //assign data to table
+ 	        layout:"fitColumns", //fit columns to width of table (optional)
+          pagination:"local",
+          paginationSize:10,
+          paginationSizeSelector:[5, 10, 50, 100],
+          columns:[ //Define Table Columns
+          	 	{title:"Gene ID", field:"geneid", width:150},
+            //  {title: "Gene Desc", field:"descr", widthGrow:1},
+          	 	{title:sampleaxislabel1, field:"sample1", widthGrow:1},
+          	 	{title:sampleaxislabel2, field:"sample2", widthGrow:1},
+          	 	{title:"Ratio", field:"ratio", widthGrow:1},
+           	],
+          initialSort:[
+            {column:"ratio", dir:"desc"}, //sort by this first
+          ]
+      });
+
+      //trigger download of data.csv file
+      $("#download-csv").click(function(){
+        table.download("csv", "data.csv");
+      });
+
+});
+
+}; //liststoget
+
+	});//endofbutton
 
 
 			function handleClick() {
@@ -262,10 +347,12 @@ $(document).ready(function () {
 
 	if (!scatterplot_loaded) {
 	    document.getElementById("NewPlot").style.display="none";
+      document.getElementById("NewTable").style.display="none";
 	    document.getElementById("GetPlot").style.display="block";
 	    document.getElementById("selector").style.display="block";
 	    document.getElementById("ExpCorrChart").style.display="none";
 	    document.getElementById("new_plot_btn").style.display="none";
+      document.getElementById("new_table_btn").style.display="none";
 	    document.getElementById("Scatter_error_modal").style.display="none";
 	    document.getElementById("new_plot_btn").style.position="relative";
 	    document.getElementById("new_plot_btn").style.margin="-20 px";
@@ -302,6 +389,11 @@ $(document).ready(function () {
 	    document.getElementById("ExpCorrChart").style.height="550px";
 	    document.getElementById("ExpCorrChart").style.width="550px";
 	    document.getElementById("ExpCorrChart").style.styleFloat = 'right';
+
+      //document.getElementById("ExpTable").style.height="600px";
+      //document.getElementById("ExpTable").style.width="350px";
+      //document.getElementById("ExpTable").style.styleFloat = 'center';
+
 
 
 	    var selectioncounter = 0
@@ -431,10 +523,13 @@ $(document).ready(function () {
 	$("#new_plot_btn").click(function(){
 	    document.getElementById("selector").style.display="block";
 	    document.getElementById("ExpCorrChart").style.display="none";
+    //  document.getElementById("ExpTable").style.display="none";
 	    document.getElementById("NewPlot").style.display="none";
 	    document.getElementById("new_plot_btn").style.display="none";
 	    document.getElementById("GetPlot").style.display="block";
 	    document.getElementById("get_scatterplot_btn").style.display="block";
+      document.getElementById("NewTable").style.display="none";
+      document.getElementById("new_table_btn").style.display="none";
 	    document.getElementById("Scatter_Instruction").style.display="block";
 	});
 

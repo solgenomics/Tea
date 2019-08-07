@@ -279,8 +279,8 @@ __PACKAGE__->config(
         # $R->run(' write.table(description, file = paste0("'.$tmp_path.'","/test_'.$deg_out.'"), sep = "\t", row.names=T, col.names=NA, quote = F) ');
         # print STDERR "gene_list: ".scalar(@{$gene_list_arrayref})."\n";
         # print STDERR "gene_desc: ".scalar(@gene_desc)."\n";
-        $R->run(' pval = 1-mynoiseq.rpkm.deg$prob ');
-        $R->run(' deg_result_file = cbind(mynoiseq.rpkm.deg,pval,description) ');
+        #$R->run(' pval = 1-mynoiseq.rpkm.deg$prob ');
+        $R->run(' deg_result_file = cbind(mynoiseq.rpkm.deg,description) ');
 
         $R->run(' write.table(deg_result_file, file = paste("'.$tmp_path.'","'.$deg_out.'", sep="/"), sep = "\t", row.names=T, col.names=NA, quote = F) ');
 

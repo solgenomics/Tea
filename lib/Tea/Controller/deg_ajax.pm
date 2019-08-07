@@ -213,77 +213,77 @@ __PACKAGE__->config(
         $R->run(' mynoiseq.rpkm = noiseq(mydata, k=0.5, norm="n", replicates="biological", factor = "Treatment", lc = 1) ');
 
         #Filter results
-        $R->run(' mynoiseq.rpkm.prob <- mynoiseq.rpkm@results[[1]][mynoiseq.rpkm@results[[1]]$prob > pvt, ] ');
-        $R->run(' mynoiseq.rpkm.prob <- mynoiseq.rpkm.prob[!is.na(mynoiseq.rpkm.prob$prob), ] ');
+        # $R->run(' mynoiseq.rpkm.prob <- mynoiseq.rpkm@results[[1]][mynoiseq.rpkm@results[[1]]$prob > pvt, ] ');
+        # $deg_count = $R->get(' nrow(mynoiseq.rpkm.prob) ');
+        # $R->run(' mynoiseq.rpkm.prob <- mynoiseq.rpkm.prob[!is.na(mynoiseq.rpkm.prob$prob), ] ');
 
         $R->run(' mynoiseq.rpkm.deg <- degenes(mynoiseq.rpkm, q = pvt, M = NULL) ');
 
         $deg_count = $R->get(' nrow(mynoiseq.rpkm.deg) ');
 
-        $deg_up_count = $R->get(' nrow(mynoiseq.rpkm.deg[mynoiseq.rpkm.deg$M>0,]) ');
-        $deg_down_count = $R->get(' nrow(mynoiseq.rpkm.deg[mynoiseq.rpkm.deg$M<0,]) ');
+        $deg_up_count = $R->run(' deg_up = nrow(degenes(mynoiseq.rpkm, q = pvt, M = "up")) ');
+        $deg_up_count = $R->get(' deg_up ');
+        $deg_down_count = $R->run(' deg_down = nrow(degenes(mynoiseq.rpkm, q = pvt, M = "down")) ');
+        $deg_down_count = $R->get(' deg_down ');
 
         $deg_up_name = $R->get(' colnames(mynoiseq.rpkm.deg[1]) ');
         $deg_down_name = $R->get(' colnames(mynoiseq.rpkm.deg[2]) ');
 
+        if ($deg_count > 0) {
 
-        # $R->run(' mynoiseq.rpkm.deg.up <- degenes(mynoiseq.rpkm, q = pvt, M = "up") ');
-        # $R->run(' mynoiseq.rpkm.deg.down <- degenes(mynoiseq.rpkm, q = pvt, M = "down") ');
+          my @gene_desc;
+          my $gene_list_arrayref = $R->get(' row.names(mynoiseq.rpkm.deg) ');
+          my $gene_description = "Unknown protein";
 
+          my $lucy_desc = Lucy::Simple->new(
+        	    path     => $loci_and_desc_path,
+        	    language => 'en',
+        	);
 
-        my @gene_desc;
-        my $gene_list_arrayref = $R->get(' row.names(mynoiseq.rpkm.deg) ');
-        my $gene_description = "Unknown protein";
+          if ( eval { \@$gene_list_arrayref } ) {
+            foreach my $one_gene (@{$gene_list_arrayref}) {
 
-        my $lucy_desc = Lucy::Simple->new(
-      	    path     => $loci_and_desc_path,
-      	    language => 'en',
-      	);
+              $lucy_desc->search(
+                  query    => $one_gene,
+                num_wanted => 1
+              );
 
-        if ( eval { \@$gene_list_arrayref } ) {
-          foreach my $one_gene (@{$gene_list_arrayref}) {
+              while ( my $hit = $lucy_desc->next ) {
+                if ($hit->{description}) {
+                  # push(@gene_desc, $hit->{description});
+                  $gene_description = $hit->{description};
+                }
+                # print STDERR "$one_gene: ".$hit->{description}."\n";
+              }
+
+              push(@gene_desc, $gene_description);
+
+            }
+          }
+          else {
 
             $lucy_desc->search(
-                query    => $one_gene,
+                query    => $gene_list_arrayref,
               num_wanted => 1
             );
 
             while ( my $hit = $lucy_desc->next ) {
               if ($hit->{description}) {
-                # push(@gene_desc, $hit->{description});
                 $gene_description = $hit->{description};
               }
-              # print STDERR "$one_gene: ".$hit->{description}."\n";
             }
-
             push(@gene_desc, $gene_description);
 
           }
-        }
-        else {
+          $R->set('description', \@gene_desc);
+          $R->run(' deg_result_file = cbind(mynoiseq.rpkm.deg,description) ');
 
-          $lucy_desc->search(
-              query    => $gene_list_arrayref,
-            num_wanted => 1
-          );
-
-          while ( my $hit = $lucy_desc->next ) {
-            if ($hit->{description}) {
-              $gene_description = $hit->{description};
-            }
-          }
-          push(@gene_desc, $gene_description);
-
-        }
-        $R->set('description', \@gene_desc);
-        # $R->run(' write.table(description, file = paste0("'.$tmp_path.'","/test_'.$deg_out.'"), sep = "\t", row.names=T, col.names=NA, quote = F) ');
-        # print STDERR "gene_list: ".scalar(@{$gene_list_arrayref})."\n";
-        # print STDERR "gene_desc: ".scalar(@gene_desc)."\n";
-        #$R->run(' pval = 1-mynoiseq.rpkm.deg$prob ');
-        $R->run(' deg_result_file = cbind(mynoiseq.rpkm.deg,description) ');
-
+          $R->run(' write.table(deg_result_file, file = paste("'.$tmp_path.'","'.$deg_out.'", sep="/"), sep = "\t", row.names=T, col.names=NA, quote = F) ');
+      } # conditional number of rows > 0, DEGs found
+      else {
+        $R->run(' deg_result_file = mynoiseq.rpkm.deg ');
         $R->run(' write.table(deg_result_file, file = paste("'.$tmp_path.'","'.$deg_out.'", sep="/"), sep = "\t", row.names=T, col.names=NA, quote = F) ');
-
+      }
 
     } # end of
 

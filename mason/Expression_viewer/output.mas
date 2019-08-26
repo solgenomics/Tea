@@ -279,24 +279,29 @@ $(document).ready(function () {
         <input id="form_file_name" name="deg_file" style="display:none;" value="">
       </form>
       <br>
+      <p class="black_text">
+        <span class="up_condition"></span> / <span class="down_condition"></span> = <b><span class="up_number"></span></b> Up, <b><span class="down_number"></span></b> Down.
+        <br>
+        <br>
+        <!--Total DEGs: <span id="deg_number"></span>-->
+      </p>
+      <p class="black_text" style="max-width:450px">Summary of Up-regulated genes per condition</p>
       <table class="table" style="width:450px">
         <tr>
-          <td id="up_condition">
+          <td class="up_condition">
           </td>
-          <td id="up_number" style="text-align: right">
-          </td>
-        </tr>
-        <tr>
-          <td id="down_condition">
-          </td>
-          <td id="down_number" style="text-align: right">
+          <td class="up_number" style="text-align: right">
           </td>
         </tr>
         <tr>
-          <td>Total DEGs
+          <td class="down_condition">
           </td>
-          <td id="deg_number" style="text-align: right">
+          <td class="down_number" style="text-align: right">
           </td>
+        </tr>
+        <tr>
+          <td>Total DEGs</td>
+          <td class="deg_number" style="text-align: right"></td>
         </tr>
       </table>
       <br>

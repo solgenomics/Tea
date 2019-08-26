@@ -131,11 +131,11 @@ $(document).ready(function () {
                $("#degOutput").css("display", "inline");
                $("#form_file_name").val(res.deg_file);
                $("#degOutput").html("<span class=\"glyphicon glyphicon-download-alt\"></span> Download DEGs");
-               $("#deg_number").html(res.deg_count);
-               $("#up_condition").html(res.deg_up_name);
-               $("#up_number").html(res.deg_up_count);
-               $("#down_condition").html(res.deg_down_name);
-               $("#down_number").html(res.deg_down_count);
+               $(".deg_number").html(res.deg_count);
+               $(".up_condition").html(res.deg_up_name);
+               $(".up_number").html(res.deg_up_count);
+               $(".down_condition").html(res.deg_down_name);
+               $(".down_number").html(res.deg_down_count);
             }
 
         });

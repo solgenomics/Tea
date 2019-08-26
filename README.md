@@ -34,21 +34,35 @@ Also, if you are installing it in a new machine you maybe need to install cpanmi
     sudo aptitude install cpanminus
     sudo aptitude install make
     sudo aptitude install gcc
+    sudo aptitude install r-base
+    sudo aptitude install r-base-dev
+    sudo aptitude install postgresql
+    sudo aptitude install postgresql-server-dev-11    
     cpanm -L ~/local-lib/ Catalyst::Devel
     cpanm -L ~/local-lib/ Catalyst::Runtime
     cpanm -L ~/local-lib/ Mason
     cpanm -L ~/local-lib/ Statistics::R
+    cpanm -L ~/local-lib/ Catalyst::ScriptRunner
+    cpanm -L ~/local-lib/ Catalyst::Controller::REST
+    cpanm -L ~/local-lib/ Catalyst::View::HTML::Mason
+    cpanm -L ~/local-lib/ Lucy::Simple
+    cpanm -L ~/local-lib/ Array::Utils
+    cpanm -L ~/local-lib/ DBIx::Class
+    cpanm -L ~/local-lib/ Bio::Perl
+    cpanm -L ~/local-lib/ Bio::BLAST::Database
+    cpanm -L ~/local-lib/ DBD::Pg
+    
 
 If you are having trouble installing cpanm, there may be an issue with your system's dependencies. 
 Visit (​<https://library.linode.com/linux-tools/utilities/cpanm>) for help with installing dependencies.
 
-In case local-lib is not in the path you have to add the following line in the .bashrc file (for a local-lib in your home)
+In case local-lib is not in the path, you have to add the following line in the .bashrc file (for a local-lib in your home)
 
 `export PERL5LIB=/home/username/local-lib/lib/perl5:$PERL5LIB`
 
-Do not forget to source .bashrc to be sure this changes make effect.
+Do not forget to source .bashrc to be sure this changes take effect.
 
-R v3 must be installed for the interactive heatmap. Libraries d3heatmap and htmlwidgets should be also installed.
+R v3 must be installed for the interactive heatmap. Libraries d3heatmap and htmlwidgets should also be installed.
 
 --------------------------------------------
 

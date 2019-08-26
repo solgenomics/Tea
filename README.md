@@ -50,8 +50,7 @@ Also, if you are installing it in a new machine you maybe need to install cpanmi
     cpanm -L ~/local-lib/ DBIx::Class
     cpanm -L ~/local-lib/ Bio::Perl
     cpanm -L ~/local-lib/ Bio::BLAST::Database
-    cpanm -L ~/local-lib/ DBD::Pg
-    
+    cpanm -L ~/local-lib/ DBD::Pg  
 
 If you are having trouble installing cpanm, there may be an issue with your system's dependencies. 
 Visit (​<https://library.linode.com/linux-tools/utilities/cpanm>) for help with installing dependencies.

@@ -59,7 +59,7 @@ In case local-lib is not in the path, you have to add the following line in the 
 
 `export PERL5LIB=/home/username/local-lib/lib/perl5:$PERL5LIB`
 
-Do not forget to source .bashrc to be sure this changes take effect.
+Do not forget to source .bashrc to be sure these changes take effect.
 
 R v3 must be installed for the interactive heatmap. Libraries d3heatmap and htmlwidgets should also be installed.
 

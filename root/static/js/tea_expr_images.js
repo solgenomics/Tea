@@ -4,7 +4,7 @@ function draw_stage_name(x_offset,y_offset,one_tissue_layer,canvas,img_width,stg
 
     var stage_img_text = new Kinetic.Text({
       x: x_offset,
-      y: y_offset + 20 - title_y_offset,
+      y: y_offset + 10 - title_y_offset,
       align: "center",
       text: stg_name,
       fontSize: 20,

@@ -61,7 +61,7 @@ In case local-lib is not in the path, you have to add the following line in the 
 
 Do not forget to source .bashrc to be sure these changes take effect.
 
-R v3 must be installed for the interactive heatmap. Libraries d3heatmap and htmlwidgets should also be installed.
+R v3 must be installed for the interactive heatmap. The R libraries 'd3heatmap' and 'htmlwidgets' should also be installed.
 
 --------------------------------------------
 
@@ -78,7 +78,7 @@ or
 
 `git clone https://github.com/solgenomics/Tea.git`
 
-You can run the local server to check Catalyst is running fine, and in case you are running it on a server you should check also the Apache or Nginx configuration is right and the ports are open on the firewall.
+You can run the local server to check Catalyst is running fine. If you are running it on a server, you should also check that the Apache or Nginx configuration is correct and the ports are open on the firewall.
 
 Go to the folder Tea, created when cloned the repository and run the server to check if all the dependencies are installed.
 
@@ -212,7 +212,7 @@ Run the script to import your project:
 Three Lucy indexes are needed. One for expression, another for correlation and the last one for sgn_loci_id and the gene descriptions.
 To format the expression and correlation data you will need to run the scripts `index_expression_file.pl` and `index_correlation_file.pl` respectively.
 
-The input format for the expression should be gene name, stage `layer_name` (like the stage-layer in the TEA project template), tissue (like the tissue-layer `layer_name` from the TEA project template).WHITE SPACES ARE NOT ALLOWED IN THESE FIELDS. Then, the expression value, the standard error and the replicates separated by commas:
+The input format for the expression should be gene name, stage `layer_name` (like the stage-layer in the TEA project template), tissue (like the tissue-layer `layer_name` from the TEA project template). WHITE SPACES ARE NOT ALLOWED IN THESE FIELDS. Then, the expression value, the standard error and the replicates separated by commas:
 
     Solyc00g005040	Anthesis	Columella	1.36	0.27	0.86,1.8,1.41
     Solyc00g005040	Anthesis	Locular_Material	0.09	0.09	0,0,0.28

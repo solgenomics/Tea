@@ -60,7 +60,6 @@ my $json = JSON::Any->new;
 <script type="text/javascript" src="/static/js/tea_expr_images.js"></script>
 <script type="text/javascript" src="/static/js/tea_expr_code.js"></script>
 <script type="text/javascript" src="/static/js/scatterplot_tab.js"></script>
-<script type="text/javascript" src="/static/js/deg_tab.js"></script>
 
 <script type="text/javascript" src="/static/js/jqplot/jquery.jqplot.min.js"></script>
 <script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.json2.js"></script>
@@ -256,58 +255,7 @@ $(document).ready(function () {
         <div id="ExpCorrChart"></div>
     </div>
 
-    <div id="container_deg" class="output_width tab-pane fade">
-
-      <div id="degNewPlot">
-          <button class="btn btn-primary" id="deg_new_plot_btn" type="button">New selection</button>
-      </div>
-      <div id="deg_instruction" class="pull-left">
-        To calculate Differentially Expressed Genes (DEGs) between 2 experiments,
-        please select two samples from the grid, then click <i>Get DEGs</i>.
-        <br>
-        <br>
-        Expression values shown for the query gene <span style="color:#337ab7"><% $genes[0] %></span>
-      </div>
-
-      <div id="degGetPlot" class="pull-left">
-        <button class="btn btn-primary" id="get_deg_btn" type="button">Get DEGs</button>
-      </div>
-
-      <div id="degSelector"></div>
-      <br>
-      <form id="download_deg" method="post" action="/download_DEG_file/" enctype="multipart/form-data" style="display:none;">
-        <input id="form_file_name" name="deg_file" style="display:none;" value="">
-      </form>
-      <br>
-      <p class="black_text">
-        <span class="up_condition"></span> / <span class="down_condition"></span> = <b><span class="up_number"></span></b> Up, <b><span class="down_number"></span></b> Down.
-        <br>
-        <br>
-        <!--Total DEGs: <span id="deg_number"></span>-->
-      </p>
-      <p class="black_text" style="max-width:450px">Summary of Up-regulated genes per condition</p>
-      <table class="table" style="width:450px">
-        <tr>
-          <td class="up_condition">
-          </td>
-          <td class="up_number" style="text-align: right">
-          </td>
-        </tr>
-        <tr>
-          <td class="down_condition">
-          </td>
-          <td class="down_number" style="text-align: right">
-          </td>
-        </tr>
-        <tr>
-          <td>Total DEGs</td>
-          <td class="deg_number" style="text-align: right"></td>
-        </tr>
-      </table>
-      <br>
-      <buttom id="degOutput" class="btn btn-primary"></buttom>
-
-    </div>
+    <& deg_tab.mas, genes => \@genes &>
 
   </div>
 
@@ -319,31 +267,3 @@ $(document).ready(function () {
 
 </center>
 <br>
-
-<style>
-  #deg_instruction {
-    width: 550px;
-    margin: 20px;
-    margin-left: 150px;
-  }
-
-  #deg_new_plot_btn {
-    position: relative;
-    margin: -20 px;
-    top: 50%;
-  }
-
-  #degNewPlot {
-    height: 70px;
-    styleFloat: left;
-  }
-
-  #degGetPlot {
-    padding: 25px;
-  }
-  #degSelector {
-    /* height: 1000px; */
-    width: 850px;
-  }
-
-</style>

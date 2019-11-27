@@ -81,9 +81,9 @@ $(document).ready(function () {
 
   $("#degNewPlot").click(function(){
       $("#degSelector").css("display", "block");
-      $("#degOutput").css("display", "none");
+      $("#deg_output_summary").css("display", "none");
       $("#degNewPlot").css("display", "none");
-      $("#deg_new_plot_btn").css("display", "none");
+      // $("#deg_new_plot_btn").css("display", "none");
       $("#degGetPlot").css("display", "block");
       $("#get_deg_btn").css("display", "block");
       $("#deg_instruction").css("display", "block");
@@ -105,9 +105,9 @@ $(document).ready(function () {
 
         $("#degNewPlot").css("display", "block");
         $("#degGetPlot").css("display", "none");
-        $("#degOutput").css("display", "inline");
+        $("#deg_output_summary").css("display", "block");
         $("#degSelector").css("display", "none");
-        $("#deg_new_plot_btn").css("display", "block");
+        // $("#deg_new_plot_btn").css("display", "block");
         $("#get_deg_btn").css("display", "none");
         $("#deg_instruction").css("display", "none");
 
@@ -128,7 +128,7 @@ $(document).ready(function () {
             dataType: "json",
             data: { 'projectid': project_id, 'st_array': plot_stages, 'ti_array': plot_tissues, 'st_s1_index': sample1stageindex, 'st_s2_index': sample2stageindex, 'ti_s1_index': sample1tissueindex, 'ti_s2_index': sample2tissueindex},
             success: function(res) {
-               $("#degOutput").css("display", "inline");
+               $("#deg_output_summary").css("display", "block");
                $("#form_file_name").val(res.deg_file);
                $("#degOutput").html("<span class=\"glyphicon glyphicon-download-alt\"></span> Download DEGs");
                $(".deg_number").html(res.deg_count);
@@ -245,8 +245,8 @@ $(document).ready(function () {
   	    $("#degNewPlot").css("display", "none");
   	    $("#degGetPlot").css("display", "block");
   	    $("#degSelector").css("display", "block");
-  	    $("#degOutput").css("display", "none");
-  	    $("#deg_new_plot_btn").css("display", "none");
+  	    $("#deg_output_summary").css("display", "none");
+  	    // $("#deg_new_plot_btn").css("display", "none");
 
   	    var selectioncounter = 0;
   	    var selectorArraySwitch = [];

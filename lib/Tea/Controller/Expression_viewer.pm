@@ -582,6 +582,7 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
   my @output_gene = $c->req->param("input_gene");
 
   if ($input_type eq "gene_id") {
+    $query_gene[0] =~ s/\s//g;
 
     if ($application_name eq "PEATmoss") {
         $query_gene[0] = _check_gene_exists($c,$expr_index_path,$query_gene[0],$project_rs->name);
@@ -768,6 +769,7 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
 
     if ($input_type eq "custom_list") {
       $query_gene = shift @query_gene;
+      $query_gene =~ s/^\s+//;
       $query_gene =~ s/[\n\s,]+/,/g;
 
       if ($query_gene =~ /solyc\d\dg\d{6}/i) {

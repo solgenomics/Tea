@@ -1150,20 +1150,6 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
       language => 'en',
   );
 
-	#------------------------------------- Create header
-	my @header;
-	my @lines;
-
-	push(@header,"gene name");
-
-	foreach my $t (@tissues) {
-		foreach my $s (@stages) {
-			push(@header, "$t:$s");
-			# push(@header, "$t:$s ".$project_rs->expr_unit);
-		}
-	}
-	push(@header,"Correlation\tdescription");
-	push(@lines, join("\t", @header));
 
 	#------------------------------------- get expression and description
 	foreach my $g (@genes) {
@@ -1187,16 +1173,70 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
 		}
 	}
 
+  #------------------------------------- Create header
+	my @header;
+	my @lines;
+
+	push(@header,"gene name");
+
+my %not_empty_col;
+my $all_na = 1;
+
+	foreach my $t (@tissues) {
+    $all_na = 1;
+		foreach my $s (@stages) {
+      $all_na = 1;
+
+
+      foreach my $g (@genes) {
+        if ($gene_stage_tissue_expr{$g}{$t}{$s} ne "NA") {
+          $all_na =0;
+        }
+        # print STDERR "Testing NA columns: $g $t $s ".$gene_stage_tissue_expr{$g}{$t}{$s}."\n";
+        # print STDERR "All NA?: $all_na\n";
+      }
+
+      if (!$all_na) {
+        push(@header, "$t:$s");
+        $not_empty_col{$t}{$s} = 1;
+      }
+
+
+			# push(@header, "$t:$s ".$project_rs->expr_unit);
+		}
+	}
+
+  if ($input_type eq "gene_id") {
+  	push(@header,"Correlation\tdescription");
+  }
+  else {
+  	push(@header,"description");
+  }
+	push(@lines, join("\t", @header));
+
+
 	#------------------------------------- create file for downloading
 	my @expr_columns;
 
 	foreach my $g (@genes) {
 		foreach my $t (@tissues) {
 			foreach my $s (@stages) {
-				push(@expr_columns, $gene_stage_tissue_expr{$g}{$t}{$s});
+
+        if ($not_empty_col{$t}{$s}) {
+  				push(@expr_columns, $gene_stage_tissue_expr{$g}{$t}{$s});
+        }
+
 			}
 		}
-		push(@lines, "$g\t".join("\t", @expr_columns)."\t$corr_hash{$g}\t$descriptions{$g}");
+
+    if ($input_type eq "gene_id") {
+  		push(@lines, "$g\t".join("\t", @expr_columns)."\t$corr_hash{$g}\t$descriptions{$g}");
+    }
+    else {
+      push(@lines, "$g\t".join("\t", @expr_columns)."\t$descriptions{$g}");
+    }
+
+
 		@expr_columns = [];
 		shift(@expr_columns);
 	}

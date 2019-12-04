@@ -595,8 +595,10 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
   elsif ($input_type eq "custom_list" && $application_name eq "PEATmoss") {
     my @custom_gene_list = split("\n",@output_gene[0]);
     foreach my $g (@custom_gene_list) {
-      print STDERR "gene in list: $g\n";
-      _check_gene_exists($c,$expr_index_path,$g,$project_rs->name);
+      # print STDERR "gene in list: $g\n";
+      if ($g =~ /\w/) {
+        _check_gene_exists($c,$expr_index_path,$g,$project_rs->name);
+      }
     }
     if($c->stash->{errors}) {
       $c->stash->{errors} = "The genes below were not found in this data set. Please check spelling and gene version. Click on the gene names to try to find the correct gene name.<br>".$c->stash->{errors}."\n";

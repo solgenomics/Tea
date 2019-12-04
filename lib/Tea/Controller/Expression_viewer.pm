@@ -234,6 +234,7 @@ sub _check_gene_exists {
 
 #### CODE for PEATmoss gene lookup ###
   my $application_name = $c->config->{name};
+  my $input_type = $c->req->param("input_type") || "gene_id";
 
 # For all other applications
   if ($application_name ne "PEATmoss") {
@@ -256,6 +257,13 @@ sub _check_gene_exists {
     }
     else {
       ### Gene not found in PEATmoss
+
+      if ($input_type == "custom_list") {
+        $c->stash->{errors} = $c->stash->{errors}."\n <a href=\"https://peatmoss.online.uni-marburg.de/ppatens_db/pp_search_output.php?search_keywords=$query_gene\" target=\"_blank\">$query_gene</a><br>";
+        $c->stash->{template} = '/Expression_viewer/output.mas';
+        return;
+      }
+
 
       my $gene_version;
 
@@ -584,6 +592,18 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
     }
 
   }
+  elsif ($input_type eq "custom_list" && $application_name eq "PEATmoss") {
+    my @custom_gene_list = split("\n",@output_gene[0]);
+    foreach my $g (@custom_gene_list) {
+      print STDERR "gene in list: $g\n";
+      _check_gene_exists($c,$expr_index_path,$g,$project_rs->name);
+    }
+    if($c->stash->{errors}) {
+      $c->stash->{errors} = "The genes below were not found in this data set. Please check spelling and gene version. Click on the gene names to try to find the correct gene name.<br>".$c->stash->{errors}."\n";
+    }
+
+  }
+
 
   # getting the organs, stages tissues and treatments selected at input page
   my @stages = split(",",$stage_filter);

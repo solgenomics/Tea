@@ -922,6 +922,9 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
     }
   }
 
+  my $deg_tab = $c->config->{deg_tab}||0;
+
+# print STDERR "deg_tab: $deg_tab\n";
 
   $corr_filter = $c->req->param("correlation_filter")||0.65;
   my @output_gene = $c->req->param("input_gene");
@@ -967,6 +970,8 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
   $c->stash->{project_name} = $project_rs->name;
   $c->stash->{project_expr_unit} = $project_rs->expr_unit;
   $c->stash->{locus_ids} = \%locus_ids;
+
+  $c->stash->{deg_tab} = $deg_tab;
 
   $c->stash->{template} = '/Expression_viewer/output.mas';
 }
@@ -1213,6 +1218,33 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
 	$c->res->body($tab_file);
 }
 
+=head2 download_deg
+
+Download DEG file
+
+ARGV: DEG file path
+
+Return: print file with DEG results
+
+=cut
+
+sub download_deg_result :Path('/download_DEG_file/') :Args(0) {
+  my ($self, $c) = @_;
+
+	#get parameters from form and config file
+	my $full_file_name = $c->req->param("deg_file");
+  my $file_name = $full_file_name;
+  $file_name =~ s/.+\///;
+
+  print STDERR "deg_file: $file_name\n";
+  open (my $fh, '<', $full_file_name);
+
+  #------------------------------------- send file
+	$c->res->content_type('text/plain');
+	$c->res->header('Content-Disposition', qq[attachment; filename="$file_name"]);
+  $c->res->body( $fh );
+
+}
 
 
 =head2 uniq

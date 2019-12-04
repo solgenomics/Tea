@@ -571,11 +571,13 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
   my $expr_index_path = $expr_path."/".$project_rs->indexed_dir;
   $loci_and_desc_path .= "/".$project_rs->indexed_dir;
 
+  my @output_gene = $c->req->param("input_gene");
 
   if ($input_type eq "gene_id") {
 
     if ($application_name eq "PEATmoss") {
         $query_gene[0] = _check_gene_exists($c,$expr_index_path,$query_gene[0],$project_rs->name);
+        $output_gene[0] = $query_gene[0];
     }
     else {
         _check_gene_exists($c,$expr_index_path,$query_gene[0],$project_rs->name);
@@ -924,10 +926,7 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
 
   my $deg_tab = $c->config->{deg_tab}||0;
 
-# print STDERR "deg_tab: $deg_tab\n";
-
   $corr_filter = $c->req->param("correlation_filter")||0.65;
-  my @output_gene = $c->req->param("input_gene");
 
   my $total_page_number;
   if ($input_type eq "gene_id") {
@@ -992,9 +991,9 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
 
   my $cube_gene_number = 15;
 
-
 	#get parameters from form and config file
 	my @query_gene = $c->req->param("input_gene");
+
   my $project_id = $c->req->param("organism_filter");
 
 	my $corr_filter = $c->req->param("correlation_filter");
@@ -1159,7 +1158,8 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
 
 	foreach my $t (@tissues) {
 		foreach my $s (@stages) {
-			push(@header, "$t:$s ".$project_rs->expr_unit);
+			push(@header, "$t:$s");
+			# push(@header, "$t:$s ".$project_rs->expr_unit);
 		}
 	}
 	push(@header,"Correlation\tdescription");

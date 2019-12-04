@@ -1135,7 +1135,7 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
 	foreach my $g (@genes) {
 		foreach my $t (@tissues) {
 			foreach my $s (@stages) {
-				$gene_stage_tissue_expr{$g}{$t}{$s} = 0;
+				$gene_stage_tissue_expr{$g}{$t}{$s} = "NA";
 			}
 		}
 	}

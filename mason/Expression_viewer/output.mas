@@ -35,6 +35,8 @@ $stage_filter => ()
 $tissue_filter => ()
 $condition_filter => ()
 
+$deg_tab => ()
+
 </%args>
 
 <%perl>
@@ -216,7 +218,12 @@ $(document).ready(function () {
         <li id="expr_imgs_tab"><a data-toggle="tab" href="#container_tissues"><img src="/static/images/ico1.png" height="24" style="padding-bottom:5px;"/> Expression images</a></li>
         <li id="heatmap_tab"><a data-toggle="tab" href="#container_heatmap"><img src="/static/images/ico3.png" height="24"/> Heatmap</a></li>
       	<li id="scatterplots_tab"><a data-toggle="tab" href="#container_scatterplots"><img src="/static/images/ico4.png" height="24"/> Scatterplots</a></li>
-      	<li id="deg_tab"><a data-toggle="tab" href="#container_deg"><img src="/static/images/ico5.png" height="24"/> DEGs</a></li>
+<%perl>
+    if ($deg_tab) {
+        print "<li id=\"deg_tab\"><a data-toggle=\"tab\" href=\"#container_deg\"><img src=\"/static/images/ico5.png\" height=\"24\"/> DEGs</a></li>";
+    }
+</%perl>
+
     </ul>
   </div>
 

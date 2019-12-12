@@ -256,9 +256,8 @@ sub _check_gene_exists {
       return $query_gene;
     }
     else {
-      ### Gene not found in PEATmoss
-
-      if ($input_type == "custom_list") {
+      ### Gene not found in PEATmoss go to lookup DB
+      if ($input_type eq "custom_list") {
         $c->stash->{errors} = $c->stash->{errors}."\n <a href=\"https://peatmoss.online.uni-marburg.de/ppatens_db/pp_search_output.php?search_keywords=$query_gene\" target=\"_blank\">$query_gene</a><br>";
         $c->stash->{template} = '/Expression_viewer/output.mas';
         return;
@@ -388,10 +387,14 @@ sub _check_gene_exists {
         $dbh->disconnect();
 
         if ($other_version_found == 1) {
+          # print STDERR "other version found $query_gene\n";
+
           #one gene from another version found
           return $alternative_gene;
         }
         elsif ($other_version_found > 1) {
+          # print STDERR "several found $query_gene\n";
+
           #Multiple genes from another version found
           my $multiple_genes_html = join("<br>", @all_genes_found);
 
@@ -401,6 +404,8 @@ sub _check_gene_exists {
           return $alternative_gene;
         }
         else {
+          # print STDERR "no gene? $query_gene\n";
+
           $c->stash->{errors} = "Gene not found";
           $c->stash->{template} = '/Expression_viewer/output.mas';
           return $query_gene;
@@ -594,7 +599,7 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
 
   }
   elsif ($input_type eq "custom_list" && $application_name eq "PEATmoss") {
-    my @custom_gene_list = split("\n",@output_gene[0]);
+    my @custom_gene_list = split("\n",$output_gene[0]);
     foreach my $g (@custom_gene_list) {
       # print STDERR "gene in list: $g\n";
       if ($g =~ /\w/) {
@@ -850,7 +855,7 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
   # }
 
 
-
+# print STDERR "$query_gene\n";
   #------------------------------------------------------------------------------------------------------------------
   my $total_corr_genes = 0;
   my $genes;
@@ -1300,7 +1305,7 @@ sub download_deg_result :Path('/download_DEG_file/') :Args(0) {
   my $file_name = $full_file_name;
   $file_name =~ s/.+\///;
 
-  print STDERR "deg_file: $file_name\n";
+  # print STDERR "deg_file: $file_name\n";
   open (my $fh, '<', $full_file_name);
 
   #------------------------------------- send file

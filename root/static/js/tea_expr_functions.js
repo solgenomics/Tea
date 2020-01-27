@@ -7,11 +7,13 @@
 
     for (i in stg_names) {
       s_names[i] = stg_names[i];
-      s_names[i].replace(/_/g," ");
+      s_names[i] = s_names[i].replace(/[_-]+/g,"_");
+      // alert("stage: "+s_names[i]);
     }
     for (i in tis_names) {
       t_names[i] = tis_names[i];
-      t_names[i].replace(/_/g," ");
+      // t_names[i].replace(/_/g," ");
+      t_names[i] = t_names[i].replace(/[_-]+/g,"_");
     }
 
     var div_gene_name = gene_name.replace(/[-,]+/g,"");

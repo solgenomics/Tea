@@ -23,22 +23,28 @@
 
     // alert("div_gene_name1: "+div_gene_name);
 
-    var bar_width = null;
+    // var bar_width = null;
     var bar_padding = 0;
-    var bar_margin = 1;
+    var bar_margin = 0;
 
 
-    if (s_names.length*t_names.length > 90) {
-      bar_width = 6;
-    }
-    else if (s_names.length*t_names.length > 42 && s_names.length*t_names.length <= 90) {
-      bar_width = 10;
-    }
-    else if (s_names.length*t_names.length > 8 && s_names.length*t_names.length <= 42) {
-      bar_width = 20;
-    }
-    else if (s_names.length*t_names.length <= 8) {
-      bar_width = 40;
+    // if (s_names.length*t_names.length > 90) {
+      // bar_width = 6;
+      // bar_padding = 0;
+      // bar_margin = 0;
+    // }
+    // else if (s_names.length*t_names.length > 42 && s_names.length*t_names.length <= 90) {
+    //   bar_width = 10;
+    // }
+    // else if (s_names.length*t_names.length > 10 && s_names.length*t_names.length <= 42) {
+    //   // bar_width = 20;
+    //   bar_width = 17;
+    // }
+
+    if (s_names.length*t_names.length <= 10) {
+      // bar_width = 40;
+      bar_padding = 2;
+      bar_margin = 2;
     }
 
 
@@ -51,7 +57,7 @@
         shadow: false,
         renderer:$.jqplot.BarRenderer,
         rendererOptions: {
-          barWidth: bar_width,
+          // barWidth: bar_width,
           barPadding: bar_padding,
           barMargin: bar_margin,
           fillToZero: true,
@@ -87,7 +93,7 @@
           tickOptions: {
             angle: -45,
             showGridline: false,
-            fontSize: '12pt',
+            fontSize: '10pt',
             textColor: 'black',
             fontFamily: 'Arial',
             markSize: 15,
@@ -278,7 +284,7 @@
           title: gene_name2,
           minWidth: panel_width,
           draggable: true,
-          resizable: false,
+          resizable: true,
           closeText: ''
         });
         $('.ui-dialog :button').blur();

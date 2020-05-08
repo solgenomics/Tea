@@ -61,7 +61,7 @@ In case local-lib is not in the path, you have to add the following line in the 
 
 Do not forget to source .bashrc to be sure these changes take effect.
 
-R v3 must be installed for the interactive heatmap. The R libraries 'd3heatmap' and 'htmlwidgets' should also be installed.
+R v3 must be installed for the interactive heatmap. The R libraries 'd3heatmap', 'NOISeq' and 'htmlwidgets' should also be installed.
 
 --------------------------------------------
 

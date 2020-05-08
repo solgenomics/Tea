@@ -113,6 +113,8 @@ You will need to edit this file to customize all the paths, so they work on your
 
 `web_usr` is the user name with permissions to edit and read the database, if you want to use a different user name you will need to grant permissions to the new user or edit the file `create_tea_schema.sql`
 
+In order to enable the 'DEG' tab, `deg_tab 1` should be added as a line in the conf file.
+
 Add the expression images to the folder `Tea/root/static/images/expr_viewer/`
 
 You can customize the value of any of these variables.

@@ -61,7 +61,7 @@ In case local-lib is not in the path, you have to add the following line in the 
 
 Do not forget to source .bashrc to be sure these changes take effect.
 
-R v3 must be installed for the interactive heatmap. The R libraries 'd3heatmap' and 'htmlwidgets' should also be installed.
+R v3 must be installed for the interactive heatmap. The R libraries 'd3heatmap', 'NOISeq' and 'htmlwidgets' should also be installed.
 
 --------------------------------------------
 
@@ -112,6 +112,8 @@ You will need to edit this file to customize all the paths, so they work on your
     default_gene gene_name
 
 `web_usr` is the user name with permissions to edit and read the database, if you want to use a different user name you will need to grant permissions to the new user or edit the file `create_tea_schema.sql`
+
+In order to enable the 'DEG' tab, `deg_tab 1` should be added as a line in the conf file.
 
 Add the expression images to the folder `Tea/root/static/images/expr_viewer/`
 

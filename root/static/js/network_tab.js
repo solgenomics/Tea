@@ -2,7 +2,7 @@ $(document).ready(function () {
 
   var plot_tissues;
   var plot_stages;
-  var deg_loaded = 0;
+  var network_loaded = 0;
 
   var samples_chosen = [];
   var adjustable_y_val = 0;
@@ -10,106 +10,36 @@ $(document).ready(function () {
   var stage;
   var stored_color = [];
 
-  function add_squares(x,y,selectorCounter,stored_color,adjustable_y_val,selectorArraySwitch,selectorArray,layer,stage) {
-      var expr_val = aoaoa[0][x-1][y-1];
-
-      if (expr_val == 0.000001) {
-        expr_val = "ND";
-      }
-
-      var sqr_color = 'rgb(210,210,210)';
-      var front_tile;
-
-      if (expr_val != "ND") {
-        var rgb_array = get_expr_color(expr_val,expression_min_scale,expression_max_scale);
-        sqr_color = 'rgb('+rgb_array[0]+','+rgb_array[1]+','+rgb_array[2]+')';
-      }
-      else {
-
-        front_tile = new Kinetic.Rect({
-          x: x*20+150,
-          y: y*20+adjustable_y_val,
-          width: 20,
-          height: 20,
-          fill: sqr_color,
-          name: 'ND',
-          id: selectorCounter,
-          strokeWidth: 1,
-          stroke: 'black',
-        });
-      }
-
-      stored_color[selectorCounter] = sqr_color;
-
-      if (expr_val != "ND") {
-        front_tile = new Kinetic.Rect({
-          x: x*20+150,
-          y: y*20+adjustable_y_val,
-          width: 20,
-          height: 20,
-          fill: sqr_color,
-          name: 'notselected',
-          id: selectorCounter,
-          strokeWidth: 1,
-          stroke: 'black',
-        });
-      }
-
-      selectorArraySwitch[selectorCounter] = 0;
-
-      selectorArray[selectorCounter] = front_tile;
-
-      selectorArray[selectorCounter].on('mouseover', function() {
-        if ((this.name() != "selected") && (this.name() != "ND")) {
-          this.fill("#529dfb");
-          this.draw();
-        }
-
-      });
-
-      selectorArray[selectorCounter].on('mouseout', function() {
-        if ((this.name() != "selected") && (this.name() != "ND")) {
-          this.fill(sqr_color);
-          this.draw();
-        }
-      });
-
-
-      layer.add(front_tile);
-      stage.add(layer);
-  } //end of add_squares function
-
-  $("#degNewPlot").click(function(){
-      $("#degSelector").css("display", "block");
-      $("#deg_output_summary").css("display", "none");
-      $("#degNewPlot").css("display", "none");
-      // $("#deg_new_plot_btn").css("display", "none");
-      $("#degGetPlot").css("display", "block");
-      $("#get_deg_btn").css("display", "block");
-      $("#deg_instruction").css("display", "block");
+  $("#network_btn").click(function(){
+      $("#network_output_summary").css("display", "block");
+      $("#networkNewPlot").css("display", "none");
+      // $("#network_new_plot_btn").css("display", "none");
+      $("#networkGetPlot").css("display", "none");
+      $("#get_network_btn").css("display", "none");
+      $("#network_instruction").css("display", "none");
   });
 
 
 
-  $("#get_deg_btn").click(function(){
+  $("#get_network_btn").click(function(){
     if (samples_chosen.length == 2) {
       $("#loading_modal").modal("show");
-      setTimeout(function(){ get_degs_after_click(); }, 1000);
+      setTimeout(function(){ get_networks_after_click(); }, 1000);
       setTimeout(function(){ $("#loading_modal").modal("hide"); }, 1000);
     }
   });
 
-  function get_degs_after_click() {
+  function get_networks_after_click() {
 
     if (samples_chosen.length == 2) {
 
-        $("#degNewPlot").css("display", "block");
-        $("#degGetPlot").css("display", "none");
-        $("#deg_output_summary").css("display", "block");
-        $("#degSelector").css("display", "none");
-        // $("#deg_new_plot_btn").css("display", "block");
-        $("#get_deg_btn").css("display", "none");
-        $("#deg_instruction").css("display", "none");
+        $("#networkNewPlot").css("display", "block");
+        $("#networkGetPlot").css("display", "none");
+        $("#network_output_summary").css("display", "block");
+        $("#networkSelector").css("display", "none");
+        // $("#network_new_plot_btn").css("display", "block");
+        $("#get_network_btn").css("display", "none");
+        $("#network_instruction").css("display", "none");
 
         var sample1tissuetempindex = samples_chosen[0][0];
         var sample1stagetempindex = samples_chosen[0][1];
@@ -122,20 +52,20 @@ $(document).ready(function () {
         var sample2tissueindex = ((sample2tissuetempindex - adjustable_y_val)/20) - 1;
 
         $.ajax({
-            url: '/expression_viewer/deg/',
+            url: '/expression_viewer/network/',
             async: false,
             method: 'POST',
             dataType: "json",
             data: { 'projectid': project_id, 'st_array': plot_stages, 'ti_array': plot_tissues, 'st_s1_index': sample1stageindex, 'st_s2_index': sample2stageindex, 'ti_s1_index': sample1tissueindex, 'ti_s2_index': sample2tissueindex},
             success: function(res) {
-               $("#deg_output_summary").css("display", "block");
-               $("#form_file_name").val(res.deg_file);
-               $("#degOutput").html("<span class=\"glyphicon glyphicon-download-alt\"></span> Download DEGs");
-               $(".deg_number").html(res.deg_count);
-               $(".up_condition").html(res.deg_up_name);
-               $(".up_number").html(res.deg_up_count);
-               $(".down_condition").html(res.deg_down_name);
-               $(".down_number").html(res.deg_down_count);
+               $("#network_output_summary").css("display", "block");
+               $("#form_file_name").val(res.network_file);
+               $("#networkOutput").html("<span class=\"glyphicon glyphicon-download-alt\"></span> Download networks");
+               $(".network_number").html(res.network_count);
+               $(".up_condition").html(res.network_up_name);
+               $(".up_number").html(res.network_up_count);
+               $(".down_condition").html(res.network_down_name);
+               $(".down_number").html(res.network_down_count);
             }
 
         });
@@ -189,7 +119,7 @@ $(document).ready(function () {
   }
 
 
-  $("#deg_tab").click(function(){
+  $("#network_tab").click(function(){
 
   	plot_tissues = tissues;
   	plot_stages = stages;
@@ -241,12 +171,12 @@ $(document).ready(function () {
       } // end of ND conditional
   	} // function handleClick end
 
-  	if (!deg_loaded) {
-  	    $("#degNewPlot").css("display", "none");
-  	    $("#degGetPlot").css("display", "block");
-  	    $("#degSelector").css("display", "block");
-  	    $("#deg_output_summary").css("display", "none");
-  	    // $("#deg_new_plot_btn").css("display", "none");
+  	if (!network_loaded) {
+  	    $("#networkNewPlot").css("display", "none");
+  	    $("#networkGetPlot").css("display", "block");
+  	    $("#networkSelector").css("display", "block");
+  	    $("#network_output_summary").css("display", "none");
+  	    // $("#network_new_plot_btn").css("display", "none");
 
   	    var selectioncounter = 0;
   	    var selectorArraySwitch = [];
@@ -277,7 +207,7 @@ $(document).ready(function () {
         var adjustable_width = (plot_stages.length * 20) + (max_tissue_length * 30);
 
         stage = new Kinetic.Stage({
-  		  		container: "degSelector",
+  		  		container: "networkSelector",
   		  		width: 	adjustable_width,
   //          width: 650,
   		  		height: 500
@@ -334,7 +264,7 @@ $(document).ready(function () {
       	    }
   			}
 
-  	    deg_loaded = 1;
+  	    network_loaded = 1;
   	}
 
   	var temp_array_length = selectorArray.length - 1;

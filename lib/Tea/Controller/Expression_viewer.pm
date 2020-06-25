@@ -1034,6 +1034,7 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
   $tissue_filter =~ s/[\[\]\"]//g;
 
 	my $input_type = $c->req->param("input_type") || "gene_id";
+	my $output_type = $c->req->param("output_type") || "expr_rpkm";
 
   my @stages = split(",",$stage_filter);
   my @tissues = split(",",$tissue_filter);
@@ -1194,7 +1195,19 @@ sub download_expression_data :Path('/download_expression_data/') :Args(0) {
 
 		while ( my $hit = $lucy->next ) {
 			# all expression values are multiplied by 1 to transform string into integer or float
-			$gene_stage_tissue_expr{$hit->{gene}}{$hit->{tissue}}{$hit->{stage}} = $hit->{expression} * 1
+      if ($output_type eq "expr_rpkm") {
+  			$gene_stage_tissue_expr{$hit->{gene}}{$hit->{tissue}}{$hit->{stage}} = $hit->{expression} * 1;
+      }
+      elsif ($output_type eq "expr_se") {
+  			$gene_stage_tissue_expr{$hit->{gene}}{$hit->{tissue}}{$hit->{stage}} = $hit->{sem} * 1;
+      }
+      elsif ($output_type eq "expr_reps") {
+        # print STDERR "\n\nREPLICATES: ".$hit->{replicates}."\n\n";
+  			$gene_stage_tissue_expr{$hit->{gene}}{$hit->{tissue}}{$hit->{stage}} = $hit->{replicates};
+      }
+      else {
+  			$gene_stage_tissue_expr{$hit->{gene}}{$hit->{tissue}}{$hit->{stage}} = $hit->{expression} * 1;
+      }
 		}
 
 		while ( my $desc_hit = $lucy_desc->next ) {
@@ -1271,15 +1284,16 @@ my $all_na = 1;
 	}
 
 	my $tab_file = join("\n", @lines);
-	my $filename = "expr_".$query_gene."_cf$corr_filter.txt";
+	my $filename = $query_gene."_".$output_type."_cf$corr_filter.txt";
 
   if ($input_type eq "blast") {
-    $filename = "blast_list_expression.txt";
+    $filename = "blast_list_".$output_type.".txt";
   }
 
   if ($input_type eq "custom_list") {
-    $filename = "custom_list_expression.txt";
+    $filename = "custom_list_".$output_type.".txt";
   }
+
 
 	#------------------------------------- send file
 	$c->res->content_type('text/plain');

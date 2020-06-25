@@ -206,10 +206,22 @@ $(document).ready(function () {
 
   // to download the expression data
   $("#dwl_expr_data").click(function(){
+		$("#download_modal").modal("show");
+  });
+
+  $("#download_from_modal").click(function(){
+		//get expr type value
+		var expr_type = $("input[name='expr_type']:checked"). val();
+
+		// alert("dwl type: "+expr_type);
+
+		//set correlation filter value
+		$('#output_type').val(expr_type);
+
     $("#download_data").submit();
   });
 
-  // to download the expression data
+  // to download the DEG data
   $("#degOutput").click(function(){
     $("#download_deg").submit();
   });

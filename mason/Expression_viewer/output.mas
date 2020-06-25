@@ -53,6 +53,14 @@ my $json = JSON::Any->new;
   width: 1100px;
 }
 
+#dwl_expr_data {
+  position:relative;
+  float:right;
+  top:60px;
+  right:710px;
+  z-index:100;
+}
+
 </style>
 
 
@@ -160,6 +168,38 @@ $(document).ready(function () {
 </div>
 
 
+<div class="modal" id="download_modal">
+  <div id="download_modal_dialog" class="modal-dialog">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h4 class="modal-title" style="text-align: center;">Please, choose one of the next data types</h4>
+      </div>
+
+      <div id="dwl_popup" class="modal-body">
+        <div class="radio">
+          <label><input type="radio" name="expr_type" value="expr_rpkm" checked>Expression data</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="expr_type" value="expr_se">Standard Error (SE)</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="expr_type" value="expr_reps">Replicates</label>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button id="download_from_modal" type="button" class="btn btn-default" data-dismiss="modal">Download</button>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+
 <center>
   <div class="output_width" style="margin-bottom:15px">
 
@@ -192,7 +232,7 @@ $(document).ready(function () {
       <button class="btn btn-primary" id="run_tool" value="Run Expression Tool">Get Expression</button>
     </form>
 
-    <!-- TO DO add conditions in controller-->
+    <!-- Download data form-->
     <form id="download_data" method="post" action="/download_expression_data/" enctype="multipart/form-data" style="display:none;">
       <input name="input_gene" value=<% $json->encode(\@output_gene) %> >
       <input name="correlation_filter" value=<% $correlation_filter %> >
@@ -201,15 +241,17 @@ $(document).ready(function () {
       <input name="tissues" value=<% $json->encode(\@tissues) %> >
       <input name="conditions" value=<% $json->encode(\@conditions) %> >
       <input name="input_type" style="display:none;" value=<% $input_type %> >
+      <input id="output_type" name="output_type" style="display:none;" >
     </form>
 
   </div>
 </center>
+
 <center>
   <div class="output_width">
     <button id="dwl_cube" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-download-alt"></span> Save as img</button>
     <a id="dwl_cube_link" href="#" download="expression_cube.png" style="display:none"></a>
-    <button id="dwl_expr_data" class="btn btn-primary" style="position:relative; float:right; top:60px; right:710px; z-index:100;"><span class="glyphicon glyphicon-download-alt"></span> Download Expression Data</button>
+    <button id="dwl_expr_data" class="btn btn-primary"><span class="glyphicon glyphicon-download-alt"></span> Download Expression Data</button>
   </div>
 
   <div class="tabs output_width">

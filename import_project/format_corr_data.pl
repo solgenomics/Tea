@@ -25,8 +25,8 @@ while (my $line = <$fh>) {
 foreach my $g (sort keys %expr_hash) {
 	print "$g";
 
-	foreach my $c (sort keys $expr_hash{$g}) {
-		foreach my $s (sort keys $expr_hash{$g}{$c}) {
+	foreach my $c (sort keys %{ $expr_hash{$g} }) {
+		foreach my $s (sort keys %{ $expr_hash{$g}{$c} }) {
 			print "\t$expr_hash{$g}{$c}{$s}";
 		}
 	}

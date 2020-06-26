@@ -957,12 +957,6 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
 
   my $expr_imgs_tab = $c->config->{expr_imgs_tab} // 1;
 
-
-#  if ($expr_imgs_tab == undef) {
-#    $expr_imgs_tab = 1;
-#  }
-#  my $expr_imgs_tab = $c->config->{expr_imgs_tab};
-
   $corr_filter = $c->req->param("correlation_filter")||0.65;
 
   my $total_page_number;

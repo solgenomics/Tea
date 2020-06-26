@@ -279,7 +279,6 @@ $(document).ready(function () {
 
     <div id="container" class="output_width tab-pane fade in active"></div>
     <%perl>
-    print STDERR "expr_imgs_tab is $expr_imgs_tab\n";
       if ($expr_imgs_tab) {
         print "<div id=\"container_tissues\" class=\"output_width tab-pane fade\"></div>";
       }

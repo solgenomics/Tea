@@ -36,6 +36,7 @@ $tissue_filter => ()
 $condition_filter => ()
 
 $deg_tab => ()
+$network_tab => ()
 
 </%args>
 
@@ -222,6 +223,9 @@ $(document).ready(function () {
     if ($deg_tab) {
         print "<li id=\"deg_tab\"><a data-toggle=\"tab\" href=\"#container_deg\"><img src=\"/static/images/ico5.png\" height=\"24\"/> DEGs</a></li>";
     }
+    if ($network_tab) {
+        print "<li id=\"network_tab\"><a data-toggle=\"tab\" href=\"#container_network\"><img src=\"/static/images/ico5.png\" height=\"24\"/> Network</a></li>";
+    }
 </%perl>
 
     </ul>
@@ -263,6 +267,7 @@ $(document).ready(function () {
     </div>
 
     <& deg_tab.mas, genes => \@genes &>
+    <& network_tab.mas, genes => \@genes &>
 
   </div>
 

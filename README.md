@@ -52,7 +52,7 @@ Also, if you are installing it in a new machine you maybe need to install cpanmi
     cpanm -L ~/local-lib/ Bio::BLAST::Database
     cpanm -L ~/local-lib/ DBD::Pg  
 
-If you are having trouble installing cpanm, there may be an issue with your system's dependencies. 
+If you are having trouble installing cpanm, there may be an issue with your system's dependencies.
 Visit (​<https://library.linode.com/linux-tools/utilities/cpanm>) for help with installing dependencies.
 
 In case local-lib is not in the path, you have to add the following line in the .bashrc file (for a local-lib in your home)
@@ -83,7 +83,7 @@ You can run the local server to check Catalyst is running fine. If you are runni
 Go to the folder Tea, created when cloned the repository and run the server to check if all the dependencies are installed.
 
     cd Tea/
-    script/tea_server -r -d --fork
+    script/tea_server.pl -r -d --fork
 
 
 If you got an error, you will probably will need to go back to step one and install some dependencies.
@@ -93,7 +93,7 @@ If you got an error, you will probably will need to go back to step one and inst
 
 3. Configuration file
 ---------------------
-Once you have cloned the repository you will see a configuration file called tea.conf inside the directory Tea. 
+Once you have cloned the repository you will see a configuration file called tea.conf inside the directory Tea.
 You will need to edit this file to customize all the paths, so they work on your system.
 
     dbhost localhost
@@ -136,27 +136,27 @@ On Linux terminal create the database schema importing the file `create_tea_sche
 Use `TEA_project_template.txt` and `TEA_project_template_example.txt` from `import_project` to create your project import file
 
     # Please use one line per field and one file per project. Do not edit or remove any line starting with #
-    
+
     #organism
     organism_species: Solanum lycopersicum
     organism_variety: M82
     organism_description: Tomato M82
     # organism - end
-    
+
     #project
     project_name: S. lycopersicum M82 Fruit Development
     project_contact: Jocelyn Rose
-    project_description: Fruit development from anthsis to red ripe for whole fruit and for the cell types from the pericarp obtained by Laser Capture Microdissected (LCM) 
+    project_description: Fruit development from anthsis to red ripe for whole fruit and for the cell types from the pericarp obtained by Laser Capture Microdissected (LCM)
     expr_unit: RPM
     index_dir_name: tomato_index
     # project - end
-    
-    
+
+
     # figure --- All info needed for a cluster of images (usually includes a stage and all its tissues). Copy this block as many times as you need (including as many tissue layer blocks as you need).
     figure_name: 10DPA Total Pericarp
     conditions: condition 1, condition 2
     # write figure metadata
-    
+
     #stage layer
     layer_name: 10DPA
     layer_description: Ten days post anthesis
@@ -169,10 +169,10 @@ Use `TEA_project_template.txt` and `TEA_project_template_example.txt` from `impo
     img_ordinal: 10
     organ: fruit
     # layer - end
-    
+
     #tissue layer
     layer_name: Total_Pericarp
-    layer_description: 
+    layer_description:
     layer_type: tissue
     bg_color:
     layer_image: cassava_leaf.png
@@ -182,7 +182,7 @@ Use `TEA_project_template.txt` and `TEA_project_template_example.txt` from `impo
     img_ordinal: 100
     organ: fruit
     # layer - end
-    
+
     # figure - end
 
 

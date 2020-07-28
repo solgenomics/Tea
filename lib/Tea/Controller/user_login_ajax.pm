@@ -3,6 +3,13 @@ package Tea;
 use Moose;
 use namespace::autoclean;
 
+Tea->config(
+    'Plugin::Session' => {
+        expires => 600,
+        storage => '/tmp/session'
+    },
+);
+
 use Catalyst  qw/
                     Session
                     Session::Store::FastMmap
@@ -21,6 +28,7 @@ __PACKAGE__->config(
     stash_key => 'rest',
     map => { 'application/json' => 'JSON', 'text/html' => 'JSON' },
    );
+
 
 
 =head1 AUTHOR
@@ -52,12 +60,26 @@ Returns: gene anmes array
 sub user_logged_in :Path('/expression_viewer/user_logged/') :Args(0) {
   my ($self, $c) = @_;
 
-  my $user_id = $c->session->{is_logged_in};
-  # print STDERR "\n\n\n\nHello 2 !!!  $user_id \n\n\n\n";
-
   my $msg = "out";
-  if ($user_id && $user_id =~ /\d+/) {
+  my $user_id = 0;
+
+  # print STDERR "\n\nSession_expires: ".($c->session_expires-time())." secs\n\n";
+
+  # my $cookie_time = $c->session->{expiration_time};
+
+  # if ($epoc > $cookie_time) {
+    # $c->delete_session;
+    # print STDERR "\n\n\n\nexpired:  $epoc - $cookie_time = ".($epoc-$cookie_time)."\n\n\n\n";
+  # }
+  # else {
+    # print STDERR "\n\n\n\ncookie_time:  $epoc - $cookie_time = ".($epoc-$cookie_time)."\n\n\n\n";
+  # }
+
+  if ($c->session->{is_logged_in}) {
+    $user_id = $c->session->{is_logged_in};
     $msg = "in";
+  } else {
+    $c->delete_session;
   }
 
   $c->stash->{rest} = {
@@ -75,11 +97,28 @@ sub user_login :Path('/expression_viewer/user_login/') :Args(0) {
 
   $c->session->{is_logged_in} = $user_id;
 
+  # my $cookie_time = $c->calculate_session_cookie_expires;
+  # $c->session->{expiration_time} = $cookie_time;
+
+
   $c->stash->{rest} = {
       msg => "in"
   };
 
 }
 
+
+sub user_logout :Path('/expression_viewer/user_logout/') :Args(0) {
+  my ($self, $c) = @_;
+
+  $c->delete_session;
+
+# print STDERR "\n\n\nSESSION ID: $sid\n\n\n";
+
+  $c->stash->{rest} = {
+      msg => "out"
+  };
+
+}
 
 1;

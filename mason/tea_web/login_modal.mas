@@ -49,6 +49,7 @@
 
 
 <script>
+
 $(document).ready(function () {
 
 // Check if user is logged in
@@ -123,16 +124,31 @@ $(document).ready(function () {
 
        $.ajax({
           type: "POST",
-          url: 'http://localhost:8000/ppatens_db/user_db/db_logout.php',
-          success: function(msg)
+          // data: {'user_id': msg},
+          url: '/expression_viewer/user_logout/',
+          success: function(r)
           {
             $('#logout_link').css('display','none');
             $('#login_link').css('display','inline');
 
-            $("#error_p").html(msg);
+            $("#error_p").html("Logged out!");
             $("#errorModal").modal();
           }
-        });
+       });
+
+
+       // $.ajax({
+       //    type: "POST",
+       //    url: 'http://localhost:8000/ppatens_db/user_db/db_logout.php',
+       //    success: function(msg)
+       //    {
+       //      $('#logout_link').css('display','none');
+       //      $('#login_link').css('display','inline');
+       //
+       //      $("#error_p").html(msg);
+       //      $("#errorModal").modal();
+       //    }
+       //  });
 
       });
 

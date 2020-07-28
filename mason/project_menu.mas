@@ -7,7 +7,7 @@
 <div class="container" style="width:80%;max-width:1000px;">
   <h2  class="anatomy_title">Data set information</h2>
   <br>
-  <ul>
+  <ul id="dataset_list">
     <%perl>
       foreach my $p_ids (@project_ids) {
         print "<li><a href=\"project_page?project_id=$p_ids\" class=\"font24\">$project_names{$p_ids}</a></li>";

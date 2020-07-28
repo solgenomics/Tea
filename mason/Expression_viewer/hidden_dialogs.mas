@@ -62,10 +62,10 @@ $input_gene => ()
 MGTENWSLTAKLCDSCKTSPATVFCRADSAFLCLGCDCKIHAANKLASRHARVWVCEVCEQAPASVTCKADAAALCVTCDRDIHSANPLARRHERFPVVPFYDFAVAKSHGGGDTDADAVDDEKYFDSTNENPSQPEEEAEAASWILPTPKEGTDQYKSADYLFNDMDSYLDIDLMSCEQKPHILHHQQHQHNHYSSDGVVPVQNNNETTHLPGPVVDGFPTYELDFTGSKPYMYNFTSQSISQSVSSSSLDVGVVPDHSTMTDVSNTFVMNSSSGAIAGAGADVVPNAVSGLDREARVMRYREKRKNRKFEKTIRYASRKAYAETRPRIKGRFAKRTETEIDSLITVDASYGVVPSF
           </textarea>
         </div>
-  
+
         <div class="row text-left">
           <div class="col-sm-3 col-md-3 col-lg-3">
-            Hit number 
+            Hit number
           </div>
           <div class="col-sm-2 col-md-2 col-lg-2">
             <select id="blast_hits">
@@ -75,18 +75,18 @@ MGTENWSLTAKLCDSCKTSPATVFCRADSAFLCLGCDCKIHAANKLASRHARVWVCEVCEQAPASVTCKADAAALCVTCD
               <option value='60'>60</option>
             </select>
           </div>
-    
+
           <div class="col-sm-7 col-md-7 col-lg-7">
             <div class="checkbox" style="margin:0px">
               <label><input type="checkbox" id="blast_alignment"> Show Alignment</label>
             </div>
           </div>
-        
+
         </div>
-  
+
         <div class="row text-left">
           <div class="col-sm-3 col-md-3 col-lg-3">
-            <i>e</i> value 
+            <i>e</i> value
           </div>
           <div class="col-sm-2 col-md-2 col-lg-2">
             <select id="blast_eval">
@@ -97,15 +97,15 @@ MGTENWSLTAKLCDSCKTSPATVFCRADSAFLCLGCDCKIHAANKLASRHARVWVCEVCEQAPASVTCKADAAALCVTCD
               <option value='1e-12'>1e-12</option>
             </select>
           </div>
-    
+
           <div class="col-sm-7 col-md-7 col-lg-7">
             <div class="checkbox" style="margin:0px">
               <label><input type="checkbox" id="blast_filter"> Filter low complexity</label>
             </div>
           </div>
-  
+
         </div>
-  
+
         <button id="blast_button" class="btn btn-primary pull-right">BLAST</button>
         <br>
         <br>
@@ -125,13 +125,13 @@ MGTENWSLTAKLCDSCKTSPATVFCRADSAFLCLGCDCKIHAANKLASRHARVWVCEVCEQAPASVTCKADAAALCVTCD
         <h4 class="modal-title">BLAST Results</h4>
       </div>
       <div class="modal-body">
-  
+
         <form id="blast_form" method="post" enctype="multipart/form-data">
           <div id="blast_res_div">
             <input id="selectall" type='checkbox' style="margin-left: 7px;">&nbsp;Select all
             <table id="blast_res_table" class="table table-striped table-bordered"></table>
           </div>
-          
+
           <input id="input_type" name="input_type" style="display:none;" value="blast" >
           <input class="corr_filter" name="correlation_filter" style="display:none;"/>
           <input class="expr_min_scale" name="expression_min_scale" style="display:none;"/>
@@ -172,7 +172,7 @@ MGTENWSLTAKLCDSCKTSPATVFCRADSAFLCLGCDCKIHAANKLASRHARVWVCEVCEQAPASVTCKADAAALCVTCD
 Solyc04g008460
 Solyc01g102660
 </textarea>
-          
+
           <!-- <div class="checkbox pull-left">
             <label class="text-muted"><input type="checkbox" name="hotspot" disabled> Show cumulative expression</label>
           </div> -->
@@ -215,7 +215,7 @@ Solyc01g102660
             <a href="/help/input_params/#cor_filter" target="blank">Read help page</a> for more information.
           </li>
           <li>
-            Filter the conditions to display: Stage, tissues, treatments, etc. 
+            Filter the conditions to display: Stage, tissues, treatments, etc.
             Note that when no conditions are selected for filtering all the samples from the data set will be display.<br>
             <a href="/help/input_params/#cond_sel" target="blank">Read help page</a> for more information.
           </li>
@@ -228,7 +228,7 @@ Solyc01g102660
 <!--  no input gene modal -->
 <div class="modal fade" id="no_gene_modal" role="dialog">
   <div class="modal-dialog modal-sm">
-    
+
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" style="text-align: center;">ERROR</h4>
@@ -242,7 +242,7 @@ Solyc01g102660
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
-    
+
   </div>
 </div>
 
@@ -251,7 +251,7 @@ Solyc01g102660
 <!-- working wheel modal -->
 <div class="modal fade" id="loading_modal" role="dialog">
   <div class="modal-dialog">
-    
+
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" style="text-align: center;">Loading ...</h4>
@@ -266,8 +266,6 @@ Solyc01g102660
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
-    
+
   </div>
 </div>
-
-

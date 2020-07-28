@@ -11,19 +11,21 @@ $exp_tables => ()
 
 <center>
   <h2><% $project_name %></h2>
-  <br>
 
   <div style="width:900px; text-align: left;">
-    <p><b>Genotype: </b><% $organism %>
+    <a href="/project_menu" class="pull-left" style="text-decoration: underline">Go back to menu page</a>
+    <br>
+    <br>
+    <p><b>Genotype: </b><i><% $organism %></i>
     <p><b>Description: </b><% $project_description %></p>
     <p><b>Contact: </b><% $project_contact %></p>
-    
+
     <p>The next figures represent the available conditions (Developmental stages, tissues, treatments, etc.) for this data set. Colors from the image are only for display purpose</p>
-    
+
     <% $layer_description %><br>
     <% $exp_tables %><br>
   </div>
-  
+
   <div class="bottom_section">
   </div>
 </center>
@@ -42,13 +44,9 @@ $exp_tables => ()
   margin-bottom:100px;
 }
 
-.figure_title {
-  text-align: center;
-}
-
 #color_legend {
 	width:400px;
-  padding-top:150px;
+  padding-top:20px;
 }
 
 #color_legend li {
@@ -69,5 +67,3 @@ $exp_tables => ()
 }
 
 </style>
-
-

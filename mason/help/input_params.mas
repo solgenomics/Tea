@@ -16,7 +16,7 @@
       </p>
       <br>
       <center>
-        <img id="params_fig1" src="/static/images/help_imgs/exp_parameters.png" style="width:100%;max-width:1000px;"><br>
+        <img id="params_fig1" src="/static/images/help_imgs/exp_parameters_v2.png" style="width:100%;max-width:1000px;"><br>
         Figure 1. Eligible options for the Expression Viewer.<br><br><br>
       </center>
         
@@ -34,11 +34,11 @@
       </p>
       
       <center>
-        <img id="params_fig2" src="/static/images/help_imgs/pimpi_input.png" style="width:100%;max-width:1000px;"><br>
+        <img id="params_fig2" src="/static/images/help_imgs/pimpi_input_v2.png" style="width:100%;max-width:1000px;"><br>
         Figure 2. <i>S.pimpinellifolium</i> Fruit Development project selection.<br><br><br>
       </center>
         
-      <h4 id="cor_filter"><b>2.2 Correlation filter</b></h4>
+      <h4 id="cor_filter"><b>2.2 Correlation filter and expression color scale</b></h4>
       
       <p>
         A slider bar (<a href="#params_fig3">Figure 3</a>) allows to the user to set the minimum correlation value (0.65 - 1.0) 
@@ -46,11 +46,12 @@
         Higher correlation values will result in more genes being filtered out, 
         giving more conservative correlations. 
         Lower correlation values will result in less strict correlations being included in the analysis.
+	A second slider bar allows the user to set the expression color scale (0 - 5000) for displaying expression data.
       </p>
       
       <center>
-        <img id="params_fig3" src="/static/images/help_imgs/cor_slider.png" style="width:50%;max-width:500px;"><br>
-        Figure 3. Correlation filter slider.<br><br><br>
+        <img id="params_fig3" src="/static/images/help_imgs/cor_slider_v2.png" style="width:50%;max-width:500px;"><br>
+        Figure 3. Correlation filter slider and color scale slider.<br><br><br>
       </center>
         
       <h4 id="cond_sel"><b>2.3 Selection of the conditions</b></h4>
@@ -58,7 +59,7 @@
       <p>
         Once the project is selected, the user can choose the stages, organs or tissues that will be included in the analysis. 
         The selection boxes for these conditions are standard HTML elements that allow the user to select one item clicking on it, 
-        or multiple items using the keys <kbd>shift</kbd> and/or c<kbd>ctrl</kbd> keys (<a href="#params_fig4">Figure 4</a>): 
+        or multiple items using the keys <kbd>shift</kbd> and/or <kbd>ctrl</kbd> keys (<a href="#params_fig4">Figure 4</a>): 
         <br><br>
         
         Clicking on one item (e.g. 5DPA in <a href="#params_fig4">Figure 4</a>), 
@@ -76,7 +77,7 @@
       </p>
       
       <center>
-        <img id="params_fig4" src="/static/images/help_imgs/multi_select.png" style="width:100%;max-width:1000px;"><br>
+        <img id="params_fig4" src="/static/images/help_imgs/multi_select_v2.png" style="width:100%;max-width:1000px;"><br>
         Figure 4. Multiple selection of conditions.<br><br><br>
       </center>
         

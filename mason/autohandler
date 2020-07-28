@@ -1,35 +1,25 @@
 <!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
-<head>
-	<title>SGN-TEA</title>
-</head>
 
 <body>
 
 	<div id="wrapper">
-		
+
 		<div id="header">
 			<& /tea_web/header.mas &>
 		</div>
-		
+
 		<div id="content">
 			<% $m->call_next %>
 			<!-- % $m->call_next; -->
 		</div>
-		
+
 		<div id="footer">
 			<& /tea_web/footer.mas &>
 		</div>
-		
+
 	</div>
-	
+
 </body>
 
 </html>
-
-
-
-
-
-
-

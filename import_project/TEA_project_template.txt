@@ -12,6 +12,8 @@ project_name:
 project_contact:
 project_description:
 expr_unit:
+ordinal:
+blast_db:
 index_dir_name:
 # project - end
 
@@ -36,7 +38,7 @@ organ:
 
 #tissue layer
 layer_name:
-layer_description: 
+layer_description:
 layer_type: tissue
 bg_color:
 layer_image:
@@ -70,7 +72,7 @@ organ:
 
 #tissue layer
 layer_name:
-layer_description: 
+layer_description:
 layer_type: tissue
 bg_color:
 layer_image:
@@ -95,5 +97,3 @@ organ:
 # layer - end
 
 # figure - end
-
-

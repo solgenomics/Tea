@@ -34,21 +34,34 @@ Also, if you are installing it in a new machine you maybe need to install cpanmi
     sudo aptitude install cpanminus
     sudo aptitude install make
     sudo aptitude install gcc
+    sudo aptitude install r-base
+    sudo aptitude install r-base-dev
+    sudo aptitude install postgresql
+    sudo aptitude install postgresql-server-dev-11    
     cpanm -L ~/local-lib/ Catalyst::Devel
     cpanm -L ~/local-lib/ Catalyst::Runtime
     cpanm -L ~/local-lib/ Mason
     cpanm -L ~/local-lib/ Statistics::R
+    cpanm -L ~/local-lib/ Catalyst::ScriptRunner
+    cpanm -L ~/local-lib/ Catalyst::Controller::REST
+    cpanm -L ~/local-lib/ Catalyst::View::HTML::Mason
+    cpanm -L ~/local-lib/ Lucy::Simple
+    cpanm -L ~/local-lib/ Array::Utils
+    cpanm -L ~/local-lib/ DBIx::Class
+    cpanm -L ~/local-lib/ Bio::Perl
+    cpanm -L ~/local-lib/ Bio::BLAST::Database
+    cpanm -L ~/local-lib/ DBD::Pg  
 
-If you are having trouble installing cpanm, there may be an issue with your system's dependencies. 
+If you are having trouble installing cpanm, there may be an issue with your system's dependencies.
 Visit (​<https://library.linode.com/linux-tools/utilities/cpanm>) for help with installing dependencies.
 
-In case local-lib is not in the path you have to add the following line in the .bashrc file (for a local-lib in your home)
+In case local-lib is not in the path, you have to add the following line in the .bashrc file (for a local-lib in your home)
 
 `export PERL5LIB=/home/username/local-lib/lib/perl5:$PERL5LIB`
 
-Do not forget to source .bashrc to be sure this changes make effect.
+Do not forget to source .bashrc to be sure these changes take effect.
 
-R v3 must be installed for the interactive heatmap. Libraries d3heatmap and htmlwidgets should be also installed.
+R v3 must be installed for the interactive heatmap. The R libraries 'd3heatmap', 'NOISeq' and 'htmlwidgets' should also be installed.
 
 --------------------------------------------
 
@@ -65,12 +78,12 @@ or
 
 `git clone https://github.com/solgenomics/Tea.git`
 
-You can run the local server to check Catalyst is running fine, and in case you are running it on a server you should check also the Apache or Nginx configuration is right and the ports are open on the firewall.
+You can run the local server to check Catalyst is running fine. If you are running it on a server, you should also check that the Apache or Nginx configuration is correct and the ports are open on the firewall.
 
 Go to the folder Tea, created when cloned the repository and run the server to check if all the dependencies are installed.
 
     cd Tea/
-    script/tea_server -r -d --fork
+    script/tea_server.pl -r -d --fork
 
 
 If you got an error, you will probably will need to go back to step one and install some dependencies.
@@ -80,7 +93,7 @@ If you got an error, you will probably will need to go back to step one and inst
 
 3. Configuration file
 ---------------------
-Once you have cloned the repository you will see a configuration file called tea.conf inside the directory Tea. 
+Once you have cloned the repository you will see a configuration file called tea.conf inside the directory Tea.
 You will need to edit this file to customize all the paths, so they work on your system.
 
     dbhost localhost
@@ -99,6 +112,8 @@ You will need to edit this file to customize all the paths, so they work on your
     default_gene gene_name
 
 `web_usr` is the user name with permissions to edit and read the database, if you want to use a different user name you will need to grant permissions to the new user or edit the file `create_tea_schema.sql`
+
+In order to enable the 'DEG' tab, `deg_tab 1` should be added as a line in the conf file.
 
 Add the expression images to the folder `Tea/root/static/images/expr_viewer/`
 
@@ -121,27 +136,27 @@ On Linux terminal create the database schema importing the file `create_tea_sche
 Use `TEA_project_template.txt` and `TEA_project_template_example.txt` from `import_project` to create your project import file
 
     # Please use one line per field and one file per project. Do not edit or remove any line starting with #
-    
+
     #organism
     organism_species: Solanum lycopersicum
     organism_variety: M82
     organism_description: Tomato M82
     # organism - end
-    
+
     #project
     project_name: S. lycopersicum M82 Fruit Development
     project_contact: Jocelyn Rose
-    project_description: Fruit development from anthsis to red ripe for whole fruit and for the cell types from the pericarp obtained by Laser Capture Microdissected (LCM) 
+    project_description: Fruit development from anthsis to red ripe for whole fruit and for the cell types from the pericarp obtained by Laser Capture Microdissected (LCM)
     expr_unit: RPM
     index_dir_name: tomato_index
     # project - end
-    
-    
+
+
     # figure --- All info needed for a cluster of images (usually includes a stage and all its tissues). Copy this block as many times as you need (including as many tissue layer blocks as you need).
     figure_name: 10DPA Total Pericarp
     conditions: condition 1, condition 2
     # write figure metadata
-    
+
     #stage layer
     layer_name: 10DPA
     layer_description: Ten days post anthesis
@@ -154,10 +169,10 @@ Use `TEA_project_template.txt` and `TEA_project_template_example.txt` from `impo
     img_ordinal: 10
     organ: fruit
     # layer - end
-    
+
     #tissue layer
     layer_name: Total_Pericarp
-    layer_description: 
+    layer_description:
     layer_type: tissue
     bg_color:
     layer_image: cassava_leaf.png
@@ -167,7 +182,7 @@ Use `TEA_project_template.txt` and `TEA_project_template_example.txt` from `impo
     img_ordinal: 100
     organ: fruit
     # layer - end
-    
+
     # figure - end
 
 
@@ -199,7 +214,7 @@ Run the script to import your project:
 Three Lucy indexes are needed. One for expression, another for correlation and the last one for sgn_loci_id and the gene descriptions.
 To format the expression and correlation data you will need to run the scripts `index_expression_file.pl` and `index_correlation_file.pl` respectively.
 
-The input format for the expression should be gene name, stage `layer_name` (like the stage-layer in the TEA project template), tissue (like the tissue-layer `layer_name` from the TEA project template).WHITE SPACES ARE NOT ALLOWED IN THESE FIELDS. Then, the expression value, the standard error and the replicates separated by commas:
+The input format for the expression should be gene name, stage `layer_name` (like the stage-layer in the TEA project template), tissue (like the tissue-layer `layer_name` from the TEA project template). WHITE SPACES ARE NOT ALLOWED IN THESE FIELDS. Then, the expression value, the standard error and the replicates separated by commas:
 
     Solyc00g005040	Anthesis	Columella	1.36	0.27	0.86,1.8,1.41
     Solyc00g005040	Anthesis	Locular_Material	0.09	0.09	0,0,0.28

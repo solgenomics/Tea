@@ -5,13 +5,15 @@
     <a href="/anatomy_viewer"><img src="/static/images/anatomy_small.png" height="50" style="margin-left:5px;"/></a>
   </div>
 
-
   <div style="float:right;">
     <a href="http://www.nsf.gov" target="_blank"><img src="/static/images/nsf.png" height="50" style="margin-right:5px;"/></a>
-    <a href="http://bti.cornell.edu/" target="_blank"><img src="/static/images/bti_logo.png" height="45" style="margin-right:25px;"/></a>
+    <a href="http://bti.cornell.edu/" target="_blank"><img src="/static/images/bti_logo.png" height="45" style="margin-right:5px;"/></a>
+    <a href="http://www.cornell.edu" target="_blank"><img src="/static/images/cu_logo.png" height="45" style="margin-right:5px;"/></a>
+    <a href="http://www.usda.gov" target="_blank"><img src="/static/images/usda_logo2.png" height="45" style="margin-right:25px;"/></a>
   </div>
   
-  <div style="text-align:center;color:#666;padding-top:15px;cursor: pointer"><a data-toggle="modal" data-target="#cite_us_modal">Cite Us</a></div>
+  <div style="text-align:center;color:#666;padding-top:15px;cursor: pointer"><a style="padding-left:10px;padding-right:10px" rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /><a style="padding-left:10px;padding-right:10px" data-toggle="modal" data-target="#attribution_modal">Image Use Attribution</a></a></div>
+  
 </div>
 
 <div class="modal fade" id="cite_us_modal" role="dialog">
@@ -19,7 +21,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <center><h4 class="modal-title">Cite us</h4></center>
+        <center><h4 class="modal-title">Cite Us</h4></center>
       </div>
       <div class="modal-body">
         <ul>
@@ -34,7 +36,27 @@
             <a class="cite-link" href="http://www.plantphysiol.org/content/168/4/1684.full" target="blank">Comprehensive Tissue-Specific Transcriptome Analysis Reveals Distinct Regulatory Programs during Early Tomato Fruit Development</a><br>
             Plant Physiology 2015 Vol. 168, pp. 1684–1701
           </li>
+	  <br>
+	  <li>
+            Shinozaki Y, Nicolas P, Fernandez-Pozo N, Ma Q, Evanich DJ, Shi Y, Xu Y, Zheng Y, Snyder SI, Martin LBB, Ruiz-May E, Thannhauser TW, Chen K, Domozych DS, Catala C, Fei Z, Mueller LA, Giovannoni JJ, Rose JKC.<br>
+            <a class="cite-link" href="https://www.nature.com/articles/s41467-017-02782-9" target="blank">High-resolution spatiotemporal transcriptome mapping of tomato fruit development and ripening</a><br>
+            Nature Communications 2018 Vol. 9, doi:10.1038/s41467-017-02782-9
+          </li>
         </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="attribution_modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <center><h4 class="modal-title">Image Use Attribution</h4></center>
+      </div>
+      <div class="modal-body">
+        <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/StillImage" property="dct:title" rel="dct:type">"Tomato Expression Atlas images</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://tea.solgenomics.net" property="cc:attributionName" rel="cc:attributionURL">TEA</a> are licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. Based on work at <a xmlns:dct="http://purl.org/dc/terms/" href="http://tea.solgenomics.net" rel="dct:source">tea.solgenomics.net</a>"
       </div>
     </div>
   </div>
@@ -45,3 +67,4 @@
     color: #337ab7;
   }
 </style>
+

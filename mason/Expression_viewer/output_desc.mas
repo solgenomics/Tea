@@ -26,7 +26,4 @@ $("#back_to_input").html("Go back to input page");
   position: relative;
 }
 
-#gene_info {
-  height: 100px;
-}
 </style>

@@ -67,8 +67,8 @@ $(document).ready(function () {
   //get default project stages, tissues, etc
   load_wizard(organism_list,null,null,null,null);
   
-  //get default project gene names for autocomplete function
-  get_project_genes(organism_list);
+  //get default project gene names for autocomplete function and add default gene
+  get_project_genes(organism_list, 1);
   get_max_expr(organism_list);
   
   
@@ -80,7 +80,8 @@ $(document).ready(function () {
     // alert("organism selected"+organism_list[0])
     
     load_wizard(organism_list,null,null,null,null);
-    get_project_genes(organism_list);
+    //get default project gene names for autocomplete function without changing default gene
+    get_project_genes(organism_list,0);
     // get_max_expr(organism_list);
   });
   

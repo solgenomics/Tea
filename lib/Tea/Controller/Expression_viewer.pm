@@ -953,8 +953,9 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
     }
   }
 
-  my $deg_tab = $c->config->{deg_tab}||0;
-
+  my $deg_tab = $c->config->{deg_tab} // 1;
+  my $heatmap_tab = $c->config->{heatmap_tab} // 1;
+  my $scatterplot_tab = $c->config->{scatterplot_tab} // 1;
   my $expr_imgs_tab = $c->config->{expr_imgs_tab} // 1;
 
   $corr_filter = $c->req->param("correlation_filter")||0.65;
@@ -1002,6 +1003,8 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
   $c->stash->{locus_ids} = \%locus_ids;
 
   $c->stash->{deg_tab} = $deg_tab;
+  $c->stash->{heatmap_tab} = $heatmap_tab;
+  $c->stash->{scatterplot_tab} = $scatterplot_tab;
   $c->stash->{expr_imgs_tab} = $expr_imgs_tab;
 
   $c->stash->{template} = '/Expression_viewer/output.mas';
@@ -1331,6 +1334,35 @@ sub download_deg_result :Path('/download_DEG_file/') :Args(0) {
   $c->res->body( $fh );
 
 }
+
+
+
+
+
+
+
+
+# =head2 header_login
+#
+# Send conf variable to header to enable or disable the login
+#
+# =cut
+#
+# sub header_login :Path('tea_web/login_menu') :Args(0) {
+#   my ( $self, $c ) = @_;
+#
+#   my $login_var = $c->config->{login_var};
+#
+#   # send variables to TEA input view
+#   $c->stash->{login_var} = $login_var;
+#   $c->stash(template => 'tea_web/login_menu.mas');
+# }
+
+
+
+
+
+
 
 
 =head2 uniq

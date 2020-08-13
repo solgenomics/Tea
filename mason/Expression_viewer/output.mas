@@ -345,8 +345,6 @@ $(document).ready(function () {
 <br>
 
 
-
-
 <script>
 // function to control the expr slider
 $(function() {
@@ -354,7 +352,8 @@ $(function() {
     range: true,
     min: 0,
     max: 1000,
-    values: [0,500],
+    // values: [0,500],
+    values: [$("#expr_min_scale").val(),$("#expr_max_scale").val()],
     slide: function( event, ui ) {
       $( "#expr_min_scale" ).val( ui.values[0] );
       $( "#expr_max_scale" ).val( ui.values[1] );
@@ -367,9 +366,6 @@ $(function() {
 });
 
 $(document).ready(function () {
-
-	// $("#min_expr_amount").val( $("#expr_min_scale").val() );
-  // $("#max_expr_amount").val( $("#expr_max_scale").val() );
 
 	$( "#refresh_color" ).click(function() {
 		$( "#search_gene" ).submit();

@@ -330,7 +330,8 @@
 
     var section_length = Math.round((top_val-bottom_val)/5);
 
-    if (min_expr == "default" || max_expr == "default") {
+    // if (min_expr == "default" || max_expr == "default") {
+    if (min_expr == 0 && max_expr == 500) {
 
       if (expr_val == 0) {
         r_color = 255;

@@ -56,6 +56,12 @@ sub index :Path('/expression_viewer/input/') :Args(0) {
   my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
   my $dbh = DBI->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
 
+  my $organims_rs = $schema->resultset('Organism');
+  my @species = ();
+  while(my $org_obj = $organims_rs->next) {
+    push(@species,"<option><i>".$org_obj->species."</i></option>");
+  }
+
   my $projects_rs = $schema->resultset('Project');
 
   my @projects = ();
@@ -94,11 +100,13 @@ sub index :Path('/expression_viewer/input/') :Args(0) {
 
   # save array info in text variable
   my $projects_html = join("\n", @projects);
+  my $species_html = join("\n", @species);
 
   # send variables to TEA input view
   $c->stash->{input_gene} = $input_gene;
   $c->stash->{delete_enabled} = $delete_enabled;
   $c->stash->{project_html} = $projects_html;
+  $c->stash->{species_html} = $species_html;
   $c->stash(template => 'Expression_viewer/input.mas');
 }
 
@@ -544,18 +552,20 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
   my $expr_max_scale = $c->req->param("expression_max_scale");
 
   if ($expr_min_scale !~ /\d/) {
-    $expr_min_scale = "default";
+    $expr_min_scale = 0;
+    # $expr_min_scale = "default";
   }
   if ($expr_max_scale !~ /\d/) {
-    $expr_max_scale = "default";
+    $expr_max_scale = 500;
+    # $expr_max_scale = "default";
   }
 
-  if ($expr_min_scale =~ /\d/ || $expr_max_scale =~ /\d/) {
-    if ($expr_min_scale == 0 && $expr_max_scale == 500) {
-      $expr_min_scale = "default";
-      $expr_max_scale = "default";
-    }
-  }
+  # if ($expr_min_scale =~ /\d/ || $expr_max_scale =~ /\d/) {
+  #   if ($expr_min_scale == 0 && $expr_max_scale == 500) {
+  #     $expr_min_scale = "default";
+  #     $expr_max_scale = "default";
+  #   }
+  # }
 
   my @all_genes_list;
 

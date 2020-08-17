@@ -58,9 +58,12 @@ sub index :Path('/expression_viewer/input/') :Args(0) {
 
   my $organims_rs = $schema->resultset('Organism');
   my @species = ();
+
   while(my $org_obj = $organims_rs->next) {
-    push(@species,"<option><i>".$org_obj->species."</i></option>");
+    push(@species,"<option value=\"".$org_obj->organism_id."\"><i>".$org_obj->species."</i></option>");
   }
+
+  my $first_species = $organims_rs->first;
 
   my $projects_rs = $schema->resultset('Project');
 
@@ -70,18 +73,29 @@ sub index :Path('/expression_viewer/input/') :Args(0) {
   my $project_ordinal;
 
   while(my $proj_obj = $projects_rs->next) {
-    my $project_name = $proj_obj->name;
-    my $project_id = $proj_obj->project_id;
 
-    if ($proj_obj->ordinal) {
-      $project_ordinal = $proj_obj->ordinal;
+      my $project_name = $proj_obj->name;
+      my $project_id = $proj_obj->project_id;
+
+      if ($proj_obj->ordinal) {
+        $project_ordinal = $proj_obj->ordinal;
+      }
+      else {
+        $project_ordinal = $project_id;
+      }
+
+    if ($c->config->{multiple_sps}) {
+
+      if ($first_species->organism_id == $proj_obj->organism_id) {
+        $project_name_hash{$project_id} = $project_name;
+        $project_order_hash{$project_ordinal} = $project_id;
+      }
     }
     else {
-      $project_ordinal = $project_id;
+      $project_name_hash{$project_id} = $project_name;
+      $project_order_hash{$project_ordinal} = $project_id;
     }
 
-    $project_name_hash{$project_id} = $project_name;
-    $project_order_hash{$project_ordinal} = $project_id;
   }
 
   foreach my $key (sort {$a <=> $b} keys %project_order_hash) {

@@ -36,8 +36,9 @@ $tissue_filter => ()
 $condition_filter => ()
 
 $deg_tab => ()
-
 $expr_imgs_tab => ()
+$heatmap_tab => ()
+$scatterplot_tab => ()
 
 </%args>
 
@@ -49,21 +50,6 @@ my $json = JSON::Any->new;
 
 </%perl>
 
-<style>
-
-.output_width {
-  width: 1100px;
-}
-
-#dwl_expr_data {
-  position:relative;
-  float:right;
-  top:60px;
-  right:710px;
-  z-index:100;
-}
-
-</style>
 
 
 <link rel="stylesheet" href="/static/css/jqplot.css" type="text/css" />
@@ -97,7 +83,6 @@ my $json = JSON::Any->new;
 <script type="text/javascript" src="/static/js/d3heatmap_libs/d3heatmapcore-0.0.0/heatmapcore.js"></script>
 <script type="text/javascript" src="/static/js/d3heatmap_libs/d3heatmap-binding-0.6.1.2/d3heatmap.js"></script>
 <link  href="/static/js/d3heatmap_libs/d3heatmapcore-0.0.0/heatmapcore.css" rel="stylesheet" />
-
 
 
 <script>
@@ -202,6 +187,7 @@ $(document).ready(function () {
 
 
 
+
 <center>
   <div class="output_width" style="margin-bottom:15px">
 
@@ -209,30 +195,60 @@ $(document).ready(function () {
     <a href="/project_page?project_id=<% $project_id %>" class="pull-right" style="text-decoration: underline;" target="_blank">More info</a>
     <br>
     <& output_desc.mas, input_gene => $genes[0] &>
+  </div>
+</center>
 
+<div class="output_width" style="margin:auto">
+  <div class="row">
 
-    <!-- form to query a new gene from the output using the same parameters -->
-    <form id="search_gene" class="form-inline" role="form" method="post" action="/expression_viewer/output" name="tea_form" enctype="multipart/form-data">
+    <div class="col-sm-6 col-md-6 col-lg-6">
 
-      <input id="custom_gene_list" name="custom_gene_list" style="display:none;" value=<% $json->encode(\@custom_gene_list) %> >
-      <input id="input_type" name="input_type" style="display:none;" value=<% $input_type %> >
-      <input id="page_num" name="current_page" style="display:none;" value=<% $current_page %> >
-      <input id="total_pages" name="all_pages" style="display:none;" value=<% $pages_num %> >
-      <input id="correlation_filter" name="correlation_filter" style="display:none;" value=<% $correlation_filter %> >
-      <input class="expr_min_scale" name="expression_min_scale" style="display:none;" value=<% $expression_min_scale %> >
-      <input class="expr_max_scale" name="expression_max_scale" style="display:none;" value=<% $expression_max_scale %> >
-      <input class="organ_filter" name="organ_filter" style="display:none;" value=<% $organ_filter %> >
-      <input class="organism_filter" name="organism_filter" style="display:none;" value=<% $project_id %> >
-      <input class="stage_filter" name="stage_filter" style="display:none;" value=<% $stage_filter %> >
-      <input class="tissue_filter" name="tissue_filter" style="display:none;" value=<% $tissue_filter %> >
-      <input class="condition_filter" name="condition_filter" style="display:none;" value=<% $condition_filter %> >
+      <!-- form to query a new gene from the output using the same parameters -->
+      <form id="search_gene" class="form-inline pull-right" role="form" method="post" action="/expression_viewer/output" name="tea_form" enctype="multipart/form-data">
 
-      <label id="gene_label" for="gene">Select a gene:</label>
-      <div class="form-group">
-       <input id="gene" class="gene_autocomplete form-control col-xs-2" type="input" name="input_gene"/>
+        <input id="custom_gene_list" name="custom_gene_list" style="display:none;" value=<% $json->encode(\@custom_gene_list) %> >
+        <input id="input_type" name="input_type" style="display:none;" value=<% $input_type %> >
+        <input id="page_num" name="current_page" style="display:none;" value=<% $current_page %> >
+        <input id="total_pages" name="all_pages" style="display:none;" value=<% $pages_num %> >
+        <input id="correlation_filter" name="correlation_filter" style="display:none;" value=<% $correlation_filter %> >
+        <input id="expr_min_scale" name="expression_min_scale" style="display:none;" value=<% $expression_min_scale %> >
+        <input id="expr_max_scale" name="expression_max_scale" style="display:none;" value=<% $expression_max_scale %> >
+        <input class="organ_filter" name="organ_filter" style="display:none;" value=<% $organ_filter %> >
+        <input class="organism_filter" name="organism_filter" style="display:none;" value=<% $project_id %> >
+        <input class="stage_filter" name="stage_filter" style="display:none;" value=<% $stage_filter %> >
+        <input class="tissue_filter" name="tissue_filter" style="display:none;" value=<% $tissue_filter %> >
+        <input class="condition_filter" name="condition_filter" style="display:none;" value=<% $condition_filter %> >
+
+        <div class="well" style="height:80px;width:535px">
+          <label id="gene_label" for="gene">Select a gene:</label>
+          <div class="form-group">
+           <input id="gene" class="gene_autocomplete form-control col-xs-2" type="input" name="input_gene" style="width:250px"/>
+          </div>
+          <button class="btn btn-primary" id="run_tool" value="Run Expression Tool">Get Expression</button>
+        </div>
+
+      </form>
+
+    </div>
+
+    <div class="col-sm-6 col-md-6 col-lg-6">
+      <div class="well">
+        <label>Expression color scale: </label><input type="text" id="min_expr_amount" class="slider_box" size="6"> - <input type="text" id="max_expr_amount" class="slider_box" size="6">
+				<button id="refresh_color" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-repeat"></span></button>
+        <div id="expr_slider" style="width:430px"></div>
+
       </div>
-      <button class="btn btn-primary" id="run_tool" value="Run Expression Tool">Get Expression</button>
-    </form>
+    </div>
+
+
+  </div>
+</div>
+
+
+
+
+<center>
+  <div class="output_width" style="margin-bottom:0px">
 
     <!-- Download data form-->
     <form id="download_data" method="post" action="/download_expression_data/" enctype="multipart/form-data" style="display:none;">
@@ -263,15 +279,16 @@ $(document).ready(function () {
           if ($expr_imgs_tab) {
             print "<li id=\"expr_imgs_tab\"><a data-toggle=\"tab\" href=\"#container_tissues\"><img src=\"/static/images/ico1.png\" height=\"24\" style=\"padding-bottom:5px;\"/> Expression images</a></li>";
           }
+          if ($heatmap_tab) {
+            print "<li id=\"heatmap_tab\"><a data-toggle=\"tab\" href=\"#container_heatmap\"><img src=\"/static/images/ico3.png\" height=\"24\"/> Heatmap</a></li>";
+          }
+          if ($scatterplot_tab) {
+            print "<li id=\"scatterplots_tab\"><a data-toggle=\"tab\" href=\"#container_scatterplots\"><img src=\"/static/images/ico4.png\" height=\"24\"/> Scatterplots</a></li>";
+          }
+          if ($deg_tab) {
+            print "<li id=\"deg_tab\"><a data-toggle=\"tab\" href=\"#container_deg\"><img src=\"/static/images/ico5.png\" height=\"24\"/> DEGs</a></li>";
+          }
         </%perl>
-        <li id="heatmap_tab"><a data-toggle="tab" href="#container_heatmap"><img src="/static/images/ico3.png" height="24"/> Heatmap</a></li>
-      	<li id="scatterplots_tab"><a data-toggle="tab" href="#container_scatterplots"><img src="/static/images/ico4.png" height="24"/> Scatterplots</a></li>
-<%perl>
-    if ($deg_tab) {
-        print "<li id=\"deg_tab\"><a data-toggle=\"tab\" href=\"#container_deg\"><img src=\"/static/images/ico5.png\" height=\"24\"/> DEGs</a></li>";
-    }
-</%perl>
-
     </ul>
   </div>
 
@@ -326,3 +343,89 @@ $(document).ready(function () {
 
 </center>
 <br>
+
+
+<script>
+// function to control the expr slider
+$(function() {
+  $( "#expr_slider" ).slider({
+    range: true,
+    min: 0,
+    max: 1000,
+    // values: [0,500],
+    values: [$("#expr_min_scale").val(),$("#expr_max_scale").val()],
+    slide: function( event, ui ) {
+      $( "#expr_min_scale" ).val( ui.values[0] );
+      $( "#expr_max_scale" ).val( ui.values[1] );
+      $( "#min_expr_amount" ).val( ui.values[0] );
+      $( "#max_expr_amount" ).val( ui.values[1] );
+    }
+  });
+  $( "#min_expr_amount" ).val( $( "#expr_slider" ).slider( "values", 0 ) );
+  $( "#max_expr_amount" ).val( $( "#expr_slider" ).slider( "values", 1 ) );
+});
+
+$(document).ready(function () {
+
+	$( "#refresh_color" ).click(function() {
+		$( "#search_gene" ).submit();
+	});
+
+  $( "#min_expr_amount" ).mouseleave(function() {
+    var min_val = $( "#min_expr_amount" ).val();
+    var max_val = $( "#max_expr_amount" ).val();
+
+    $( "#expr_slider" ).slider( "option","values", [min_val,max_val] );
+    $( "#expr_min_scale" ).val( min_val );
+    $( "#expr_max_scale" ).val( max_val );
+
+  });
+
+  $( "#max_expr_amount" ).mouseleave(function() {
+    var min_val = $( "#min_expr_amount" ).val();
+    var max_val = $( "#max_expr_amount" ).val();
+
+    $( "#expr_slider" ).slider( "option","values", [min_val,max_val] );
+    $( "#expr_min_scale" ).val( min_val );
+    $( "#expr_max_scale" ).val( max_val );
+
+  });
+});
+
+
+</script>
+
+<style>
+
+.output_width {
+  width: 1100px;
+}
+
+#dwl_expr_data {
+  position:relative;
+  float:right;
+  top:60px;
+  right:750px;
+  z-index:100;
+}
+
+.slider_box{
+  border: 1px solid #dddddd;
+  background: #efefef;
+  font-size:18px;
+  border-radius: 2px;
+  height: 24px;
+  margin-bottom: 3px;
+}
+.ui-widget-header {
+    border: 1px solid #dddddd;
+    background: #e9e9e9;
+}
+.ui-slider-horizontal .ui-slider-handle {
+     margin-left: -.3em;
+}
+.ui-slider .ui-slider-handle {
+    width: 0.5em;
+    height: 1.5em;
+}
+</style>

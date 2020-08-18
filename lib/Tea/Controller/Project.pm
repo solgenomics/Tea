@@ -22,7 +22,7 @@ Catalyst Controller.
 =cut
 
 
-sub index :Path('/project_page/') :Args(0) {
+sub index :Path('/expression_viewer/project_page/') :Args(0) {
     my ( $self, $c ) = @_;
 
     my $project_id = $c->req->param('project_id');

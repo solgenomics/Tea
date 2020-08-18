@@ -192,7 +192,7 @@ $(document).ready(function () {
   <div class="output_width" style="margin-bottom:15px">
 
     <& output_title.mas &>
-    <a href="/project_page?project_id=<% $project_id %>" class="pull-right" style="text-decoration: underline;" target="_blank">More info</a>
+    <a href="/expression_viewer/project_page?project_id=<% $project_id %>" class="pull-right" style="text-decoration: underline;" target="_blank">More info</a>
     <br>
     <& output_desc.mas, input_gene => $genes[0] &>
   </div>

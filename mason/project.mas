@@ -13,7 +13,7 @@ $exp_tables => ()
   <h2><% $project_name %></h2>
 
   <div style="width:900px; text-align: left;">
-    <a href="/project_menu" class="pull-left" style="text-decoration: underline">Go back to menu page</a>
+    <a href="/expression_viewer/project_menu" class="pull-left" style="text-decoration: underline">Go back to menu page</a>
     <br>
     <br>
     <p><b>Genotype: </b><i><% $organism %></i>

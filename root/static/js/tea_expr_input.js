@@ -114,13 +114,26 @@ $(document).ready(function () {
           alert("ERROR: "+response.error);
           // enable_ui();
         } else {
-          $( "#organism_col" ).html( response.datasets );
 
-          intialize_data(1,1);
+          if (response.datasets) {
+            // alert("RES: "+response.datasets);
+            $( "#organism_col" ).html( response.datasets );
 
-          jQuery('.organism_col').click(function() {
-            intialize_data(0,0);
-          });
+            intialize_data(1,1);
+
+            jQuery('.organism_col').click(function() {
+              intialize_data(0,0);
+            });
+          }
+          else {
+            $( "#organism_col" ).html("");
+            $('#organ_part_col').html("");
+            $('#stage_col').html("");
+            $('#tissue_col').html("");
+            $('#condition_col').html("");
+
+            // alert("There are no public data sets available");
+          }
 
         }
       },

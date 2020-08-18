@@ -74,6 +74,13 @@ sub index :Path('/expression_viewer/input/') :Args(0) {
 
   while(my $proj_obj = $projects_rs->next) {
 
+      # check if data set is private and skip it if it is
+      my $is_private = $proj_obj->private;
+
+      if ($is_private) {
+        next;
+      }
+
       my $project_name = $proj_obj->name;
       my $project_id = $proj_obj->project_id;
 
@@ -602,6 +609,19 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
 
   # get DBIx project resultset
   my $project_rs = $schema->resultset('Project')->search({project_id => $project_id})->single;
+
+
+  # check if data set is private and skip it if it is
+  my $is_private = $project_rs->private;
+
+  if ($is_private) {
+      $c->stash->{errors} = "This data set is private.";
+      $c->stash->{template} = '/Expression_viewer/output.mas';
+      return;
+  }
+
+
+
 
   # set the path to the expression and correlation indexes
   my $corr_index_path = $corr_path."/".$project_rs->indexed_dir;

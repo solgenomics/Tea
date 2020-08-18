@@ -81,6 +81,13 @@ sub get_datasets :Path('/expression_viewer/get_datasets/') :Args(0) {
 
   while (my $proj_obj = $projects_rs->next) {
 
+      # check if data set is private and skip it if it is
+      my $is_private = $proj_obj->private;
+
+      if ($is_private) {
+        next;
+      }
+
       my $project_name = $proj_obj->name;
       my $project_id = $proj_obj->project_id;
 

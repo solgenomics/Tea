@@ -72,6 +72,11 @@ __PACKAGE__->table("project");
   data_type: 'integer'
   is_nullable: 1
 
+=head2 private
+
+  data_type: 'integer'
+  is_nullable: 1
+
 =head2 blast_db
 
   data_type: 'varchar'
@@ -107,6 +112,8 @@ __PACKAGE__->add_columns(
     sequence          => "project_organism_id_seq",
   },
   "ordinal",
+  { data_type => "integer", is_nullable => 1 },
+  "private",
   { data_type => "integer", is_nullable => 1 },
   "blast_db",
   { data_type => "varchar", is_nullable => 1, size => 80 },

@@ -13,6 +13,7 @@ CREATE TABLE project (
     expr_unit varchar(80),
     indexed_dir varchar(80),
     ordinal integer,
+    private integer,
     blast_db varchar(80),
     organism_id bigserial references organism(organism_id) NOT NULL
 );
@@ -60,6 +61,17 @@ CREATE TABLE figure_layer (
     layer_id bigserial REFERENCES layer(layer_id)
 );
 
+CREATE TABLE private_group (
+    private_group_id bigserial PRIMARY KEY,
+    name varchar(80)
+);
+
+CREATE TABLE project_private_group (
+    project_private_group_id bigserial PRIMARY KEY,
+    project_id bigserial REFERENCES project(project_id),
+    private_group_id bigserial REFERENCES private_group(private_group_id)
+);
+
 GRANT ALL PRIVILEGES ON organism TO web_usr;
 GRANT ALL PRIVILEGES ON project TO web_usr;
 GRANT ALL PRIVILEGES ON figure TO web_usr;
@@ -68,3 +80,5 @@ GRANT ALL PRIVILEGES ON layer TO web_usr;
 GRANT ALL PRIVILEGES ON layer_info TO web_usr;
 GRANT ALL PRIVILEGES ON layer_type TO web_usr;
 GRANT ALL PRIVILEGES ON figure_layer TO web_usr;
+GRANT ALL PRIVILEGES ON private_group TO web_usr;
+GRANT ALL PRIVILEGES ON project_private_group TO web_usr;

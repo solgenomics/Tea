@@ -9,8 +9,10 @@ use Lucy::Search::ANDQuery;
 use Lucy::Search::QueryParser;
 use Data::Dumper qw(Dumper);
 use Array::Utils qw(:all);
-
 use JSON;
+
+use Tea::Controller::Expression_viewer_functions;
+
 
 # use namespace::autoclean;
 
@@ -39,6 +41,7 @@ sub index :Path('/expression_viewer/input/') :Args(0) {
   my ( $self, $c ) = @_;
 
   my $default_gene = $c->config->{default_gene};
+  my $multiple_sps = $c->config->{multiple_sps};
 
   # print STDERR "default_gene: $default_gene\n";
 
@@ -51,10 +54,9 @@ sub index :Path('/expression_viewer/input/') :Args(0) {
   my $username = $c->config->{dbuser};
   my $password = $c->config->{dbpass};
 
-  my $delete_enabled = $c->config->{delete_project};
+  # my $delete_enabled = $c->config->{delete_project};
 
   my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
-  my $dbh = DBI->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
 
   my $organims_rs = $schema->resultset('Organism');
   my @species = ();
@@ -65,71 +67,23 @@ sub index :Path('/expression_viewer/input/') :Args(0) {
 
   my $first_species = $organims_rs->first;
 
-  my $projects_rs = $schema->resultset('Project');
+  # open a connection to the functions on Expression_viewer_function controller
+  my $db_funct = Tea::Controller::Expression_viewer_functions->new();
 
-  my @projects = ();
-  my %project_name_hash;
-  my %project_order_hash;
-  my $project_ordinal;
-
-  while(my $proj_obj = $projects_rs->next) {
-
-      # check if data set is private and skip it if it is
-      my $is_private = $proj_obj->private;
-
-      if ($is_private) {
-        next;
-      }
-
-      my $project_name = $proj_obj->name;
-      my $project_id = $proj_obj->project_id;
-
-      if ($proj_obj->ordinal) {
-        $project_ordinal = $proj_obj->ordinal;
-      }
-      else {
-        $project_ordinal = $project_id;
-      }
-
-    if ($c->config->{multiple_sps}) {
-
-      if ($first_species->organism_id == $proj_obj->organism_id) {
-        $project_name_hash{$project_id} = $project_name;
-        $project_order_hash{$project_ordinal} = $project_id;
-      }
-    }
-    else {
-      $project_name_hash{$project_id} = $project_name;
-      $project_order_hash{$project_ordinal} = $project_id;
-    }
-
-  }
-
-  foreach my $key (sort {$a <=> $b} keys %project_order_hash) {
-    my $project_id = $project_order_hash{$key};
-    my $project_name = $project_name_hash{$project_id};
-    push(@projects,"<div id=\"project_radio_div\" class=\"radio\">\n<label><input id=\"project_".$project_id."\" type='radio' class='organism_col' name=\"optradio\" value=\'".$project_id."\'> $project_name</label>\n</div>\n");
-  }
-
-  # while(my $proj_obj = $projects_rs->next) {
-  #   $project_name = $proj_obj->name;
-  #   push(@projects,"<div id=\"project_radio_div\" class=\"radio\">\n<label><input id=\"project_".$proj_obj->project_id."\" type='radio' class='organism_col' name=\"optradio\" value=\'".$proj_obj->project_id."\'> $project_name</label>\n</div>\n");
-  #   # push(@projects,"<div id=\"project_radio_div\" class=\"radio\">\n<label><input id=\"organism_".$proj_obj->organism_id."\" type='radio' class='organism_col' name=\"optradio\" value=\'".$proj_obj->organism_id."\'> $project_name</label>\n</div>\n");
-  # }
-
-  # print STDERR "input_gene: $input_gene\n";
+  my $datasets_html = $db_funct->get_sps_datasets($schema,$first_species->organism_id,$multiple_sps);
 
   # save array info in text variable
-  my $projects_html = join("\n", @projects);
   my $species_html = join("\n", @species);
 
   # send variables to TEA input view
   $c->stash->{input_gene} = $input_gene;
-  $c->stash->{delete_enabled} = $delete_enabled;
-  $c->stash->{project_html} = $projects_html;
+  # $c->stash->{delete_enabled} = $delete_enabled;
+  $c->stash->{project_html} = $datasets_html;
   $c->stash->{species_html} = $species_html;
   $c->stash(template => 'Expression_viewer/input.mas');
 }
+
+
 
 =head2 _get_correlation
 

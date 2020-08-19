@@ -56,12 +56,7 @@ Returns: data sets
 sub get_datasets :Path('/expression_viewer/get_datasets/') :Args(0) {
   my ($self, $c) = @_;
 
-  # to store erros as they may happen
-  my @errors;
-
   my $organism_id = $c->req->param("organism_id");
-
-  # print STDERR "Selected species id: $organism_id\n";
 
   #connect to database
   my $dbname = $c->config->{dbname};
@@ -71,56 +66,16 @@ sub get_datasets :Path('/expression_viewer/get_datasets/') :Args(0) {
 
   my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
 
-  # get variables from catalyst object
-  my $projects_rs = $schema->resultset('Project');
+  # open a connection to the functions on Expression_viewer_function controller
+  my $db_funct = Tea::Controller::Expression_viewer_functions->new();
 
-  my @projects = ();
-  my %project_name_hash;
-  my %project_order_hash;
-  my $project_ordinal;
-
-  while (my $proj_obj = $projects_rs->next) {
-
-      # check if data set is private and skip it if it is
-      my $is_private = $proj_obj->private;
-
-      if ($is_private) {
-        next;
-      }
-
-      my $project_name = $proj_obj->name;
-      my $project_id = $proj_obj->project_id;
-
-      if ($proj_obj->ordinal) {
-        $project_ordinal = $proj_obj->ordinal;
-      }
-      else {
-        $project_ordinal = $project_id;
-      }
-
-      if ($organism_id == $proj_obj->organism_id) {
-        $project_name_hash{$project_id} = $project_name;
-        $project_order_hash{$project_ordinal} = $project_id;
-      }
-
-  }
-
-  foreach my $key (sort {$a <=> $b} keys %project_order_hash) {
-    my $project_id = $project_order_hash{$key};
-    my $project_name = $project_name_hash{$project_id};
-    push(@projects,"<div id=\"project_radio_div\" class=\"radio\">\n<label><input id=\"project_".$project_id."\" type='radio' class='organism_col' name=\"optradio\" value=\'".$project_id."\'> $project_name</label>\n</div>\n");
-  }
-
-  # save array info in text variable
-  my $projects_html = join("\n", @projects);
+  my $datasets_html = $db_funct->get_sps_datasets($schema,$organism_id,1);
 
   $c->stash->{rest} = {
-    datasets => $projects_html
+    datasets => $datasets_html
   };
 
 }
-
-
 
 
 

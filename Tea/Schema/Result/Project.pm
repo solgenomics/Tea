@@ -148,6 +148,21 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 project_private_groups
+
+Type: has_many
+
+Related object: L<Tea::Schema::Result::ProjectPrivateGroup>
+
+=cut
+
+__PACKAGE__->has_many(
+  "project_private_groups",
+  "Tea::Schema::Result::ProjectPrivateGroup",
+  { "foreign.project_id" => "self.project_id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 organism
 
 Type: belongs_to

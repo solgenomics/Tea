@@ -97,10 +97,8 @@ my $json = JSON::Any->new;
 <script type="text/javascript" src="/static/js/d3heatmap_libs/d3-tip-0.6.6/index.js"></script>
 <script type="text/javascript" src="/static/js/d3heatmap_libs/d3heatmapcore-0.0.0/heatmapcore.js"></script>
 <script type="text/javascript" src="/static/js/d3heatmap_libs/d3heatmap-binding-0.6.1.2/d3heatmap.js"></script>
+<script type="text/javascript" src="/static/js/d3heatmap_libs/d3-network/d3.network.js" charset="utf-8"></script>
 <link  href="/static/js/d3heatmap_libs/d3heatmapcore-0.0.0/heatmapcore.css" rel="stylesheet" />
-
-<script src="https://rawgit.com/aaronkw/d3-network/master/d3.network.js" charset="utf-8"></script>
-
 
 <script>
 $(document).ready(function () {

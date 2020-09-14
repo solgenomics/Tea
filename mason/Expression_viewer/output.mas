@@ -320,7 +320,6 @@ $(document).ready(function () {
     </div>
     <div id="selector"></div>
     <div id="ExpCorrChart"></div>
-</div>
 
     <& deg_tab.mas, genes => \@genes &>
 

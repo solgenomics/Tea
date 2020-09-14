@@ -128,14 +128,21 @@ sub _check_gene_exists {
 
  sub get_network :Path('/expression_viewer/get_network/') :Args(0) {
     my ( $self, $c ) = @_;
-    my $schema = $self->schema;
+    
+    my $dbname = $c->config->{dbname};
+    my $host = $c->config->{dbhost};
+    my $username = $c->config->{dbuser};
+    my $password = $c->config->{dbpass};
+
+    my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
+    my $dbh = DBI->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
+
     my $project_id = $c->req->param("projectid");
-    my $corr_filter_value = $c->req->param("corrfiltervalue"); # '0.6';
+    my $corr_filter_value = $c->req->param("corrfiltervalue");
     my $query_gene = $c->req->param("inputgene"); 
     my $project_rs = $schema->resultset('Project')->search({project_id => $project_id})->single;
     my $corr_path = $c->config->{correlation_indexes_path};
     my $corr_index_path = $corr_path."/".$project_rs->indexed_dir;
-print Dumper $query_gene;
 
     my ($genes,$edges) = _get_correlated_genes_edges($c,$corr_filter_value,$corr_index_path,$query_gene);
 

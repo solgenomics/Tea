@@ -138,7 +138,7 @@ $(document).ready(function () {
 
   var expression_min_scale = "<% $expression_min_scale %>";
   var expression_max_scale = "<% $expression_max_scale %>";
-
+  var input_gene = "<% $genes[0] %>";
   // var heatmap_filename = "not found";
   // alert("project_id: "+project_id);
   // var organism_list = [project_id,0];

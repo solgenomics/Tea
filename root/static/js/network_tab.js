@@ -15,7 +15,7 @@ $(document).ready(function () {
  		    async: false,
 		    method: 'GET',
 		    dataType: "json",
-		    data: { 'projectid': project_id, 'corrfiltervalue' : 0.7, 'inputgene' : 'Dcitr00g01010.1.1' } ,
+		    data: { 'projectid': project_id, 'corrfiltervalue' : correlation_filter/100, 'inputgene' : input_gene } ,
 		    success: function(response) {
 				genes = JSON.parse(response.genes);
 				edges = JSON.parse(response.edges);

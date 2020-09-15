@@ -85,7 +85,7 @@ sub _get_correlated_genes_edges {
         } elsif ($query_gene eq $hit->{gene2} && $hit->{correlation} >= $corr_filter) {
             push @genes, {
                 id => $gene_id2,
-                name => $gene_id2
+                name => $hit->{gene1}
             };
             push @edges, {
                 id => $id,
@@ -94,8 +94,58 @@ sub _get_correlated_genes_edges {
                 weight => $hit->{correlation} + 0,
             };
         }
-        $id++; $gene_id2++;
+        $id++; 
+	$gene_id2++;
     }
+
+#   for my $item2 ( @edges ) {
+#	for my $key2 ( keys %$item2 ) {
+#	    print STDERR "$key2 => $item2->{ $key2 }\n";
+#	}
+#   }
+
+    for my $item ( @genes ) {
+#	for my $key ( keys %$item ) {
+#	    print "$key => $item->{ $key }\n";
+#	}
+
+#    for my $j (@genes) {
+#	my %curr_hash = $genes[$j];
+#      print STDERR "Inside first FOR loop!\n";
+	my $hits = $lucy_corr->search(
+	    query      => $item->{name},
+	    sort_spec  => $sort_spec,
+	    num_wanted => 10000,
+	);	
+
+	while ( my $hit = $lucy_corr->next ) {
+	    if ($item->{name} eq $hit->{gene1} ) {
+#        print STDERR "Inside first CONDITIONAL!\n";		
+		for my $i ( @genes ) {
+		    if ($i->{name} eq $hit->{gene2}) {
+#			print STDERR "Inside conditional!\n";
+			push @edges, {
+			    id => $id,
+			    source => $item->{id},
+			    target => $i->{id},
+			    weight => $hit->{correlation} + 0,
+			};
+			$id++;
+		    }
+#		    $gene_id3++;
+#		    $id++;
+		}
+	    }
+	    
+	}
+#	$gene_id1++;
+ #   }
+    }
+#   for my $item2 ( @edges ) {
+#	for my $key2 ( keys %$item2 ) {
+#	    print STDERR "$key2 => $item2->{ $key2 }\n";
+#	}
+#   }
 
     return (\@genes,\@edges);
 }

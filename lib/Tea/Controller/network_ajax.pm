@@ -33,6 +33,7 @@ sub _get_correlated_genes_edges {
     my $corr_filter = shift;
     my $corr_index_path = shift;
     my $query_gene = shift;
+    my $max_genes = shift;
 
     my @genes; my @edges;
 
@@ -71,7 +72,7 @@ sub _get_correlated_genes_edges {
 
     while ( my $hit = $lucy_corr->next ) {
 
-        if ($query_gene eq $hit->{gene1} && $hit->{correlation} >= $corr_filter) {
+        if ($query_gene eq $hit->{gene1} && $hit->{correlation} >= $corr_filter && $gene_id2 <= $max_genes) {
             push @genes, {
                 id => $gene_id2,
                 name => $hit->{gene2}
@@ -82,7 +83,7 @@ sub _get_correlated_genes_edges {
  #               target => $gene_id2,
  #               weight => $hit->{correlation} + 0,
  #           };
-        } elsif ($query_gene eq $hit->{gene2} && $hit->{correlation} >= $corr_filter) {
+        } elsif ($query_gene eq $hit->{gene2} && $hit->{correlation} >= $corr_filter && $gene_id2 <= $max_genes) {
             push @genes, {
                 id => $gene_id2,
                 name => $hit->{gene1}
@@ -95,31 +96,31 @@ sub _get_correlated_genes_edges {
 #            };
         }
 #        $id++; 
-	$gene_id2++;
+	   $gene_id2++;
     }
 
     for my $item ( @genes ) {
-	my $hits = $lucy_corr->search(
-	    query      => $item->{name},
-	    sort_spec  => $sort_spec,
-	    num_wanted => 10000,
-	);	
+    	my $hits = $lucy_corr->search(
+    	    query      => $item->{name},
+    	    sort_spec  => $sort_spec,
+    	    num_wanted => 10000,
+    	);	
 
-	while ( my $hit = $lucy_corr->next ) {
-	    if ($item->{name} eq $hit->{gene1} ) {
-		for my $i ( @genes ) {
-		    if ($i->{name} eq $hit->{gene2}) {
-			push @edges, {
-			    id => $id,
-			    source => $item->{id},
-			    target => $i->{id},
-			    weight => $hit->{correlation} + 0,
-			};
-			$id++;
-		    }
-		}
-	    }   
-	}
+    	while ( my $hit = $lucy_corr->next ) {
+    	    if ($item->{name} eq $hit->{gene1} ) {
+    		for my $i ( @genes ) {
+    		    if ($i->{name} eq $hit->{gene2}) {
+    			push @edges, {
+    			    id => $id,
+    			    source => $item->{id},
+    			    target => $i->{id},
+    			    weight => $hit->{correlation} + 0,
+    			};
+    			$id++;
+    		    }
+    		}
+    	    }   
+    	}
     }
 
     return (\@genes,\@edges);
@@ -165,11 +166,12 @@ sub _check_gene_exists {
     my $project_id = $c->req->param("projectid");
     my $corr_filter_value = $c->req->param("corrfiltervalue");
     my $query_gene = $c->req->param("inputgene"); 
+    my $max_genes = $c->req->param("maxgenes"); 
     my $project_rs = $schema->resultset('Project')->search({project_id => $project_id})->single;
     my $corr_path = $c->config->{correlation_indexes_path};
     my $corr_index_path = $corr_path."/".$project_rs->indexed_dir;
 
-    my ($genes,$edges) = _get_correlated_genes_edges($c,$corr_filter_value,$corr_index_path,$query_gene);
+    my ($genes,$edges) = _get_correlated_genes_edges($c,$corr_filter_value,$corr_index_path,$query_gene,$max_genes);
 
     my $message_back = "Returned ajax";
 

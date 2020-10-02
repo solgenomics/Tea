@@ -290,7 +290,6 @@ $(document).ready(function () {
     <div id="container_heatmap" class="output_width tab-pane fade"></div>
     <div id="container_network" class="output_width tab-pane fade">
       <br><br>
-
         <div class="col-sm-3">
               <label>Number of genes:</label>
               <select class="form-control" id="max_genes">
@@ -302,10 +301,10 @@ $(document).ready(function () {
               </select>
               
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-4">
               <div class="col-sm-9">
                   <!-- <input class="form-control" id="corr_value_network" name="corr_value_network"></input> -->
-                  <label>Correlation filter:</label> <br>0.<input type="text" id="amount_network" readonly style="border:0;font-size:18px;background-color: #fff;" size="4">
+                  <label>Correlation value filter:</label> <br>0.<input type="text" id="amount_network" readonly style="border:0;font-size:18px;background-color: #fff;" size="4">
                   <br>
                   <input class="corr_filter" name="correlation_filter" value="70" style="display:none;"/>
                   <div id="correlation_slider_network"></div>

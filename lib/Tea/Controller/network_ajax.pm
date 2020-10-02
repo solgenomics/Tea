@@ -61,42 +61,24 @@ sub _get_correlated_genes_edges {
       );
 
     my $id = 0;
-    my $gene_id = 0;
-    my $gene_id2 = 1;
+    my $gene_id = 1;
 
     push @genes, {
-              id => $gene_id,
+              id => 0,
               name => $query_gene,
               query => 'true'
           };
 
-    while ( my $hit = $lucy_corr->next ) {
-
-        if ($query_gene eq $hit->{gene1} && $hit->{correlation} >= $corr_filter && $gene_id2 <= $max_genes) {
+    while ( (my $hit = $lucy_corr->next) && $gene_id < $max_genes) {
+        
+        if ($hit->{correlation} >= $corr_filter) {
+            my $gene = $query_gene eq $hit->{gene1} ? $hit->{gene1} : $hit->{gene2};
             push @genes, {
-                id => $gene_id2,
-                name => $hit->{gene2}
+                    id => $gene_id,
+                    name => $gene
             };
- #           push @edges, {
- #               id => $id,
- #               source => $gene_id,
- #               target => $gene_id2,
- #               weight => $hit->{correlation} + 0,
- #           };
-        } elsif ($query_gene eq $hit->{gene2} && $hit->{correlation} >= $corr_filter && $gene_id2 <= $max_genes) {
-            push @genes, {
-                id => $gene_id2,
-                name => $hit->{gene1}
-            };
-#            push @edges, {
-#                id => $id,
-#                source => $gene_id,
-#                target => $gene_id2,
-#                weight => $hit->{correlation} + 0,
-#            };
+            $gene_id++;
         }
-#        $id++; 
-	   $gene_id2++;
     }
 
     for my $item ( @genes ) {
@@ -104,21 +86,21 @@ sub _get_correlated_genes_edges {
     	    query      => $item->{name},
     	    sort_spec  => $sort_spec,
     	    num_wanted => 10000,
-    	);	
+    	);
 
     	while ( my $hit = $lucy_corr->next ) {
     	    if ($item->{name} eq $hit->{gene1} ) {
-    		for my $i ( @genes ) {
-    		    if ($i->{name} eq $hit->{gene2}) {
-    			push @edges, {
-    			    id => $id,
-    			    source => $item->{id},
-    			    target => $i->{id},
-    			    weight => $hit->{correlation} + 0,
-    			};
-    			$id++;
-    		    }
-    		}
+        		for my $i ( @genes ) {
+        		    if ($i->{name} eq $hit->{gene2}) {
+            			push @edges, {
+            			    id => $id,
+            			    source => $item->{id},
+            			    target => $i->{id},
+            			    weight => $hit->{correlation} + 0,
+            			};
+            			$id++;
+        		    }
+        		}
     	    }   
     	}
     }

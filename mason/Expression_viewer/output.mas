@@ -273,7 +273,7 @@ $(document).ready(function () {
     }
 </%perl>
 
-    <li id="network_tab"><a data-toggle="tab" href="#container_network"><img src="/static/images/ico5.png" height="24"/> Network Graph</a></li>
+    <li id="network_tab"><a data-toggle="tab" href="#container_network"><img src="/static/images/ico6.png" height="24"/> Network</a></li>
 
 
     </ul>
@@ -293,6 +293,7 @@ $(document).ready(function () {
         <div class="col-sm-3">
               <label>Number of genes:</label>
               <select class="form-control" id="max_genes">
+                  <option value="5">5</option>
                   <option value="10" selected="">10</option>
                   <option value="20">20</option>
                   <option value="50">50</option>

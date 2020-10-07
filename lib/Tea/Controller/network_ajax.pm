@@ -69,10 +69,10 @@ sub _get_correlated_genes_edges {
               query => 'true'
           };
 
-    while ( (my $hit = $lucy_corr->next) && $gene_id < $max_genes) {
+    while ( (my $hit = $lucy_corr->next) && $gene_id <= $max_genes) {
         
         if ($hit->{correlation} >= $corr_filter) {
-            my $gene = $query_gene eq $hit->{gene1} ? $hit->{gene1} : $hit->{gene2};
+            my $gene = $query_gene eq $hit->{gene1} ? $hit->{gene2} : $hit->{gene1};
             push @genes, {
                     id => $gene_id,
                     name => $gene
@@ -91,7 +91,7 @@ sub _get_correlated_genes_edges {
     	while ( my $hit = $lucy_corr->next ) {
     	    if ($item->{name} eq $hit->{gene1} ) {
         		for my $i ( @genes ) {
-        		    if ($i->{name} eq $hit->{gene2}) {
+        		    if ($i->{name} eq $hit->{gene2} && $hit->{correlation} >= $corr_filter) {
             			push @edges, {
             			    id => $id,
             			    source => $item->{id},

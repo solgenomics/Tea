@@ -8,7 +8,7 @@
 d3.network = function() {
         
     var options = 
-        {start_edge:0,
+        {start_edge:0.65,
         start_color:"#006E2E", 
         mid_color:"#FFFF88",
         end_color:"#FF0000"};
@@ -33,7 +33,7 @@ d3.network = function() {
     // Functions for network attributes 
     var r = function(d) {return d.query ? 20 : Math.max(10,5+ d.query_degree ? d.query_degree*10 : 10);};
     var w = function(d) {return Math.max(2,d.weight*6);};
-    var edgeColor = d3.scale.linear().domain([options.start_edge,.15,1])
+    var edgeColor = d3.scale.linear().domain([options.start_edge,(1+options.start_edge)/2,1])
         .range([options.start_color, options.mid_color, options.end_color]);
     var geneText = function(d) { return d.standard_name; };
 
@@ -94,7 +94,7 @@ d3.network = function() {
 
         force = d3.layout.force()
             .charge(-800)
-            .distance(150)
+            .distance(350)
             .gravity(.15)
             .nodes(genes)
             .links(edges)
@@ -383,28 +383,28 @@ d3.network = function() {
         svg.append("svg:rect")
             .attr("width", width*scale-2)
             .attr("height", 20)
-            .attr("y",12)
+            .attr("y",18)
             .attr("x", 1)
             .attr("fill", "url(#legend)")
             .style("stroke","#AAA")
             .style("stroke-width",1);
             
         var text = svg.append("svg:text")
-            .attr("y", 9)
-            .text(options.start_edge.toFixed(1));
+            .attr("y", 15)
+            .text(options.start_edge.toFixed(2));
 
         svg.append("svg:text")
-            .attr("y", 9)
-            .attr("x", width*scale - text.node().getBBox().width)
+            .attr("y", 15)
+            .attr("x", width*scale - text.node().getBBox().width -21)
             .text("1.0");
 
         svg.append("svg:text")
-            .attr("y", 9)
+            .attr("y", 15)
             .attr("x", width*scale*.5 - text.node().getBBox().width/2)
-            .text("0.5");
+            .text((1+options.start_edge)/2);
 
         svg.append("svg:text")
-            .attr("y", 45)
+            .attr("y", 51)
             .attr("x", width*scale/2)
             .attr("text-anchor", "middle")
             .attr("alignment-baseline", "central")

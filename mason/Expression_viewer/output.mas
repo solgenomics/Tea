@@ -57,14 +57,27 @@ my $json = JSON::Any->new;
   width: 1100px;
 }
 
-#dwl_expr_data {
+/* #dwl_expr_data {
   position:relative;
   float:right;
   top:60px;
   right:710px;
   z-index:100;
+} */
+
+#dwl_expr_data {
+    position: relative;
+    float: left;
+    bottom: 1150px;
+    right: 100px;
 }
 
+#dwl_cube {
+  position: relative;
+    float: left;
+    bottom: 1190px;
+    left: 20px;
+}
 </style>
 
 
@@ -253,11 +266,11 @@ $(document).ready(function () {
 </center>
 
 <center>
-  <div class="output_width">
-    <button id="dwl_cube" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-download-alt"></span> Save as img</button>
+  <!-- <div class="output_width"> -->
+    <!-- <button id="dwl_cube" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-download-alt"></span> Save as img</button>
     <a id="dwl_cube_link" href="#" download="expression_cube.png" style="display:none"></a>
-    <button id="dwl_expr_data" class="btn btn-primary"><span class="glyphicon glyphicon-download-alt"></span> Download Expression Data</button>
-  </div>
+    <button id="dwl_expr_data" class="btn btn-primary"><span class="glyphicon glyphicon-download-alt"></span> Download Expression Data</button> -->
+  <!-- </div> -->
 
   <div class="tabs output_width">
     <ul class="nav nav-tabs">
@@ -285,7 +298,15 @@ $(document).ready(function () {
 
   <div class="tab-content">
 
-    <div id="container" class="output_width tab-pane fade in active"></div>
+    <div id="container" class="output_width tab-pane fade in active">
+    </div>
+    
+    <div class="output_width">
+      <button id="dwl_cube" class="btn btn-primary"><span class="glyphicon glyphicon-download-alt"></span> Save as img</button>
+      <a id="dwl_cube_link" href="#" download="expression_cube.png" style="display:none"></a>
+      <button id="dwl_expr_data" class="btn btn-primary"><span class="glyphicon glyphicon-download-alt"></span> Download Expression Data</button>
+    </div>
+
     <%perl>
       if ($expr_imgs_tab) {
         print "<div id=\"container_tissues\" class=\"output_width tab-pane fade\"></div>";
@@ -304,7 +325,7 @@ $(document).ready(function () {
                   <option value="100">100</option>
                   <option value="200">200</option>
               </select>
-              
+
         </div>
         <div class="col-sm-4">
               <div class="col-sm-9">

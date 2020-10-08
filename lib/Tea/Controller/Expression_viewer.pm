@@ -955,6 +955,8 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
 
   my $deg_tab = $c->config->{deg_tab}||0;
 
+  my $network_tab = $c->config->{network_tab}||0;
+  
   my $expr_imgs_tab = $c->config->{expr_imgs_tab} // 1;
 
   $corr_filter = $c->req->param("correlation_filter")||0.65;
@@ -1002,6 +1004,7 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
   $c->stash->{locus_ids} = \%locus_ids;
 
   $c->stash->{deg_tab} = $deg_tab;
+  $c->stash->{network_tab} = $network_tab;
   $c->stash->{expr_imgs_tab} = $expr_imgs_tab;
 
   $c->stash->{template} = '/Expression_viewer/output.mas';

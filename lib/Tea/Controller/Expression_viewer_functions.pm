@@ -38,28 +38,37 @@ sub get_sps_datasets {
 
       my $project_name = $proj_obj->name;
 
+      #--------------------------------------------------- Privacy code
       # check if data set is private
       my $is_private = $proj_obj->private;
 
-      # get groups associated to each data set
-      my $proj_group_rs = $schema->resultset('ProjectPrivateGroup')->search({project_id => $proj_obj->project_id});
+      if ($is_private) {
 
-      while(my $proj_group_obj = $proj_group_rs->next) {
-        my $group_id = $proj_group_obj->private_group_id;
+        # get groups associated to each data set
+        my $proj_group_rs = $schema->resultset('ProjectPrivateGroup')->search({project_id => $proj_obj->project_id});
 
-        my $group_rs = $schema->resultset('PrivateGroup')->single({private_group_id => $group_id});
+        while(my $proj_group_obj = $proj_group_rs->next) {
+          my $group_id = $proj_group_obj->private_group_id;
 
-        $project_group_hash{$group_rs->name} = 1;
+          my $group_rs = $schema->resultset('PrivateGroup')->single({private_group_id => $group_id});
+
+          $project_group_hash{$group_rs->name} = 1;
+        }
+
+        foreach my $group (keys %project_group_hash) {
+          print STDERR "\n\n\n ### $project_name: $group $is_private\n\n\n";
+        }
+        %project_group_hash = ();
+
+        # my $user_id = $c->req->param("user_id");
+        # print STDERR "\n\n\n\n user id: $user_id\n\n\n\n";
+
+        #check if it is private and check all groups from the user vs all groups from the dataset
+        #check if it is private and check all groups from the user vs all groups from the dataset
+        #check if it is private and check all groups from the user vs all groups from the dataset
       }
 
-      foreach my $group (keys %project_group_hash) {
-        print STDERR "\n\n\n ### $project_name: $group\n\n\n";
-      }
-      %project_group_hash = ();
 
-      #check if it is private and check all groups from the user vs all groups from the dataset
-      #check if it is private and check all groups from the user vs all groups from the dataset
-      #check if it is private and check all groups from the user vs all groups from the dataset
       if ($is_private) {
         next;
       }

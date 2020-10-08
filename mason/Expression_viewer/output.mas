@@ -68,15 +68,15 @@ my $json = JSON::Any->new;
 #dwl_expr_data {
     position: relative;
     float: left;
-    bottom: 1150px;
-    right: 100px;
+    bottom: 1185px;
+    left: 20px;
 }
 
 #dwl_cube {
-  position: relative;
-    float: left;
-    bottom: 1190px;
-    left: 20px;
+  position: fixed;
+  top: 50%;
+  right: 0px;
+  margin-top: 260px;
 }
 </style>
 
@@ -300,13 +300,6 @@ $(document).ready(function () {
 
     <div id="container" class="output_width tab-pane fade in active">
     </div>
-    
-    <div class="output_width">
-      <button id="dwl_cube" class="btn btn-primary"><span class="glyphicon glyphicon-download-alt"></span> Save as img</button>
-      <a id="dwl_cube_link" href="#" download="expression_cube.png" style="display:none"></a>
-      <button id="dwl_expr_data" class="btn btn-primary"><span class="glyphicon glyphicon-download-alt"></span> Download Expression Data</button>
-    </div>
-
     <%perl>
       if ($expr_imgs_tab) {
         print "<div id=\"container_tissues\" class=\"output_width tab-pane fade\"></div>";
@@ -314,7 +307,10 @@ $(document).ready(function () {
     </%perl>
     <div id="container_heatmap" class="output_width tab-pane fade"></div>
     <div id="container_network" class="output_width tab-pane fade">
-      <br><br>
+
+      <br>
+      <br>
+
         <div class="col-sm-3">
               <label>Number of genes:</label>
               <select class="form-control" id="max_genes">
@@ -339,6 +335,8 @@ $(document).ready(function () {
         <button type="button" id="update_network_btn" class="">Update</button>
         <div id="container_network_graph"></div>
     </div>
+
+
     <div id="container_scatterplots" class="output_width tab-pane fade">
 
         <div class="modal" id="Scatter_error_modal" role="dialog">
@@ -372,6 +370,12 @@ $(document).ready(function () {
     <div id="ExpCorrChart"></div>
 
     <& deg_tab.mas, genes => \@genes &>
+
+    <div class="output_width">
+      <button id="dwl_cube" class="btn btn-primary"><span class="glyphicon glyphicon-download-alt"></span> Save as img</button>
+      <a id="dwl_cube_link" href="#" download="expression_cube.png" style="display:none"></a>
+      <button id="dwl_expr_data" class="btn btn-primary"><span class="glyphicon glyphicon-download-alt"></span> Download Expression Data</button>
+    </div>
 
   </div>
 

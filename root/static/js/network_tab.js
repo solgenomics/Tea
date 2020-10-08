@@ -4,6 +4,7 @@ $(document).ready(function () {
 
     $("#network_tab").click(function(){
 	    $("#dwl_expr_data").css("display","none");
+	    $("#dwl_cube").css("display","none");
 
 		d3.select("svg").remove();
 		var max_genes = $( "#max_genes" ).val();
@@ -16,7 +17,7 @@ $(document).ready(function () {
 	});
 
 	$("#update_network_btn").click(function(){
-	    $("#dwl_expr_data").css("display","none");
+	    // $("#dwl_expr_data").css("display","none");
 
 		d3.select("svg").remove();
 		var max_genes = $( "#max_genes" ).val();

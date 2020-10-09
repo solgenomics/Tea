@@ -1,0 +1,6 @@
+<a id="login_link" class="pmoss_menu_tab" style="font-size:16px; cursor:pointer" data-toggle="modal" data-target="#loginModal">
+  Log In <span class="glyphicon glyphicon-log-in" style="line-height: 1.2;"></span>
+</a>
+<a id="logout_link" class="pmoss_menu_tab" style="font-size:16px; cursor:pointer; display:none">
+  Log Out <span class="glyphicon glyphicon-log-out" style="line-height: 1.2;"></span>
+</a>

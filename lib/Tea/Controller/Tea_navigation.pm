@@ -49,7 +49,7 @@ sub find_genes :Path('/help/find_genes') :Args(0) {
     $c->stash(template => 'help/find_gene.mas');
 }
 
-sub project_menu :Path('/project_menu/') :Args(0) {
+sub project_menu :Path('/expression_viewer/project_menu/') :Args(0) {
     my ( $self, $c ) = @_;
 
     my $dbname = $c->config->{dbname};

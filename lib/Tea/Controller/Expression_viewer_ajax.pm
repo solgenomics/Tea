@@ -41,6 +41,82 @@ __PACKAGE__->config(
 
 our %urlencode;
 
+
+
+
+=head2 get_datasets
+
+returns data sets for the selected species
+
+ARGS: selected species
+Returns: data sets
+
+=cut
+
+sub get_datasets :Path('/expression_viewer/get_datasets/') :Args(0) {
+  my ($self, $c) = @_;
+
+  # to store erros as they may happen
+  my @errors;
+
+  my $organism_id = $c->req->param("organism_id");
+
+  # print STDERR "Selected species id: $organism_id\n";
+
+  #connect to database
+  my $dbname = $c->config->{dbname};
+  my $host = $c->config->{dbhost};
+  my $username = $c->config->{dbuser};
+  my $password = $c->config->{dbpass};
+
+  my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
+
+  # get variables from catalyst object
+  my $projects_rs = $schema->resultset('Project');
+
+  my @projects = ();
+  my %project_name_hash;
+  my %project_order_hash;
+  my $project_ordinal;
+
+  while (my $proj_obj = $projects_rs->next) {
+
+      my $project_name = $proj_obj->name;
+      my $project_id = $proj_obj->project_id;
+
+      if ($proj_obj->ordinal) {
+        $project_ordinal = $proj_obj->ordinal;
+      }
+      else {
+        $project_ordinal = $project_id;
+      }
+
+      if ($organism_id == $proj_obj->organism_id) {
+        $project_name_hash{$project_id} = $project_name;
+        $project_order_hash{$project_ordinal} = $project_id;
+      }
+
+  }
+
+  foreach my $key (sort {$a <=> $b} keys %project_order_hash) {
+    my $project_id = $project_order_hash{$key};
+    my $project_name = $project_name_hash{$project_id};
+    push(@projects,"<div id=\"project_radio_div\" class=\"radio\">\n<label><input id=\"project_".$project_id."\" type='radio' class='organism_col' name=\"optradio\" value=\'".$project_id."\'> $project_name</label>\n</div>\n");
+  }
+
+  # save array info in text variable
+  my $projects_html = join("\n", @projects);
+
+  $c->stash->{rest} = {
+    datasets => $projects_html
+  };
+
+}
+
+
+
+
+
 =head2 get_genes
 
 get gene names from the selected project for autocompleting their names on input boxes
@@ -112,37 +188,6 @@ sub get_max_expr :Path('/expression_viewer/get_max_expr/') :Args(0) {
   # get variables from catalyst object
   my $project_id = $c->req->param("project_id");
   my $max_val = $c->config->{max_val} || 10000;
-
-  #connect to database
-  # my $dbname = $c->config->{dbname};
-  # my $host = $c->config->{dbhost};
-  # my $username = $c->config->{dbuser};
-  # my $password = $c->config->{dbpass};
-  #
-  # my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
-  #
-  # get DBIx project resultset
-  # my $project_rs = $schema->resultset('Project')->search({project_id => $project_id})->single;
-  #
-  # my $expr_path = $c->config->{expression_indexes_path};
-  # $expr_path .= "/".$project_rs->indexed_dir;
-  #
-  # my $searcher = Lucy::Search::IndexSearcher->new(
-  #     index => $expr_path
-  # );
-  #
-  # my $all_genes = $searcher->hits(
-  #     query => Lucy::Search::MatchAllQuery->new,
-  #     # num_wanted => 200000,
-  # );
-  #
-  # while ( my $hit = $all_genes->next ) {
-  #   if ($hit->{expression} * 1 > $max_val) {
-  #     $max_val = sprintf("%.0f", $hit->{expression} * 1);
-  #   }
-  # }
-  #
-  # print "MAX VAL: $max_val\n";
 
   $c->stash->{rest} = {
       project_max_val => $max_val

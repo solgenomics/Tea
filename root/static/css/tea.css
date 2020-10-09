@@ -239,12 +239,28 @@ hr {
 	top:1px;
 }
 
+/* ################################################################### */
 /* Expression Viewer output page */
+/* ################################################################### */
 
-#download_expr_table {
-  float:right;
-  margin-top:12px;
-  margin-right:5px;
+#dwl_expr_data {
+    position: relative;
+    float: left;
+    bottom: 1185px;
+    left: 20px;
+}
+
+#dwl_cube {
+  position: fixed;
+  top: 50%;
+  right: 0px;
+  margin-top: 260px;
+}
+
+.network_columns {
+    width: 30%;
+    float: left;
+    margin-left: 20px;
 }
 
 .gene_name_dialog a{
@@ -268,7 +284,7 @@ hr {
   border-width: 1px;
   border-color: #ddd;
   border-width:0px 1px 1px 1px;
-  height:700px;
+  height:1250px;
   overflow:scroll;
   padding-right: 20px;
 }
@@ -298,7 +314,7 @@ hr {
   border-color: #ddd;
   border-width:0px 1px 1px 1px;
   padding-left: 0px;
-  height:700px;
+  height:650px;
   overflow:scroll;
 }
 
@@ -318,7 +334,7 @@ hr {
   border-color: #ddd;
   border-width:0px 1px 1px 1px;
   padding-left: 0px;
-  height:700px;
+  height:970px;
 /*  width:1060px;*/
   overflow:scroll;
 }

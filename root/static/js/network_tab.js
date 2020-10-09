@@ -82,8 +82,8 @@ $(document).ready(function () {
 
 			d3.select("#container_network_graph")
 			.append("svg")
-			.attr("width", 1000)
-			.attr("height", 1000)
+			.attr("width", 1080)
+			.attr("height", 850)
 			.call(network);
 
 			// network.showLegend().filter(.1, 5).draw();

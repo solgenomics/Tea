@@ -57,27 +57,6 @@ my $json = JSON::Any->new;
   width: 1100px;
 }
 
-/* #dwl_expr_data {
-  position:relative;
-  float:right;
-  top:60px;
-  right:710px;
-  z-index:100;
-} */
-
-#dwl_expr_data {
-    position: relative;
-    float: left;
-    bottom: 1185px;
-    left: 20px;
-}
-
-#dwl_cube {
-  position: fixed;
-  top: 50%;
-  right: 0px;
-  margin-top: 260px;
-}
 </style>
 
 
@@ -266,11 +245,6 @@ $(document).ready(function () {
 </center>
 
 <center>
-  <!-- <div class="output_width"> -->
-    <!-- <button id="dwl_cube" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-download-alt"></span> Save as img</button>
-    <a id="dwl_cube_link" href="#" download="expression_cube.png" style="display:none"></a>
-    <button id="dwl_expr_data" class="btn btn-primary"><span class="glyphicon glyphicon-download-alt"></span> Download Expression Data</button> -->
-  <!-- </div> -->
 
   <div class="tabs output_width">
     <ul class="nav nav-tabs">
@@ -306,36 +280,6 @@ $(document).ready(function () {
       }
     </%perl>
     <div id="container_heatmap" class="output_width tab-pane fade"></div>
-    <div id="container_network" class="output_width tab-pane fade">
-
-      <br>
-      <br>
-
-        <div class="col-sm-3">
-              <label>Number of genes:</label>
-              <select class="form-control" id="max_genes">
-                  <option value="5">5</option>
-                  <option value="10" selected="">10</option>
-                  <option value="20">20</option>
-                  <option value="50">50</option>
-                  <option value="100">100</option>
-                  <option value="200">200</option>
-              </select>
-
-        </div>
-        <div class="col-sm-4">
-              <div class="col-sm-9">
-                  <!-- <input class="form-control" id="corr_value_network" name="corr_value_network"></input> -->
-                  <label>Correlation value filter:</label> <br>0.<input type="text" id="amount_network" readonly style="border:0;font-size:18px;background-color: #fff;" size="4">
-                  <br>
-                  <input class="corr_filter" name="correlation_filter" value="70" style="display:none;"/>
-                  <div id="correlation_slider_network"></div>
-              </div>
-        </div>
-        <button type="button" id="update_network_btn" class="">Update</button>
-        <div id="container_network_graph"></div>
-    </div>
-
 
     <div id="container_scatterplots" class="output_width tab-pane fade">
 
@@ -371,8 +315,36 @@ $(document).ready(function () {
 
     <& deg_tab.mas, genes => \@genes &>
 
+    <div id="container_network" class="output_width tab-pane fade">
+      <br>
+      <div class="network_columns">
+            <label>Number of genes:</label>
+            <select class="form-control" id="max_genes">
+                <option value="5">5</option>
+                <option value="10" selected="">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="200">200</option>
+            </select>
+      </div>
+      <div class="network_columns">
+          <!-- <input class="form-control" id="corr_value_network" name="corr_value_network"></input> -->
+          <label>Correlation value filter:</label>
+          <span style="font-size:18px">0.</span><input type="text" id="amount_network" readonly style="border:0;font-size:18px;background-color: #fff;margin-bottom:10px" size="4">
+          <br>
+          <input class="corr_filter" name="correlation_filter" value="70" style="display:none;"/>
+          <div id="correlation_slider_network"></div>
+      </div>
+      <div style="float:left; margin-left:20px; margin-top:25px">
+          <button type="button" id="update_network_btn" class="btn btn-primary">Update</button>
+      </div>
+      <div id="container_network_graph"></div>
+    </div>
+
+<!-- download buttons -->
     <div class="output_width">
-      <button id="dwl_cube" class="btn btn-primary"><span class="glyphicon glyphicon-download-alt"></span> Save as img</button>
+      <button id="dwl_cube" class="btn btn-primary"><span class="glyphicon glyphicon-camera"></span> Save img</button>
       <a id="dwl_cube_link" href="#" download="expression_cube.png" style="display:none"></a>
       <button id="dwl_expr_data" class="btn btn-primary"><span class="glyphicon glyphicon-download-alt"></span> Download Expression Data</button>
     </div>

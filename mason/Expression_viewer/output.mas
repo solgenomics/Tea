@@ -39,6 +39,8 @@ $deg_tab => ()
 $expr_imgs_tab => ()
 $heatmap_tab => ()
 $scatterplot_tab => ()
+$network_tab => ()
+
 
 </%args>
 
@@ -50,6 +52,13 @@ my $json = JSON::Any->new;
 
 </%perl>
 
+<style>
+
+.output_width {
+  width: 1100px;
+}
+
+</style>
 
 
 <link rel="stylesheet" href="/static/css/jqplot.css" type="text/css" />
@@ -58,6 +67,7 @@ my $json = JSON::Any->new;
 <script type="text/javascript" src="/static/js/tea_expr_images.js"></script>
 <script type="text/javascript" src="/static/js/tea_expr_code.js"></script>
 <script type="text/javascript" src="/static/js/scatterplot_tab.js"></script>
+<script type="text/javascript" src="/static/js/network_tab.js"></script>
 
 <script type="text/javascript" src="/static/js/jqplot/jquery.jqplot.min.js"></script>
 <script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.json2.js"></script>
@@ -76,12 +86,13 @@ my $json = JSON::Any->new;
 <script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.highlighter.min.js"></script>
 <script type="text/javascript" src="/static/js/jqplot/plugins/jqplot.cursor.js"></script>
 
-
 <script type="text/javascript" src="/static/js/d3heatmap_libs/htmlwidgets-0.9/htmlwidgets.js"></script>
 <script type="text/javascript" src="/static/js/d3heatmap_libs/d3-3.5.3/d3.min.js"></script>
+
 <script type="text/javascript" src="/static/js/d3heatmap_libs/d3-tip-0.6.6/index.js"></script>
 <script type="text/javascript" src="/static/js/d3heatmap_libs/d3heatmapcore-0.0.0/heatmapcore.js"></script>
 <script type="text/javascript" src="/static/js/d3heatmap_libs/d3heatmap-binding-0.6.1.2/d3heatmap.js"></script>
+<script type="text/javascript" src="/static/js/d3heatmap_libs/d3-network/d3.network.js" charset="utf-8"></script>
 <link  href="/static/js/d3heatmap_libs/d3heatmapcore-0.0.0/heatmapcore.css" rel="stylesheet" />
 
 
@@ -123,7 +134,7 @@ $(document).ready(function () {
 
   var expression_min_scale = "<% $expression_min_scale %>";
   var expression_max_scale = "<% $expression_max_scale %>";
-
+  var input_gene = "<% $genes[0] %>";
   // var heatmap_filename = "not found";
   // alert("project_id: "+project_id);
   // var organism_list = [project_id,0];
@@ -266,11 +277,6 @@ $(document).ready(function () {
 </center>
 
 <center>
-  <div class="output_width">
-    <button id="dwl_cube" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-download-alt"></span> Save as img</button>
-    <a id="dwl_cube_link" href="#" download="expression_cube.png" style="display:none"></a>
-    <button id="dwl_expr_data" class="btn btn-primary"><span class="glyphicon glyphicon-download-alt"></span> Download Expression Data</button>
-  </div>
 
   <div class="tabs output_width">
     <ul class="nav nav-tabs">
@@ -288,19 +294,25 @@ $(document).ready(function () {
           if ($deg_tab) {
             print "<li id=\"deg_tab\"><a data-toggle=\"tab\" href=\"#container_deg\"><img src=\"/static/images/ico5.png\" height=\"24\"/> DEGs</a></li>";
           }
+          if ($network_tab) {
+            print "<li id=\"network_tab\"><a data-toggle=\"tab\" href=\"#container_network\"><img src=\"/static/images/ico6.png\" height=\"24\"/> Network</a></li>";
+          }
         </%perl>
+
     </ul>
   </div>
 
   <div class="tab-content">
 
-    <div id="container" class="output_width tab-pane fade in active"></div>
+    <div id="container" class="output_width tab-pane fade in active">
+    </div>
     <%perl>
       if ($expr_imgs_tab) {
         print "<div id=\"container_tissues\" class=\"output_width tab-pane fade\"></div>";
       }
     </%perl>
     <div id="container_heatmap" class="output_width tab-pane fade"></div>
+
     <div id="container_scatterplots" class="output_width tab-pane fade">
 
         <div class="modal" id="Scatter_error_modal" role="dialog">
@@ -330,10 +342,47 @@ $(document).ready(function () {
         <div id="selector"></div>
         <div id="ExpCorrChart"></div>
     </div>
+    <div id="selector"></div>
+    <div id="ExpCorrChart"></div>
 
     <& deg_tab.mas, genes => \@genes &>
 
+    <div id="container_network" class="output_width tab-pane fade">
+      <br>
+      <div class="network_columns">
+            <label>Number of genes:</label>
+            <select class="form-control" id="max_genes">
+                <option value="5">5</option>
+                <option value="10" selected="">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="200">200</option>
+            </select>
+      </div>
+      <div class="network_columns">
+          <!-- <input class="form-control" id="corr_value_network" name="corr_value_network"></input> -->
+          <label>Correlation value filter:</label>
+          <span style="font-size:18px">0.</span><input type="text" id="amount_network" readonly style="border:0;font-size:18px;background-color: #fff;margin-bottom:10px" size="4">
+          <br>
+          <input class="corr_filter" name="correlation_filter" value="70" style="display:none;"/>
+          <div id="correlation_slider_network"></div>
+      </div>
+      <div style="float:left; margin-left:20px; margin-top:25px">
+          <button type="button" id="update_network_btn" class="btn btn-primary">Update</button>
+      </div>
+      <div id="container_network_graph"></div>
+    </div>
+
+<!-- download buttons -->
+    <div class="output_width">
+      <button id="dwl_cube" class="btn btn-primary"><span class="glyphicon glyphicon-camera"></span> Save img</button>
+      <a id="dwl_cube_link" href="#" download="expression_cube.png" style="display:none"></a>
+      <button id="dwl_expr_data" class="btn btn-primary"><span class="glyphicon glyphicon-download-alt"></span> Download Expression Data</button>
+    </div>
+
   </div>
+
 
   <div id="hide_legend"><span id="legend_close" class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
 

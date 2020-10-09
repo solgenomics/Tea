@@ -202,6 +202,7 @@ $(document).ready(function () {
     }
 
     $("#dwl_expr_data").css("display","none");
+    $("#dwl_cube").css("display","none");
 
 
 

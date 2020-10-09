@@ -981,6 +981,7 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
   my $heatmap_tab = $c->config->{heatmap_tab} // 1;
   my $scatterplot_tab = $c->config->{scatterplot_tab} // 1;
   my $expr_imgs_tab = $c->config->{expr_imgs_tab} // 1;
+  my $network_tab = $c->config->{network_tab}||0;
 
   $corr_filter = $c->req->param("correlation_filter")||0.65;
 
@@ -1030,7 +1031,8 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
   $c->stash->{heatmap_tab} = $heatmap_tab;
   $c->stash->{scatterplot_tab} = $scatterplot_tab;
   $c->stash->{expr_imgs_tab} = $expr_imgs_tab;
-
+  $c->stash->{network_tab} = $network_tab;
+  
   $c->stash->{template} = '/Expression_viewer/output.mas';
 }
 

@@ -74,6 +74,7 @@ $(document).ready(function () {
     // alert("images: "+expr_imgs_loaded);
 
     $('#dwl_expr_data').css("display","none");
+		$('#dwl_cube').css("display","inline-block");
 
     if (!expr_imgs_loaded) {
 
@@ -99,6 +100,7 @@ $(document).ready(function () {
   $("#heatmap_tab").click(function(){
 
     $('#dwl_expr_data').css("display","none");
+    $('#dwl_cube').css("display","none");
 
     if (!d3heatmap_loaded) {
 	for (i in stages) {
@@ -192,6 +194,7 @@ $(document).ready(function () {
   $("#cube_tab").on('click', function(e)  {
 
     $('#dwl_expr_data').css("display","inline-block");
+    $('#dwl_cube').css("display","inline-block");
 
     var currentAttrValue = jQuery(this).attr('href');
     // Show/Hide Tabs

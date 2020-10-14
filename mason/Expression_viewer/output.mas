@@ -52,15 +52,6 @@ my $json = JSON::Any->new;
 
 </%perl>
 
-<style>
-
-.output_width {
-  width: 1100px;
-}
-
-</style>
-
-
 <link rel="stylesheet" href="/static/css/jqplot.css" type="text/css" />
 <script type="text/javascript" src="/static/js/tea_expr_functions.js"></script>
 <script type="text/javascript" src="/static/js/tea_expr_cube_functions.js"></script>
@@ -331,7 +322,6 @@ $(document).ready(function () {
           </div>
         </div>
 
-
         <div id="NewPlot">
       	    <button class="btn btn-primary" id="new_plot_btn" type="button">New scatterplot</button>
         </div>
@@ -346,6 +336,7 @@ $(document).ready(function () {
     <div id="ExpCorrChart"></div>
 
     <& deg_tab.mas, genes => \@genes &>
+
 
     <div id="container_network" class="output_width tab-pane fade">
       <br>
@@ -448,14 +439,6 @@ $(document).ready(function () {
 
 .output_width {
   width: 1100px;
-}
-
-#dwl_expr_data {
-  position:relative;
-  float:right;
-  top:60px;
-  right:750px;
-  z-index:100;
 }
 
 .slider_box{

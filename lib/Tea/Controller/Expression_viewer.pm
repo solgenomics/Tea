@@ -67,10 +67,19 @@ sub index :Path('/expression_viewer/input/') :Args(0) {
 
   my $first_species = $organims_rs->first;
 
+##################################################### get user id
+  my $user_id = 0;
+  if ($c->session->{is_logged_in}) {
+    $user_id = $c->session->{is_logged_in};
+  }
+  print STDERR "\n\n\n\n user_id111: $user_id\n\n\n\n";
+
+
   # open a connection to the functions on Expression_viewer_function controller
   my $db_funct = Tea::Controller::Expression_viewer_functions->new();
 
-  my $datasets_html = $db_funct->get_sps_datasets($schema,$first_species->organism_id,$multiple_sps);
+  # my $datasets_html = $db_funct->get_sps_datasets($schema,$first_species->organism_id,$multiple_sps);
+  my $datasets_html = $db_funct->get_sps_datasets($schema,$first_species->organism_id,$multiple_sps,$user_id);
 
   # save array info in text variable
   my $species_html = join("\n", @species);

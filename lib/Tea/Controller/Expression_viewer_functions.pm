@@ -9,8 +9,6 @@ use DBI;
 use Data::Dumper;
 
 
-
-
 =head2 get_sps_datasets
 
 Get all data sets for selected species formatted in html for input page.
@@ -25,6 +23,7 @@ sub get_sps_datasets {
   my $schema = shift;
   my $sps_id = shift;
   my $multiple_sps = shift;
+  my $user_id = shift;
 
   my $projects_rs = $schema->resultset('Project');
 
@@ -60,8 +59,14 @@ sub get_sps_datasets {
         }
         %project_group_hash = ();
 
-        # my $user_id = $c->req->param("user_id");
-        # print STDERR "\n\n\n\n user id: $user_id\n\n\n\n";
+
+
+
+
+        print STDERR "\n\n\n\n user id???: $user_id\n\n\n\n";
+
+
+        # connect to user db an check user is verified and has the one of the groups of the dataset
 
         #check if it is private and check all groups from the user vs all groups from the dataset
         #check if it is private and check all groups from the user vs all groups from the dataset

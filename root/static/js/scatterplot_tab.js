@@ -330,7 +330,10 @@ $(document).ready(function () {
 	    }
   	}
 
-    var adjustable_y_val = max_tissue_length * 20
+    if (max_tissue_length < 10) {
+        max_tissue_length = 10;
+    }
+    var adjustable_y_val = max_tissue_length * 20;
     var stage_lengths = [];
 
     var adjustable_width = (plot_stages.length * 20) + (max_tissue_length * 30);

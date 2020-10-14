@@ -73,8 +73,8 @@ $(document).ready(function () {
   $("#expr_imgs_tab").click(function(){
     // alert("images: "+expr_imgs_loaded);
 
-    $('#dwl_expr_data').css("display","none");
-		$('#dwl_cube').css("display","inline-block");
+    // $('#dwl_expr_data').css("display","none");
+		// $('#dwl_cube').css("display","inline-block");
 
     if (!expr_imgs_loaded) {
 
@@ -99,8 +99,8 @@ $(document).ready(function () {
   var d3heatmap_loaded = 0;
   $("#heatmap_tab").click(function(){
 
-    $('#dwl_expr_data').css("display","none");
-    $('#dwl_cube').css("display","none");
+    // $('#dwl_expr_data').css("display","none");
+    // $('#dwl_cube').css("display","none");
 
     if (!d3heatmap_loaded) {
 	for (i in stages) {
@@ -134,7 +134,18 @@ $(document).ready(function () {
     }
   });
 
+// show / hide legend
+	$('#cube_tab, #expr_imgs_tab, #scatterplots_tab, #deg_tab').on("click", function(){
+		$("#legend_box").css("display","block");
+		$("#hide_legend").css("display","block");
+	});
 
+	$('#heatmap_tab, #network_tab').on("click", function(){
+		$("#legend_box").css("display","none");
+		$("#hide_legend").css("display","none");
+	});
+
+// show / hide legend by user
   $("#hide_legend").click(function(){
       $("#legend_box").animate({
           width: 'toggle'
@@ -148,6 +159,26 @@ $(document).ready(function () {
         $("#legend_close").removeClass("glyphicon-info-sign");
       }
   });
+
+
+// show download expression and save img button
+$('#cube_tab').click(function(){
+	$("#dwl_expr_data").css("display","block");
+	$("#dwl_cube").css("display","block");
+});
+
+// show save img button
+$('#expr_imgs_tab').click(function(){
+	$("#dwl_cube").css("display","block");
+	$("#dwl_expr_data").css("display","none");
+});
+
+// hide download expression and save img button
+$('#heatmap_tab, #scatterplots_tab, #deg_tab, #network_tab').on("click", function(){
+	$("#dwl_expr_data").css("display","none");
+	$("#dwl_cube").css("display","none");
+});
+
 
 
 
@@ -193,8 +224,8 @@ $(document).ready(function () {
   //code to change tabs content
   $("#cube_tab").on('click', function(e)  {
 
-    $('#dwl_expr_data').css("display","inline-block");
-    $('#dwl_cube').css("display","inline-block");
+    // $('#dwl_expr_data').css("display","inline-block");
+    // $('#dwl_cube').css("display","inline-block");
 
     var currentAttrValue = jQuery(this).attr('href');
     // Show/Hide Tabs

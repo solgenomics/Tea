@@ -3,8 +3,8 @@ $(document).ready(function () {
     var network_loaded = 0;
 
     $("#network_tab").click(function(){
-	    $("#dwl_expr_data").css("display","none");
-	    $("#dwl_cube").css("display","none");
+	    // $("#dwl_expr_data").css("display","none");
+	    // $("#dwl_cube").css("display","none");
 
 		d3.select("svg").remove();
 		var max_genes = $( "#max_genes" ).val();

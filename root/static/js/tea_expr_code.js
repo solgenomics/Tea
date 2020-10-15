@@ -138,11 +138,13 @@ $(document).ready(function () {
 	$('#cube_tab, #expr_imgs_tab, #scatterplots_tab, #deg_tab').on("click", function(){
 		$("#legend_box").css("display","block");
 		$("#hide_legend").css("display","block");
+		$("#color_scale_box").css("display","block");
 	});
 
 	$('#heatmap_tab, #network_tab').on("click", function(){
 		$("#legend_box").css("display","none");
 		$("#hide_legend").css("display","none");
+		$("#color_scale_box").css("display","none");
 	});
 
 // show / hide legend by user

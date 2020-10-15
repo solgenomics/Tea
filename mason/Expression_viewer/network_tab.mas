@@ -1,0 +1,26 @@
+<div id="container_network" class="output_width tab-pane fade">
+  <br>
+  <div class="network_columns">
+        <label>Number of genes:</label>
+        <select class="form-control" id="max_genes">
+            <option value="5">5</option>
+            <option value="10" selected="">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="200">200</option>
+        </select>
+  </div>
+  <div class="network_columns">
+      <!-- <input class="form-control" id="corr_value_network" name="corr_value_network"></input> -->
+      <label>Correlation value filter:</label>
+      <span style="font-size:18px">0.</span><input type="text" id="amount_network" readonly style="border:0;font-size:18px;background-color: #fff;margin-bottom:10px" size="4">
+      <br>
+      <input class="corr_filter" name="correlation_filter" value="70" style="display:none;"/>
+      <div id="correlation_slider_network"></div>
+  </div>
+  <div style="float:left; margin-left:20px; margin-top:25px">
+      <button type="button" id="update_network_btn" class="btn btn-primary">Update</button>
+  </div>
+  <div id="container_network_graph"></div>
+</div>

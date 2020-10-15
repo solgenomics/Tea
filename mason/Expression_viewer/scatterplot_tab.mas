@@ -1,0 +1,30 @@
+<div id="container_scatterplots" class="output_width tab-pane fade">
+
+    <div class="modal" id="Scatter_error_modal" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" id="scatter_close_btn" class="close">&times;</button>
+            <center><h4 class="modal-title">Sample Selection</h4></center>
+          </div>
+          <div class="modal-body">
+            <ul>
+                Please use the selector to choose two samples for the comparison of expression.<br>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="NewPlot">
+        <button class="btn btn-primary" id="new_plot_btn" type="button">New scatterplot</button>
+    </div>
+    <div id="Scatter_Instruction"></div>
+    <div id="GetPlot">
+      <button class="btn btn-primary" id="get_scatterplot_btn" type="button">Get scatterplot</button>
+    </div>
+    <div id="selector"></div>
+    <div id="ExpCorrChart"></div>
+</div>
+<div id="selector"></div>
+<div id="ExpCorrChart"></div>

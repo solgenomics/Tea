@@ -24,60 +24,47 @@ sub get_sps_datasets {
   my $sps_id = shift;
   my $multiple_sps = shift;
   my $user_id = shift;
+  my $userDB_dbh = shift;
 
   my $projects_rs = $schema->resultset('Project');
+  my $user_verified = 0;
+  my %user_groups;
 
+  # select * from users_private_group full outer join private_group on private_group_id = private_group.id where user_id=12;
+
+  #--------------------------------------------------- Privacy code
+  $userDB_dbh->begin_work;
+
+  $user_verified = check_user_is_verified($self, $userDB_dbh, $user_id);
+
+  if ($user_verified) {
+    my $user_group_hashref = get_user_groups($self, $userDB_dbh, $user_id);
+    %user_groups = %$user_group_hashref;
+  }
+
+  $userDB_dbh->disconnect;
+
+
+  my $allowed_user = 0;
   my @projects = ();
   my %project_name_hash;
   my %project_order_hash;
   my $project_ordinal;
-  my %project_group_hash;
 
   while(my $proj_obj = $projects_rs->next) {
 
-      my $project_name = $proj_obj->name;
-
-      #--------------------------------------------------- Privacy code
       # check if data set is private
       my $is_private = $proj_obj->private;
 
-      if ($is_private) {
-
-        # get groups associated to each data set
-        my $proj_group_rs = $schema->resultset('ProjectPrivateGroup')->search({project_id => $proj_obj->project_id});
-
-        while(my $proj_group_obj = $proj_group_rs->next) {
-          my $group_id = $proj_group_obj->private_group_id;
-
-          my $group_rs = $schema->resultset('PrivateGroup')->single({private_group_id => $group_id});
-
-          $project_group_hash{$group_rs->name} = 1;
-        }
-
-        foreach my $group (keys %project_group_hash) {
-          print STDERR "\n\n\n ### $project_name: $group $is_private\n\n\n";
-        }
-        %project_group_hash = ();
-
-
-
-
-
-        print STDERR "\n\n\n\n user id???: $user_id\n\n\n\n";
-
-
-        # connect to user db an check user is verified and has the one of the groups of the dataset
-
-        #check if it is private and check all groups from the user vs all groups from the dataset
-        #check if it is private and check all groups from the user vs all groups from the dataset
-        #check if it is private and check all groups from the user vs all groups from the dataset
+      if ($is_private && $user_verified) {
+        # check if user is allowed to access the data set
+        $allowed_user = check_dataset_groups($self,$schema, $proj_obj->project_id, \%user_groups);
       }
 
-
-      if ($is_private) {
+      if ($is_private && !$allowed_user) {
         next;
       }
-      #---------------------------------------------------
+#---------------------------------------------------
 
       my $project_name = $proj_obj->name;
       my $project_id = $proj_obj->project_id;
@@ -114,6 +101,103 @@ sub get_sps_datasets {
 
   return ($projects_html);
 
+}
+
+
+
+=head2 check_dataset_groups
+
+check if a user is allow to access the query data set
+
+ARGS:schema, project id and user groups
+Returns: boolean to confirm if user is allowed to access the dataset
+
+=cut
+
+sub check_dataset_groups {
+  my $self = shift;
+  my $schema = shift;
+  my $project_id = shift;
+  my $user_groups_hashref = shift;
+
+  my %user_groups = %$user_groups_hashref;
+  my $allowed_user = 0;
+
+  # get data set groups
+  my $proj_group_rs = $schema->resultset('ProjectPrivateGroup')->search({project_id => $project_id});
+
+  while(my $proj_group_obj = $proj_group_rs->next) {
+    my $group_id = $proj_group_obj->private_group_id;
+
+    my $group_rs = $schema->resultset('PrivateGroup')->single({private_group_id => $group_id});
+
+    # check if user has some of the data set groups
+    if ($user_groups{$group_rs->name}) {
+      $allowed_user = 1;
+    }
+  }
+
+  return ($allowed_user);
+}
+
+
+=head2 get_user_groups
+
+get a hashref with all the groups from the query user
+
+ARGS:user DB handle and user id
+Returns: hashref with groups asssociated to the query user
+
+=cut
+
+sub get_user_groups {
+  my $self = shift;
+  my $userDB_dbh = shift;
+  my $user_id = shift;
+
+  my %user_groups;
+
+
+  # ---------------------------------------------- get user groups
+  my $sth1 = $userDB_dbh->prepare("select name from users_private_group full outer join private_group on private_group_id = private_group.id where user_id=?");
+  $sth1->execute($user_id) or die $sth1->errstr;
+
+  while (my @row = $sth1->fetchrow_array ) {
+    $user_groups{$row[0]} = 1;
+  }
+
+  $sth1->finish();
+
+  return (\%user_groups);
+}
+
+
+=head2 check_user_is_verified
+
+check if user is verified in the database
+
+ARGS:user DB handle and user id
+Returns: bollean variable
+
+=cut
+
+sub check_user_is_verified {
+  my $self = shift;
+  my $userDB_dbh = shift;
+  my $user_id = shift;
+
+  my $user_verified = 0;
+
+  # ---------------------------------------------- Check user was verified
+  my $sth = $userDB_dbh->prepare("select verified from users where id=?");
+  $sth->execute($user_id) or die $sth->errstr;
+
+  my @verified_array = $sth->fetchrow_array();
+  $user_verified = $verified_array[0];
+
+  $sth->finish();
+
+  return ($user_verified);
 }
 
 

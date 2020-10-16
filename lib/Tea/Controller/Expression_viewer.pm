@@ -54,8 +54,6 @@ sub index :Path('/expression_viewer/input/') :Args(0) {
   my $username = $c->config->{dbuser};
   my $password = $c->config->{dbpass};
 
-  # my $delete_enabled = $c->config->{delete_project};
-
   my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
 
   my $organims_rs = $schema->resultset('Organism');
@@ -74,19 +72,24 @@ sub index :Path('/expression_viewer/input/') :Args(0) {
   }
   print STDERR "\n\n\n\n user_id111: $user_id\n\n\n\n";
 
+  # connect to user DB
+  my $userDB_dbname = $c->config->{login_db};
+  my $userDB_host = $c->config->{login_host};
+  my $userDB_username = $c->config->{login_user};
+  my $userDB_password = $c->config->{login_psw};
+
+  my $userDB_dbh = DBI->connect("dbi:Pg:dbname=$userDB_dbname;host=$userDB_host;", "$userDB_username", "$userDB_password");
 
   # open a connection to the functions on Expression_viewer_function controller
   my $db_funct = Tea::Controller::Expression_viewer_functions->new();
 
-  # my $datasets_html = $db_funct->get_sps_datasets($schema,$first_species->organism_id,$multiple_sps);
-  my $datasets_html = $db_funct->get_sps_datasets($schema,$first_species->organism_id,$multiple_sps,$user_id);
+  my $datasets_html = $db_funct->get_sps_datasets($schema,$first_species->organism_id,$multiple_sps,$user_id,$userDB_dbh);
 
   # save array info in text variable
   my $species_html = join("\n", @species);
 
   # send variables to TEA input view
   $c->stash->{input_gene} = $input_gene;
-  # $c->stash->{delete_enabled} = $delete_enabled;
   $c->stash->{project_html} = $datasets_html;
   $c->stash->{species_html} = $species_html;
   $c->stash(template => 'Expression_viewer/input.mas');
@@ -574,16 +577,55 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
   my $project_rs = $schema->resultset('Project')->search({project_id => $project_id})->single;
 
 
-  # check if data set is private and skip it if it is
-  my $is_private = $project_rs->private;
+  ##################################################### get user id
+      my %user_groups;
+      my $user_verified = 0;
+      my $allowed_user = 0;
 
-  if ($is_private) {
+      my $user_id = 0;
+      if ($c->session->{is_logged_in}) {
+        $user_id = $c->session->{is_logged_in};
+      }
+      print STDERR "\n\n\n\n user_id333: $user_id\n\n\n\n";
+
+      # connect to user DB
+      my $userDB_dbname = $c->config->{login_db};
+      my $userDB_host = $c->config->{login_host};
+      my $userDB_username = $c->config->{login_user};
+      my $userDB_password = $c->config->{login_psw};
+
+      my $userDB_dbh = DBI->connect("dbi:Pg:dbname=$userDB_dbname;host=$userDB_host;", "$userDB_username", "$userDB_password");
+
+      # open a connection to the functions on Expression_viewer_function controller
+      my $db_funct = Tea::Controller::Expression_viewer_functions->new();
+
+      $userDB_dbh->begin_work;
+
+      # check if user is verified in the DB
+      $user_verified = $db_funct->check_user_is_verified($userDB_dbh, $user_id);
+
+      # get groups associated to legged user
+      if ($user_verified) {
+        my $user_group_hashref = $db_funct->get_user_groups($userDB_dbh, $user_id);
+        %user_groups = %$user_group_hashref;
+      }
+
+      $userDB_dbh->disconnect;
+
+      # check if data set is private and skip it if user is not allowed
+      my $is_private = $project_rs->private;
+
+      if ($is_private && $user_verified) {
+        # check if user is allowed to access the data set
+        $allowed_user = $db_funct->check_dataset_groups($schema, $project_id, \%user_groups);
+      }
+
+
+  if ($is_private && !$allowed_user) {
       $c->stash->{errors} = "This data set is private.";
       $c->stash->{template} = '/Expression_viewer/output.mas';
       return;
   }
-
-
 
 
   # set the path to the expression and correlation indexes

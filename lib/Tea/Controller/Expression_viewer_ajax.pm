@@ -66,10 +66,32 @@ sub get_datasets :Path('/expression_viewer/get_datasets/') :Args(0) {
 
   my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
 
-  # open a connection to the functions on Expression_viewer_function controller
-  my $db_funct = Tea::Controller::Expression_viewer_functions->new();
 
-  my $datasets_html = $db_funct->get_sps_datasets($schema,$organism_id,1);
+  ##################################################### get user id
+    my $user_id = 0;
+    if ($c->session->{is_logged_in}) {
+      $user_id = $c->session->{is_logged_in};
+    }
+    print STDERR "\n\n\n\n user_id222: $user_id\n\n\n\n";
+
+    # connect to user DB
+    my $userDB_dbname = $c->config->{login_db};
+    my $userDB_host = $c->config->{login_host};
+    my $userDB_username = $c->config->{login_user};
+    my $userDB_password = $c->config->{login_psw};
+
+    my $userDB_dbh = DBI->connect("dbi:Pg:dbname=$userDB_dbname;host=$userDB_host;", "$userDB_username", "$userDB_password");
+
+    # open a connection to the functions on Expression_viewer_function controller
+    my $db_funct = Tea::Controller::Expression_viewer_functions->new();
+
+    my $datasets_html = $db_funct->get_sps_datasets($schema,$organism_id,1,$user_id,$userDB_dbh);
+
+
+  # open a connection to the functions on Expression_viewer_function controller
+  # my $db_funct = Tea::Controller::Expression_viewer_functions->new();
+
+  # my $datasets_html = $db_funct->get_sps_datasets($schema,$organism_id,1);
 
   $c->stash->{rest} = {
     datasets => $datasets_html

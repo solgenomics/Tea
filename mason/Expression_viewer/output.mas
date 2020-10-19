@@ -79,7 +79,6 @@ my $json = JSON::Any->new;
 
 <script type="text/javascript" src="/static/js/d3heatmap_libs/htmlwidgets-0.9/htmlwidgets.js"></script>
 <script type="text/javascript" src="/static/js/d3heatmap_libs/d3-3.5.3/d3.min.js"></script>
-
 <script type="text/javascript" src="/static/js/d3heatmap_libs/d3-tip-0.6.6/index.js"></script>
 <script type="text/javascript" src="/static/js/d3heatmap_libs/d3heatmapcore-0.0.0/heatmapcore.js"></script>
 <script type="text/javascript" src="/static/js/d3heatmap_libs/d3heatmap-binding-0.6.1.2/d3heatmap.js"></script>
@@ -126,8 +125,6 @@ $(document).ready(function () {
   var expression_min_scale = "<% $expression_min_scale %>";
   var expression_max_scale = "<% $expression_max_scale %>";
   var input_gene = "<% $genes[0] %>";
-  // var heatmap_filename = "not found";
-  // alert("project_id: "+project_id);
   // var organism_list = [project_id,0];
   get_project_genes([project_id]);
 </script>
@@ -234,7 +231,7 @@ $(document).ready(function () {
     </div>
 
     <div class="col-sm-6 col-md-6 col-lg-6">
-      <div class="well">
+      <div id="color_scale_box" class="well">
         <label>Expression color scale: </label><input type="text" id="min_expr_amount" class="slider_box" size="6"> - <input type="text" id="max_expr_amount" class="slider_box" size="6">
 				<button id="refresh_color" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-repeat"></span></button>
         <div id="expr_slider" style="width:430px"></div>
@@ -246,8 +243,7 @@ $(document).ready(function () {
   </div>
 </div>
 
-
-
+<!-- #############  Download data form  ############-->
 
 <center>
   <div class="output_width" style="margin-bottom:0px">
@@ -266,6 +262,8 @@ $(document).ready(function () {
 
   </div>
 </center>
+
+<!-- #############  visualization tabs  ############-->
 
 <center>
 
@@ -295,77 +293,54 @@ $(document).ready(function () {
 
   <div class="tab-content">
 
-    <div id="container" class="output_width tab-pane fade in active">
-    </div>
+	  <!-- #############  Expression cube  ############-->
+
+    <div id="container" class="output_width tab-pane fade in active"></div>
+
     <%perl>
+			#############  Expression images  ############
       if ($expr_imgs_tab) {
         print "<div id=\"container_tissues\" class=\"output_width tab-pane fade\"></div>";
       }
     </%perl>
-    <div id="container_heatmap" class="output_width tab-pane fade"></div>
 
-    <div id="container_scatterplots" class="output_width tab-pane fade">
+		<%perl>
+		  #############  Heatmap  ############
 
-        <div class="modal" id="Scatter_error_modal" role="dialog">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" id="scatter_close_btn" class="close">&times;</button>
-                <center><h4 class="modal-title">Sample Selection</h4></center>
-              </div>
-              <div class="modal-body">
-                <ul>
-                    Please use the selector to choose two samples for the comparison of expression.<br>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
+      if ($heatmap_tab) {
+        print "<div id=\"container_heatmap\" class=\"output_width tab-pane fade\"></div>";
+      }
+    </%perl>
 
-        <div id="NewPlot">
-      	    <button class="btn btn-primary" id="new_plot_btn" type="button">New scatterplot</button>
-        </div>
-	      <div id="Scatter_Instruction"></div>
-        <div id="GetPlot">
-    	    <button class="btn btn-primary" id="get_scatterplot_btn" type="button">Get scatterplot</button>
-        </div>
-        <div id="selector"></div>
-        <div id="ExpCorrChart"></div>
-    </div>
-    <div id="selector"></div>
-    <div id="ExpCorrChart"></div>
+		<%perl>
+		  #############  Scatterplots  ############
+	    if ($scatterplot_tab) {
+	  </%perl>
+		<& scatterplot_tab.mas &>
+		<%perl>
+	     }
+	  </%perl>
 
-    <& deg_tab.mas, genes => \@genes &>
+		<%perl>
+		  ###############  DEGs  ################
+	    if ($deg_tab) {
+	  </%perl>
+		<& deg_tab.mas, genes => \@genes &>
+		<%perl>
+	     }
+	  </%perl>
+
+		<%perl>
+			##########  Correlation network  ###########
+			if ($network_tab) {
+		</%perl>
+		<& network_tab.mas &>
+		<%perl>
+			}
+		</%perl>
 
 
-    <div id="container_network" class="output_width tab-pane fade">
-      <br>
-      <div class="network_columns">
-            <label>Number of genes:</label>
-            <select class="form-control" id="max_genes">
-                <option value="5">5</option>
-                <option value="10" selected="">10</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-                <option value="200">200</option>
-            </select>
-      </div>
-      <div class="network_columns">
-          <!-- <input class="form-control" id="corr_value_network" name="corr_value_network"></input> -->
-          <label>Correlation value filter:</label>
-          <span style="font-size:18px">0.</span><input type="text" id="amount_network" readonly style="border:0;font-size:18px;background-color: #fff;margin-bottom:10px" size="4">
-          <br>
-          <input class="corr_filter" name="correlation_filter" value="70" style="display:none;"/>
-          <div id="correlation_slider_network"></div>
-      </div>
-      <div style="float:left; margin-left:20px; margin-top:25px">
-          <button type="button" id="update_network_btn" class="btn btn-primary">Update</button>
-      </div>
-      <div id="container_network_graph"></div>
-    </div>
-
-<!-- download buttons -->
+		<!-- download buttons -->
     <div class="output_width">
       <button id="dwl_cube" class="btn btn-primary"><span class="glyphicon glyphicon-camera"></span> Save img</button>
       <a id="dwl_cube_link" href="#" download="expression_cube.png" style="display:none"></a>

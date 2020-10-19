@@ -16,8 +16,8 @@ $(document).ready(function () {
       plot_tissues[i] = plot_tissues[i].replace(/ /g,"_");
     }
 
-  	$("#dwl_expr_data").css("display","none");
-  	$("#dwl_cube").css("display","none");
+  	// $("#dwl_expr_data").css("display","none");
+  	// $("#dwl_cube").css("display","none");
 
     function add_squares() {
         var expr_val = aoaoa[0][x-1][y-1];

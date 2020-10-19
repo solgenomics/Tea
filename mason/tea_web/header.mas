@@ -24,6 +24,7 @@
 
 		<!-- <script type="text/javascript" src="/static/js/jqueryui/jquery-ui.js"></script> -->
 		<script type="text/javascript" src="/static/js/jqueryui/jquery-ui-1.12.1/jquery-ui.js"></script>
+		<script type="text/javascript" src="/static/js/tea_expr_functions.js"></script>
 
 	</head>
 

@@ -102,6 +102,11 @@ $(document).ready(function () {
                    $('#login_link').css('display','none');
                    $('#logout_link').css('display','inline');
 
+                   if ($("#sel1")){
+                     var selected_sps = $("#sel1").val();
+                     refresh_dataset_list(selected_sps);
+                   }
+
                    $("#error_p").html("Logged in!");
                    $("#errorModal").modal();
                  }
@@ -130,6 +135,11 @@ $(document).ready(function () {
           {
             $('#logout_link').css('display','none');
             $('#login_link').css('display','inline');
+
+            if ($("#sel1")){
+              var selected_sps = $("#sel1").val();
+              refresh_dataset_list(selected_sps);
+            }
 
             $("#error_p").html("Logged out!");
             $("#errorModal").modal();

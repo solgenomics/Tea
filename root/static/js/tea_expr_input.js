@@ -1,3 +1,151 @@
+function intialize_data(get_max,default_gene) {
+
+  //first project selected by default
+  $(".organism_col").first().attr("checked", "checked");
+  var idSelector = function() { return this.value; };
+  var dataset_list = jQuery(".organism_col:checked").map(idSelector).get();
+
+  //get default project stages, tissues, etc
+  load_wizard(dataset_list,null,null,null,null);
+
+  //get default project gene names for autocomplete function and add default gene
+  get_project_genes(dataset_list, default_gene);
+
+  if (get_max) {
+    get_max_expr(dataset_list);
+  }
+
+}
+
+function refresh_dataset_list(selected_sps){
+
+  $.ajax({
+    url: '/expression_viewer/get_datasets/',
+    timeout: 600000,
+    method: 'POST',
+    data: { 'organism_id': selected_sps},
+    success: function(response) {
+      if (response.error) {
+        alert("ERROR: "+response.error);
+        // enable_ui();
+      } else {
+
+        if (response.datasets) {
+          // alert("RES: "+response.datasets);
+          $( "#organism_col" ).html( response.datasets );
+
+          intialize_data(1,1);
+
+          jQuery('.organism_col').click(function() {
+            intialize_data(0,0);
+          });
+        }
+        else {
+          $( "#organism_col" ).html("");
+          $('#organ_part_col').html("");
+          $('#stage_col').html("");
+          $('#tissue_col').html("");
+          $('#condition_col').html("");
+
+          // alert("There are no public data sets available");
+        }
+
+      }
+    },
+    error: function(response) {
+      alert("An error occurred on the species selection menu request");
+      // enable_ui();
+    }
+  });
+
+}
+
+// get array with the gene names from the project for the autocomplete function
+ function get_max_expr(dataset_list){
+   $.ajax({
+     url: '/expression_viewer/get_max_expr/',
+     timeout: 600000,
+     method: 'POST',
+     data: { 'project_id': dataset_list[0]},
+     success: function(response) {
+       if (response.error) {
+         alert("ERROR: "+response.error);
+         // enable_ui();
+       } else {
+         max_value = response.project_max_val;
+         $( "#expr_amount" ).val( 1+" - "+max_value );
+         $( "#expr_amount" ).val( $( "#expr_slider" ).slider( "values", 0 )+" - "+$( "#expr_slider" ).slider( "values", 1 ) );
+         $( ".expr_min_scale" ).val( $( "#expr_slider" ).slider( "value", 0 ) );
+         $( ".expr_max_scale" ).val( $( "#expr_slider" ).slider( "value", 1 ) );
+         $( "#expr_slider" ).slider("option","max",max_value);
+       }
+     },
+     error: function(response) {
+       alert("An error occurred. The service may not be available right now.");
+       // enable_ui();
+     }
+   });
+
+ }
+
+ function load_wizard(dataset_list,organ_list,stage_list,tissue_list,condition_list){
+
+   $.ajax({
+     url: '/expression_viewer/get_stages/',
+     timeout: 600000,
+     method: 'POST',
+     data: { 'project_id': dataset_list[0], 'organs': organ_list, 'stages': stage_list, 'tissues': tissue_list, 'conditions': condition_list},
+     success: function(response) {
+       if (response.error) {
+         alert("ERROR: "+response.error);
+         // enable_ui();
+       } else {
+         // alert("stages: "+response.stages);
+         $('#organ_part_col').html("");
+         $('#stage_col').html("");
+         $('#tissue_col').html("");
+         $('#condition_col').html("");
+         $('#organ_part_col').html(response.organs);
+         $('#stage_col').html(response.stages);
+         $('#tissue_col').html(response.tissues);
+         $('#condition_col').html(response.conditions);
+
+         for (layer_name in organ_list) {
+           $("#"+organ_list[layer_name]).prop('selected', true);
+         }
+         for (layer_name in stage_list) {
+           $("#"+stage_list[layer_name]).prop('selected', true);
+         }
+         for (layer_name in tissue_list) {
+           // alert("layer_name: "+tissue_list[layer_name])
+           $("#"+tissue_list[layer_name]).prop('selected', true);
+         }
+         for (layer_name in condition_list) {
+           $("#"+condition_list[layer_name]).prop('selected', true);
+         }
+
+         $( '.organism_filter' ).val(dataset_list);
+         $( '.organ_filter' ).val( $( '#organ_part_col' ).val());
+         $( '.stage_filter' ).val( $( '#stage_col' ).val());
+         $( '.tissue_filter' ).val( $( '#tissue_col' ).val());
+         $( '.condition_filter' ).val( $( '#condition_col' ).val());
+         // alert("ajax msg"+dataset_list)
+       }
+     },
+     error: function(response) {
+       alert("An error occurred. The service may not be available right now.");
+       // enable_ui();
+     }
+   });
+
+ }
+
+function isChecked(checkboxId) {
+   var id = '#'+checkboxId;
+   return $(id).is(":checked");
+}
+
+
 $(document).ready(function () {
 
   //check input gene before sending form
@@ -59,33 +207,11 @@ $(document).ready(function () {
     $('#blast_input_dialog').modal();
   });
 
-
-  function intialize_data(get_max,default_gene) {
-
-    //first project selected by default
-    $(".organism_col").first().attr("checked", "checked");
-    var idSelector = function() { return this.value; };
-    var dataset_list = jQuery(".organism_col:checked").map(idSelector).get();
-
-    //get default project stages, tissues, etc
-    load_wizard(dataset_list,null,null,null,null);
-
-    //get default project gene names for autocomplete function and add default gene
-    get_project_genes(dataset_list, default_gene);
-
-    if (get_max) {
-      get_max_expr(dataset_list);
-    }
-
-  }
-
   intialize_data(1,1);
-
 
   jQuery('.organism_col').click(function() {
     intialize_data(0,0);
   });
-
 
   jQuery('.wizard_select').change(function() {
     // AJAX communication to get stage, tissue ...
@@ -104,128 +230,50 @@ $(document).ready(function () {
   jQuery('#sel1').change(function() {
     var selected_sps = $("#sel1").val();
 
-    $.ajax({
-      url: '/expression_viewer/get_datasets/',
-      timeout: 600000,
-      method: 'POST',
-      data: { 'organism_id': selected_sps},
-      success: function(response) {
-        if (response.error) {
-          alert("ERROR: "+response.error);
-          // enable_ui();
-        } else {
+    refresh_dataset_list(selected_sps);
 
-          if (response.datasets) {
-            // alert("RES: "+response.datasets);
-            $( "#organism_col" ).html( response.datasets );
-
-            intialize_data(1,1);
-
-            jQuery('.organism_col').click(function() {
-              intialize_data(0,0);
-            });
-          }
-          else {
-            $( "#organism_col" ).html("");
-            $('#organ_part_col').html("");
-            $('#stage_col').html("");
-            $('#tissue_col').html("");
-            $('#condition_col').html("");
-
-            // alert("There are no public data sets available");
-          }
-
-        }
-      },
-      error: function(response) {
-        alert("An error occurred on the species selection menu request");
-        // enable_ui();
-      }
-    });
+    // $.ajax({
+    //   url: '/expression_viewer/get_datasets/',
+    //   timeout: 600000,
+    //   method: 'POST',
+    //   data: { 'organism_id': selected_sps},
+    //   success: function(response) {
+    //     if (response.error) {
+    //       alert("ERROR: "+response.error);
+    //       // enable_ui();
+    //     } else {
+    //
+    //       if (response.datasets) {
+    //         // alert("RES: "+response.datasets);
+    //         $( "#organism_col" ).html( response.datasets );
+    //
+    //         intialize_data(1,1);
+    //
+    //         jQuery('.organism_col').click(function() {
+    //           intialize_data(0,0);
+    //         });
+    //       }
+    //       else {
+    //         $( "#organism_col" ).html("");
+    //         $('#organ_part_col').html("");
+    //         $('#stage_col').html("");
+    //         $('#tissue_col').html("");
+    //         $('#condition_col').html("");
+    //
+    //         // alert("There are no public data sets available");
+    //       }
+    //
+    //     }
+    //   },
+    //   error: function(response) {
+    //     alert("An error occurred on the species selection menu request");
+    //     // enable_ui();
+    //   }
+    // });
 
   });
 
 
- // get array with the gene names from the project for the autocomplete function
-  function get_max_expr(dataset_list){
-    $.ajax({
-      url: '/expression_viewer/get_max_expr/',
-      timeout: 600000,
-      method: 'POST',
-      data: { 'project_id': dataset_list[0]},
-      success: function(response) {
-        if (response.error) {
-          alert("ERROR: "+response.error);
-          // enable_ui();
-        } else {
-          max_value = response.project_max_val;
-          $( "#expr_amount" ).val( 1+" - "+max_value );
-          $( "#expr_amount" ).val( $( "#expr_slider" ).slider( "values", 0 )+" - "+$( "#expr_slider" ).slider( "values", 1 ) );
-          $( ".expr_min_scale" ).val( $( "#expr_slider" ).slider( "value", 0 ) );
-          $( ".expr_max_scale" ).val( $( "#expr_slider" ).slider( "value", 1 ) );
-          $( "#expr_slider" ).slider("option","max",max_value);
-        }
-      },
-      error: function(response) {
-        alert("An error occurred. The service may not be available right now.");
-        // enable_ui();
-      }
-    });
-
-  }
-
-
-  function load_wizard(dataset_list,organ_list,stage_list,tissue_list,condition_list){
-
-    $.ajax({
-      url: '/expression_viewer/get_stages/',
-      timeout: 600000,
-      method: 'POST',
-      data: { 'project_id': dataset_list[0], 'organs': organ_list, 'stages': stage_list, 'tissues': tissue_list, 'conditions': condition_list},
-      success: function(response) {
-        if (response.error) {
-          alert("ERROR: "+response.error);
-          // enable_ui();
-        } else {
-          // alert("stages: "+response.stages);
-          $('#organ_part_col').html("");
-          $('#stage_col').html("");
-          $('#tissue_col').html("");
-          $('#condition_col').html("");
-          $('#organ_part_col').html(response.organs);
-          $('#stage_col').html(response.stages);
-          $('#tissue_col').html(response.tissues);
-          $('#condition_col').html(response.conditions);
-
-          for (layer_name in organ_list) {
-            $("#"+organ_list[layer_name]).prop('selected', true);
-          }
-          for (layer_name in stage_list) {
-            $("#"+stage_list[layer_name]).prop('selected', true);
-          }
-          for (layer_name in tissue_list) {
-            // alert("layer_name: "+tissue_list[layer_name])
-            $("#"+tissue_list[layer_name]).prop('selected', true);
-          }
-          for (layer_name in condition_list) {
-            $("#"+condition_list[layer_name]).prop('selected', true);
-          }
-
-          $( '.organism_filter' ).val(dataset_list);
-          $( '.organ_filter' ).val( $( '#organ_part_col' ).val());
-          $( '.stage_filter' ).val( $( '#stage_col' ).val());
-          $( '.tissue_filter' ).val( $( '#tissue_col' ).val());
-          $( '.condition_filter' ).val( $( '#condition_col' ).val());
-          // alert("ajax msg"+dataset_list)
-        }
-      },
-      error: function(response) {
-        alert("An error occurred. The service may not be available right now.");
-        // enable_ui();
-      }
-    });
-
-  }
 
 
 	//AJAX communication to run BLAST
@@ -313,9 +361,5 @@ $(document).ready(function () {
 	        $('.blast_checkbox').prop('checked', isChecked('selectall'));
 	});
 
-	function isChecked(checkboxId) {
-	    var id = '#'+checkboxId;
-	    return $(id).is(":checked");
-	}
 	$("#selectall").removeAttr("checked");
 });

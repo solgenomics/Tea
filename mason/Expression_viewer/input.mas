@@ -1,8 +1,12 @@
 <%args>
 $project_html => ()
+$species_html => ()
 $delete_enabled => ()
 $input_gene => ()
 </%args>
+
+<script type="text/javascript" src="/static/js/tea_expr_input.js"></script>
+<!-- <script type="text/javascript" src="/static/js/tea_expr_functions.js"></script> -->
 
 <style>
 
@@ -34,6 +38,3 @@ $input_gene => ()
   var conf_input_gene = "<% $input_gene %>";
   //alert("conf_input_gene: "+conf_input_gene);
 </script>
-
-<script type="text/javascript" src="/static/js/tea_expr_input.js"></script>
-<script type="text/javascript" src="/static/js/tea_expr_functions.js"></script>

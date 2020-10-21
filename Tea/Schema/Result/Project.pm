@@ -72,6 +72,11 @@ __PACKAGE__->table("project");
   data_type: 'integer'
   is_nullable: 1
 
+=head2 private
+
+  data_type: 'integer'
+  is_nullable: 1
+
 =head2 blast_db
 
   data_type: 'varchar'
@@ -108,6 +113,8 @@ __PACKAGE__->add_columns(
   },
   "ordinal",
   { data_type => "integer", is_nullable => 1 },
+  "private",
+  { data_type => "integer", is_nullable => 1 },
   "blast_db",
   { data_type => "varchar", is_nullable => 1, size => 80 },
 );
@@ -137,6 +144,21 @@ Related object: L<Tea::Schema::Result::Figure>
 __PACKAGE__->has_many(
   "figures",
   "Tea::Schema::Result::Figure",
+  { "foreign.project_id" => "self.project_id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+=head2 project_private_groups
+
+Type: has_many
+
+Related object: L<Tea::Schema::Result::ProjectPrivateGroup>
+
+=cut
+
+__PACKAGE__->has_many(
+  "project_private_groups",
+  "Tea::Schema::Result::ProjectPrivateGroup",
   { "foreign.project_id" => "self.project_id" },
   { cascade_copy => 0, cascade_delete => 0 },
 );

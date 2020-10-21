@@ -56,12 +56,7 @@ Returns: data sets
 sub get_datasets :Path('/expression_viewer/get_datasets/') :Args(0) {
   my ($self, $c) = @_;
 
-  # to store erros as they may happen
-  my @errors;
-
   my $organism_id = $c->req->param("organism_id");
-
-  # print STDERR "Selected species id: $organism_id\n";
 
   #connect to database
   my $dbname = $c->config->{dbname};
@@ -71,49 +66,38 @@ sub get_datasets :Path('/expression_viewer/get_datasets/') :Args(0) {
 
   my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
 
-  # get variables from catalyst object
-  my $projects_rs = $schema->resultset('Project');
 
-  my @projects = ();
-  my %project_name_hash;
-  my %project_order_hash;
-  my $project_ordinal;
+  ##################################################### get user id
+    my $user_id = 0;
+    if ($c->session->{is_logged_in}) {
+      $user_id = $c->session->{is_logged_in};
+    }
+    print STDERR "\n\n\n\n user_id222: $user_id\n\n\n\n";
 
-  while (my $proj_obj = $projects_rs->next) {
+    # connect to user DB
+    my $userDB_dbname = $c->config->{login_db};
+    my $userDB_host = $c->config->{login_host};
+    my $userDB_username = $c->config->{login_user};
+    my $userDB_password = $c->config->{login_psw};
 
-      my $project_name = $proj_obj->name;
-      my $project_id = $proj_obj->project_id;
+    my $userDB_dbh = DBI->connect("dbi:Pg:dbname=$userDB_dbname;host=$userDB_host;", "$userDB_username", "$userDB_password");
 
-      if ($proj_obj->ordinal) {
-        $project_ordinal = $proj_obj->ordinal;
-      }
-      else {
-        $project_ordinal = $project_id;
-      }
+    # open a connection to the functions on Expression_viewer_function controller
+    my $db_funct = Tea::Controller::Expression_viewer_functions->new();
 
-      if ($organism_id == $proj_obj->organism_id) {
-        $project_name_hash{$project_id} = $project_name;
-        $project_order_hash{$project_ordinal} = $project_id;
-      }
+    my $datasets_html = $db_funct->get_sps_datasets($schema,$organism_id,1,$user_id,$userDB_dbh);
 
-  }
 
-  foreach my $key (sort {$a <=> $b} keys %project_order_hash) {
-    my $project_id = $project_order_hash{$key};
-    my $project_name = $project_name_hash{$project_id};
-    push(@projects,"<div id=\"project_radio_div\" class=\"radio\">\n<label><input id=\"project_".$project_id."\" type='radio' class='organism_col' name=\"optradio\" value=\'".$project_id."\'> $project_name</label>\n</div>\n");
-  }
+  # open a connection to the functions on Expression_viewer_function controller
+  # my $db_funct = Tea::Controller::Expression_viewer_functions->new();
 
-  # save array info in text variable
-  my $projects_html = join("\n", @projects);
+  # my $datasets_html = $db_funct->get_sps_datasets($schema,$organism_id,1);
 
   $c->stash->{rest} = {
-    datasets => $projects_html
+    datasets => $datasets_html
   };
 
 }
-
-
 
 
 

@@ -9,8 +9,10 @@ use Lucy::Search::ANDQuery;
 use Lucy::Search::QueryParser;
 use Data::Dumper qw(Dumper);
 use Array::Utils qw(:all);
-
 use JSON;
+
+use Tea::Controller::Expression_viewer_functions;
+
 
 # use namespace::autoclean;
 
@@ -39,6 +41,7 @@ sub index :Path('/expression_viewer/input/') :Args(0) {
   my ( $self, $c ) = @_;
 
   my $default_gene = $c->config->{default_gene};
+  my $multiple_sps = $c->config->{multiple_sps};
 
   # print STDERR "default_gene: $default_gene\n";
 
@@ -51,10 +54,7 @@ sub index :Path('/expression_viewer/input/') :Args(0) {
   my $username = $c->config->{dbuser};
   my $password = $c->config->{dbpass};
 
-  my $delete_enabled = $c->config->{delete_project};
-
   my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
-  my $dbh = DBI->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
 
   my $organims_rs = $schema->resultset('Organism');
   my @species = ();
@@ -65,64 +65,37 @@ sub index :Path('/expression_viewer/input/') :Args(0) {
 
   my $first_species = $organims_rs->first;
 
-  my $projects_rs = $schema->resultset('Project');
-
-  my @projects = ();
-  my %project_name_hash;
-  my %project_order_hash;
-  my $project_ordinal;
-
-  while(my $proj_obj = $projects_rs->next) {
-
-      my $project_name = $proj_obj->name;
-      my $project_id = $proj_obj->project_id;
-
-      if ($proj_obj->ordinal) {
-        $project_ordinal = $proj_obj->ordinal;
-      }
-      else {
-        $project_ordinal = $project_id;
-      }
-
-    if ($c->config->{multiple_sps}) {
-
-      if ($first_species->organism_id == $proj_obj->organism_id) {
-        $project_name_hash{$project_id} = $project_name;
-        $project_order_hash{$project_ordinal} = $project_id;
-      }
-    }
-    else {
-      $project_name_hash{$project_id} = $project_name;
-      $project_order_hash{$project_ordinal} = $project_id;
-    }
-
+##################################################### get user id
+  my $user_id = 0;
+  if ($c->session->{is_logged_in}) {
+    $user_id = $c->session->{is_logged_in};
   }
+  print STDERR "\n\n\n\n user_id111: $user_id\n\n\n\n";
 
-  foreach my $key (sort {$a <=> $b} keys %project_order_hash) {
-    my $project_id = $project_order_hash{$key};
-    my $project_name = $project_name_hash{$project_id};
-    push(@projects,"<div id=\"project_radio_div\" class=\"radio\">\n<label><input id=\"project_".$project_id."\" type='radio' class='organism_col' name=\"optradio\" value=\'".$project_id."\'> $project_name</label>\n</div>\n");
-  }
+  # connect to user DB
+  my $userDB_dbname = $c->config->{login_db};
+  my $userDB_host = $c->config->{login_host};
+  my $userDB_username = $c->config->{login_user};
+  my $userDB_password = $c->config->{login_psw};
 
-  # while(my $proj_obj = $projects_rs->next) {
-  #   $project_name = $proj_obj->name;
-  #   push(@projects,"<div id=\"project_radio_div\" class=\"radio\">\n<label><input id=\"project_".$proj_obj->project_id."\" type='radio' class='organism_col' name=\"optradio\" value=\'".$proj_obj->project_id."\'> $project_name</label>\n</div>\n");
-  #   # push(@projects,"<div id=\"project_radio_div\" class=\"radio\">\n<label><input id=\"organism_".$proj_obj->organism_id."\" type='radio' class='organism_col' name=\"optradio\" value=\'".$proj_obj->organism_id."\'> $project_name</label>\n</div>\n");
-  # }
+  my $userDB_dbh = DBI->connect("dbi:Pg:dbname=$userDB_dbname;host=$userDB_host;", "$userDB_username", "$userDB_password");
 
-  # print STDERR "input_gene: $input_gene\n";
+  # open a connection to the functions on Expression_viewer_function controller
+  my $db_funct = Tea::Controller::Expression_viewer_functions->new();
+
+  my $datasets_html = $db_funct->get_sps_datasets($schema,$first_species->organism_id,$multiple_sps,$user_id,$userDB_dbh);
 
   # save array info in text variable
-  my $projects_html = join("\n", @projects);
   my $species_html = join("\n", @species);
 
   # send variables to TEA input view
   $c->stash->{input_gene} = $input_gene;
-  $c->stash->{delete_enabled} = $delete_enabled;
-  $c->stash->{project_html} = $projects_html;
+  $c->stash->{project_html} = $datasets_html;
   $c->stash->{species_html} = $species_html;
   $c->stash(template => 'Expression_viewer/input.mas');
 }
+
+
 
 =head2 _get_correlation
 
@@ -602,6 +575,58 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
 
   # get DBIx project resultset
   my $project_rs = $schema->resultset('Project')->search({project_id => $project_id})->single;
+
+
+  ##################################################### get user id
+      my %user_groups;
+      my $user_verified = 0;
+      my $allowed_user = 0;
+
+      my $user_id = 0;
+      if ($c->session->{is_logged_in}) {
+        $user_id = $c->session->{is_logged_in};
+      }
+      print STDERR "\n\n\n\n user_id333: $user_id\n\n\n\n";
+
+      # connect to user DB
+      my $userDB_dbname = $c->config->{login_db};
+      my $userDB_host = $c->config->{login_host};
+      my $userDB_username = $c->config->{login_user};
+      my $userDB_password = $c->config->{login_psw};
+
+      my $userDB_dbh = DBI->connect("dbi:Pg:dbname=$userDB_dbname;host=$userDB_host;", "$userDB_username", "$userDB_password");
+
+      # open a connection to the functions on Expression_viewer_function controller
+      my $db_funct = Tea::Controller::Expression_viewer_functions->new();
+
+      $userDB_dbh->begin_work;
+
+      # check if user is verified in the DB
+      $user_verified = $db_funct->check_user_is_verified($userDB_dbh, $user_id);
+
+      # get groups associated to legged user
+      if ($user_verified) {
+        my $user_group_hashref = $db_funct->get_user_groups($userDB_dbh, $user_id);
+        %user_groups = %$user_group_hashref;
+      }
+
+      $userDB_dbh->disconnect;
+
+      # check if data set is private and skip it if user is not allowed
+      my $is_private = $project_rs->private;
+
+      if ($is_private && $user_verified) {
+        # check if user is allowed to access the data set
+        $allowed_user = $db_funct->check_dataset_groups($schema, $project_id, \%user_groups);
+      }
+
+
+  if ($is_private && !$allowed_user) {
+      $c->stash->{errors} = "This data set is private.";
+      $c->stash->{template} = '/Expression_viewer/output.mas';
+      return;
+  }
+
 
   # set the path to the expression and correlation indexes
   my $corr_index_path = $corr_path."/".$project_rs->indexed_dir;

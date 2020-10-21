@@ -52,6 +52,13 @@
 
 $(document).ready(function () {
 
+$('#login_link').click(function () {
+
+  $("#error_p").html("<br><br>The login function requires the use of <b>cookies</b>. By using this site you accept the use of these cookies.<br><br><br><br>");
+  $("#errorModal").modal();
+
+});
+
 // Check if user is logged in
     $.ajax({
        type: "POST",

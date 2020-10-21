@@ -91,7 +91,7 @@ $('#login_link').click(function () {
 
        $.ajax({
           type: "POST",
-          url: 'http://localhost:8000/ppatens_db/user_db/db_login.php',
+          url: 'https://peatmoss.online.uni-marburg.de/ppatens_db/user_db/db_login.php',
           data: $(this).serialize(),
           success: function(msg)
           {

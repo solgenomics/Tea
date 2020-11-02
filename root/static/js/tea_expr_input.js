@@ -284,6 +284,7 @@ $(document).ready(function () {
 		var blast_alignment = 0;
 		var blast_filter = 0;
 
+    var idSelector = function() { return this.value; };
     var project_id = jQuery(".organism_col:checked").map(idSelector).get()[0];
 
 		if ($('#blast_filter').is(":checked")) {

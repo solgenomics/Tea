@@ -72,7 +72,7 @@ sub get_datasets :Path('/expression_viewer/get_datasets/') :Args(0) {
     if ($c->session->{is_logged_in}) {
       $user_id = $c->session->{is_logged_in};
     }
-    print STDERR "\n\n\n\n user_id222: $user_id\n\n\n\n";
+    # print STDERR "\n\n\n\n user_id222: $user_id\n\n\n\n";
 
     # connect to user DB
     my $userDB_dbname = $c->config->{login_db};

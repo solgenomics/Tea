@@ -56,7 +56,7 @@ sub index :Path('/expression_viewer/input/') :Args(0) {
 
   my $schema = Tea::Schema->connect("dbi:Pg:dbname=$dbname;host=$host;", "$username", "$password");
 
-  my $organims_rs = $schema->resultset('Organism');
+  my $organims_rs = $schema->resultset('Organism')->search( {},{order_by => 'organism_id'} );
   my @species = ();
 
   while(my $org_obj = $organims_rs->next) {
@@ -1057,7 +1057,7 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
   $c->stash->{scatterplot_tab} = $scatterplot_tab;
   $c->stash->{expr_imgs_tab} = $expr_imgs_tab;
   $c->stash->{network_tab} = $network_tab;
-  
+
   $c->stash->{template} = '/Expression_viewer/output.mas';
 }
 

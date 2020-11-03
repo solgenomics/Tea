@@ -264,8 +264,6 @@ sub run_blast :Path('/expression_viewer/blast/') :Args(0) {
   my $project_id = $c->req->param("project_id");
 
   my $blastdb_path = $c->config->{blastdb_path};
-  # my $nt_blastdb_path = $c->config->{nt_blastdb_path};
-  # my $prot_blastdb_path = $c->config->{prot_blastdb_path};
   my $desc_path = $c->config->{loci_and_description_index_path};
   my $tmp_path = $c->config->{tmp_path};
 
@@ -291,10 +289,8 @@ sub run_blast :Path('/expression_viewer/blast/') :Args(0) {
 
   # create BLAST input file
   _create_blast_input_file($input_name,$input_seq,$seq_filename,$blastdb_path);
-  # _create_blast_input_file($input_name,$input_seq,$seq_filename,$nt_blastdb_path);
 
   my ($res,$aln) = _run_blast_cmd($c,$blast_program,$params,$seq_filename,$blastdb_path."/$blast_db_name",$desc_path);
-  # my ($res,$aln) = _run_blast_cmd($c,$blast_program,$params,$seq_filename,$nt_blastdb_path,$prot_blastdb_path,$desc_path);
 
   my $blast_table = join("\n", @$res);
   my $blast_alignment = join("<br>", @$aln);
@@ -322,7 +318,6 @@ sub _parse_blast_input {
 
 	my $valid_nt = 0;
 	my $blast_prog = "blastx";
-	# my $blast_prog = "blastn";
 	my $input_name = "";
 
 	if ($input =~ />/) {
@@ -347,7 +342,6 @@ sub _parse_blast_input {
 		if ($input =~ /Solyc/i) {
 			# Solyc Ids
 			$blast_prog = "blastx";
-			# $blast_prog = "blastn";
 
 			$input =~ s/\.\d$//;
 			$input =~ s/\.\d$//;
@@ -362,7 +356,6 @@ sub _parse_blast_input {
 	if ($input !~ /^Solyc/) {
 		if ($valid_nt >= length($input)*0.9) {
 			$blast_prog = "blastx";
-			# $blast_prog = "blastn";
 		} else {
 			$blast_prog = "blastp";
 		}
@@ -384,12 +377,10 @@ sub _create_blast_input_file {
 	my $input_seq = shift;
 	my $file_name = shift;
 	my $blastdb_path = shift;
-	# my $nt_blastdb_path = shift;
 
 	# get sequence for Solyc id
 	if ($input_seq =~ /Solyc/i) {
 		my $fs = Bio::BLAST::Database->open(full_file_basename => "$blastdb_path",);
-		# my $fs = Bio::BLAST::Database->open(full_file_basename => "$nt_blastdb_path",);
 		if ($fs->get_sequence($input_seq)) {
 			my $seq_obj = $fs->get_sequence($input_seq);
 			$input_seq = $seq_obj->seq();
@@ -420,33 +411,31 @@ sub _run_blast_cmd {
 	my $params = shift;
 	my $seq_filename = shift;
 	my $blastdb_path = shift;
-	# my $nt_blastdb_path = shift;
-	# my $prot_blastdb_path = shift;
 	my $desc_path = shift;
-	# my $blastdb_path = $nt_blastdb_path;
 
 	my $hits = $c->req->param("blast_hits");
 	my $blast_alignment = $c->req->param("blast_alignment");
 	my $evalue = $c->req->param("blast_evalue");
 	my $blast_filter = $c->req->param("blast_filter");
-	my $filter_val = "T";
-	my $blast_format = "8";
+	# my $filter_val = "T";
+	# my $blast_format = "8";
+
+	my $filter_val = "yes";
+	# my $blast_format = "6";
 
 	if (!$blast_filter) {
-		$filter_val = "F";
+		$filter_val = "no";
 	}
+
+  my $blast_cmd = "$blast_program -query $seq_filename.fasta -db $blastdb_path -seg $filter_val -evalue $evalue -outfmt 6 -max_target_seqs $hits -out $seq_filename.txt";
 
 	if ($blast_alignment) {
-		$blast_format = "0";
+		# $blast_format = "0";
+    $blast_cmd = "$blast_program -query $seq_filename.fasta -db $blastdb_path -seg $filter_val -evalue $evalue -outfmt 0 -num_alignments $hits -num_descriptions $hits -out $seq_filename.txt";
 	}
 
-	# if ($blast_program eq "blastp") {
-		# $blastdb_path = "$prot_blastdb_path";
-	# } else {
-	# 	$blastdb_path = "$nt_blastdb_path";
-	# }
 
-	my $blast_cmd = "blastall -p $blast_program -i $seq_filename.fasta -d $blastdb_path -F $filter_val -e $evalue -m $blast_format -v $hits -b $hits -o $seq_filename.txt";
+	# my $blast_cmd = "blastall -p $blast_program -i $seq_filename.fasta -d $blastdb_path -F $filter_val -e $evalue -m $blast_format -v $hits -b $hits -o $seq_filename.txt";
 	my $blast_error = system($blast_cmd);
 	print STDERR "$blast_cmd\n";
 

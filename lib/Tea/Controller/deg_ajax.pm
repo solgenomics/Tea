@@ -45,9 +45,10 @@ __PACKAGE__->config(
     my $tissue2 = $tissues[$sample2_tissue];
 
     my $tmp_path = $c->config->{tmp_path};
+    my $deg_method = $c->config->{deg_method};
 
     # check if file exist: project_stage1_tissue1_stage2_tissue2
-    my $filename = $project_id."_$stage1"."_$tissue1"."_$stage2"."_$tissue2.txt";
+    my $filename = 'matrix.txt'; #$project_id."_$stage1"."_$tissue1"."_$stage2"."_$tissue2.txt";
     my $deg_out = $project_id."_$stage1"."_$tissue1"."_$stage2"."_$tissue2"."_NOISeq_DEGs.txt";
     my $deg_out2 = $project_id."_$stage2"."_$tissue2"."_$stage1"."_$tissue1"."_NOISeq_DEGs.txt";
 
@@ -62,7 +63,7 @@ __PACKAGE__->config(
     my $deg_down_name;
 
 
-    if (-e "$tmp_path/$deg_out" || -e "$tmp_path/$deg_out2") {
+    if ($deg_method eq 'NOISeq' &&  -e "$tmp_path/$deg_out" || -e "$tmp_path/$deg_out2") {
       print STDERR "$deg_out already exist!\n";
 
       # count DEGs
@@ -86,6 +87,83 @@ __PACKAGE__->config(
       $deg_down_name = $R->get(' colnames(deg_input[2]) ');
 
 
+    }
+    elsif ($deg_method eq 'DESeq2' && -e "$tmp_path/$filename") {
+      print STDERR "DESeq2 already exist!\n";
+
+      # count DEGs
+      my $padj_cutoff = 0.05;
+      my $lfc_cutoff = 0.58;
+      my $R = Statistics::R->new();
+
+      $R->run(q`library(DESeq2)`);
+      $filename = $tmp_path ."/".$filename;
+      $deg_out = 'matrix_out2.txt';
+        # remove all 0 lines
+       $R->run(' countdata1<- read.table("'.$filename . '", header=TRUE, row.names=1)  ');
+       $R->run(' countdata=round(countdata1)  ');
+       $R->run(' countdata <- as.matrix(countdata)  ');
+       $R->run(' (condition <- factor(c(rep("expected_count", 3), rep("Xexpected_count", 3))))  ');
+       $R->run(' (coldata<-data.frame(row.names=colnames(countdata), condition))  ');
+       $R->run(' dds<- DESeqDataSetFromMatrix(countData=countdata, colData=coldata, design=~condition)  ');
+       $R->run(' dds<- DESeq(dds)  ');
+       $R->run(' res <- results(dds)  ');
+       $R->run(' table(res$padj<0.05)  ');
+       $R->run(' res <- res[order(res$padj), ]  ');
+       $R->run(' res <- na.omit(res)   ');
+       $R->run(' res <- res[(res$padj < ' . $padj_cutoff . ' & abs(res$log2FoldChange) > ' . $lfc_cutoff .'), ]  ');
+
+      $R->run(' resdata <- merge(as.data.frame(res), as.data.frame(counts(dds, normalized=TRUE)), by="row.names", sort=FALSE)  ');
+      $R->run(' names(resdata)[1] <- "Gene" ');
+      $R->run(' write.table(resdata, file = paste("'.$tmp_path.'","'.$deg_out.'", sep="/"), sep = "\t", row.names=T, col.names=NA, quote = F) ');
+    
+      $deg_count = $R->get(' nrow(resdata) ');
+
+      $deg_up_count = $R->get(' nrow(resdata[resdata$log2FoldChange>1,]) ');
+      $deg_down_count = $R->get(' nrow(resdata[resdata$log2FoldChange<1,]) ');
+
+        $deg_up_name = 'condition1 name';
+      $deg_down_name = 'condition2 name';
+
+    }
+    elsif ($deg_method eq 'edgeR' &&  -e "$tmp_path/matrix.txt") {
+      print STDERR "edgeR already exist!\n";
+
+      # count DEGs
+      my $R = Statistics::R->new();
+
+      $R->run(q`library(edgeR)`);
+      $filename = $tmp_path ."/matrix.txt";
+      $deg_out = 'matrix_outedger2.txt';
+        # remove all 0 lines
+      $R->run(' data_raw <- read.table("'.$filename . '", header=TRUE, row.names=1) ');
+      $R->run(' cpm_log <- cpm(data_raw, log = TRUE) ');
+      $R->run(' median_log2_cpm <- apply(cpm_log, 1, median) ');
+      $R->run(' expr_cutoff <- -1 ');
+      $R->run(' sum(median_log2_cpm > expr_cutoff) ');
+      $R->run(' data_clean <- data_raw[median_log2_cpm > expr_cutoff, ] ');
+
+      $R->run(' group <- substr(colnames(data_clean), 1, 9) ');
+      $R->run(' y <- DGEList(counts = data_clean, group = group) ');
+
+      #Normalization with TMM 
+      $R->run(' y <- calcNormFactors(y) ');
+      $R->run(' y$samples ');
+      $R->run(' y <- estimateDisp(y) ');
+      $R->run(' sqrt(y$common.dispersion)');
+      $R->run(' et <- exactTest(y) ');
+      $R->run(' results <- topTags(et, n = nrow(data_clean), sort.by = "none") ');
+      $R->run(' results_edgeR <- results$table[results$table$FDR<0.05,] ');
+
+      $R->run(' write.table(results_edgeR, file = paste("'.$tmp_path.'","'.$deg_out.'", sep="/"), sep = "\t", row.names=T, col.names=NA, quote = F) ');
+
+      $deg_count = $R->get(' nrow(results_edgeR) ');
+
+      $deg_up_count = $R->get(' nrow(results_edgeR[results_edgeR$logFC>0,]) ');
+      $deg_down_count = $R->get(' nrow(results_edgeR[results_edgeR$logFC<0,]) ');
+
+        $deg_up_name = 'condition1 name';
+      $deg_down_name = 'condition2 name';
     }
     else {
 

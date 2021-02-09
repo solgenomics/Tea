@@ -18,6 +18,12 @@
   </div>
 
   <div id="degGetPlot" class="pull-left">
+  Method:
+    <select name="method" id="method">
+      <option value="noiseq">NOISeq</option>
+      <option value="deseq2">edgeR</option>
+      <option value="deseq2">DESeq2</option>
+    </select>
     <button class="btn btn-primary" id="get_deg_btn" type="button">Get DEGs</button>
   </div>
 

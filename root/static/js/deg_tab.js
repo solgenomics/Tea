@@ -121,12 +121,15 @@ $(document).ready(function () {
         var sample1tissueindex = ((sample1tissuetempindex - adjustable_y_val)/20) - 1;
         var sample2tissueindex = ((sample2tissuetempindex - adjustable_y_val)/20) - 1;
 
+        var e = document.getElementById("deg_method");
+        var deg_method = e.options[e.selectedIndex].value;
+
         $.ajax({
             url: '/expression_viewer/deg/',
             async: false,
             method: 'POST',
             dataType: "json",
-            data: { 'projectid': project_id, 'st_array': plot_stages, 'ti_array': plot_tissues, 'st_s1_index': sample1stageindex, 'st_s2_index': sample2stageindex, 'ti_s1_index': sample1tissueindex, 'ti_s2_index': sample2tissueindex},
+            data: { 'projectid': project_id, 'st_array': plot_stages, 'ti_array': plot_tissues, 'st_s1_index': sample1stageindex, 'st_s2_index': sample2stageindex, 'ti_s1_index': sample1tissueindex, 'ti_s2_index': sample2tissueindex, 'deg_method': deg_method},
             success: function(res) {
                $("#deg_output_summary").css("display", "block");
                $("#form_file_name").val(res.deg_file);

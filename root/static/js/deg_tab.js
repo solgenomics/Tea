@@ -139,8 +139,11 @@ $(document).ready(function () {
                $(".up_number").html(res.deg_up_count);
                $(".down_condition").html(res.deg_down_name);
                $(".down_number").html(res.deg_down_count);
+            },
+            error: function(){
+               $("#deg_output_summary").css("display", "none");
+               alert('No data available for selected method!.');
             }
-
         });
 
 

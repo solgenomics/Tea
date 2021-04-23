@@ -18,7 +18,7 @@ use strict;
 use warnings;
 use JSON;
 
-# use Data::Dumper qw(Dumper);
+use Data::Dumper qw(Dumper);
 
 BEGIN { extends 'Catalyst::Controller::REST' }
 
@@ -39,7 +39,7 @@ __PACKAGE__->config(
   	my $sample2_stage = $c->req->param("st_s2_index");
   	my $project_id = $c->req->param("projectid");
     my $deg_method = $c->req->param("deg_method");
-print STDERR $deg_method."-method:\t";
+
     my $stage1 = $stages[$sample1_stage];
     my $stage2 = $stages[$sample2_stage];
     my $tissue1 = $tissues[$sample1_tissue];
@@ -125,6 +125,9 @@ print STDERR $deg_method."-method:\t";
 
       my %gene_desc;
       my $gene_name;
+      my $replicates = 'replicates';
+
+      if ($deg_method ne 'NOISeq'){ $replicates = 'replicates2'; }
 
     	my $lucy = Lucy::Simple->new(
     	    path     => $expr_index_path,
@@ -141,7 +144,8 @@ print STDERR $deg_method."-method:\t";
         $gene_name = $hit->{gene};
 
         if ($hit->{stage} eq $stage1 && $hit->{tissue} eq $tissue1) {
-    			$gene_stage_tissue_expr{$gene_name}{$stage1}{$tissue1} = $hit->{replicates};
+    			if ($hit->{$replicates}) { $gene_stage_tissue_expr{$gene_name}{$stage1}{$tissue1} = $hit->{$replicates}; }
+
         }
   		}
 
@@ -155,9 +159,14 @@ print STDERR $deg_method."-method:\t";
         $gene_name = $hit->{gene};
 
         if ($hit->{stage} eq $stage2 && $hit->{tissue} eq $tissue2) {
-    			$gene_stage_tissue_expr{$gene_name}{$stage2}{$tissue2} = $hit->{replicates};
+    			if ($hit->{$replicates}) { $gene_stage_tissue_expr{$gene_name}{$stage2}{$tissue2} = $hit->{$replicates}; }
         }
   		}
+
+      if (!%gene_stage_tissue_expr) {
+        $c->stash->{rest} = {};
+        die; 
+      }
 
       # open new file
       open($output_fh, ">$tmp_path/$filename") || die ("\nERROR: the gene expression could not be created\n");
@@ -306,7 +315,7 @@ print STDERR $deg_method."-method:\t";
           # $filename = $tmp_path ."/".$filename;
 
           # Analysis with DESeq2
-          $R->run(' countdata1<- read.table("'.$filename . '", header=TRUE, row.names=1)  ');
+          $R->run(' countdata1<- read.table("'. $tmp_path . "/". $filename . '", header=TRUE, row.names=1)  ');
           $R->run(' countdata=round(countdata1)  ');
           $R->run(' countdata <- as.matrix(countdata)  ');
           $R->run(' (condition <- factor(c(rep("expected_count", 3), rep("Xexpected_count", 3))))  ');
@@ -334,7 +343,7 @@ print STDERR $deg_method."-method:\t";
           $deg_down_name = 'condition2 name';
 
       } elsif ($deg_method eq 'edgeR') {
-          print STDERR "edgeR doesn't exist! $tmp_path\n";
+
           my $fdr_cutoff = 0.05;
           my $expr_cutoff = -1;
 
@@ -344,7 +353,7 @@ print STDERR $deg_method."-method:\t";
           # $filename = $tmp_path ."/matrix.txt";
 
           # Analysis with edgeR
-          $R->run(' data_raw <- read.table("'.$filename . '", header=TRUE, row.names=1) ');
+          $R->run(' data_raw <- read.table("'.$tmp_path . "/". $filename . '", header=TRUE, row.names=1) ');
           $R->run(' cpm_log <- cpm(data_raw, log = TRUE) ');
           $R->run(' median_log2_cpm <- apply(cpm_log, 1, median) ');
           $R->run(' expr_cutoff <- ' . $expr_cutoff );

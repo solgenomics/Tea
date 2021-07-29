@@ -93,8 +93,8 @@ __PACKAGE__->config(
           $deg_down_count = $R->get(' nrow(deg_input[deg_input$logFC<0,]) ');
       }
 
-      $deg_up_name = $R->get(' colnames(deg_input[1]) ');
-      $deg_down_name = $R->get(' colnames(deg_input[2]) ');
+      $deg_up_name = $stage1 ." " .$tissue1;
+      $deg_down_name = $stage2 . " " . $tissue2;
 
 
     } else {
@@ -312,35 +312,34 @@ __PACKAGE__->config(
           my $R = Statistics::R->new();
 
           $R->run(q`library(DESeq2)`);
-          # $filename = $tmp_path ."/".$filename;
+          $filename = $tmp_path ."/".$filename;
 
           # Analysis with DESeq2
           $R->run(' countdata1<- read.table("'. $tmp_path . "/". $filename . '", header=TRUE, row.names=1)  ');
-          $R->run(' countdata=round(countdata1)  ');
+          $R->run(' countdata <- round(countdata1)  ');
           $R->run(' countdata <- as.matrix(countdata)  ');
-          $R->run(' (condition <- factor(c(rep("expected_count", 3), rep("Xexpected_count", 3))))  ');
-          $R->run(' (coldata<-data.frame(row.names=colnames(countdata), condition))  ');
+          $R->run(' condition <- factor(c(rep("expected_count", 3), rep("Xexpected_count", 3))) ');
+          $R->run(' colnames(countdata) ');
+          $R->run(' coldata<-data.frame(row.names=colnames(countdata), condition)  ');
           $R->run(' dds<- DESeqDataSetFromMatrix(countData=countdata, colData=coldata, design=~condition)  ');
-          $R->run(' dds<- DESeq(dds)  ');
-          $R->run(' res <- results(dds)  ');
-          $R->run(' table(res$padj<' . $padj_cutoff . ')  ');
+          $R->run(' dds<- DESeq(dds, fitType="mean") ');
+          $R->run(' res<- results(dds)  ');
           $R->run(' res <- res[order(res$padj), ]  ');
           $R->run(' res <- na.omit(res)   ');
-          $R->run(' res <- res[(res$padj < ' . $padj_cutoff . ' & abs(res$log2FoldChange) > ' . $lfc_cutoff .'), ]  ');
-
+          $R->run(' res <- res[res$padj < ' . $padj_cutoff . ' & abs(res$log2FoldChange) > ' . $lfc_cutoff .'] ');
           $R->run(' resdata <- merge(as.data.frame(res), as.data.frame(counts(dds, normalized=TRUE)), by="row.names", sort=FALSE)  ');
-          $R->run(' names(resdata)[1] <- "Gene" ');
+          $R->run(' names(resdata)[1] <- "Gene" '); 
+          $R->run(' resdata ' );
           $R->run(' write.table(resdata, file = paste("'.$tmp_path.'","'.$deg_out.'", sep="/"), sep = "\t", row.names=T, col.names=NA, quote = F) ');
 
-          $R->run(' resdata <- read.delim(paste("'.$tmp_path.'","'.$deg_out.'", sep="/"), header = T, row.names =1) ');
+          $R->run(' up <- resdata[resdata$padj < ' . $padj_cutoff . ' & resdata$log2FoldChange > ' . $lfc_cutoff .'] ');
+          $R->run(' down <- resdata[resdata$padj < ' . $padj_cutoff . ' & resdata$log2FoldChange < ' . $lfc_cutoff .'] ');
 
           $deg_count = $R->get(' nrow(resdata) ');
-
-          $deg_up_count = $R->get(' nrow(resdata[resdata$log2FoldChange>1,]) ');
-          $deg_down_count = $R->get(' nrow(resdata[resdata$log2FoldChange<1,]) ');
-
-          $deg_up_name = 'condition1 name';
-          $deg_down_name = 'condition2 name';
+          $deg_up_count = $R->get(' nrow(up) ');
+          $deg_down_count = $R->get(' nrow(down) ');
+          $deg_up_name = $stage1 ." " .$tissue1;
+          $deg_down_name = $stage2 . " " . $tissue2;
 
       } elsif ($deg_method eq 'edgeR') {
 
@@ -350,14 +349,14 @@ __PACKAGE__->config(
           my $R = Statistics::R->new();
 
           $R->run(q`library(edgeR)`);
-          # $filename = $tmp_path ."/matrix.txt";
+          $filename = $tmp_path ."/".$filename;
 
           # Analysis with edgeR
           $R->run(' data_raw <- read.table("'.$tmp_path . "/". $filename . '", header=TRUE, row.names=1) ');
+          $R->run(' data_raw <- round(data_raw)  ');
           $R->run(' cpm_log <- cpm(data_raw, log = TRUE) ');
           $R->run(' median_log2_cpm <- apply(cpm_log, 1, median) ');
           $R->run(' expr_cutoff <- ' . $expr_cutoff );
-          $R->run(' sum(median_log2_cpm > expr_cutoff) ');
           $R->run(' data_clean <- data_raw[median_log2_cpm > expr_cutoff, ] ');
 
           $R->run(' group <- substr(colnames(data_clean), 1, 9) ');
@@ -367,7 +366,6 @@ __PACKAGE__->config(
           $R->run(' y <- calcNormFactors(y) ');
           $R->run(' y$samples ');
           $R->run(' y <- estimateDisp(y) ');
-          $R->run(' sqrt(y$common.dispersion)');
           $R->run(' et <- exactTest(y) ');
           $R->run(' results <- topTags(et, n = nrow(data_clean), sort.by = "none") ');
           $R->run(' results_edgeR <- results$table[results$table$FDR<'.$fdr_cutoff.',] ');
@@ -379,8 +377,8 @@ __PACKAGE__->config(
           $deg_up_count = $R->get(' nrow(results_edgeR[results_edgeR$logFC>0,]) ');
           $deg_down_count = $R->get(' nrow(results_edgeR[results_edgeR$logFC<0,]) ');
 
-          $deg_up_name = 'condition1 name';
-          $deg_down_name = 'condition2 name';
+          $deg_up_name = $stage1 ." " .$tissue1;
+          $deg_down_name = $stage2 . " " . $tissue2;
       }
     } # end of
 

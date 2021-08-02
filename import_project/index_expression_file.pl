@@ -25,7 +25,7 @@ my $lucy = Lucy::Simple->new(
 # Parse a file and return a hashref with the fields title and content
 sub parse_file {
     my $text = shift;
-    $text =~ /^([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)/ || /^([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)/;
+   $text =~ /^([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)(\t([^\t]+))?/;
 
     my $gene = $1;
     my $stage = $2;
@@ -34,6 +34,7 @@ sub parse_file {
     my $sem = sprintf("%.2f",$5);
     my $replicates = $6;
     my $replicates2 = $7 || '';
+    $replicates2 =~ s/\t//g;
 
     return {
         gene       => $gene,

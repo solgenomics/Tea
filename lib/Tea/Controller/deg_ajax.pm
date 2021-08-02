@@ -312,7 +312,6 @@ __PACKAGE__->config(
           my $R = Statistics::R->new();
 
           $R->run(q`library(DESeq2)`);
-          $filename = $tmp_path ."/".$filename;
 
           # Analysis with DESeq2
           $R->run(' countdata1<- read.table("'. $tmp_path . "/". $filename . '", header=TRUE, row.names=1)  ');
@@ -349,7 +348,6 @@ __PACKAGE__->config(
           my $R = Statistics::R->new();
 
           $R->run(q`library(edgeR)`);
-          $filename = $tmp_path ."/".$filename;
 
           # Analysis with edgeR
           $R->run(' data_raw <- read.table("'.$tmp_path . "/". $filename . '", header=TRUE, row.names=1) ');

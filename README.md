@@ -19,7 +19,7 @@ It has several components:
 --------------------------------------------
 
 1. Install Catalyst, Perl and R dependencies
---------------------------------------------
+--------------------------------------------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
 
 This web tool was developed using the Perl framework Catalyst (​<http://www.catalystframework.org>), so to run the application is necessary to install Perl, Catalyst and its dependencies.
 
@@ -29,7 +29,7 @@ To install Catalyst using cpanm, just execute:
 `cpanm Catalyst::Devel`
 
 
-Also, if you are installing it in a new machine you maybe need to install cpanminus, gcc and make, and then some Perl dependencies like Catalyst, Lucy and Mason:
+Also, if you are installing it in a new machine you ma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ybe need to install cpanminus, gcc and make, and then some Perl dependencies like Catalyst, Lucy and Mason:
 
     sudo aptitude install cpanminus
     sudo aptitude install make
@@ -85,7 +85,7 @@ or
 You can run the local server to check Catalyst is running fine. If you are running it on a server, you should also check that the Apache or Nginx configuration is correct and the ports are open on the firewall.
 
 Go to the folder Tea, created when cloned the repository and run the server to check if all the dependencies are installed.
-
+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
     cd Tea/
     script/tea_server.pl -r -d --fork
 
@@ -108,6 +108,11 @@ You will need to edit this file to customize all the paths, so they work on your
     expression_indexes_path /home/user/index_files/expression
     correlation_indexes_path /home/user/index_files/correlation
     loci_and_description_index_path /home/user/index_files/description
+
+    #path to mason folder to overwrite default front-end
+    <View::Mason>
+      add_comp_root /home/user/path_to_new_mason_dir
+    </View::Mason>
 
     nt_blastdb_path /home/user/blastdbs/cdna_file.fasta
     prot_blastdb_path /home/user/blastdbs/prots_file.fasta

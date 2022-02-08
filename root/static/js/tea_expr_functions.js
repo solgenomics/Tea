@@ -254,7 +254,7 @@
         dynamicDialog = $('<div id="'+div_gene_name+'_dialog" value="off">\
           <center>\
             <table width="90%"><tr id="dialog_top_info">\
-              <td><a href="https://peatmoss.online.uni-marburg.de/ppatens_db/pp_annot.php?name='+gene_name2+'" target="blank"><b>'+gene_name2+'</b></a></td>\
+              <td><a href="/ppatens_db/pp_annot.php?name='+gene_name2+'" target="blank"><b>'+gene_name2+'</b></a></td>\
               <td><b> Correlation val: </b>'+corr_val+'</td>\
               <td><span id="tr_barplot'+div_gene_name+'" class="blue_link">transpose</span></td>\
             </tr></table>\

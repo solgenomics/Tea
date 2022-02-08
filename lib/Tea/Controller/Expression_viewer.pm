@@ -253,7 +253,7 @@ sub _check_gene_exists {
     else {
       ### Gene not found in PEATmoss go to lookup DB
       if ($input_type eq "custom_list") {
-        $c->stash->{errors} = $c->stash->{errors}."\n <a href=\"https://peatmoss.online.uni-marburg.de/ppatens_db/pp_search_output.php?search_keywords=$query_gene\" target=\"_blank\">$query_gene</a><br>";
+        $c->stash->{errors} = $c->stash->{errors}."\n <a href=\"/ppatens_db/pp_search_output.php?search_keywords=$query_gene\" target=\"_blank\">$query_gene</a><br>";
         $c->stash->{template} = '/Expression_viewer/output.mas';
         return;
       }
@@ -294,7 +294,7 @@ sub _check_gene_exists {
 
         # print STDERR "Wrong gene\n";
 
-        $c->stash->{errors} = "The gene $query_gene was not found in ".$dataset_name.".<br>Please, check if there is a typo or try to find it in the <a href=\"https://peatmoss.online.uni-marburg.de/ppatens_db/pp_search_output.php?search_keywords=$query_gene\">PpGML DB</a>";
+        $c->stash->{errors} = "The gene $query_gene was not found in ".$dataset_name.".<br>Please, check if there is a typo or try to find it in the <a href=\"/ppatens_db/pp_search_output.php?search_keywords=$query_gene\">PpGML DB</a>";
         $c->stash->{template} = '/Expression_viewer/output.mas';
 
         $dbh->disconnect();

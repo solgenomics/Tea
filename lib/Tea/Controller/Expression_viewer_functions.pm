@@ -19,7 +19,7 @@ Return: html radio select box for all available datasets after checking privacy
 =cut
 
 sub get_sps_datasets {
-  my $self = shift;
+  my ($self, $c) = @_;
   my $schema = shift;
   my $sps_id = shift;
   my $multiple_sps = shift;
@@ -33,17 +33,20 @@ sub get_sps_datasets {
   # select * from users_private_group full outer join private_group on private_group_id = private_group.id where user_id=12;
 
   #--------------------------------------------------- Privacy code
-  $userDB_dbh->begin_work;
+  my $loginDB_enabled = $c->config->{loginDB_enabled};
 
-  $user_verified = check_user_is_verified($self, $userDB_dbh, $user_id);
+  if ($loginDB_enabled) {
+    $userDB_dbh->begin_work;
 
-  if ($user_verified) {
-    my $user_group_hashref = get_user_groups($self, $userDB_dbh, $user_id);
-    %user_groups = %$user_group_hashref;
+    $user_verified = check_user_is_verified($self, $userDB_dbh, $user_id);
+
+    if ($user_verified) {
+      my $user_group_hashref = get_user_groups($self, $userDB_dbh, $user_id);
+      %user_groups = %$user_group_hashref;
+    }
+
+    $userDB_dbh->disconnect;
   }
-
-  $userDB_dbh->disconnect;
-
 
   my $allowed_user = 0;
   my @projects = ();

@@ -593,24 +593,27 @@ sub get_expression :Path('/expression_viewer/output/') :Args(0) {
       my $userDB_host = $c->config->{login_host};
       my $userDB_username = $c->config->{login_user};
       my $userDB_password = $c->config->{login_psw};
+      my $loginDB_enabled = $c->config->{loginDB_enabled};
 
       my $userDB_dbh = DBI->connect("dbi:Pg:dbname=$userDB_dbname;host=$userDB_host;", "$userDB_username", "$userDB_password");
 
       # open a connection to the functions on Expression_viewer_function controller
       my $db_funct = Tea::Controller::Expression_viewer_functions->new();
 
-      $userDB_dbh->begin_work;
+      if ($loginDB_enabled) {
+        $userDB_dbh->begin_work;
 
-      # check if user is verified in the DB
-      $user_verified = $db_funct->check_user_is_verified($userDB_dbh, $user_id);
+        # check if user is verified in the DB
+        $user_verified = $db_funct->check_user_is_verified($userDB_dbh, $user_id);
 
-      # get groups associated to legged user
-      if ($user_verified) {
-        my $user_group_hashref = $db_funct->get_user_groups($userDB_dbh, $user_id);
-        %user_groups = %$user_group_hashref;
+        # get groups associated to legged user
+        if ($user_verified) {
+          my $user_group_hashref = $db_funct->get_user_groups($userDB_dbh, $user_id);
+          %user_groups = %$user_group_hashref;
+        }
+
+        $userDB_dbh->disconnect;
       }
-
-      $userDB_dbh->disconnect;
 
       # check if data set is private and skip it if user is not allowed
       my $is_private = $project_rs->private;

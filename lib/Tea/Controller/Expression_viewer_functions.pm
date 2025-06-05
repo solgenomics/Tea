@@ -25,6 +25,7 @@ sub get_sps_datasets {
   my $multiple_sps = shift;
   my $user_id = shift;
   my $userDB_dbh = shift;
+  my $loginDB_enabled = shift;
 
   my $projects_rs = $schema->resultset('Project');
   my $user_verified = 0;
@@ -33,7 +34,6 @@ sub get_sps_datasets {
   # select * from users_private_group full outer join private_group on private_group_id = private_group.id where user_id=12;
 
   #--------------------------------------------------- Privacy code
-  my $loginDB_enabled = $c->config->{loginDB_enabled};
 
   if ($loginDB_enabled) {
     $userDB_dbh->begin_work;

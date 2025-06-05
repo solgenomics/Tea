@@ -77,13 +77,14 @@ sub index :Path('/expression_viewer/input/') :Args(0) {
   my $userDB_host = $c->config->{login_host};
   my $userDB_username = $c->config->{login_user};
   my $userDB_password = $c->config->{login_psw};
+  my $loginDB_enabled = $c->config->{loginDB_enabled};
 
   my $userDB_dbh = DBI->connect("dbi:Pg:dbname=$userDB_dbname;host=$userDB_host;", "$userDB_username", "$userDB_password");
 
   # open a connection to the functions on Expression_viewer_function controller
   my $db_funct = Tea::Controller::Expression_viewer_functions->new();
 
-  my $datasets_html = $db_funct->get_sps_datasets($schema,$first_species->organism_id,$multiple_sps,$user_id,$userDB_dbh);
+  my $datasets_html = $db_funct->get_sps_datasets($schema,$first_species->organism_id,$multiple_sps,$user_id,$userDB_dbh,$loginDB_enabled);
 
   # save array info in text variable
   my $species_html = join("\n", @species);

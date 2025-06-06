@@ -19,7 +19,6 @@ Return: html radio select box for all available datasets after checking privacy
 =cut
 
 sub get_sps_datasets {
-  my ($self, $c) = @_;
   my $schema = shift;
   my $sps_id = shift;
   my $multiple_sps = shift;

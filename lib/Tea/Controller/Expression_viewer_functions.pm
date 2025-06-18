@@ -25,6 +25,7 @@ sub get_sps_datasets {
   my $multiple_sps = shift;
   my $user_id = shift;
   my $userDB_dbh = shift;
+  my $loginDB_enabled = shift;
 
   my $projects_rs = $schema->resultset('Project');
   my $user_verified = 0;
@@ -33,17 +34,19 @@ sub get_sps_datasets {
   # select * from users_private_group full outer join private_group on private_group_id = private_group.id where user_id=12;
 
   #--------------------------------------------------- Privacy code
-  $userDB_dbh->begin_work;
 
-  $user_verified = check_user_is_verified($self, $userDB_dbh, $user_id);
+  if ($loginDB_enabled) {
+    $userDB_dbh->begin_work;
 
-  if ($user_verified) {
-    my $user_group_hashref = get_user_groups($self, $userDB_dbh, $user_id);
-    %user_groups = %$user_group_hashref;
+    $user_verified = check_user_is_verified($self, $userDB_dbh, $user_id);
+
+    if ($user_verified) {
+      my $user_group_hashref = get_user_groups($self, $userDB_dbh, $user_id);
+      %user_groups = %$user_group_hashref;
+    }
+
+    $userDB_dbh->disconnect;
   }
-
-  $userDB_dbh->disconnect;
-
 
   my $allowed_user = 0;
   my @projects = ();

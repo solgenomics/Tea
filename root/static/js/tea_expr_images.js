@@ -201,7 +201,7 @@ function load_stage_image(x_offset,y_offset,one_tissue_layer,canvas,image_name,i
       height: img_height
     });
       one_tissue_layer.add(tmp_stage);
-      tmp_stage.moveToBottom();
+      //tmp_stage.moveToBottom();
     canvas.add(one_tissue_layer);
   };
 

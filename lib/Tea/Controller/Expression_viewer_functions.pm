@@ -495,6 +495,8 @@ sub get_image_hash {
 
   my $stage_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "stage"})->single;
   my $tissue_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "tissue"})->single;
+  # optional layer type, only present if a project uses legend overlays
+  my $legend_layer_type_rs = $schema->resultset('LayerType')->search({layer_type => "legend"})->single;
 
   my $layer_rs = $schema->resultset('Layer')->search({layer_id => $layer_ids});
 
@@ -523,6 +525,20 @@ sub get_image_hash {
       $stage_hash{$one_layer->layer_id}{"stage_top_label"} = $stage_top_label;
       $stage_hash{$one_layer->layer_id}{"stage_name"} = $stage_name;
       $stage_hash{$one_layer->layer_id}{"bg_color"} = $layer_info_rs->bg_color;
+
+      # legend overlay: a layer of type "legend" linked to the same figure as the stage.
+      # It is looked up from the stage so it also works when stages/tissues are filtered.
+      if ($legend_layer_type_rs) {
+        my $fig_layers_rs = $schema->resultset('FigureLayer')->search({figure_id => $figure_rs->figure_id});
+        while (my $fig_layer = $fig_layers_rs->next) {
+          my $legend_rs = $schema->resultset('Layer')->search({layer_id => $fig_layer->layer_id})->single;
+          next unless $legend_rs && $legend_rs->layer_type_id == $legend_layer_type_rs->layer_type_id;
+
+          $stage_hash{$one_layer->layer_id}{"legend_image_name"} = $legend_rs->image_file_name;
+          $stage_hash{$one_layer->layer_id}{"legend_image_width"} = $legend_rs->image_width;
+          $stage_hash{$one_layer->layer_id}{"legend_image_height"} = $legend_rs->image_height;
+        }
+      }
     }
 
     # if layer is a tissue

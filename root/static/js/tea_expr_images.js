@@ -13,7 +13,6 @@ function draw_stage_name(x_offset,y_offset,one_tissue_layer,canvas,img_width,stg
       width: img_width-10,
     });
     one_tissue_layer.add(stage_img_text);
-    canvas.add(one_tissue_layer);
 }
 
 
@@ -116,7 +115,17 @@ function draw_expression_images(img_canvas,canvas_w,stage_ids_a,stage_h,tissue_h
 
   img_canvas.width(canvas_w);
 
+  // One Kinetic layer per z-level, bottom to top: stage background, expression
+  // colored tissues, legend. The stacking order is the order the layers are added
+  // to the stage, which happens here synchronously, so it does not depend on which
+  // image file finishes loading first. Do not call img_canvas.add() on these layers
+  // again later: re-adding a layer moves its canvas to the top of the stack.
+  var bg_layer = new Kinetic.Layer();
   var tissue_layer = new Kinetic.Layer();
+  var legend_layer = new Kinetic.Layer();
+  img_canvas.add(bg_layer);
+  img_canvas.add(tissue_layer);
+  img_canvas.add(legend_layer);
 
   prev_stage = "";
   prev_stage2 = "";
@@ -138,7 +147,7 @@ function draw_expression_images(img_canvas,canvas_w,stage_ids_a,stage_h,tissue_h
 
       draw_stage_name(x_offset,y_offset,tissue_layer,img_canvas,img_width,stage_top_label,label_y_offset);
       if (img_name) {
-        load_stage_image(x_offset,y_offset,tissue_layer,img_canvas,img_name,img_width,img_height);
+        load_stage_image(x_offset,y_offset,bg_layer,img_canvas,img_name,img_width,img_height);
       }
 
 //	alert('IMAGE NAME: '+image_name);
@@ -171,6 +180,15 @@ function draw_expression_images(img_canvas,canvas_w,stage_ids_a,stage_h,tissue_h
         tissue_layer.draw();
       } //for tissues end
 
+      // optional legend overlay (layer type "legend" linked to the same figure as the stage),
+      // drawn at the stage position on top of the tissue images
+      var legend_name = stage_h[stage_ids_a[n]]["legend_image_name"];
+      if (legend_name) {
+        load_legend_image(x_offset,y_offset,legend_layer,
+                          stage_h[stage_ids_a[n]]["legend_image_width"]*1,
+                          stage_h[stage_ids_a[n]]["legend_image_height"]*1,
+                          legend_name);
+      }
 
       tissue_expr_popup(img_canvas,tissue_img_group,tissue_h[stage_ids_a[n]],gst_expr_hhh[gene_a[0]][stage_name],tissue_a,x_offset,y_offset,img_width,img_height,canvas_w);
 
@@ -185,9 +203,8 @@ function draw_expression_images(img_canvas,canvas_w,stage_ids_a,stage_h,tissue_h
 }
 
 
-//load the bg image for each stage. This will be the bg for the tissue layers
-function load_stage_image(x_offset,y_offset,one_tissue_layer,canvas,image_name,img_width,img_height) {
-  canvas.add(one_tissue_layer);
+//load the bg image for each stage. It goes in its own layer, below the tissue layer
+function load_stage_image(x_offset,y_offset,bg_layer,canvas,image_name,img_width,img_height) {
 
   var tmp_imgObj = new Image();
 
@@ -200,9 +217,8 @@ function load_stage_image(x_offset,y_offset,one_tissue_layer,canvas,image_name,i
       width: img_width,
       height: img_height
     });
-      one_tissue_layer.add(tmp_stage);
-      //tmp_stage.moveToBottom();
-    canvas.add(one_tissue_layer);
+    bg_layer.add(tmp_stage);
+    bg_layer.draw();
   };
 
   tmp_imgObj.src = '/static/images/expr_viewer/'+image_name;
@@ -211,9 +227,11 @@ function load_stage_image(x_offset,y_offset,one_tissue_layer,canvas,image_name,i
 
 //load the img for each one of the tissue layers
 function load_tissue_image(x_offset,y_offset,r_color,g_color,b_color,one_tissue_layer,canvas,img_width,img_height,imgs_group,image_name) {
-//    alert('loading tissue images. '+image_name);
-  one_tissue_layer.add(imgs_group);
-    canvas.add(one_tissue_layer);
+
+  // add the group to the layer once; do not re-add the layer to the stage (see draw_expression_images)
+  if (!imgs_group.getParent()) {
+    one_tissue_layer.add(imgs_group);
+  }
 
     var tmp_imgObj = new Image();
 
@@ -227,18 +245,39 @@ function load_tissue_image(x_offset,y_offset,r_color,g_color,b_color,one_tissue_
         height: img_height
       });
       imgs_group.add(tmp_stage)
-      one_tissue_layer.add(imgs_group);
-      canvas.add(one_tissue_layer);
 
       //fix cache bug
       tmp_stage.cache();
       tmp_stage.filters([Kinetic.Filters.RGB]);
       tmp_stage.red(r_color).green(g_color).blue(b_color);
-      tmp_stage.draw();
+      one_tissue_layer.draw();
     };//end of onload
 
 
     tmp_imgObj.src = '/static/images/expr_viewer/'+image_name;
+}
+
+
+//load the legend overlay for a stage. It goes in its own layer, on top of the tissue layer
+function load_legend_image(x_offset,y_offset,legend_layer,img_width,img_height,image_name) {
+
+  var tmp_imgObj = new Image();
+
+  tmp_imgObj.onload = function() {
+
+    var tmp_legend = new Kinetic.Image({
+      x: x_offset,
+      y: y_offset,
+      image: tmp_imgObj,
+      width: img_width,
+      height: img_height,
+      listening: false  // do not block the tissue mouseover popups underneath
+    });
+    legend_layer.add(tmp_legend);
+    legend_layer.draw();
+  };
+
+  tmp_imgObj.src = '/static/images/expr_viewer/'+image_name;
 }
 
 

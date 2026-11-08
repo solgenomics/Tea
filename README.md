@@ -205,6 +205,19 @@ The `cube_ordinal` from the stage layer defines the order of the stage columns o
 
 The `img_ordinal` from the stage layer defines the order of the figure for the Expression images.
 
+On the Expression images tab each stage is drawn in three levels, from bottom to top: the stage layer image (background), the tissue layer images colored by expression, and an optional legend. The legend is a layer with `layer_type: legend` that is linked to the same figure as the stage. Its image should have a transparent background and is drawn at the position of the stage image, so it is best to give it the same dimensions. Use the same `organ` as the stage, since the organs of all the layers in a figure are listed in the organ filter.
+
+    #legend layer
+    layer_name: stage_3_legend
+    layer_type: legend
+    layer_image: stage_3_legend.png
+    image_width: 250
+    image_height: 300
+    cube_ordinal: 0
+    img_ordinal: 0
+    organ: organ_1
+    # layer - end
+
 The `cube_ordinal` from the tissue layer defines the order of the tissue rows on the cube (from top to bottom).
 
 The stage and tissue names on the cube are defined by the field `layer_name` on the tissue layer block. WHITE SPACES ARE NOT ALLOWED IN THIS FIELD. Please, replace them by underscores (_).

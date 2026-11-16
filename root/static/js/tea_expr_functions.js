@@ -1,6 +1,7 @@
 
   //draw the expression bar graph on dialog
-  function print_bar_chart(tis_names,stg_names,sxt_values,gene_name,corr_val,expr_units,sem_AoAoh,sem_AoA_text) {
+  // no_animation (optional): draw the bars at once instead of animating them (used for hover charts)
+  function print_bar_chart(tis_names,stg_names,sxt_values,gene_name,corr_val,expr_units,sem_AoAoh,sem_AoA_text,no_animation) {
 
     var s_names = new Array();
     var t_names = new Array();
@@ -52,7 +53,7 @@
 
     var plot1 = $.jqplot(div_gene_name+'_bar_graph', sxt_values, {
       title: '',
-      animate: true,
+      animate: !no_animation,
       seriesDefaults:{
         shadow: false,
         renderer:$.jqplot.BarRenderer,

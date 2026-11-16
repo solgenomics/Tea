@@ -548,3 +548,59 @@ body .ui-tooltip {
   width:100px;
   margin-top:-280px;
 }
+
+
+/* tissue selectors above the expression cube */
+#cube_tissue_toggles {
+  text-align: left;
+  margin: 8px auto 4px auto;
+}
+
+#cube_tissue_toggles .tissue_toggles_label {
+  font-weight: bold;
+  margin-right: 6px;
+}
+
+#cube_tissue_toggles #cube_tissue_all {
+  margin-left: 8px;
+  font-size: 13px;
+}
+
+.tissue_toggle {
+  display: inline-block;
+  margin: 2px 4px 2px 0;
+  padding: 2px 9px 2px 5px;
+  border: 1px solid #999;
+  border-radius: 12px;
+  background: #fff;
+  color: #222;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.tissue_toggle .tissue_swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 5px;
+  border: 1px solid #666;
+  border-radius: 50%;
+  background: #ccc;
+}
+
+.tissue_toggle.off {
+  color: #888;
+  background: #f0f0f0;
+  border-style: dashed;
+  text-decoration: line-through;
+}
+
+.tissue_toggle.off .tissue_swatch {
+  opacity: 0.35;
+}
+
+#cube_tissue_toggles .tissue_toggles_hint {
+  margin-left: 8px;
+  font-size: 12px;
+  color: #777;
+}

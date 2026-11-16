@@ -62,15 +62,134 @@ $(document).ready(function () {
   });
 
 
+  // ---- tissue toggles for the cube ----------------------------------------
+  // The heatmap tab rewrites the global stages/tissues arrays (spaces -> underscores),
+  // which would break the bg_color_hash lookups on a later redraw, so keep copies.
+  var cube_stages = stages.slice();
+  var cube_tissues = tissues.slice();
+
+  var hidden_tissues = {};
+  var storage_key = "tea_cube_hidden_tissues_" + project_id;
+
+  //restore the selection after a page change (pagination reloads the page)
+  try {
+    var saved = JSON.parse(window.sessionStorage.getItem(storage_key) || "[]");
+    for (var s = 0; s < saved.length; s++) {
+      if (cube_tissues.indexOf(saved[s]) > -1) { hidden_tissues[saved[s]] = 1; }
+    }
+  } catch (e) {}
+
+  function visible_tissue_indices() {
+    var idx = [];
+    for (var i = 0; i < cube_tissues.length; i++) {
+      if (!hidden_tissues[cube_tissues[i]]) { idx.push(i); }
+    }
+    return idx;
+  }
+
+  //never leave the cube empty
+  if (visible_tissue_indices().length == 0) { hidden_tissues = {}; }
+
+  function save_hidden_tissues() {
+    try {
+      window.sessionStorage.setItem(storage_key, JSON.stringify(Object.keys(hidden_tissues)));
+    } catch (e) {}
+  }
+
+  //draw the cube with only the tissues that are currently switched on
+  function draw_visible_cube() {
+    var idx = visible_tissue_indices();
+
+    var vis_tissues = idx.map(function(i) { return cube_tissues[i]; });
+    var vis_aoaoa = aoaoa.map(function(gene) {
+      return gene.map(function(stage_vals) {
+        return idx.map(function(i) { return stage_vals[i]; });
+      });
+    });
+
+    //keep the cube anchored on the right whatever the number of tissues
+    var vis_x_margin = canvas_width - 40 - (cube_stages.length*20 + vis_tissues.length*15);
+
+    canvas.destroyChildren();
+    setup_cube(canvas,canvas_height,canvas_width,vis_x_margin,genes,cube_stages,vis_tissues,vis_aoaoa,gene_locus_id,gene_descriptions,current_page,pages_num,expression_unit,bg_color_hash,expression_min_scale,expression_max_scale);
+  }
+
+  //switch one tissue on/off (from its chip or from its label in the cube)
+  var tissue_buttons = {};
+
+  function toggle_tissue(tissue_name) {
+    if (hidden_tissues[tissue_name]) {
+      delete hidden_tissues[tissue_name];
+    } else if (visible_tissue_indices().length > 1) {
+      hidden_tissues[tissue_name] = 1;
+    } else {
+      return; //keep at least one tissue on
+    }
+    if (tissue_buttons[tissue_name]) {
+      tissue_buttons[tissue_name].toggleClass("off", !!hidden_tissues[tissue_name]);
+    }
+    save_hidden_tissues();
+
+    //redraw after the current Kinetic event has finished: when triggered from a cube label,
+    //the node that received the click is destroyed by the redraw
+    setTimeout(draw_visible_cube, 0);
+  }
+
+  //called by the tissue labels of the cube (tea_expr_cube_functions.js) when clicked:
+  //clicking a visible tissue label hides it; it stays listed in the selector bar to bring it back
+  window.tea_cube_label_clicked = function(tissue_name) {
+    if (!hidden_tissues[tissue_name]) { toggle_tissue(tissue_name); }
+  };
+
+  function build_tissue_toggles() {
+    var $box = $("#cube_tissue_buttons");
+    if (!$box.length || cube_tissues.length < 2) {
+      $("#cube_tissue_toggles").hide();
+      return;
+    }
+
+    $box.empty();
+    $.each(cube_tissues, function(i, tissue_name) {
+      var $btn = $('<button type="button" class="tissue_toggle"></button>');
+      var $swatch = $('<span class="tissue_swatch"></span>');
+      if (bg_color_hash[tissue_name]) { $swatch.css("background-color", bg_color_hash[tissue_name]); }
+      $btn.append($swatch).append(document.createTextNode(tissue_name.replace(/_/g, " ")));
+      $btn.toggleClass("off", !!hidden_tissues[tissue_name]);
+
+      $btn.on("click", function() {
+        toggle_tissue(tissue_name);
+      });
+      tissue_buttons[tissue_name] = $btn;
+      $box.append($btn);
+    });
+
+    $("#cube_tissue_all").on("click", function() {
+      if (Object.keys(hidden_tissues).length == 0) { return; }
+      hidden_tissues = {};
+      $box.find(".tissue_toggle").removeClass("off");
+      save_hidden_tissues();
+      draw_visible_cube();
+    });
+  }
+
   //print cube
-  setup_cube(canvas,canvas_height,canvas_width,x_margin,genes,stages,tissues,aoaoa,gene_locus_id,gene_descriptions,current_page,pages_num,expression_unit,bg_color_hash,expression_min_scale,expression_max_scale);
+  build_tissue_toggles();
+  draw_visible_cube();
+
+  //the toggles only make sense for the cube tab
+  $('#cube_tab').on("click", function() { $("#cube_tissue_toggles").show(); });
+  $('#grid_tab, #expr_imgs_tab, #heatmap_tab, #scatterplots_tab, #deg_tab, #network_tab').on("click", function() {
+    $("#cube_tissue_toggles").hide();
+  });
 
 
   //print Expression images
   var expr_imgs_loaded = 0;
   var img_canvas;
 
-  $("#expr_imgs_tab").click(function(){
+  //draw the Expression images the first time they are needed: on load when they are
+  //the landing tab, otherwise when their tab is clicked
+  function load_expression_images() {
     // alert("images: "+expr_imgs_loaded);
 
     // $('#dwl_expr_data').css("display","none");
@@ -93,7 +212,41 @@ $(document).ready(function () {
 
       setTimeout($("#loading_modal").modal("hide"), 5000);
     }
-  });
+  }
+
+  $("#expr_imgs_tab").click(load_expression_images);
+
+  //Expression grid: flat stage x tissue view of the query gene (read-only)
+  var expr_grid_loaded = 0;
+  var grid_canvas;
+
+  function load_expression_grid() {
+    if (!expr_grid_loaded && $("#container_grid").length) {
+      grid_canvas = new Kinetic.Stage({
+        container: "container_grid",
+        width: 600,
+        height: 600
+      });
+
+      draw_expression_grid(grid_canvas,cube_stages,cube_tissues,genes[0],aoaoa[0],expression_unit,expression_min_scale,expression_max_scale);
+      expr_grid_loaded = 1;
+    }
+  }
+
+  $("#grid_tab").click(load_expression_grid);
+
+  //The landing tab (the first one, see output.mas) is drawn right away; the buttons and the
+  //cube tissue selectors are set to the state they have for that tab
+  if ($("#grid_tab").hasClass("active")) {
+    load_expression_grid();
+  } else if ($("#expr_imgs_tab").hasClass("active")) {
+    load_expression_images();
+  }
+
+  if (!$("#cube_tab").hasClass("active")) {
+    $("#dwl_expr_data").css("display","none");
+    $("#cube_tissue_toggles").hide();
+  }
 
   //get d3heatmap html file
   var d3heatmap_loaded = 0;
@@ -135,7 +288,7 @@ $(document).ready(function () {
   });
 
 // show / hide legend
-	$('#cube_tab, #expr_imgs_tab, #scatterplots_tab, #deg_tab').on("click", function(){
+	$('#cube_tab, #grid_tab, #expr_imgs_tab, #scatterplots_tab, #deg_tab').on("click", function(){
 		$("#legend_box").css("display","block");
 		$("#hide_legend").css("display","block");
 		$("#color_scale_box").css("display","block");
@@ -170,7 +323,7 @@ $('#cube_tab').click(function(){
 });
 
 // show save img button
-$('#expr_imgs_tab').click(function(){
+$('#grid_tab, #expr_imgs_tab').click(function(){
 	$("#dwl_cube").css("display","block");
 	$("#dwl_expr_data").css("display","none");
 });
@@ -201,6 +354,18 @@ $('#heatmap_tab, #scatterplots_tab, #deg_tab, #network_tab').on("click", functio
     // download canvas as image when Expression images tab is active
     if ($("#expr_imgs_tab").hasClass('active')) {
       img_canvas.toDataURL({
+        callback: function(imageURL) {
+           var a = $("#dwl_cube_link")
+               .attr("href", imageURL)
+               .appendTo("body");
+           a[0].click();
+         }
+      });
+    }
+
+    // download canvas as image when Expression grid tab is active
+    if ($("#grid_tab").hasClass('active') && grid_canvas) {
+      grid_canvas.toDataURL({
         callback: function(imageURL) {
            var a = $("#dwl_cube_link")
                .attr("href", imageURL)

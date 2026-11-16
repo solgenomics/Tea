@@ -688,6 +688,7 @@
   function add_tissue_names(x_margin,y_margin,tissue_name,x_margin2,tmp_cube_layer,canvas_tmp,bg_color_hash) {
 
     var bg_color = bg_color_hash[tissue_name];
+    var original_tissue_name = tissue_name; //name as stored in the database (used to hide the tissue on click)
 
     tissue_name = tissue_name.replace(/_/g, " "); //replace underscores in stage names by spaces
 
@@ -704,6 +705,20 @@
       rotation: 35
     });
 
+    //clicking a tissue label hides that tissue from the cube (see tea_expr_code.js);
+    //hidden tissues remain listed in the selector bar above the cube
+    var label_enter = function() { document.body.style.cursor = 'pointer'; tissue_text.fill('#0000EE'); tmp_cube_layer.batchDraw(); };
+    var label_leave = function() { document.body.style.cursor = 'default'; tissue_text.fill('black'); tmp_cube_layer.batchDraw(); };
+    var label_click = function() {
+      document.body.style.cursor = 'default';
+      if (typeof window.tea_cube_label_clicked === 'function') {
+        window.tea_cube_label_clicked(original_tissue_name);
+      }
+    };
+    tissue_text.on('mouseover', label_enter);
+    tissue_text.on('mouseout', label_leave);
+    tissue_text.on('mousedown', label_click);
+
     if (tissue_name) {
       if (bg_color) {
         var text_bg_color = new Kinetic.Rect({
@@ -718,6 +733,10 @@
           fill: bg_color,
           rotation: 215
         });
+
+        text_bg_color.on('mouseover', label_enter);
+        text_bg_color.on('mouseout', label_leave);
+        text_bg_color.on('mousedown', label_click);
 
         tmp_cube_layer.add(text_bg_color);
       }
@@ -910,15 +929,18 @@
       add_tissue_names(x,y,tissues[i],x2,tmp_layer,tmp_canvas,bg_color_hash);
     }
 
-    //define the legend canvas
-    var legend_canvas = new Kinetic.Stage({
-      container: "container_legend",
-      width: 98,
-      height: 516
-    });
-    var legend_layer = new Kinetic.Layer();
+    //define the legend canvas (only once: the colour legend does not depend on
+    //which tissues are shown, and draw_cube is called again on tissue toggling)
+    if ($('#container_legend').children().length == 0) {
+      var legend_canvas = new Kinetic.Stage({
+        container: "container_legend",
+        width: 98,
+        height: 516
+      });
+      var legend_layer = new Kinetic.Layer();
 
-    add_color_grad_legend(legend_layer,legend_canvas,expr_unit,min_expression,max_expression)
+      add_color_grad_legend(legend_layer,legend_canvas,expr_unit,min_expression,max_expression)
+    }
   }
 
   function setup_cube(canvas,canvas_h,canvas_w,cube_x_margin,gene_a,stage_a,tissue_a,AoAoA,locus_id,gene_desc,c_page,pages_number,expr_unit,bg_color_hash,min_expression,max_expression) {

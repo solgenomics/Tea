@@ -6,7 +6,8 @@
 	<div id="wrapper">
 
 		<div id="header">
-			<& /tea_web/header.mas &>
+		  <!-- & /tea_web/header.mas & -->
+		  CASS Expression Atlas
 		</div>
 
 		<div id="content">

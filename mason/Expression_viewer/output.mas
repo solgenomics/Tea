@@ -37,6 +37,7 @@ $condition_filter => ()
 
 $deg_tab => ()
 $expr_imgs_tab => ()
+$grid_tab => ()
 $heatmap_tab => ()
 $scatterplot_tab => ()
 $network_tab => ()
@@ -50,12 +51,17 @@ use strict;
 use JSON::Any;
 my $json = JSON::Any->new;
 
+# The landing tab is the first enabled one of: Expression grid, Expression images, Expression cube.
+my $first_tab = $grid_tab ? 'grid' : ($expr_imgs_tab ? 'images' : 'cube');
+my $act = sub { $first_tab eq $_[0] ? ' class="active"' : '' };
+
 </%perl>
 
 <link rel="stylesheet" href="/static/css/jqplot.css" type="text/css" />
 <script type="text/javascript" src="/static/js/tea_expr_functions.js"></script>
 <script type="text/javascript" src="/static/js/tea_expr_cube_functions.js"></script>
 <script type="text/javascript" src="/static/js/tea_expr_images.js"></script>
+<script type="text/javascript" src="/static/js/tea_expr_grid.js"></script>
 <script type="text/javascript" src="/static/js/tea_expr_code.js"></script>
 <script type="text/javascript" src="/static/js/scatterplot_tab.js"></script>
 <script type="text/javascript" src="/static/js/network_tab.js"></script>
@@ -269,11 +275,16 @@ $(document).ready(function () {
 
   <div class="tabs output_width">
     <ul class="nav nav-tabs">
-        <li id="cube_tab" class="active"><a data-toggle="tab" href="#container"><img src="/static/images/ico2.png" height="24"/> Expression Cube</a></li>
         <%perl>
-          if ($expr_imgs_tab) {
-            print "<li id=\"expr_imgs_tab\" ><a data-toggle=\"tab\" href=\"#container_tissues\"><img src=\"/static/images/ico1.png\" height=\"24\" style=\"padding-bottom:5px;\"/> Expression images</a></li>";
+          # Tab order: Expression grid, Expression images, Expression cube (each if enabled);
+          # the first one shown is the active (landing) tab.
+          if ($grid_tab) {
+            print "<li id=\"grid_tab\"".$act->('grid')."><a data-toggle=\"tab\" href=\"#container_grid\"><span class=\"glyphicon glyphicon-th\" aria-hidden=\"true\"></span> Expression grid</a></li>";
           }
+          if ($expr_imgs_tab) {
+            print "<li id=\"expr_imgs_tab\"".$act->('images')."><a data-toggle=\"tab\" href=\"#container_tissues\"><img src=\"/static/images/ico1.png\" height=\"24\" style=\"padding-bottom:5px;\"/> Expression images</a></li>";
+          }
+          print "<li id=\"cube_tab\"".$act->('cube')."><a data-toggle=\"tab\" href=\"#container\"><img src=\"/static/images/ico2.png\" height=\"24\"/> Correlation Cube</a></li>";
           if ($heatmap_tab) {
             print "<li id=\"heatmap_tab\"><a data-toggle=\"tab\" href=\"#container_heatmap\"><img src=\"/static/images/ico3.png\" height=\"24\"/> Heatmap</a></li>";
           }
@@ -291,16 +302,31 @@ $(document).ready(function () {
     </ul>
   </div>
 
+  <!-- tissue selectors for the expression cube (filled by tea_expr_code.js) -->
+  <div id="cube_tissue_toggles" class="output_width"<% $first_tab ne 'cube' ? ' style="display:none"' : '' %>>
+    <span class="tissue_toggles_label">Tissues:</span>
+    <span id="cube_tissue_buttons"></span>
+    <a href="#" id="cube_tissue_all" onclick="return false;">show all</a>
+    <span class="tissue_toggles_hint">(click a tissue here or its label in the cube to hide / show it)</span>
+  </div>
+
   <div class="tab-content">
 
 	  <!-- #############  Expression cube  ############-->
 
-    <div id="container" class="output_width tab-pane fade in active"></div>
+    <div id="container" class="output_width tab-pane fade<% $first_tab eq 'cube' ? ' in active' : '' %>"></div>
+
+    <%perl>
+      #############  Expression grid  ############
+      if ($grid_tab) {
+        print "<div id=\"container_grid\" class=\"output_width tab-pane fade".($first_tab eq 'grid' ? " in active" : "")."\"></div>";
+      }
+    </%perl>
 
     <%perl>
 			#############  Expression images  ############
       if ($expr_imgs_tab) {
-        print "<div id=\"container_tissues\" class=\"output_width tab-pane fade\"></div>";
+        print "<div id=\"container_tissues\" class=\"output_width tab-pane fade".($first_tab eq 'images' ? " in active" : "")."\"></div>";
       }
     </%perl>
 
